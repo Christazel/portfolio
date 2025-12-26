@@ -7,24 +7,54 @@
 html,
 body {
   height: 100%;
+  scroll-behavior: smooth;
 }
 
 body {
   @apply bg-zinc-950 text-zinc-100 antialiased;
 }
 
+/* Layout */
 .container-page {
   @apply mx-auto w-full max-w-6xl px-4;
 }
 
+/* Cards */
 .card {
-  @apply rounded-2xl border border-zinc-800/60 bg-zinc-900/30 backdrop-blur;
+  @apply rounded-3xl border border-zinc-800/60 bg-zinc-900/30 backdrop-blur;
 }
 
-.btn {
-  @apply inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-2 text-sm font-medium text-zinc-100 hover:bg-zinc-800 transition;
+.card-soft {
+  @apply rounded-3xl border border-zinc-800/50 bg-zinc-900/20 backdrop-blur;
 }
 
-.badge {
-  @apply inline-flex items-center rounded-full border border-zinc-800 bg-zinc-900/60 px-3 py-1 text-xs text-zinc-200;
+/* Buttons (NO @apply btn) */
+.btn-primary {
+  @apply inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-medium transition
+    bg-white text-zinc-950 hover:bg-zinc-200;
+}
+
+.btn-ghost {
+  @apply inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-medium transition
+    border border-zinc-800 bg-zinc-900/30 text-zinc-100 hover:bg-zinc-900/60;
+}
+
+/* Links */
+.link {
+  @apply text-zinc-400 hover:text-white transition;
+}
+
+/* Hover */
+.hover-lift {
+  @apply transition duration-300 hover:-translate-y-1 hover:border-zinc-700/70;
+}
+
+/* Divider */
+.divider {
+  @apply border-t border-zinc-900/80;
+}
+
+/* Gradient text */
+.grad {
+  @apply bg-gradient-to-r from-zinc-100 to-zinc-400 bg-clip-text text-transparent;
 }

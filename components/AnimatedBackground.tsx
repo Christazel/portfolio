@@ -1,32 +1,17 @@
-"use client";
-
-import { motion } from "framer-motion";
-
 export default function AnimatedBackground() {
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-      {/* base glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(1000px_circle_at_20%_10%,rgba(120,119,198,0.20),transparent_55%),radial-gradient(900px_circle_at_80%_20%,rgba(59,130,246,0.18),transparent_55%),radial-gradient(900px_circle_at_50%_90%,rgba(16,185,129,0.12),transparent_55%)]" />
+      <div className="absolute inset-0 bg-zinc-950" />
 
-      {/* animated blobs */}
-      <motion.div
-        className="absolute -top-32 -left-32 h-[420px] w-[420px] rounded-full bg-white/6 blur-3xl"
-        animate={{ x: [0, 60, -20, 0], y: [0, 30, 70, 0], scale: [1, 1.08, 0.98, 1] }}
-        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute top-10 -right-40 h-[520px] w-[520px] rounded-full bg-white/6 blur-3xl"
-        animate={{ x: [0, -70, 10, 0], y: [0, 50, -20, 0], scale: [1, 0.98, 1.06, 1] }}
-        transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute -bottom-52 left-1/3 h-[520px] w-[520px] rounded-full bg-white/5 blur-3xl"
-        animate={{ x: [0, 30, -60, 0], y: [0, -40, 20, 0], scale: [1, 1.05, 0.98, 1] }}
-        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-      />
+      {/* subtle top glow */}
+      <div className="absolute -top-48 left-1/2 h-[520px] w-[520px] -translate-x-1/2 rounded-full blur-3xl opacity-25 bg-white/10" />
 
-      {/* subtle grid */}
-      <div className="absolute inset-0 opacity-[0.06] [background-image:linear-gradient(to_right,white_1px,transparent_1px),linear-gradient(to_bottom,white_1px,transparent_1px)] [background-size:72px_72px]" />
+      {/* subtle corner glows */}
+      <div className="absolute -bottom-56 -left-56 h-[520px] w-[520px] rounded-full blur-3xl opacity-20 bg-white/10" />
+      <div className="absolute -bottom-56 -right-56 h-[520px] w-[520px] rounded-full blur-3xl opacity-15 bg-white/10" />
+
+      {/* very light grid */}
+      <div className="absolute inset-0 opacity-[0.03] [background-image:linear-gradient(to_right,white_1px,transparent_1px),linear-gradient(to_bottom,white_1px,transparent_1px)] [background-size:96px_96px]" />
     </div>
   );
 }
