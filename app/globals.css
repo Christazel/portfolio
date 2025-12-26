@@ -19,42 +19,106 @@ body {
   @apply mx-auto w-full max-w-6xl px-4;
 }
 
-/* Cards */
-.card {
+/* Neon helpers */
+.neon-card {
   @apply rounded-3xl border border-zinc-800/60 bg-zinc-900/30 backdrop-blur;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.03) inset,
+    0 0 30px rgba(99,102,241,0.08),
+    0 0 60px rgba(34,211,238,0.06);
 }
 
-.card-soft {
-  @apply rounded-3xl border border-zinc-800/50 bg-zinc-900/20 backdrop-blur;
+.neon-card:hover {
+  border-color: rgba(148,163,184,0.35);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.05) inset,
+    0 0 36px rgba(99,102,241,0.14),
+    0 0 80px rgba(34,211,238,0.12);
 }
 
-/* Buttons (NO @apply btn) */
-.btn-primary {
-  @apply inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-medium transition
-    bg-white text-zinc-950 hover:bg-zinc-200;
+.neon-border {
+  position: relative;
+}
+.neon-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 24px;
+  background: linear-gradient(90deg, rgba(168,85,247,0.7), rgba(34,211,238,0.7), rgba(16,185,129,0.7));
+  filter: blur(10px);
+  opacity: 0;
+  transition: opacity .25s ease;
+  pointer-events: none;
+}
+.neon-border:hover::before {
+  opacity: 0.55;
 }
 
-.btn-ghost {
-  @apply inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-medium transition
-    border border-zinc-800 bg-zinc-900/30 text-zinc-100 hover:bg-zinc-900/60;
+/* Buttons */
+.btn-neon {
+  @apply inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-semibold transition;
+  background: linear-gradient(90deg, rgba(168,85,247,0.95), rgba(59,130,246,0.95), rgba(34,211,238,0.95));
+  color: #0a0a0a;
+  box-shadow:
+    0 8px 30px rgba(59,130,246,0.22),
+    0 0 30px rgba(168,85,247,0.18);
+}
+.btn-neon:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 10px 40px rgba(59,130,246,0.30),
+    0 0 45px rgba(168,85,247,0.25);
 }
 
-/* Links */
+.btn-neon-ghost {
+  @apply inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-medium transition;
+  border: 1px solid rgba(63,63,70,0.9);
+  background: rgba(24,24,27,0.35);
+  color: rgba(244,244,245,0.95);
+}
+.btn-neon-ghost:hover {
+  border-color: rgba(99,102,241,0.55);
+  box-shadow: 0 0 32px rgba(99,102,241,0.18);
+}
+
+/* Pills */
+.pill {
+  @apply inline-flex items-center rounded-full border px-3 py-1 text-xs;
+  border-color: rgba(63,63,70,0.8);
+  background: rgba(24,24,27,0.35);
+  color: rgba(212,212,216,0.95);
+}
+.pill-strong {
+  border-color: rgba(99,102,241,0.5);
+  box-shadow: 0 0 26px rgba(99,102,241,0.16);
+}
+
+/* Text */
+.neon-title {
+  background: linear-gradient(90deg, rgba(232,121,249,1), rgba(96,165,250,1), rgba(34,211,238,1));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 .link {
   @apply text-zinc-400 hover:text-white transition;
 }
 
-/* Hover */
-.hover-lift {
-  @apply transition duration-300 hover:-translate-y-1 hover:border-zinc-700/70;
+/* Scanline effect helpers */
+@keyframes scan {
+  0% { transform: translateY(-40%); opacity: 0.0; }
+  15% { opacity: 0.25; }
+  50% { opacity: 0.12; }
+  100% { transform: translateY(140%); opacity: 0.0; }
 }
 
-/* Divider */
-.divider {
-  @apply border-t border-zinc-900/80;
+@keyframes shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
-/* Gradient text */
-.grad {
-  @apply bg-gradient-to-r from-zinc-100 to-zinc-400 bg-clip-text text-transparent;
+.animate-shimmer {
+  background-size: 200% 200%;
+  animation: shimmer 6s ease-in-out infinite;
 }
