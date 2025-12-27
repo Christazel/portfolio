@@ -1,9 +1,16 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-type Particle = { left: string; top: string; size: number; d: number; delay: number; opacity: number };
+type Particle = {
+  left: string;
+  top: string;
+  size: number;
+  d: number;
+  delay: number;
+  opacity: number;
+};
 
 function prand(seed: number) {
   const x = Math.sin(seed * 9999) * 10000;
@@ -11,12 +18,20 @@ function prand(seed: number) {
 }
 
 export default function NeonBackground() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // ✅ Hooks harus selalu dipanggil di setiap render (no early return sebelum ini)
   const particles = useMemo<Particle[]>(() => {
     return Array.from({ length: 22 }).map((_, i) => {
       const a = prand(i + 1);
       const b = prand(i + 33);
       const c = prand(i + 77);
       const size = 1 + Math.floor(prand(i + 101) * 2); // 1..2
+
       return {
         left: `${a * 100}%`,
         top: `${b * 100}%`,
@@ -28,6 +43,9 @@ export default function NeonBackground() {
     });
   }, []);
 
+  // ✅ Render dikontrol setelah hooks aman
+  if (!mounted) return null;
+
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
       {/* base */}
@@ -37,19 +55,31 @@ export default function NeonBackground() {
       <motion.div
         className="absolute -top-40 -left-40 h-[560px] w-[560px] rounded-full blur-[110px]"
         style={{ background: "rgba(168,85,247,0.22)" }}
-        animate={{ x: [0, 120, -60, 0], y: [0, 60, 140, 0], scale: [1, 1.12, 0.95, 1] }}
+        animate={{
+          x: [0, 120, -60, 0],
+          y: [0, 60, 140, 0],
+          scale: [1, 1.12, 0.95, 1],
+        }}
         transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
         className="absolute top-12 -right-56 h-[700px] w-[700px] rounded-full blur-[120px]"
         style={{ background: "rgba(59,130,246,0.22)" }}
-        animate={{ x: [0, -110, 40, 0], y: [0, 90, -50, 0], scale: [1, 0.94, 1.10, 1] }}
+        animate={{
+          x: [0, -110, 40, 0],
+          y: [0, 90, -50, 0],
+          scale: [1, 0.94, 1.1, 1],
+        }}
         transition={{ duration: 24, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
         className="absolute -bottom-60 left-1/3 h-[760px] w-[760px] rounded-full blur-[130px]"
         style={{ background: "rgba(34,211,238,0.16)" }}
-        animate={{ x: [0, 80, -120, 0], y: [0, -80, 40, 0], scale: [1, 1.06, 0.96, 1] }}
+        animate={{
+          x: [0, 80, -120, 0],
+          y: [0, -80, 40, 0],
+          scale: [1, 1.06, 0.96, 1],
+        }}
         transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
       />
 
@@ -59,14 +89,16 @@ export default function NeonBackground() {
       {/* scanlines */}
       <div className="absolute inset-0 opacity-[0.08] [background:repeating-linear-gradient(to_bottom,rgba(255,255,255,0.08),rgba(255,255,255,0.08)_1px,transparent_1px,transparent_5px)]" />
       <div className="absolute inset-0">
-        <div className="absolute -top-1/2 left-0 right-0 h-1/2 bg-gradient-to-b from-cyan-400/0 via-cyan-400/15 to-cyan-400/0 blur-md"
-             style={{ animation: "scan 6s ease-in-out infinite" }} />
+        <div
+          className="absolute -top-1/2 left-0 right-0 h-1/2 bg-gradient-to-b from-cyan-400/0 via-cyan-400/15 to-cyan-400/0 blur-md"
+          style={{ animation: "scan 6s ease-in-out infinite" }}
+        />
       </div>
 
-      {/* particles (deterministic) */}
+      {/* particles */}
       {particles.map((p, i) => (
         <motion.div
-          key={i}
+          key={`p-${i}`}
           className="absolute rounded-full"
           style={{
             left: p.left,
@@ -76,8 +108,16 @@ export default function NeonBackground() {
             background: "rgba(255,255,255,0.7)",
             opacity: p.opacity,
           }}
-          animate={{ y: [0, -26, 0], opacity: [p.opacity * 0.6, p.opacity, p.opacity * 0.6] }}
-          transition={{ duration: p.d, repeat: Infinity, delay: p.delay }}
+          animate={{
+            y: [0, -26, 0],
+            opacity: [p.opacity * 0.6, p.opacity, p.opacity * 0.6],
+          }}
+          transition={{
+            duration: p.d,
+            repeat: Infinity,
+            delay: p.delay,
+            ease: "easeInOut",
+          }}
         />
       ))}
 
