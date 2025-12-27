@@ -6,12 +6,41 @@ import { motion } from "framer-motion";
 import NeonBackground from "../components/NeonBackground";
 import Reveal from "../components/Reveal";
 
+// ✅ Icons (react-icons)
+import {
+  SiGithub,
+  SiNextdotjs,
+  SiReact,
+  SiTypescript,
+  SiTailwindcss,
+  SiNodedotjs,
+  SiMongodb,
+  SiFlutter,
+  SiSwagger,
+} from "react-icons/si";
+
 const socials = [
   { label: "LinkedIn", href: "https://www.linkedin.com/in/yohan-christazel-jeffry" },
   { label: "Email", href: "mailto:yohan.christazel9@gmail.com" },
 ];
 
-const skills = ["Next.js", "React", "TypeScript", "Tailwind CSS", "Node.js", "MongoDB", "REST API", "Flutter"];
+// ✅ skills pakai icon + label
+type SkillItem = {
+  label: string;
+  Icon: React.ComponentType<{ className?: string }>;
+};
+
+const skills: SkillItem[] = [
+  { label: "Next.js", Icon: SiNextdotjs },
+  { label: "React", Icon: SiReact },
+  { label: "TypeScript", Icon: SiTypescript },
+  { label: "Tailwind CSS", Icon: SiTailwindcss },
+  { label: "Node.js", Icon: SiNodedotjs },
+  { label: "MongoDB", Icon: SiMongodb },
+  { label: "REST API", Icon: SiSwagger },
+  { label: "Flutter", Icon: SiFlutter },
+  { label: "GitHub", Icon: SiGithub },
+];
 
 const projects = [
   {
@@ -39,7 +68,8 @@ function Pill({ children, strong }: { children: React.ReactNode; strong?: boolea
 }
 
 export default function Page() {
-  const year = useMemo(() => new Date().getFullYear(), []);
+  // year tidak dipakai lagi di footer (footer sekarang di layout)
+  useMemo(() => new Date().getFullYear(), []);
 
   return (
     <div className="min-h-screen">
@@ -51,13 +81,23 @@ export default function Page() {
           <div className="text-sm font-semibold tracking-tight neon-title">Yohan • Portfolio</div>
 
           <nav className="hidden gap-6 text-sm text-zinc-400 md:flex">
-            <a className="hover:text-white transition" href="#about">About</a>
-            <a className="hover:text-white transition" href="#skills">Skills</a>
-            <a className="hover:text-white transition" href="#projects">Projects</a>
-            <a className="hover:text-white transition" href="#contact">Contact</a>
+            <a className="hover:text-white transition" href="#about">
+              About
+            </a>
+            <a className="hover:text-white transition" href="#skills">
+              Skills
+            </a>
+            <a className="hover:text-white transition" href="#projects">
+              Projects
+            </a>
+            <a className="hover:text-white transition" href="#contact">
+              Contact
+            </a>
           </nav>
 
-          <a className="btn-neon-ghost" href="#contact">Contact</a>
+          <a className="btn-neon-ghost" href="#contact">
+            Contact
+          </a>
         </div>
       </header>
 
@@ -80,12 +120,14 @@ export default function Page() {
                     </h1>
 
                     <p className="mt-4 text-base text-zinc-300/90 md:text-lg leading-relaxed">
-                      Fullstack developer building fast, modern products. Next.js + Tailwind for web,
-                      Express/MongoDB for backend, and Flutter for mobile.
+                      Fullstack developer building fast, modern products. Next.js + Tailwind for web, Express/MongoDB
+                      for backend, and Flutter for mobile.
                     </p>
 
                     <div className="mt-7 flex flex-wrap gap-3">
-                      <a className="btn-neon" href="#projects">View Projects</a>
+                      <a className="btn-neon" href="#projects">
+                        View Projects
+                      </a>
                       <a className="btn-neon-ghost" href="/cv.pdf" target="_blank" rel="noreferrer">
                         Download CV
                       </a>
@@ -132,8 +174,8 @@ export default function Page() {
             <div className="mt-4 neon-border">
               <div className="neon-card p-6 md:p-8 transition hover:-translate-y-1 duration-300">
                 <p className="text-zinc-300 leading-relaxed">
-                  I like shipping end-to-end features: clean UI, reliable APIs, and smooth deployment.
-                  I enjoy dashboards, management systems, and data-focused workflows.
+                  I like shipping end-to-end features: clean UI, reliable APIs, and smooth deployment. I enjoy
+                  dashboards, management systems, and data-focused workflows.
                 </p>
               </div>
             </div>
@@ -148,8 +190,13 @@ export default function Page() {
 
             <div className="mt-4 neon-card p-6 md:p-8">
               <div className="flex flex-wrap gap-2">
-                {skills.map((s) => (
-                  <Pill key={s}>{s}</Pill>
+                {skills.map(({ label, Icon }) => (
+                  <Pill key={label}>
+                    <span className="inline-flex items-center gap-2">
+                      <Icon className="h-4 w-4 opacity-90" />
+                      <span className="leading-none">{label}</span>
+                    </span>
+                  </Pill>
                 ))}
               </div>
             </div>
@@ -229,11 +276,23 @@ export default function Page() {
                 </div>
 
                 <div className="mt-6 flex flex-wrap gap-3">
-                  <a className="btn-neon" href="mailto:yohan.christazel9@gmail.com">Email</a>
-                  <a className="btn-neon-ghost" href="https://wa.me/6282150754301" target="_blank" rel="noreferrer">
+                  <a className="btn-neon" href="mailto:yohan.christazel9@gmail.com">
+                    Email
+                  </a>
+                  <a
+                    className="btn-neon-ghost"
+                    href="https://wa.me/6282150754301"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     WhatsApp
                   </a>
-                  <a className="btn-neon-ghost" href="https://www.linkedin.com/in/yohan-christazel-jeffry" target="_blank" rel="noreferrer">
+                  <a
+                    className="btn-neon-ghost"
+                    href="https://www.linkedin.com/in/yohan-christazel-jeffry"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     LinkedIn
                   </a>
                 </div>
@@ -242,14 +301,9 @@ export default function Page() {
           </Reveal>
         </section>
 
-        <div className="my-10 border-t border-zinc-900/70" />
+        {/* ✅ spacer biar footer global gak mepet */}
+        <div className="h-12" />
       </main>
-
-      <footer className="pb-10">
-        <div className="container-page text-sm text-zinc-500">
-          © {year} • Cyber/Neon Portfolio
-        </div>
-      </footer>
     </div>
   );
 }
