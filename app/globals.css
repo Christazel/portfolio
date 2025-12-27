@@ -122,3 +122,54 @@ body {
   background-size: 200% 200%;
   animation: shimmer 6s ease-in-out infinite;
 }
+
+/* ===== Skills Marquee (bergerak kiri ↔ kanan / bolak-balik) ===== */
+.skills-marquee {
+  position: relative;
+  overflow: hidden;
+
+  /* efek fade kiri-kanan (biar keren & halus) */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+}
+
+.skills-track {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: max-content;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  will-change: transform;
+
+  /* bolak-balik kiri ↔ kanan */
+  animation: skills-pingpong 24s linear infinite alternate;
+}
+
+/* pause saat hover */
+.skills-marquee:hover .skills-track {
+  animation-play-state: paused;
+}
+
+/* row kedua arah kebalikan */
+.skills-marquee--reverse .skills-track {
+  animation-direction: alternate-reverse;
+}
+
+/* untuk user yang prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .skills-track {
+    animation: none;
+    transform: translateX(0);
+  }
+}
+
+/* geser setengah panjang track (kita duplicate array di TS) */
+@keyframes skills-pingpong {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}

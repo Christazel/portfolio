@@ -71,6 +71,9 @@ export default function Page() {
   // year tidak dipakai lagi di footer (footer sekarang di layout)
   useMemo(() => new Date().getFullYear(), []);
 
+  // ✅ loop skills biar track panjang (untuk animasi)
+  const skillsLoop = useMemo(() => [...skills, ...skills, ...skills], []);
+
   return (
     <div className="min-h-screen">
       <NeonBackground />
@@ -182,23 +185,42 @@ export default function Page() {
           </Reveal>
         </section>
 
-        {/* skills */}
+        {/* ✅ skills (bergerak kiri ↔ kanan) */}
         <section id="skills" className="scroll-mt-24 py-10">
           <Reveal>
             <h2 className="text-lg font-semibold tracking-tight">Skills</h2>
             <p className="mt-1 text-sm text-zinc-500">Core stack.</p>
 
-            <div className="mt-4 neon-card p-6 md:p-8">
-              <div className="flex flex-wrap gap-2">
-                {skills.map(({ label, Icon }) => (
-                  <Pill key={label}>
-                    <span className="inline-flex items-center gap-2">
-                      <Icon className="h-4 w-4 opacity-90" />
-                      <span className="leading-none">{label}</span>
-                    </span>
-                  </Pill>
-                ))}
+            <div className="mt-4 neon-card p-5 md:p-7 overflow-hidden">
+              {/* Row 1: ping-pong */}
+              <div className="skills-marquee">
+                <div className="skills-track">
+                  {skillsLoop.map(({ label, Icon }, idx) => (
+                    <Pill key={`${label}-${idx}`}>
+                      <span className="inline-flex items-center gap-2">
+                        <Icon className="h-4 w-4 opacity-90" />
+                        <span className="leading-none">{label}</span>
+                      </span>
+                    </Pill>
+                  ))}
+                </div>
               </div>
+
+              {/* Row 2: arah kebalikan (biar lebih hidup) */}
+              <div className="skills-marquee skills-marquee--reverse mt-3 hidden sm:block">
+                <div className="skills-track">
+                  {skillsLoop.map(({ label, Icon }, idx) => (
+                    <Pill key={`${label}-rev-${idx}`}>
+                      <span className="inline-flex items-center gap-2">
+                        <Icon className="h-4 w-4 opacity-90" />
+                        <span className="leading-none">{label}</span>
+                      </span>
+                    </Pill>
+                  ))}
+                </div>
+              </div>
+
+              <p className="mt-4 text-xs text-zinc-500">Hover untuk pause.</p>
             </div>
           </Reveal>
         </section>
@@ -279,12 +301,7 @@ export default function Page() {
                   <a className="btn-neon" href="mailto:yohan.christazel9@gmail.com">
                     Email
                   </a>
-                  <a
-                    className="btn-neon-ghost"
-                    href="https://wa.me/6282150754301"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
+                  <a className="btn-neon-ghost" href="https://wa.me/6282150754301" target="_blank" rel="noreferrer">
                     WhatsApp
                   </a>
                   <a
