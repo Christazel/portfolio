@@ -7,7 +7,6 @@ import NeonBackground from "../components/NeonBackground";
 import Reveal from "../components/Reveal";
 import LanyardHolderSingle from "../components/LanyardHolderSingle";
 
-// ✅ Icons (react-icons)
 import {
   SiGithub,
   SiNextdotjs,
@@ -137,17 +136,17 @@ export default function Page() {
                       </a>
                     </div>
 
-                    {/* ✅ DIHILANGKAN: tulisan LinkedIn & Email di sini */}
+                    {/* ✅ sudah dihapus: teks LinkedIn/Email di hero */}
                   </div>
 
-                  {/* ✅ Lanyard 1 gantungan (foto /profile.jpeg) */}
+                  {/* ✅ pakai path baru */}
                   <motion.div
                     initial={{ opacity: 0, scale: 0.98 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.45 }}
                     className="shrink-0"
                   >
-                    <LanyardHolderSingle imageSrc="/profile.jpeg" alt="Yohan profile" />
+                    <LanyardHolderSingle imageSrc="/asset/profile.jpeg" alt="Yohan profile" />
                   </motion.div>
                 </div>
               </div>
