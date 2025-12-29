@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 
 import NeonBackground from "../components/NeonBackground";
@@ -73,6 +73,17 @@ export default function Page() {
 
   // ✅ loop skills biar track panjang (untuk animasi)
   const skillsLoop = useMemo(() => [...skills, ...skills, ...skills], []);
+
+  // ✅ Toggle bahasa About
+  const [aboutLang, setAboutLang] = useState<"id" | "en">("id");
+
+  const aboutText = useMemo(
+    () => ({
+      id: "Saya Yohan Christazel Jeffry, mahasiswa Informatika di Universitas Teknologi Yogyakarta. Saya antusias mempelajari hal-hal baru tentang programming, membangun aplikasi end-to-end, dan terbiasa bekerja kolaboratif dalam tim. Saya sudah menekuni dunia IT sekitar 3 tahun sejak mulai kuliah, serta aktif mengikuti berbagai kegiatan kepanitiaan baik di dalam maupun di luar kampus. Selain itu, saya merupakan lulusan Coding Camp 2025 powered by DBS Foundation.",
+      en: "I'm Yohan Christazel Jeffry, an Informatics student at Universitas Teknologi Yogyakarta. I enjoy learning new things in programming, building end-to-end applications, and collaborating effectively in teams. I’ve been involved in IT for around 3 years since starting university, and I’m active in various committee and organizational activities both on and off campus. I’m also a graduate of Coding Camp 2025 powered by DBS Foundation.",
+    }),
+    []
+  );
 
   return (
     <div className="min-h-screen">
@@ -171,15 +182,50 @@ export default function Page() {
         {/* about */}
         <section id="about" className="scroll-mt-24 py-10">
           <Reveal>
-            <h2 className="text-lg font-semibold tracking-tight">About</h2>
-            <p className="mt-1 text-sm text-zinc-500">A quick intro.</p>
+            <div className="flex items-end justify-between gap-3">
+              <div>
+                <h2 className="text-lg font-semibold tracking-tight">About</h2>
+                <p className="mt-1 text-sm text-zinc-500">A quick intro.</p>
+              </div>
+
+              {/* ✅ Toggle bahasa */}
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setAboutLang("id")}
+                  className={`rounded-full border px-3 py-1 text-xs transition ${
+                    aboutLang === "id"
+                      ? "border-indigo-400/60 bg-indigo-500/10 text-zinc-100"
+                      : "border-zinc-700/80 bg-zinc-900/30 text-zinc-300 hover:text-white hover:border-zinc-500/80"
+                  }`}
+                  aria-pressed={aboutLang === "id"}
+                >
+                  ID
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setAboutLang("en")}
+                  className={`rounded-full border px-3 py-1 text-xs transition ${
+                    aboutLang === "en"
+                      ? "border-cyan-300/60 bg-cyan-500/10 text-zinc-100"
+                      : "border-zinc-700/80 bg-zinc-900/30 text-zinc-300 hover:text-white hover:border-zinc-500/80"
+                  }`}
+                  aria-pressed={aboutLang === "en"}
+                >
+                  EN
+                </button>
+              </div>
+            </div>
 
             <div className="mt-4 neon-border">
               <div className="neon-card p-6 md:p-8 transition hover:-translate-y-1 duration-300">
-                <p className="text-zinc-300 leading-relaxed">
-                  I like shipping end-to-end features: clean UI, reliable APIs, and smooth deployment. I enjoy
-                  dashboards, management systems, and data-focused workflows.
-                </p>
+                <p className="text-zinc-300 leading-relaxed">{aboutLang === "id" ? aboutText.id : aboutText.en}</p>
+
+                <div className="mt-5 flex flex-wrap gap-2">
+                  <Pill>UTY • Informatics</Pill>
+                  <Pill>Team Collaboration</Pill>
+                  <Pill>Coding Camp 2025 (DBS Foundation)</Pill>
+                </div>
               </div>
             </div>
           </Reveal>
