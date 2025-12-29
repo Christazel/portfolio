@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 
 import NeonBackground from "../components/NeonBackground";
 import Reveal from "../components/Reveal";
+import LanyardHolderSingle from "../components/LanyardHolderSingle";
 
 // ✅ Icons (react-icons)
 import {
@@ -19,12 +20,6 @@ import {
   SiSwagger,
 } from "react-icons/si";
 
-const socials = [
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/yohan-christazel-jeffry" },
-  { label: "Email", href: "mailto:yohan.christazel9@gmail.com" },
-];
-
-// ✅ skills pakai icon + label
 type SkillItem = {
   label: string;
   Icon: React.ComponentType<{ className?: string }>;
@@ -68,13 +63,9 @@ function Pill({ children, strong }: { children: React.ReactNode; strong?: boolea
 }
 
 export default function Page() {
-  // year tidak dipakai lagi di footer (footer sekarang di layout)
   useMemo(() => new Date().getFullYear(), []);
-
-  // ✅ loop skills biar track panjang (untuk animasi)
   const skillsLoop = useMemo(() => [...skills, ...skills, ...skills], []);
 
-  // ✅ Toggle bahasa About
   const [aboutLang, setAboutLang] = useState<"id" | "en">("id");
 
   const aboutText = useMemo(
@@ -89,7 +80,6 @@ export default function Page() {
     <div className="min-h-screen">
       <NeonBackground />
 
-      {/* header */}
       <header className="sticky top-0 z-50 border-b border-zinc-900/70 bg-zinc-950/70 backdrop-blur">
         <div className="container-page flex items-center justify-between py-4">
           <div className="text-sm font-semibold tracking-tight neon-title">Yohan • Portfolio</div>
@@ -147,31 +137,17 @@ export default function Page() {
                       </a>
                     </div>
 
-                    <div className="mt-6 flex flex-wrap gap-4 text-sm">
-                      {socials.map((s) => (
-                        <a
-                          key={s.label}
-                          className="link"
-                          href={s.href}
-                          target={s.href.startsWith("http") ? "_blank" : undefined}
-                          rel={s.href.startsWith("http") ? "noreferrer" : undefined}
-                        >
-                          {s.label}
-                        </a>
-                      ))}
-                    </div>
+                    {/* ✅ DIHILANGKAN: tulisan LinkedIn & Email di sini */}
                   </div>
 
-                  {/* monogram */}
+                  {/* ✅ Lanyard 1 gantungan (foto /profile.jpeg) */}
                   <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
+                    initial={{ opacity: 0, scale: 0.98 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5 }}
+                    transition={{ duration: 0.45 }}
                     className="shrink-0"
                   >
-                    <div className="neon-card grid h-24 w-24 place-items-center md:h-28 md:w-28">
-                      <span className="text-xl font-semibold neon-title">YC</span>
-                    </div>
+                    <LanyardHolderSingle imageSrc="/profile.jpeg" alt="Yohan profile" />
                   </motion.div>
                 </div>
               </div>
@@ -188,7 +164,6 @@ export default function Page() {
                 <p className="mt-1 text-sm text-zinc-500">A quick intro.</p>
               </div>
 
-              {/* ✅ Toggle bahasa */}
               <div className="flex items-center gap-2">
                 <button
                   type="button"
@@ -198,7 +173,6 @@ export default function Page() {
                       ? "border-indigo-400/60 bg-indigo-500/10 text-zinc-100"
                       : "border-zinc-700/80 bg-zinc-900/30 text-zinc-300 hover:text-white hover:border-zinc-500/80"
                   }`}
-                  aria-pressed={aboutLang === "id"}
                 >
                   ID
                 </button>
@@ -210,7 +184,6 @@ export default function Page() {
                       ? "border-cyan-300/60 bg-cyan-500/10 text-zinc-100"
                       : "border-zinc-700/80 bg-zinc-900/30 text-zinc-300 hover:text-white hover:border-zinc-500/80"
                   }`}
-                  aria-pressed={aboutLang === "en"}
                 >
                   EN
                 </button>
@@ -231,14 +204,13 @@ export default function Page() {
           </Reveal>
         </section>
 
-        {/* ✅ skills (bergerak kiri ↔ kanan) */}
+        {/* skills */}
         <section id="skills" className="scroll-mt-24 py-10">
           <Reveal>
             <h2 className="text-lg font-semibold tracking-tight">Skills</h2>
             <p className="mt-1 text-sm text-zinc-500">Core stack.</p>
 
             <div className="mt-4 neon-card p-5 md:p-7 overflow-hidden">
-              {/* Row 1: ping-pong */}
               <div className="skills-marquee">
                 <div className="skills-track">
                   {skillsLoop.map(({ label, Icon }, idx) => (
@@ -252,7 +224,6 @@ export default function Page() {
                 </div>
               </div>
 
-              {/* Row 2: arah kebalikan (biar lebih hidup) */}
               <div className="skills-marquee skills-marquee--reverse mt-3 hidden sm:block">
                 <div className="skills-track">
                   {skillsLoop.map(({ label, Icon }, idx) => (
@@ -364,7 +335,6 @@ export default function Page() {
           </Reveal>
         </section>
 
-        {/* ✅ spacer biar footer global gak mepet */}
         <div className="h-12" />
       </main>
     </div>
