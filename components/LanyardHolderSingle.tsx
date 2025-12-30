@@ -15,10 +15,11 @@ export default function LanyardHolderSingle({
   const reduce = useReducedMotion();
 
   return (
-    <div className="relative flex items-start justify-center">
+    // ✅ padding-top biar strap punya ruang sendiri (jadi tidak naik ke area tombol)
+    <div className="relative flex justify-center pt-[190px] md:pt-[200px]">
       {/* ===== STRAP (SINGLE) + BUCKLE + CLIP ===== */}
-      <div className="pointer-events-none absolute -top-16 left-1/2 -translate-x-1/2">
-        <div className="relative h-[220px] w-[140px]">
+      <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2">
+        <div className="relative h-[200px] w-[140px]">
           {/* strap */}
           <div
             className="absolute left-1/2 top-0 h-[150px] w-[18px] -translate-x-1/2 rounded-full
@@ -55,7 +56,7 @@ export default function LanyardHolderSingle({
 
       {/* ===== HOLDER (POUCH) + SWING ===== */}
       <motion.div
-        className="relative mt-24"
+        className="relative"
         style={{ transformOrigin: "50% 0%" }}
         animate={
           reduce
@@ -68,19 +69,31 @@ export default function LanyardHolderSingle({
         transition={reduce ? undefined : { duration: 7, repeat: Infinity, ease: "easeInOut" }}
         whileHover={reduce ? undefined : { rotate: 0, y: 0 }}
       >
-        <div className="pointer-events-none absolute left-1/2 top-[320px] -translate-x-1/2 h-6 w-[220px] rounded-full bg-black/45 blur-xl" />
+        {/* shadow */}
+        <div className="pointer-events-none absolute left-1/2 top-[305px] md:top-[320px] -translate-x-1/2 h-6 w-[210px] md:w-[220px] rounded-full bg-black/45 blur-xl" />
 
+        {/* glow border */}
         <div className="absolute -inset-1 rounded-[30px] bg-gradient-to-br from-cyan-400/20 via-blue-500/10 to-purple-500/10 blur-md opacity-60" />
 
+        {/* pouch body */}
         <div
           className="relative rounded-[28px] border border-white/10 bg-[#0b2433]/45 backdrop-blur-md
                      shadow-[0_24px_60px_rgba(0,0,0,0.60)]"
-          style={{ width: 250, height: 320 }}
+          style={{ width: 230, height: 300 }}
         >
+          {/* desktop size */}
+          <div className="hidden md:block">
+            <div
+              className="absolute inset-0 rounded-[28px]"
+              style={{ width: 250, height: 320 }}
+            />
+          </div>
+
+          {/* stitching */}
           <div className="absolute inset-[10px] rounded-[22px] border border-white/10 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)]" />
 
           {/* zipper strip kanan */}
-          <div className="absolute right-3 top-6 h-[250px] w-[10px] rounded-full bg-black/25 border border-white/10" />
+          <div className="absolute right-3 top-6 h-[232px] md:h-[250px] w-[10px] rounded-full bg-black/25 border border-white/10" />
           <div className="absolute right-2 top-10 h-7 w-5 rounded-xl border border-white/10 bg-white/10 shadow-[0_10px_20px_rgba(0,0,0,0.35)]" />
 
           {/* window foto */}
@@ -98,6 +111,7 @@ export default function LanyardHolderSingle({
                 />
               </div>
 
+              {/* glossy plastik */}
               <div
                 className="pointer-events-none absolute inset-0 opacity-70"
                 style={{
@@ -109,6 +123,7 @@ export default function LanyardHolderSingle({
             </div>
           </div>
 
+          {/* bottom lip */}
           <div className="absolute left-0 bottom-0 h-10 w-full rounded-b-[28px] bg-black/15 border-t border-white/10" />
         </div>
       </motion.div>
