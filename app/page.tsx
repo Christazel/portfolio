@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import NeonBackground from "../components/NeonBackground";
 import Reveal from "../components/Reveal";
 import LanyardHolderSingle from "../components/LanyardHolderSingle";
+import CommentBox from "../components/CommentBox";
 
 import {
   SiGithub,
@@ -62,9 +63,7 @@ function Pill({ children, strong }: { children: React.ReactNode; strong?: boolea
 }
 
 export default function Page() {
-  useMemo(() => new Date().getFullYear(), []);
   const skillsLoop = useMemo(() => [...skills, ...skills, ...skills], []);
-
   const [aboutLang, setAboutLang] = useState<"id" | "en">("id");
 
   const aboutText = useMemo(
@@ -135,11 +134,8 @@ export default function Page() {
                         Download CV
                       </a>
                     </div>
-
-                    {/* ✅ sudah dihapus: teks LinkedIn/Email di hero */}
                   </div>
 
-                  {/* ✅ pakai path baru */}
                   <motion.div
                     initial={{ opacity: 0, scale: 0.98 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -280,15 +276,22 @@ export default function Page() {
         <section id="contact" className="scroll-mt-24 py-10">
           <Reveal>
             <h2 className="text-lg font-semibold tracking-tight">Contact</h2>
-            <p className="mt-1 text-sm text-zinc-500">Let’s work together.</p>
+            <p className="mt-1 text-sm text-zinc-500">Let’s work together — or leave a comment below.</p>
 
+            {/* Contact Info (tanpa tombol Email/WhatsApp/LinkedIn) */}
             <div className="mt-4 neon-border">
               <div className="neon-card p-6 md:p-8 transition hover:-translate-y-1 duration-300">
                 <div className="grid gap-5 md:grid-cols-3">
                   <div>
                     <p className="text-xs text-zinc-500">Email</p>
-                    <p className="mt-1 text-sm text-zinc-200 break-all">yohan.christazel9@gmail.com</p>
+                    <a
+                      className="mt-1 inline-block text-sm text-zinc-200 hover:text-cyan-300 transition break-all"
+                      href="mailto:yohan.christazel9@gmail.com"
+                    >
+                      yohan.christazel9@gmail.com
+                    </a>
                   </div>
+
                   <div>
                     <p className="text-xs text-zinc-500">WhatsApp</p>
                     <a
@@ -300,6 +303,7 @@ export default function Page() {
                       +62 821-5075-4301
                     </a>
                   </div>
+
                   <div>
                     <p className="text-xs text-zinc-500">LinkedIn</p>
                     <a
@@ -312,25 +316,17 @@ export default function Page() {
                     </a>
                   </div>
                 </div>
-
-                <div className="mt-6 flex flex-wrap gap-3">
-                  <a className="btn-neon" href="mailto:yohan.christazel9@gmail.com">
-                    Email
-                  </a>
-                  <a className="btn-neon-ghost" href="https://wa.me/6282150754301" target="_blank" rel="noreferrer">
-                    WhatsApp
-                  </a>
-                  <a
-                    className="btn-neon-ghost"
-                    href="https://www.linkedin.com/in/yohan-christazel-jeffry"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    LinkedIn
-                  </a>
-                </div>
               </div>
             </div>
+
+            {/* CommentBox */}
+            <div className="mt-6">
+              <CommentBox />
+            </div>
+
+            <p className="mt-3 text-xs text-zinc-500">
+              Komentar akan tersimpan otomatis di database (Supabase).
+            </p>
           </Reveal>
         </section>
 
