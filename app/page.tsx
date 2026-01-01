@@ -63,7 +63,9 @@ function Pill({ children, strong }: { children: React.ReactNode; strong?: boolea
 }
 
 export default function Page() {
-  const skillsLoop = useMemo(() => [...skills, ...skills, ...skills], []);
+  // ✅ WAJIB 2x DUPLICATE (bukan 3x) supaya -50% seamless
+  const skillsLoop = useMemo(() => [...skills, ...skills], []);
+
   const [aboutLang, setAboutLang] = useState<"id" | "en">("id");
 
   const aboutText = useMemo(
@@ -206,23 +208,11 @@ export default function Page() {
             <p className="mt-1 text-sm text-zinc-500">Core stack.</p>
 
             <div className="mt-4 neon-card p-5 md:p-7 overflow-hidden">
+              {/* ✅ CUMA 1 BARIS */}
               <div className="skills-marquee">
                 <div className="skills-track">
                   {skillsLoop.map(({ label, Icon }, idx) => (
                     <Pill key={`${label}-${idx}`}>
-                      <span className="inline-flex items-center gap-2">
-                        <Icon className="h-4 w-4 opacity-90" />
-                        <span className="leading-none">{label}</span>
-                      </span>
-                    </Pill>
-                  ))}
-                </div>
-              </div>
-
-              <div className="skills-marquee skills-marquee--reverse mt-3 hidden sm:block">
-                <div className="skills-track">
-                  {skillsLoop.map(({ label, Icon }, idx) => (
-                    <Pill key={`${label}-rev-${idx}`}>
                       <span className="inline-flex items-center gap-2">
                         <Icon className="h-4 w-4 opacity-90" />
                         <span className="leading-none">{label}</span>
@@ -278,7 +268,6 @@ export default function Page() {
             <h2 className="text-lg font-semibold tracking-tight">Contact</h2>
             <p className="mt-1 text-sm text-zinc-500">Let’s work together — or leave a comment below.</p>
 
-            {/* Contact Info (tanpa tombol Email/WhatsApp/LinkedIn) */}
             <div className="mt-4 neon-border">
               <div className="neon-card p-6 md:p-8 transition hover:-translate-y-1 duration-300">
                 <div className="grid gap-5 md:grid-cols-3">
@@ -319,14 +308,11 @@ export default function Page() {
               </div>
             </div>
 
-            {/* CommentBox */}
             <div className="mt-6">
               <CommentBox />
             </div>
 
-            <p className="mt-3 text-xs text-zinc-500">
-              Komentar akan tersimpan otomatis di database (Supabase).
-            </p>
+            <p className="mt-3 text-xs text-zinc-500">Komentar akan tersimpan otomatis di database (Supabase).</p>
           </Reveal>
         </section>
 
