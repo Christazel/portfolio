@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 
 import NeonBackground from "../components/NeonBackground";
-import AnimatedBackground from "../components/AnimatedBackground";
 import Reveal from "../components/Reveal";
 import LanyardHolderSingle from "../components/LanyardHolderSingle";
 import CommentBox from "../components/CommentBox";
@@ -33,15 +32,22 @@ const skills: SkillItem[] = [
   { label: "Tailwind CSS", Icon: SiTailwindcss },
   { label: "Node.js", Icon: SiNodedotjs },
   { label: "MongoDB", Icon: SiMongodb },
-  { label: "REST API", Icon: SiSwagger },
   { label: "Flutter", Icon: SiFlutter },
+  { label: "Swagger", Icon: SiSwagger },
   { label: "GitHub", Icon: SiGithub },
 ];
 
-const projects = [
+type ProjectItem = {
+  title: string;
+  desc: string;
+  tech: string[];
+  links: { label: string; href: string }[];
+};
+
+const projects: ProjectItem[] = [
   {
     title: "Sistem Magang (Web + Mobile)",
-    desc: "Dashboard admin, presensi GPS/QR, laporan harian, feedback, dan rekap data.",
+    desc: "Dashboard admin, presensi, rekap laporan, feedback & evaluasi, dan realtime sync.",
     tech: ["Next.js", "Tailwind", "Express", "MongoDB", "Flutter"],
     links: [
       { label: "Demo", href: "#" },
@@ -49,9 +55,9 @@ const projects = [
     ],
   },
   {
-    title: "Dashboard Monitoring",
-    desc: "Visualisasi statistik presensi & tugas dengan filter pencarian dan export CSV.",
-    tech: ["Next.js", "Chart", "API"],
+    title: "AR Navigation + Realtime Target",
+    desc: "AR target per site_id dengan endpoint admin + Socket.IO realtime update ke client.",
+    tech: ["Fastify", "Socket.IO", "Unity"],
     links: [
       { label: "Demo", href: "#" },
       { label: "Repo", href: "#" },
@@ -69,6 +75,22 @@ export default function Page() {
 
   const [aboutLang, setAboutLang] = useState<"id" | "en">("id");
 
+  // ✅ pause animasi saat user sedang scroll (biar scroll ke #about lebih mulus)
+  useEffect(() => {
+    let t: number | undefined;
+
+    const onScroll = () => {
+      document.documentElement.setAttribute("data-scrolling", "1");
+      window.clearTimeout(t);
+      t = window.setTimeout(() => {
+        document.documentElement.removeAttribute("data-scrolling");
+      }, 140);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   const aboutText = useMemo(
     () => ({
       id: "Saya Yohan Christazel Jeffry, mahasiswa Informatika di Universitas Teknologi Yogyakarta. Saya antusias mempelajari hal-hal baru tentang programming, membangun aplikasi end-to-end, dan terbiasa bekerja kolaboratif dalam tim. Saya sudah menekuni dunia IT sekitar 3 tahun sejak mulai kuliah, serta aktif mengikuti berbagai kegiatan kepanitiaan baik di dalam maupun di luar kampus. Selain itu, saya merupakan lulusan Coding Camp 2025 powered by DBS Foundation.",
@@ -77,30 +99,11 @@ export default function Page() {
     []
   );
 
-  // ✅ background lebih ringan di mobile / reduced motion
-  const [liteBg, setLiteBg] = useState(false);
-
-  useEffect(() => {
-    const mqW = window.matchMedia("(max-width: 768px)");
-    const mqR = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-    const apply = () => setLiteBg(mqW.matches || mqR.matches);
-    apply();
-
-    mqW.addEventListener?.("change", apply);
-    mqR.addEventListener?.("change", apply);
-
-    return () => {
-      mqW.removeEventListener?.("change", apply);
-      mqR.removeEventListener?.("change", apply);
-    };
-  }, []);
-
   return (
     <div className="min-h-screen">
-      {liteBg ? <AnimatedBackground /> : <NeonBackground />}
+      <NeonBackground />
 
-      {/* ✅ blur hanya md+ supaya mobile scroll smooth */}
+      {/* ✅ blur hanya md+ supaya scroll mobile lebih smooth */}
       <header className="sticky top-0 z-50 border-b border-zinc-900/70 bg-zinc-950/90 md:bg-zinc-950/70 md:backdrop-blur">
         <div className="container-page flex items-center justify-between py-4">
           <div className="text-sm font-semibold tracking-tight neon-title">Yohan • Portfolio</div>
@@ -174,7 +177,7 @@ export default function Page() {
         </section>
 
         {/* about */}
-        <section id="about" className="scroll-mt-24 py-10">
+        <section id="about" className="cv-auto scroll-mt-24 py-10">
           <Reveal>
             <div className="flex items-end justify-between gap-3">
               <div>
@@ -223,7 +226,7 @@ export default function Page() {
         </section>
 
         {/* skills */}
-        <section id="skills" className="scroll-mt-24 py-10">
+        <section id="skills" className="cv-auto scroll-mt-24 py-10">
           <Reveal>
             <h2 className="text-lg font-semibold tracking-tight">Skills</h2>
             <p className="mt-1 text-sm text-zinc-500">Core stack.</p>
@@ -248,7 +251,7 @@ export default function Page() {
         </section>
 
         {/* projects */}
-        <section id="projects" className="scroll-mt-24 py-10">
+        <section id="projects" className="cv-auto scroll-mt-24 py-10">
           <Reveal>
             <h2 className="text-lg font-semibold tracking-tight">Projects</h2>
             <p className="mt-1 text-sm text-zinc-500">Selected work.</p>
@@ -283,7 +286,7 @@ export default function Page() {
         </section>
 
         {/* contact */}
-        <section id="contact" className="scroll-mt-24 py-10">
+        <section id="contact" className="cv-auto scroll-mt-24 py-10">
           <Reveal>
             <h2 className="text-lg font-semibold tracking-tight">Contact</h2>
             <p className="mt-1 text-sm text-zinc-500">Let’s work together — or leave a comment below.</p>

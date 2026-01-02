@@ -51,7 +51,7 @@ export default function NeonBackground() {
 
       {/* orbs (CSS animation, blur diturunin biar paint ringan) */}
       <div
-        className="absolute -top-40 -left-40 h-[520px] w-[520px] rounded-full blur-[80px] will-change-transform"
+        className="nb-orb absolute -top-40 -left-40 h-[520px] w-[520px] rounded-full blur-[80px] will-change-transform"
         style={{
           background: "rgba(168,85,247,0.20)",
           animation: reduce ? "none" : "orbA 20s ease-in-out infinite",
@@ -59,7 +59,7 @@ export default function NeonBackground() {
         }}
       />
       <div
-        className="absolute top-12 -right-56 h-[640px] w-[640px] rounded-full blur-[90px] will-change-transform"
+        className="nb-orb absolute top-12 -right-56 h-[640px] w-[640px] rounded-full blur-[90px] will-change-transform"
         style={{
           background: "rgba(59,130,246,0.20)",
           animation: reduce ? "none" : "orbB 24s ease-in-out infinite",
@@ -67,7 +67,7 @@ export default function NeonBackground() {
         }}
       />
       <div
-        className="absolute -bottom-60 left-1/3 h-[700px] w-[700px] rounded-full blur-[95px] will-change-transform"
+        className="nb-orb absolute -bottom-60 left-1/3 h-[700px] w-[700px] rounded-full blur-[95px] will-change-transform"
         style={{
           background: "rgba(34,211,238,0.14)",
           animation: reduce ? "none" : "orbC 22s ease-in-out infinite",
@@ -82,7 +82,7 @@ export default function NeonBackground() {
       <div className="absolute inset-0 opacity-[0.07] [background:repeating-linear-gradient(to_bottom,rgba(255,255,255,0.08),rgba(255,255,255,0.08)_1px,transparent_1px,transparent_6px)]" />
       <div className="absolute inset-0">
         <div
-          className="absolute -top-1/2 left-0 right-0 h-1/2 bg-gradient-to-b from-cyan-400/0 via-cyan-400/12 to-cyan-400/0"
+          className="nb-scan absolute -top-1/2 left-0 right-0 h-1/2 bg-gradient-to-b from-cyan-400/0 via-cyan-400/12 to-cyan-400/0"
           style={{ animation: reduce ? "none" : "scan 6s ease-in-out infinite" }}
         />
       </div>
@@ -92,7 +92,7 @@ export default function NeonBackground() {
         particles.map((p, i) => (
           <span
             key={`p-${i}`}
-            className="absolute rounded-full will-change-transform"
+            className="nb-float absolute rounded-full will-change-transform"
             style={{
               left: p.left,
               top: p.top,

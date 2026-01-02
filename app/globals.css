@@ -171,13 +171,16 @@ body {
   white-space: nowrap;
   will-change: transform;
 
+  /* 1 arah terus (loop) */
   animation: skills-marquee 20s linear infinite;
 }
 
+/* pause saat hover */
 .skills-marquee:hover .skills-track {
   animation-play-state: paused;
 }
 
+/* untuk user yang prefer reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .skills-track {
     animation: none;
@@ -188,6 +191,9 @@ body {
   }
 }
 
+/* PENTING:
+   Karena di TS saya duplikasi skills jadi 2x,
+   maka geser -50% akan sejajar & seamless */
 @keyframes skills-marquee {
   0% {
     transform: translateX(0);
@@ -197,7 +203,24 @@ body {
   }
 }
 
-/* ===== PERF PATCH: Mobile scroll biar smooth ===== */
+/* ===== PERF: render section hanya saat terlihat ===== */
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 900px; /* perkiraan tinggi agar tidak layout shift */
+}
+
+/* ===== PERF: pause animasi saat user scroll (biar anchor ke #about lebih mulus) ===== */
+html[data-scrolling="1"] .skills-track {
+  animation-play-state: paused !important;
+}
+
+html[data-scrolling="1"] .nb-orb,
+html[data-scrolling="1"] .nb-scan,
+html[data-scrolling="1"] .nb-float {
+  animation-play-state: paused !important;
+}
+
+/* ===== PERF PATCH: Mobile scroll biar lebih smooth ===== */
 @media (max-width: 768px) {
   /* backdrop blur bikin scroll patah-patah di banyak device */
   .neon-card {
@@ -214,7 +237,7 @@ body {
   .neon-card:hover {
     box-shadow:
       0 0 0 1px rgba(255, 255, 255, 0.05) inset,
-      0 0 22px rgba(99, 102, 241, 0.1),
+      0 0 22px rgba(99, 102, 241, 0.10),
       0 0 34px rgba(34, 211, 238, 0.08) !important;
   }
 
