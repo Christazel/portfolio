@@ -1,9 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 
 import NeonBackground from "../components/NeonBackground";
+import AnimatedBackground from "../components/AnimatedBackground";
 import Reveal from "../components/Reveal";
 import LanyardHolderSingle from "../components/LanyardHolderSingle";
 import CommentBox from "../components/CommentBox";
@@ -63,7 +64,7 @@ function Pill({ children, strong }: { children: React.ReactNode; strong?: boolea
 }
 
 export default function Page() {
-  // ✅ WAJIB 2x DUPLICATE (bukan 3x) supaya -50% seamless
+  // ✅ WAJIB 2x DUPLICATE supaya -50% seamless
   const skillsLoop = useMemo(() => [...skills, ...skills], []);
 
   const [aboutLang, setAboutLang] = useState<"id" | "en">("id");
@@ -76,11 +77,31 @@ export default function Page() {
     []
   );
 
+  // ✅ background lebih ringan di mobile / reduced motion
+  const [liteBg, setLiteBg] = useState(false);
+
+  useEffect(() => {
+    const mqW = window.matchMedia("(max-width: 768px)");
+    const mqR = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const apply = () => setLiteBg(mqW.matches || mqR.matches);
+    apply();
+
+    mqW.addEventListener?.("change", apply);
+    mqR.addEventListener?.("change", apply);
+
+    return () => {
+      mqW.removeEventListener?.("change", apply);
+      mqR.removeEventListener?.("change", apply);
+    };
+  }, []);
+
   return (
     <div className="min-h-screen">
-      <NeonBackground />
+      {liteBg ? <AnimatedBackground /> : <NeonBackground />}
 
-      <header className="sticky top-0 z-50 border-b border-zinc-900/70 bg-zinc-950/70 backdrop-blur">
+      {/* ✅ blur hanya md+ supaya mobile scroll smooth */}
+      <header className="sticky top-0 z-50 border-b border-zinc-900/70 bg-zinc-950/90 md:bg-zinc-950/70 md:backdrop-blur">
         <div className="container-page flex items-center justify-between py-4">
           <div className="text-sm font-semibold tracking-tight neon-title">Yohan • Portfolio</div>
 
@@ -208,7 +229,6 @@ export default function Page() {
             <p className="mt-1 text-sm text-zinc-500">Core stack.</p>
 
             <div className="mt-4 neon-card p-5 md:p-7 overflow-hidden">
-              {/* ✅ CUMA 1 BARIS */}
               <div className="skills-marquee">
                 <div className="skills-track">
                   {skillsLoop.map(({ label, Icon }, idx) => (
