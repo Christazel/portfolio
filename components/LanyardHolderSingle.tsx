@@ -9,7 +9,7 @@ type Props = {
 };
 
 export default function LanyardHolderSingle({
-  imageSrc = "/asset/profile.jpeg",
+  imageSrc = "/asset/profile_800.webp",
   alt = "Profile photo",
 }: Props) {
   const reduce = useReducedMotion();
@@ -83,10 +83,7 @@ export default function LanyardHolderSingle({
         >
           {/* desktop size */}
           <div className="hidden md:block">
-            <div
-              className="absolute inset-0 rounded-[28px]"
-              style={{ width: 250, height: 320 }}
-            />
+            <div className="absolute inset-0 rounded-[28px]" style={{ width: 250, height: 320 }} />
           </div>
 
           {/* stitching */}
@@ -105,8 +102,8 @@ export default function LanyardHolderSingle({
                   alt={alt}
                   fill
                   priority
-                  unoptimized
-                  sizes="(max-width: 768px) 240px, 260px"
+                  quality={75}
+                  sizes="(max-width: 640px) 180px, (max-width: 1024px) 220px, 260px"
                   className="object-cover object-center"
                 />
               </div>
