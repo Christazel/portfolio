@@ -33,7 +33,7 @@ export default function ProjectCard({ project, index }: { project: Project; inde
         transition={{ duration: 0.28 }}
       >
         <motion.div
-          className="absolute -inset-0.5 bg-gradient-to-r from-purple-600 via-blue-600 to-teal-600 rounded-2xl opacity-0 group-hover:opacity-100 blur transition-opacity duration-300"
+          className="absolute -inset-0.5 bg-linear-to-r from-purple-600 via-blue-600 to-teal-600 rounded-2xl opacity-0 group-hover:opacity-100 blur transition-opacity duration-300"
           animate={{ rotate: hovered ? 360 : 0 }}
           transition={{ duration: 3, ease: "linear", repeat: hovered ? Infinity : 0 }}
         />
