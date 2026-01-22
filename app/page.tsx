@@ -46,20 +46,11 @@ type ProjectItem = {
 
 const projects: ProjectItem[] = [
   {
-    title: "Sistem Magang (Web + Mobile)",
-    desc: "Dashboard admin, presensi, rekap laporan, feedback & evaluasi, dan realtime sync.",
-    tech: ["Next.js", "Tailwind", "Express", "MongoDB", "Flutter"],
+    title: "Sistem Magang",
+    desc: "A web application to manage internship programs, including student registration, company assignments, and progress tracking.",
+    tech: ["Next.js", "Tailwind", "Express", "MongoDB"],
     links: [
-      { label: "Demo", href: "#" },
-      { label: "Repo", href: "#" },
-    ],
-  },
-  {
-    title: "AR Navigation + Realtime Target",
-    desc: "AR target per site_id dengan endpoint admin + Socket.IO realtime update ke client.",
-    tech: ["Fastify", "Socket.IO", "Unity"],
-    links: [
-      { label: "Demo", href: "#" },
+      { label: "Demo", href: "https://web-magang-melawi.vercel.app/" },
       { label: "Repo", href: "#" },
     ],
   },
