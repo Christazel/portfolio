@@ -102,7 +102,7 @@ export default function Page() {
       <NeonBackground />
 
       {/* ✅ blur hanya md+ supaya scroll mobile lebih smooth */}
-      <header className="sticky top-0 z-50 border-b border-zinc-900/70 bg-zinc-950/90 md:bg-zinc-950/70 md:backdrop-blur">
+      <header className="sticky top-0 z-50 border-b border-zinc-800/80 bg-zinc-950/95 md:bg-zinc-950/90 md:backdrop-blur-sm">
         <div className="container-page flex items-center justify-between py-4">
           <div className="text-sm font-semibold tracking-tight neon-title">Yohan • Portfolio</div>
 
@@ -131,14 +131,14 @@ export default function Page() {
         {/* hero */}
         <section className="py-14 md:py-20 relative">
           <div className="absolute inset-0 -z-10 overflow-hidden">
-            <div className="absolute top-20 left-1/4 w-72 h-72 bg-cyan-500/20 rounded-full filter blur-3xl opacity-30 animate-pulse" />
-            <div className="absolute bottom-20 right-1/4 w-72 h-72 bg-purple-500/20 rounded-full filter blur-3xl opacity-30 animate-pulse" style={{ animationDelay: "1s" }} />
+            <div className="absolute top-20 left-1/4 w-72 h-72 bg-cyan-500/08 rounded-full filter blur-3xl opacity-30 animate-pulse" />
+            <div className="absolute bottom-20 right-1/4 w-72 h-72 bg-purple-500/08 rounded-full filter blur-3xl opacity-30 animate-pulse" style={{ animationDelay: "1s" }} />
           </div>
 
           <ScrollReveal duration={1.2} delay={0.2}>
             <div className="neon-card p-6 md:p-10 transition hover:-translate-y-1 duration-300 relative overflow-hidden group">
               {/* Animated background glow */}
-              <div className="absolute inset-0 bg-linear-to-br from-cyan-500/10 via-transparent to-purple-500/10 opacity-0 group-hover:opacity-100 transition duration-500" />
+              <div className="absolute inset-0 bg-linear-to-br from-cyan-500/05 via-transparent to-purple-500/05 opacity-0 group-hover:opacity-80 transition duration-500" />
               
               <div className="flex flex-col gap-10 md:flex-row md:items-center md:justify-between relative z-10">
                 <div className="max-w-2xl">
@@ -157,7 +157,7 @@ export default function Page() {
                   </div>
 
                   <ScrollReveal delay={0.4} distance={30}>
-                    <p className="mt-4 text-base text-zinc-300/90 md:text-lg leading-relaxed">
+                    <p className="mt-4 text-base text-zinc-200/95 md:text-lg leading-relaxed font-medium">
                       Fullstack developer building fast, modern products. Next.js + Tailwind for web, Express/MongoDB
                       for backend, and Flutter for mobile.
                     </p>
@@ -182,7 +182,7 @@ export default function Page() {
                     transition={{ duration: 0.45 }}
                     className="relative group"
                   >
-                    <div className="absolute inset-0 bg-linear-to-r from-cyan-500/50 to-purple-500/50 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition duration-500" />
+                    <div className="absolute inset-0 bg-linear-to-r from-cyan-500/30 to-purple-500/30 rounded-2xl blur-xl opacity-0 group-hover:opacity-70 transition duration-500" />
                     <LanyardHolderSingle imageSrc="/asset/profile.jpeg" alt="Yohan profile" />
                   </motion.div>
                 </HoverFloat>
@@ -196,8 +196,8 @@ export default function Page() {
           <ScrollReveal direction="left">
             <div className="flex items-end justify-between gap-3">
               <div>
-                <h2 className="text-lg font-semibold tracking-tight">About</h2>
-                <p className="mt-1 text-sm text-zinc-500">A quick intro.</p>
+                <h2 className="text-xl font-bold tracking-tight text-zinc-50">About</h2>
+                <p className="mt-1 text-sm text-zinc-400">A quick intro.</p>
               </div>
 
               <div className="flex items-center gap-2">
@@ -227,7 +227,7 @@ export default function Page() {
             </div>
 
             <div className="mt-4 neon-card p-6 md:p-8 transition hover:-translate-y-1 duration-300">
-              <p className="text-zinc-300 leading-relaxed">{aboutLang === "id" ? aboutText.id : aboutText.en}</p>
+              <p className="text-zinc-200/95 leading-relaxed font-medium text-base">{aboutLang === "id" ? aboutText.id : aboutText.en}</p>
 
               <div className="mt-5 flex flex-wrap gap-2">
                 <Pill>UTY • Informatics</Pill>
@@ -242,8 +242,8 @@ export default function Page() {
         <section id="skills" className="cv-auto scroll-mt-24 py-10">
           <ParallaxSection speed={0.3}>
             <ScrollReveal direction="right">
-              <h2 className="text-lg font-semibold tracking-tight">Skills</h2>
-              <p className="mt-1 text-sm text-zinc-500">Core stack.</p>
+              <h2 className="text-xl font-bold tracking-tight text-zinc-50">Skills</h2>
+              <p className="mt-1 text-sm text-zinc-400">Core stack.</p>
 
               <div className="mt-4 neon-card p-5 md:p-7 overflow-hidden">
                 <div className="skills-marquee">
@@ -268,8 +268,8 @@ export default function Page() {
         {/* projects */}
         <section id="projects" className="cv-auto scroll-mt-24 py-10">
           <ScrollReveal direction="left">
-            <h2 className="text-lg font-semibold tracking-tight">Projects</h2>
-            <p className="mt-1 text-sm text-zinc-500">Selected work.</p>
+            <h2 className="text-xl font-bold tracking-tight text-zinc-50">Projects</h2>
+            <p className="mt-1 text-sm text-zinc-400">Selected work.</p>
 
             <div className="mt-4 grid gap-4 md:grid-cols-2">
               {projects.map((p, idx) => (
@@ -277,11 +277,11 @@ export default function Page() {
                   <HoverFloat>
                     <div className="neon-card p-6 transition hover:-translate-y-1 duration-300 h-full relative group overflow-hidden">
                       {/* Animated gradient background on hover */}
-                      <div className="absolute inset-0 bg-linear-to-br from-cyan-500/20 via-transparent to-purple-500/20 opacity-0 group-hover:opacity-100 transition duration-500 -z-10" />
-                      <div className="absolute top-0 right-0 w-40 h-40 bg-cyan-500/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition duration-500 -z-10" />
+                      <div className="absolute inset-0 bg-linear-to-br from-cyan-500/05 via-transparent to-purple-500/05 opacity-0 group-hover:opacity-70 transition duration-500 -z-10" />
+                      <div className="absolute top-0 right-0 w-40 h-40 bg-cyan-500/08 rounded-full blur-2xl opacity-0 group-hover:opacity-50 transition duration-500 -z-10" />
                       
-                      <h3 className="text-base font-semibold text-zinc-100 relative">{p.title}</h3>
-                      <p className="mt-2 text-sm text-zinc-400 leading-relaxed relative">{p.desc}</p>
+                      <h3 className="text-base font-bold text-zinc-50 relative">{p.title}</h3>
+                      <p className="mt-2 text-sm text-zinc-300/90 leading-relaxed relative font-medium">{p.desc}</p>
 
                       <div className="mt-4 flex flex-wrap gap-2 relative">
                         {p.tech.map((t) => (
@@ -307,22 +307,22 @@ export default function Page() {
         {/* contact */}
         <section id="contact" className="cv-auto scroll-mt-24 py-10 relative">
           {/* Background glow */}
-          <div className="absolute -top-40 -right-40 w-96 h-96 bg-cyan-500/10 rounded-full filter blur-3xl opacity-50" />
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-cyan-500/05 rounded-full filter blur-3xl opacity-25" />
           
           <ScrollReveal direction="left">
-            <h2 className="text-lg font-semibold tracking-tight">Contact</h2>
-            <p className="mt-1 text-sm text-zinc-500">Let's work together or leave a comment below.</p>
+            <h2 className="text-xl font-bold tracking-tight text-zinc-50">Contact</h2>
+            <p className="mt-1 text-sm text-zinc-400">Let's work together or leave a comment below.</p>
 
             <div className="mt-4 neon-card p-6 md:p-8 transition hover:-translate-y-1 duration-300 relative group overflow-hidden">
               {/* Animated border effect */}
-              <div className="absolute inset-0 bg-linear-to-r from-cyan-500/20 via-transparent to-purple-500/20 opacity-0 group-hover:opacity-100 transition duration-500" />
+              <div className="absolute inset-0 bg-linear-to-r from-cyan-500/05 via-transparent to-purple-500/05 opacity-0 group-hover:opacity-70 transition duration-500" />
               
               <div className="grid gap-5 md:grid-cols-3 relative z-10">
                   <ScrollReveal delay={0.1} distance={20}>
                     <div className="group/item">
-                      <p className="text-xs text-zinc-500">Email</p>
+                      <p className="text-xs text-zinc-400 font-semibold">Email</p>
                       <a
-                        className="mt-1 inline-block text-sm text-zinc-200 hover:text-cyan-300 transition break-all relative overflow-hidden"
+                        className="mt-1 inline-block text-sm text-zinc-100 hover:text-cyan-300 transition break-all relative overflow-hidden font-medium"
                         href="mailto:yohan.christazel9@gmail.com"
                       >
                         <span className="relative">yohan.christazel9@gmail.com</span>
@@ -333,9 +333,9 @@ export default function Page() {
 
                   <ScrollReveal delay={0.2} distance={20}>
                     <div className="group/item">
-                      <p className="text-xs text-zinc-500">WhatsApp</p>
+                      <p className="text-xs text-zinc-400 font-semibold">WhatsApp</p>
                       <a
-                        className="mt-1 inline-block text-sm text-zinc-200 hover:text-cyan-300 transition relative overflow-hidden"
+                        className="mt-1 inline-block text-sm text-zinc-100 hover:text-cyan-300 transition relative overflow-hidden font-medium"
                         href="https://wa.me/6282150754301"
                         target="_blank"
                         rel="noreferrer"
@@ -348,9 +348,9 @@ export default function Page() {
 
                   <ScrollReveal delay={0.3} distance={20}>
                     <div className="group/item">
-                      <p className="text-xs text-zinc-500">LinkedIn</p>
+                      <p className="text-xs text-zinc-400 font-semibold">LinkedIn</p>
                       <a
-                        className="mt-1 inline-block text-sm text-zinc-200 hover:text-purple-300 transition break-all relative overflow-hidden"
+                        className="mt-1 inline-block text-sm text-zinc-100 hover:text-purple-300 transition break-all relative overflow-hidden font-medium"
                         href="https://www.linkedin.com/in/yohan-christazel-jeffry"
                         target="_blank"
                         rel="noreferrer"

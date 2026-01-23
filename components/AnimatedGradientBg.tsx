@@ -22,10 +22,10 @@ export default function AnimatedGradientBg() {
       style={{
         background: `conic-gradient(
           from ${gradient},
-          rgba(100, 150, 255, 0.08),
-          rgba(150, 100, 255, 0.08),
-          rgba(100, 200, 255, 0.08),
-          rgba(100, 150, 255, 0.08)
+          rgba(100, 150, 255, 0.01),
+          rgba(150, 100, 255, 0.01),
+          rgba(100, 200, 255, 0.01),
+          rgba(100, 150, 255, 0.01)
         )`,
         transition: "background 50ms linear",
       }}
