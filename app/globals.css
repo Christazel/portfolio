@@ -427,3 +427,17 @@ button:focus-visible {
 .will-transform {
   will-change: transform;
 }
+
+/* Slow spinning animation for gradient background */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}

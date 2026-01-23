@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import Reveal from "@/components/Reveal";
+import Reveal from "@/components/animations/Reveal";
 
 export type Project = {
   title: string;

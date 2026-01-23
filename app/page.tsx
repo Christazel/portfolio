@@ -3,17 +3,17 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 
-import NeonBackground from "../components/NeonBackground";
-import Reveal from "../components/Reveal";
-import LanyardHolderSingle from "../components/LanyardHolderSingle";
-import CommentBox from "../components/CommentBox";
-import ScrollReveal from "../components/ScrollReveal";
-import SplitText from "../components/SplitText";
-import ParallaxSection from "../components/ParallaxSection";
-import HoverFloat from "../components/HoverFloat";
-import GlitchText from "../components/GlitchText";
-import RippleButton from "../components/RippleButton";
-import TextReveal from "../components/TextReveal";
+import NeonBackground from "../components/layout/NeonBackground";
+import Reveal from "../components/animations/Reveal";
+import LanyardHolderSingle from "../components/layout/LanyardHolderSingle";
+import CommentBox from "../components/ui/CommentBox";
+import ScrollReveal from "../components/animations/ScrollReveal";
+import SplitText from "../components/animations/SplitText";
+import ParallaxSection from "../components/animations/ParallaxSection";
+import HoverFloat from "../components/animations/HoverFloat";
+import GlitchText from "../components/animations/GlitchText";
+import RippleButton from "../components/animations/RippleButton";
+import TextReveal from "../components/animations/TextReveal";
 
 import {
   SiGithub,

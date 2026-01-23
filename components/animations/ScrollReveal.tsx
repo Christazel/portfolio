@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, memo, useCallback } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -17,7 +17,7 @@ interface ScrollRevealProps {
   threshold?: number;
 }
 
-export default function ScrollReveal({
+const ScrollReveal = memo<ScrollRevealProps>(({
   children,
   delay = 0,
   duration = 0.8,
@@ -26,10 +26,10 @@ export default function ScrollReveal({
   direction = "up",
   once = true,
   threshold = 0.3,
-}: ScrollRevealProps) {
+}) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  const setupAnimation = useCallback(() => {
     if (!containerRef.current) return;
 
     const element = containerRef.current;
@@ -73,5 +73,11 @@ export default function ScrollReveal({
     };
   }, [delay, duration, distance, ease, direction, once, threshold]);
 
+  useEffect(setupAnimation, [setupAnimation]);
+
   return <div ref={containerRef}>{children}</div>;
-}
+});
+
+ScrollReveal.displayName = "ScrollReveal";
+
+export default ScrollReveal;
