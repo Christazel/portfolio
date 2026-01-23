@@ -253,3 +253,177 @@ html[data-scrolling="1"] .nb-float {
     filter: none !important;
   }
 }
+
+/* ===== ADVANCED ANIMATIONS ===== */
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* Glow pulse animation */
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 0 1px rgba(139, 92, 246, 0.2) inset,
+      0 0 40px rgba(99, 102, 241, 0.15);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px rgba(168, 85, 247, 0.4) inset,
+      0 0 60px rgba(99, 102, 241, 0.25);
+  }
+}
+
+/* Shimmer effect for progress bar */
+@keyframes shimmer {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Title glow effect */
+@keyframes title-glow {
+  0%, 100% {
+    text-shadow:
+      0 0 10px rgba(100, 200, 255, 0.3),
+      0 0 20px rgba(100, 200, 255, 0.15);
+  }
+  50% {
+    text-shadow:
+      0 0 20px rgba(100, 200, 255, 0.6),
+      0 0 40px rgba(100, 200, 255, 0.3),
+      0 0 60px rgba(168, 85, 247, 0.2);
+  }
+}
+
+/* Apply animations to elements */
+.neon-title {
+  animation: title-glow 3s ease-in-out infinite;
+}
+
+.float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Enhanced card hover animations */
+.neon-card {
+  animation: glow-pulse 4s ease-in-out infinite;
+}
+
+/* Text reveal animation */
+.text-reveal {
+  overflow: hidden;
+}
+
+.text-reveal span {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+/* Ripple effect styles */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Enhanced button styles with animations */
+.btn-neon,
+.btn-neon-ghost {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-neon::before,
+.btn-neon-ghost::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* Link underline animation */
+a[href]:not(.btn-neon):not(.btn-neon-ghost) {
+  position: relative;
+}
+
+/* Hover animation for skills section */
+.skills-track {
+  animation: skills-marquee 20s linear infinite;
+  will-change: transform;
+  display: flex;
+  gap: 1rem;
+}
+
+.skills-marquee:hover .skills-track {
+  animation-play-state: paused;
+}
+
+/* Section reveal animations */
+@keyframes section-fade {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+section {
+  animation: section-fade 0.8s ease-out forwards;
+}
+
+/* Scroll indicator pulsing */
+@keyframes pulse-bounce {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Gradient text animation */
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% center;
+  }
+  50% {
+    background-position: 100% center;
+  }
+}
+
+/* Enhanced focus states for accessibility */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid rgba(168, 85, 247, 0.8);
+  outline-offset: 2px;
+  border-radius: 12px;
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+  transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Transform accelerator */
+.will-transform {
+  will-change: transform;
+}

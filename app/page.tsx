@@ -7,6 +7,13 @@ import NeonBackground from "../components/NeonBackground";
 import Reveal from "../components/Reveal";
 import LanyardHolderSingle from "../components/LanyardHolderSingle";
 import CommentBox from "../components/CommentBox";
+import ScrollReveal from "../components/ScrollReveal";
+import SplitText from "../components/SplitText";
+import ParallaxSection from "../components/ParallaxSection";
+import HoverFloat from "../components/HoverFloat";
+import GlitchText from "../components/GlitchText";
+import RippleButton from "../components/RippleButton";
+import TextReveal from "../components/TextReveal";
 
 import {
   SiGithub,
@@ -122,52 +129,71 @@ export default function Page() {
 
       <main className="container-page">
         {/* hero */}
-        <section className="py-14 md:py-20">
-          <Reveal>
-            <div className="neon-card p-6 md:p-10 transition hover:-translate-y-1 duration-300">
-              <div className="flex flex-col gap-10 md:flex-row md:items-center md:justify-between">
+        <section className="py-14 md:py-20 relative">
+          <div className="absolute inset-0 -z-10 overflow-hidden">
+            <div className="absolute top-20 left-1/4 w-72 h-72 bg-cyan-500/20 rounded-full filter blur-3xl opacity-30 animate-pulse" />
+            <div className="absolute bottom-20 right-1/4 w-72 h-72 bg-purple-500/20 rounded-full filter blur-3xl opacity-30 animate-pulse" style={{ animationDelay: "1s" }} />
+          </div>
+
+          <ScrollReveal duration={1.2} delay={0.2}>
+            <div className="neon-card p-6 md:p-10 transition hover:-translate-y-1 duration-300 relative overflow-hidden group">
+              {/* Animated background glow */}
+              <div className="absolute inset-0 bg-linear-to-br from-cyan-500/10 via-transparent to-purple-500/10 opacity-0 group-hover:opacity-100 transition duration-500" />
+              
+              <div className="flex flex-col gap-10 md:flex-row md:items-center md:justify-between relative z-10">
                 <div className="max-w-2xl">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <Pill strong>Available</Pill>
-                    <Pill>Freelance / Internship</Pill>
-                    <Pill>Cyber / Neon UI</Pill>
+                  <ScrollReveal delay={0.3} direction="right" distance={30}>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <Pill strong>Available</Pill>
+                      <Pill>Freelance / Internship</Pill>
+                      <Pill>Cyber / Neon UI</Pill>
+                    </div>
+                  </ScrollReveal>
+
+                  <div className="mt-5">
+                    <GlitchText className="text-3xl font-semibold tracking-tight md:text-6xl neon-title">
+                      Yohan Christazel Jeffry
+                    </GlitchText>
                   </div>
 
-                  <h1 className="mt-5 text-3xl font-semibold tracking-tight md:text-6xl">
-                    <span className="neon-title animate-shimmer">Yohan Christazel Jeffry</span>
-                  </h1>
+                  <ScrollReveal delay={0.4} distance={30}>
+                    <p className="mt-4 text-base text-zinc-300/90 md:text-lg leading-relaxed">
+                      Fullstack developer building fast, modern products. Next.js + Tailwind for web, Express/MongoDB
+                      for backend, and Flutter for mobile.
+                    </p>
+                  </ScrollReveal>
 
-                  <p className="mt-4 text-base text-zinc-300/90 md:text-lg leading-relaxed">
-                    Fullstack developer building fast, modern products. Next.js + Tailwind for web, Express/MongoDB
-                    for backend, and Flutter for mobile.
-                  </p>
-
-                  <div className="mt-7 flex flex-wrap gap-3">
-                    <a className="btn-neon" href="#projects">
-                      View Projects
-                    </a>
-                    <a className="btn-neon-ghost" href="/cv.pdf" target="_blank" rel="noreferrer">
-                      Download CV
-                    </a>
-                  </div>
+                  <ScrollReveal delay={0.5} direction="up" distance={20}>
+                    <div className="mt-7 flex flex-wrap gap-3">
+                      <RippleButton className="btn-neon" href="#projects">
+                        View Projects
+                      </RippleButton>
+                      <RippleButton className="btn-neon-ghost" href="/cv.pdf" target="_blank" rel="noreferrer">
+                        Download CV
+                      </RippleButton>
+                    </div>
+                  </ScrollReveal>
                 </div>
 
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.98 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.45 }}
-                  className="shrink-0"
-                >
-                  <LanyardHolderSingle imageSrc="/asset/profile.jpeg" alt="Yohan profile" />
-                </motion.div>
+                <HoverFloat className="shrink-0">
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.98 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.45 }}
+                    className="relative group"
+                  >
+                    <div className="absolute inset-0 bg-linear-to-r from-cyan-500/50 to-purple-500/50 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition duration-500" />
+                    <LanyardHolderSingle imageSrc="/asset/profile.jpeg" alt="Yohan profile" />
+                  </motion.div>
+                </HoverFloat>
               </div>
             </div>
-          </Reveal>
+          </ScrollReveal>
         </section>
 
         {/* about */}
         <section id="about" className="cv-auto scroll-mt-24 py-10">
-          <Reveal>
+          <ScrollReveal direction="left">
             <div className="flex items-end justify-between gap-3">
               <div>
                 <h2 className="text-lg font-semibold tracking-tight">About</h2>
@@ -209,108 +235,131 @@ export default function Page() {
                 <Pill>Coding Camp 2025 (DBS Foundation)</Pill>
               </div>
             </div>
-          </Reveal>
+          </ScrollReveal>
         </section>
 
         {/* skills */}
         <section id="skills" className="cv-auto scroll-mt-24 py-10">
-          <Reveal>
-            <h2 className="text-lg font-semibold tracking-tight">Skills</h2>
-            <p className="mt-1 text-sm text-zinc-500">Core stack.</p>
+          <ParallaxSection speed={0.3}>
+            <ScrollReveal direction="right">
+              <h2 className="text-lg font-semibold tracking-tight">Skills</h2>
+              <p className="mt-1 text-sm text-zinc-500">Core stack.</p>
 
-            <div className="mt-4 neon-card p-5 md:p-7 overflow-hidden">
-              <div className="skills-marquee">
-                <div className="skills-track">
-                  {skillsLoop.map(({ label, Icon }, idx) => (
-                    <Pill key={`${label}-${idx}`}>
-                      <span className="inline-flex items-center gap-2">
-                        <Icon className="h-4 w-4 opacity-90" />
-                        <span className="leading-none">{label}</span>
-                      </span>
-                    </Pill>
-                  ))}
+              <div className="mt-4 neon-card p-5 md:p-7 overflow-hidden">
+                <div className="skills-marquee">
+                  <div className="skills-track">
+                    {skillsLoop.map(({ label, Icon }, idx) => (
+                      <Pill key={`${label}-${idx}`}>
+                        <span className="inline-flex items-center gap-2">
+                          <Icon className="h-4 w-4 opacity-90" />
+                          <span className="leading-none">{label}</span>
+                        </span>
+                      </Pill>
+                    ))}
+                  </div>
                 </div>
-              </div>
 
-              <p className="mt-4 text-xs text-zinc-500">Hover untuk pause.</p>
-            </div>
-          </Reveal>
+                <p className="mt-4 text-xs text-zinc-500">Hover untuk pause.</p>
+              </div>
+            </ScrollReveal>
+          </ParallaxSection>
         </section>
 
         {/* projects */}
         <section id="projects" className="cv-auto scroll-mt-24 py-10">
-          <Reveal>
+          <ScrollReveal direction="left">
             <h2 className="text-lg font-semibold tracking-tight">Projects</h2>
             <p className="mt-1 text-sm text-zinc-500">Selected work.</p>
 
             <div className="mt-4 grid gap-4 md:grid-cols-2">
               {projects.map((p, idx) => (
-                <Reveal key={p.title} delay={idx * 0.06}>
-                  <div className="neon-card p-6 transition hover:-translate-y-1 duration-300">
-                    <h3 className="text-base font-semibold text-zinc-100">{p.title}</h3>
-                    <p className="mt-2 text-sm text-zinc-400 leading-relaxed">{p.desc}</p>
+                <ScrollReveal key={p.title} delay={idx * 0.1} distance={40}>
+                  <HoverFloat>
+                    <div className="neon-card p-6 transition hover:-translate-y-1 duration-300 h-full relative group overflow-hidden">
+                      {/* Animated gradient background on hover */}
+                      <div className="absolute inset-0 bg-linear-to-br from-cyan-500/20 via-transparent to-purple-500/20 opacity-0 group-hover:opacity-100 transition duration-500 -z-10" />
+                      <div className="absolute top-0 right-0 w-40 h-40 bg-cyan-500/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition duration-500 -z-10" />
+                      
+                      <h3 className="text-base font-semibold text-zinc-100 relative">{p.title}</h3>
+                      <p className="mt-2 text-sm text-zinc-400 leading-relaxed relative">{p.desc}</p>
 
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {p.tech.map((t) => (
-                        <Pill key={t}>{t}</Pill>
-                      ))}
-                    </div>
+                      <div className="mt-4 flex flex-wrap gap-2 relative">
+                        {p.tech.map((t) => (
+                          <Pill key={t}>{t}</Pill>
+                        ))}
+                      </div>
 
-                    <div className="mt-5 flex gap-3">
-                      {p.links.map((l) => (
-                        <a key={l.label} className="btn-neon-ghost" href={l.href}>
-                          {l.label}
-                        </a>
-                      ))}
+                      <div className="mt-5 flex gap-3 relative">
+                        {p.links.map((l) => (
+                          <RippleButton key={l.label} className="btn-neon-ghost" href={l.href}>
+                            {l.label}
+                          </RippleButton>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                </Reveal>
+                  </HoverFloat>
+                </ScrollReveal>
               ))}
             </div>
-          </Reveal>
+          </ScrollReveal>
         </section>
 
         {/* contact */}
-        <section id="contact" className="cv-auto scroll-mt-24 py-10">
-          <Reveal>
+        <section id="contact" className="cv-auto scroll-mt-24 py-10 relative">
+          {/* Background glow */}
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-cyan-500/10 rounded-full filter blur-3xl opacity-50" />
+          
+          <ScrollReveal direction="left">
             <h2 className="text-lg font-semibold tracking-tight">Contact</h2>
-            <p className="mt-1 text-sm text-zinc-500">Let’s work together or leave a comment below.</p>
+            <p className="mt-1 text-sm text-zinc-500">Let's work together or leave a comment below.</p>
 
-            <div className="mt-4 neon-card p-6 md:p-8 transition hover:-translate-y-1 duration-300">
-              <div className="grid gap-5 md:grid-cols-3">
-                  <div>
-                    <p className="text-xs text-zinc-500">Email</p>
-                    <a
-                      className="mt-1 inline-block text-sm text-zinc-200 hover:text-cyan-300 transition break-all"
-                      href="mailto:yohan.christazel9@gmail.com"
-                    >
-                      yohan.christazel9@gmail.com
-                    </a>
-                  </div>
+            <div className="mt-4 neon-card p-6 md:p-8 transition hover:-translate-y-1 duration-300 relative group overflow-hidden">
+              {/* Animated border effect */}
+              <div className="absolute inset-0 bg-linear-to-r from-cyan-500/20 via-transparent to-purple-500/20 opacity-0 group-hover:opacity-100 transition duration-500" />
+              
+              <div className="grid gap-5 md:grid-cols-3 relative z-10">
+                  <ScrollReveal delay={0.1} distance={20}>
+                    <div className="group/item">
+                      <p className="text-xs text-zinc-500">Email</p>
+                      <a
+                        className="mt-1 inline-block text-sm text-zinc-200 hover:text-cyan-300 transition break-all relative overflow-hidden"
+                        href="mailto:yohan.christazel9@gmail.com"
+                      >
+                        <span className="relative">yohan.christazel9@gmail.com</span>
+                        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-linear-to-r from-cyan-400 to-cyan-300 group-hover/item:w-full transition-all duration-300" />
+                      </a>
+                    </div>
+                  </ScrollReveal>
 
-                  <div>
-                    <p className="text-xs text-zinc-500">WhatsApp</p>
-                    <a
-                      className="mt-1 inline-block text-sm text-zinc-200 hover:text-cyan-300 transition"
-                      href="https://wa.me/6282150754301"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      +62 821-5075-4301
-                    </a>
-                  </div>
+                  <ScrollReveal delay={0.2} distance={20}>
+                    <div className="group/item">
+                      <p className="text-xs text-zinc-500">WhatsApp</p>
+                      <a
+                        className="mt-1 inline-block text-sm text-zinc-200 hover:text-cyan-300 transition relative overflow-hidden"
+                        href="https://wa.me/6282150754301"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <span className="relative">+62 821-5075-4301</span>
+                        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-linear-to-r from-cyan-400 to-cyan-300 group-hover/item:w-full transition-all duration-300" />
+                      </a>
+                    </div>
+                  </ScrollReveal>
 
-                  <div>
-                    <p className="text-xs text-zinc-500">LinkedIn</p>
-                    <a
-                      className="mt-1 inline-block text-sm text-zinc-200 hover:text-purple-300 transition break-all"
-                      href="https://www.linkedin.com/in/yohan-christazel-jeffry"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      linkedin.com/in/yohan-christazel-jeffry
-                    </a>
-                  </div>
+                  <ScrollReveal delay={0.3} distance={20}>
+                    <div className="group/item">
+                      <p className="text-xs text-zinc-500">LinkedIn</p>
+                      <a
+                        className="mt-1 inline-block text-sm text-zinc-200 hover:text-purple-300 transition break-all relative overflow-hidden"
+                        href="https://www.linkedin.com/in/yohan-christazel-jeffry"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <span className="relative">linkedin.com/in/yohan-christazel-jeffry</span>
+                        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-linear-to-r from-purple-400 to-purple-300 group-hover/item:w-full transition-all duration-300" />
+                      </a>
+                    </div>
+                  </ScrollReveal>
               </div>
             </div>
 
@@ -319,7 +368,7 @@ export default function Page() {
             </div>
 
             <p className="mt-3 text-xs text-zinc-500">Komentar akan tersimpan otomatis di database (Supabase).</p>
-          </Reveal>
+          </ScrollReveal>
         </section>
 
         <div className="h-12" />

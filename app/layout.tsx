@@ -1,5 +1,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import FloatingParticles from "@/components/FloatingParticles";
+import AnimatedGradientBg from "@/components/AnimatedGradientBg";
+import ScrollProgress from "@/components/ScrollProgress";
 
 export const metadata: Metadata = {
   title: "Portfolio",
@@ -10,6 +13,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="id">
       <body>
+        <AnimatedGradientBg />
+        <FloatingParticles />
+        <ScrollProgress />
         <div className="min-h-screen">
           {children}
           <footer className="border-t border-zinc-900/80 py-10">
