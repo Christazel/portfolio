@@ -20,10 +20,11 @@ export default function RippleButton({
   rel,
   onClick,
 }: RippleButtonProps) {
-  const buttonRef = useRef<HTMLButtonElement | HTMLAnchorElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const linkRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
-    const button = buttonRef.current;
+    const button = buttonRef.current || linkRef.current;
     if (!button) return;
 
     const onMouseDown = (e: Event) => {
@@ -65,7 +66,7 @@ export default function RippleButton({
   if (href) {
     return (
       <a
-        ref={buttonRef as any}
+        ref={linkRef}
         href={href}
         target={target}
         rel={rel}
@@ -78,7 +79,7 @@ export default function RippleButton({
 
   return (
     <button
-      ref={buttonRef as any}
+      ref={buttonRef}
       className={baseClass}
       onClick={onClick}
     >

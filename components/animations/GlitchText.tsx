@@ -15,11 +15,7 @@ export default function GlitchText({ children, className = "" }: GlitchTextProps
     const container = containerRef.current;
     if (!container) return;
 
-    const onMouseMove = (e: MouseEvent) => {
-      const rect = container.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-
+    const onMouseMove = () => {
       // Random glitch on hover
       if (Math.random() > 0.8) {
         const glitchX = (Math.random() - 0.5) * 10;

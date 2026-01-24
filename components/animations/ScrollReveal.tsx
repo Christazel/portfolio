@@ -35,7 +35,7 @@ const ScrollReveal = memo<ScrollRevealProps>(({
     const element = containerRef.current;
 
     // Set initial state
-    const initialState: Record<string, any> = {
+    const initialState: Record<string, number> = {
       opacity: 0,
     };
 

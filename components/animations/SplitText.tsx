@@ -35,13 +35,13 @@ export default function SplitText({
     container.innerHTML = "";
 
     // Create word spans
-    words.forEach((word, i) => {
+    words.forEach((word) => {
       const wordSpan = document.createElement("span");
       wordSpan.className = "inline-block mr-1.5";
       wordSpan.style.opacity = "0";
 
       // Split word into characters
-      const chars = word.split("").map((char, j) => {
+      const chars = word.split("").map((char) => {
         const charSpan = document.createElement("span");
         charSpan.textContent = char;
         charSpan.className = "inline-block";
@@ -102,7 +102,7 @@ export default function SplitText({
     <div
       ref={containerRef}
       className={`${className}`}
-      style={{ textAlign: textAlign as any }}
+      style={{ textAlign: textAlign as React.CSSProperties['textAlign'] }}
     />
   );
 }

@@ -4,16 +4,13 @@ import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 
 import NeonBackground from "../components/layout/NeonBackground";
-import Reveal from "../components/animations/Reveal";
 import LanyardHolderSingle from "../components/layout/LanyardHolderSingle";
 import CommentBox from "../components/ui/CommentBox";
 import ScrollReveal from "../components/animations/ScrollReveal";
-import SplitText from "../components/animations/SplitText";
 import ParallaxSection from "../components/animations/ParallaxSection";
 import HoverFloat from "../components/animations/HoverFloat";
 import GlitchText from "../components/animations/GlitchText";
 import RippleButton from "../components/animations/RippleButton";
-import TextReveal from "../components/animations/TextReveal";
 
 import {
   SiGithub,
@@ -313,7 +310,7 @@ export default function Page() {
           
           <ScrollReveal direction="left">
             <h2 className="text-xl font-bold tracking-tight text-zinc-50">Contact</h2>
-            <p className="mt-1 text-sm text-zinc-400">Let's work together or leave a comment below.</p>
+            <p className="mt-1 text-sm text-zinc-400">Let&apos;s work together or leave a comment below.</p>
 
             <div className="mt-4 neon-card p-6 md:p-8 transition hover:-translate-y-1 duration-300 relative group overflow-hidden">
               {/* Animated border effect */}

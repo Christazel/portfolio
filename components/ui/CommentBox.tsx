@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 type CommentItem = {
   id: string;
@@ -52,26 +52,27 @@ export default function CommentBox() {
     toastTimer.current = window.setTimeout(() => setToast(null), 2800);
   };
 
-  const loadComments = async () => {
+  const loadComments = useCallback(async () => {
     setLoadingList(true);
     try {
       const res = await fetch("/api/comments", { cache: "no-store" });
       const json = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(json?.message || "Gagal memuat komentar.");
       setItems(json.data || []);
-    } catch (e: any) {
-      showToast("error", e?.message || "Gagal memuat komentar.");
+    } catch (e: unknown) {
+      const error = e instanceof Error ? e.message : "Gagal memuat komentar.";
+      showToast("error", error);
     } finally {
       setLoadingList(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     loadComments();
     return () => {
       if (toastTimer.current) window.clearTimeout(toastTimer.current);
     };
-  }, []);
+  }, [loadComments]);
 
   const submit = async () => {
     const n = name.trim();
@@ -97,8 +98,9 @@ export default function CommentBox() {
       setItems((prev) => [json.data, ...prev].slice(0, 30));
       setMessage("");
       showToast("success", "Komentar berhasil dikirim!");
-    } catch (e: any) {
-      showToast("error", e?.message || "Gagal mengirim komentar.");
+    } catch (e: unknown) {
+      const error = e instanceof Error ? e.message : "Gagal mengirim komentar.";
+      showToast("error", error);
     } finally {
       setSending(false);
     }
