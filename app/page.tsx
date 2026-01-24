@@ -25,6 +25,7 @@ import {
   SiMongodb,
   SiFlutter,
   SiSwagger,
+  SiFramer,
 } from "react-icons/si";
 
 type SkillItem = {
@@ -42,6 +43,7 @@ const skills: SkillItem[] = [
   { label: "Flutter", Icon: SiFlutter },
   { label: "Swagger", Icon: SiSwagger },
   { label: "GitHub", Icon: SiGithub },
+  { label: "Framer Motion", Icon: SiFramer },
 ];
 
 type ProjectItem = {
