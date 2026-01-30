@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, memo } from "react";
 import gsap from "gsap";
 
 interface RippleButtonProps {
@@ -12,7 +12,7 @@ interface RippleButtonProps {
   onClick?: () => void;
 }
 
-export default function RippleButton({
+export default memo(function RippleButton({
   children,
   className = "",
   href,
@@ -22,6 +22,7 @@ export default function RippleButton({
 }: RippleButtonProps) {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const linkRef = useRef<HTMLAnchorElement>(null);
+  const ripplesRef = useRef<Set<HTMLDivElement>>(new Set());
 
   useEffect(() => {
     const button = buttonRef.current || linkRef.current;
@@ -43,6 +44,7 @@ export default function RippleButton({
       ripple.style.opacity = "0.5";
 
       button.appendChild(ripple);
+      ripplesRef.current.add(ripple);
 
       // Animate ripple
       gsap.to(ripple, {
@@ -53,12 +55,22 @@ export default function RippleButton({
         opacity: 0,
         duration: 0.6,
         ease: "power2.out",
-        onComplete: () => ripple.remove(),
+        onComplete: () => {
+          ripple.remove();
+          ripplesRef.current.delete(ripple);
+        },
       });
     };
 
     button.addEventListener("mousedown", onMouseDown);
-    return () => button.removeEventListener("mousedown", onMouseDown);
+    return () => {
+      button.removeEventListener("mousedown", onMouseDown);
+      // Cleanup all remaining ripples
+      ripplesRef.current.forEach(ripple => {
+        ripple.remove();
+      });
+      ripplesRef.current.clear();
+    };
   }, []);
 
   const baseClass = `relative overflow-hidden ${className}`;
@@ -86,4 +98,4 @@ export default function RippleButton({
       {children}
     </button>
   );
-}
+});

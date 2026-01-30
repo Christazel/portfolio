@@ -1,24 +1,43 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, memo } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function ScrollProgress() {
+export default memo(function ScrollProgress() {
   const [progress, setProgress] = useState(0);
+  const rafRef = useRef<number | undefined>(undefined);
+  const lastProgressRef = useRef<number>(0);
 
   useEffect(() => {
     const updateProgress = () => {
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       const scrolled = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-      setProgress(scrolled);
+      
+      // Only update if progress changed by at least 0.5%
+      if (Math.abs(scrolled - lastProgressRef.current) > 0.5) {
+        lastProgressRef.current = scrolled;
+        setProgress(scrolled);
+      }
     };
 
-    window.addEventListener("scroll", updateProgress, { passive: true });
-    return () => window.removeEventListener("scroll", updateProgress);
+    const handleScroll = () => {
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
+      rafRef.current = requestAnimationFrame(updateProgress);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
+    };
   }, []);
 
   return (
@@ -50,4 +69,4 @@ export default function ScrollProgress() {
       `}</style>
     </>
   );
-}
+});

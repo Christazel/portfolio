@@ -34,7 +34,7 @@ const FloatingParticles = memo(() => {
     window.addEventListener("resize", resizeCanvas);
 
     // Initialize particles - reduced count for better performance
-    const particleCount = 25; // Reduced from 50
+    const particleCount = 15; // Further reduced from 25 for even better perf
     particlesRef.current = Array.from({ length: particleCount }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
@@ -45,12 +45,18 @@ const FloatingParticles = memo(() => {
     }));
 
     const animate = (currentTime: number) => {
-      // Throttle to ~30fps for better performance
+      // Throttle to ~30fps for better performance (33ms = ~30fps)
       if (currentTime - lastTimeRef.current < 33) {
         animationRef.current = requestAnimationFrame(animate);
         return;
       }
       lastTimeRef.current = currentTime;
+
+      // Early exit if canvas is not visible
+      if (!canvas.offsetHeight) {
+        animationRef.current = requestAnimationFrame(animate);
+        return;
+      }
 
       ctx.fillStyle = "rgba(10, 10, 20, 0.05)"; // More transparent trail
       ctx.fillRect(0, 0, canvas.width, canvas.height);

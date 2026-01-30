@@ -15,7 +15,7 @@ export default function SmoothScroll({ children, speed = 1 }: SmoothScrollProps)
   useEffect(() => {
     // Create smooth scroll only once
     const smoother = ScrollSmoother.create({
-      smooth: 1.5 * speed,
+      smooth: 1.2 * speed, // Reduced from 1.5 for better performance
       effects: true,
       smoothTouch: 0.1,
       normalizeScroll: true,

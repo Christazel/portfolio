@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, memo, useCallback } from "react";
 import gsap from "gsap";
 
 interface GlitchTextProps {
@@ -8,41 +8,57 @@ interface GlitchTextProps {
   className?: string;
 }
 
-export default function GlitchText({ children, className = "" }: GlitchTextProps) {
+export default memo(function GlitchText({ children, className = "" }: GlitchTextProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const glitchTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
+
+  const triggerGlitch = useCallback(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    if (Math.random() > 0.8) {
+      const glitchX = (Math.random() - 0.5) * 10;
+      const glitchY = (Math.random() - 0.5) * 10;
+
+      gsap.to(container, {
+        x: glitchX,
+        y: glitchY,
+        duration: 0.05,
+        overwrite: "auto",
+        onComplete: () => {
+          gsap.to(container, {
+            x: 0,
+            y: 0,
+            duration: 0.1,
+          });
+        },
+      });
+    }
+  }, []);
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
     const onMouseMove = () => {
-      // Random glitch on hover
-      if (Math.random() > 0.8) {
-        const glitchX = (Math.random() - 0.5) * 10;
-        const glitchY = (Math.random() - 0.5) * 10;
-
-        gsap.to(container, {
-          x: glitchX,
-          y: glitchY,
-          duration: 0.05,
-          overwrite: "auto",
-          onComplete: () => {
-            gsap.to(container, {
-              x: 0,
-              y: 0,
-              duration: 0.1,
-            });
-          },
-        });
+      // Debounce glitch trigger - only fire every 50ms max
+      if (glitchTimeoutRef.current) {
+        clearTimeout(glitchTimeoutRef.current);
       }
+      glitchTimeoutRef.current = setTimeout(() => {
+        triggerGlitch();
+      }, 50);
     };
 
     container.addEventListener("mousemove", onMouseMove);
 
     return () => {
       container.removeEventListener("mousemove", onMouseMove);
+      if (glitchTimeoutRef.current) {
+        clearTimeout(glitchTimeoutRef.current);
+      }
     };
-  }, []);
+  }, [triggerGlitch]);
 
   return (
     <div
@@ -55,4 +71,4 @@ export default function GlitchText({ children, className = "" }: GlitchTextProps
       {children}
     </div>
   );
-}
+});

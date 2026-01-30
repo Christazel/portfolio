@@ -1,9 +1,9 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, memo } from "react";
 import { motion, useInView } from "framer-motion";
 
-export default function Reveal({
+export default memo(function Reveal({
   children,
   delay = 0,
 }: {
@@ -11,7 +11,7 @@ export default function Reveal({
   delay?: number;
 }) {
   const ref = useRef<HTMLDivElement | null>(null);
-  const inView = useInView(ref, { once: true, amount: 0.25 });
+  const inView = useInView(ref, { once: true, amount: 0.15 }); // Reduced from 0.25
 
   return (
     <motion.div
@@ -23,4 +23,4 @@ export default function Reveal({
       {children}
     </motion.div>
   );
-}
+});

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, memo } from "react";
 
 type Particle = {
   left: string;      // "%", sudah dibulatkan
@@ -20,7 +20,7 @@ function prand(seed: number) {
 const toFixedStr = (n: number, digits: number) => Number(n).toFixed(digits);
 const pct = (n: number, digits = 4) => `${toFixedStr(n * 100, digits)}%`;
 
-export default function NeonBackground() {
+export default memo(function NeonBackground() {
   const [reduce, setReduce] = useState(false);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export default function NeonBackground() {
   }, []);
 
   const particles = useMemo<Particle[]>(() => {
-    return Array.from({ length: 18 }).map((_, i) => {
+    return Array.from({ length: 12 }).map((_, i) => { // Reduced from 18 to 12
       const a = prand(i + 1);
       const b = prand(i + 33);
       const c = prand(i + 77);
@@ -196,4 +196,4 @@ export default function NeonBackground() {
       `}</style>
     </div>
   );
-}
+});

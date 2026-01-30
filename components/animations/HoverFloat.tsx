@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, memo } from "react";
 import gsap from "gsap";
 
 interface HoverFloatProps {
@@ -9,7 +9,7 @@ interface HoverFloatProps {
   className?: string;
 }
 
-export default function HoverFloat({
+export default memo(function HoverFloat({
   children,
   strength = 20,
   className = "",
@@ -63,4 +63,4 @@ export default function HoverFloat({
       {children}
     </div>
   );
-}
+});

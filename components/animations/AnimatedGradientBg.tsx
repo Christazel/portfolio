@@ -1,6 +1,8 @@
 "use client";
 
-export default function AnimatedGradientBg() {
+import { memo } from "react";
+
+export default memo(function AnimatedGradientBg() {
   return (
     <div
       className="fixed inset-0 pointer-events-none -z-10 animate-spin-slow"
@@ -15,4 +17,4 @@ export default function AnimatedGradientBg() {
       }}
     />
   );
-}
+});

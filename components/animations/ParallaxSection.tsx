@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, memo } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -12,7 +12,7 @@ interface ParallaxSectionProps {
   className?: string;
 }
 
-export default function ParallaxSection({
+export default memo(function ParallaxSection({
   children,
   speed = 0.5,
   className = "",
@@ -52,4 +52,4 @@ export default function ParallaxSection({
       <div ref={contentRef}>{children}</div>
     </div>
   );
-}
+});
