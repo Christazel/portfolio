@@ -43,7 +43,7 @@ export default memo(function ScrollProgress() {
   return (
     <>
       {/* Animated progress bar */}
-      <div className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-cyan-500 bg-[length:200%] z-50 pointer-events-none" style={{
+      <div className="fixed top-0 left-0 right-0 h-1 bg-linear-to-r from-cyan-500 via-purple-500 to-cyan-500 bg-size-[200%] z-50 pointer-events-none" style={{
         width: `${progress}%`,
         animation: "shimmer 2s infinite",
         boxShadow: "0 0 20px rgba(100, 200, 255, 0.8)",
