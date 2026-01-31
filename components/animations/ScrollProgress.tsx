@@ -1,10 +1,6 @@
 "use client";
 
 import { useEffect, useState, useRef, memo } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default memo(function ScrollProgress() {
   const [progress, setProgress] = useState(0);

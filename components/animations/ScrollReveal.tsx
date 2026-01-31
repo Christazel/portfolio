@@ -1,10 +1,6 @@
 "use client";
 
 import { useEffect, useRef, memo, useCallback } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 interface ScrollRevealProps {
   children: React.ReactNode;
@@ -33,42 +29,59 @@ const ScrollReveal = memo<ScrollRevealProps>(({
     if (!containerRef.current) return;
 
     const element = containerRef.current;
+    let mounted = true;
 
-    // Set initial state
-    const initialState: Record<string, number> = {
-      opacity: 0,
-    };
+    (async () => {
+      try {
+        const [{ default: gsap }, { ScrollTrigger }] = await Promise.all([
+          import("gsap"),
+          import("gsap/ScrollTrigger"),
+        ]);
+        if (!mounted) return;
+        gsap.registerPlugin(ScrollTrigger);
 
-    if (direction === "up") initialState.y = distance;
-    if (direction === "down") initialState.y = -distance;
-    if (direction === "left") initialState.x = distance;
-    if (direction === "right") initialState.x = -distance;
+        // Set initial state
+        const initialState: Record<string, number> = { opacity: 0 };
+        if (direction === "up") initialState.y = distance;
+        if (direction === "down") initialState.y = -distance;
+        if (direction === "left") initialState.x = distance;
+        if (direction === "right") initialState.x = -distance;
 
-    gsap.set(element, initialState);
+        gsap.set(element, initialState);
 
-    // Create scroll animation
-    gsap.to(element, {
-      scrollTrigger: {
-        trigger: element,
-        start: `top ${85 - threshold * 100}%`,
-        once,
-        markers: false,
-      },
-      opacity: 1,
-      y: direction === "up" || direction === "down" ? 0 : undefined,
-      x: direction === "left" || direction === "right" ? 0 : undefined,
-      duration,
-      delay,
-      ease,
-    });
+        // Create scroll animation
+        gsap.to(element, {
+          scrollTrigger: {
+            trigger: element,
+            start: `top ${85 - threshold * 100}%`,
+            once,
+            markers: false,
+          },
+          opacity: 1,
+          y: direction === "up" || direction === "down" ? 0 : undefined,
+          x: direction === "left" || direction === "right" ? 0 : undefined,
+          duration,
+          delay,
+          ease,
+        });
+      } catch (e) {
+        // silence failures
+      }
+    })();
 
     return () => {
+      mounted = false;
       if (containerRef.current) {
-        ScrollTrigger.getAll().forEach((trigger) => {
-          if (trigger.trigger === containerRef.current) {
-            trigger.kill();
+        try {
+          const st = (globalThis as any).ScrollTrigger;
+          if (st && st.getAll) {
+            st.getAll().forEach((trigger: any) => {
+              if (trigger.trigger === containerRef.current) trigger.kill();
+            });
           }
-        });
+        } catch (e) {
+          /* noop */
+        }
       }
     };
   }, [delay, duration, distance, ease, direction, once, threshold]);

@@ -25,25 +25,45 @@ export default memo(function ParallaxSection({
 
     const container = containerRef.current;
     const content = contentRef.current;
+    let mounted = true;
 
-    gsap.to(content, {
-      scrollTrigger: {
-        trigger: container,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: false,
-        markers: false,
-      },
-      y: -100 * speed,
-      ease: "none",
-    });
+    (async () => {
+      try {
+        const [{ default: gsap }, { ScrollTrigger }] = await Promise.all([
+          import("gsap"),
+          import("gsap/ScrollTrigger"),
+        ]);
+        if (!mounted) return;
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.to(content, {
+          scrollTrigger: {
+            trigger: container,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: false,
+            markers: false,
+          },
+          y: -100 * speed,
+          ease: "none",
+        });
+      } catch (e) {
+        /* fail silently */
+      }
+    })();
 
     return () => {
-      ScrollTrigger.getAll().forEach((trigger) => {
-        if (trigger.trigger === container) {
-          trigger.kill();
+      mounted = false;
+      try {
+        const st = (globalThis as any).ScrollTrigger;
+        if (st && st.getAll) {
+          st.getAll().forEach((trigger: any) => {
+            if (trigger.trigger === container) trigger.kill();
+          });
         }
-      });
+      } catch (e) {
+        /* noop */
+      }
     };
   }, [speed]);
 

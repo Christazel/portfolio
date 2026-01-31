@@ -1,10 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import gsap from "gsap";
-import { ScrollSmoother } from "gsap/ScrollSmoother";
 
-gsap.registerPlugin(ScrollSmoother);
 
 interface SmoothScrollProps {
   children: React.ReactNode;
@@ -13,16 +10,37 @@ interface SmoothScrollProps {
 
 export default function SmoothScroll({ children, speed = 1 }: SmoothScrollProps) {
   useEffect(() => {
-    // Create smooth scroll only once
-    const smoother = ScrollSmoother.create({
-      smooth: 1.2 * speed, // Reduced from 1.5 for better performance
-      effects: true,
-      smoothTouch: 0.1,
-      normalizeScroll: true,
-    });
+    let mounted = true;
+    let smoother: any = null;
+
+    (async () => {
+      try {
+        const [{ default: gsap }, { ScrollSmoother }] = await Promise.all([
+          import("gsap"),
+          import("gsap/ScrollSmoother"),
+        ]);
+        if (!mounted) return;
+        gsap.registerPlugin(ScrollSmoother);
+
+        // Create smooth scroll only once
+        smoother = ScrollSmoother.create({
+          smooth: 1.2 * speed, // Reduced from 1.5 for better performance
+          effects: true,
+          smoothTouch: 0.1,
+          normalizeScroll: true,
+        });
+      } catch (e) {
+        /* noop */
+      }
+    })();
 
     return () => {
-      smoother?.kill();
+      mounted = false;
+      try {
+        smoother?.kill();
+      } catch (e) {
+        /* noop */
+      }
     };
   }, [speed]);
 
