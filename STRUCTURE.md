@@ -193,8 +193,9 @@ style={{ display: 'flex', justifyContent: 'space-between' }}
 // ❌ CSS modules
 import styles from './Button.module.css'
 
-// ❌ Arbitrary values (overuse)
-className="w-[342px] h-[245px]"  // Use standard sizes
+// ❌ ANTI-PATTERN: Arbitrary values (use standard sizes instead)
+// BAD:  className="w-[342 px] h-[245 px]"
+// GOOD: className="w-96 h-64" or use standard breakpoints
 ```
 
 ### Global CSS (globals.css)
