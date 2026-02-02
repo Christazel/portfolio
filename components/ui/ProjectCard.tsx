@@ -13,7 +13,7 @@ export type Project = {
 
 export default function ProjectCard({ project, index }: { project: Project; index: number }) {
   const [hovered, setHovered] = useState(false);
-  const rafRef = useRef<number>();
+  const rafRef = useRef<number | null>(null);
   const lastTimeRef = useRef<number>(0);
 
   const onMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {

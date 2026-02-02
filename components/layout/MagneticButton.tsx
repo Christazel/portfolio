@@ -12,7 +12,7 @@ type Props = {
 export default function MagneticButton({ children, href, className = "" }: Props) {
   const ref = useRef<HTMLAnchorElement | null>(null);
   const [pos, setPos] = useState({ x: 0, y: 0 });
-  const rafRef = useRef<number>();
+  const rafRef = useRef<number | null>(null);
   const lastTimeRef = useRef<number>(0);
 
   const onMove = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {

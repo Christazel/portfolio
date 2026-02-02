@@ -15,7 +15,7 @@ export default memo(function HoverFloat({
   className = "",
 }: HoverFloatProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const rafRef = useRef<number>();
+  const rafRef = useRef<number | null>(null);
   const lastTimeRef = useRef<number>(0);
 
   useEffect(() => {

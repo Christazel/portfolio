@@ -71,7 +71,7 @@ export function useIntersectionObserver(
   element: HTMLElement | null,
   callback: (isVisible: boolean) => void,
   options: IntersectionObserverInit = { threshold: 0.1 }
-): void {
+): (() => void) | void {
   if (typeof window === "undefined" || !element) return;
 
   const observer = new IntersectionObserver(([entry]) => {
