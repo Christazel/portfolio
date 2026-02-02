@@ -45,15 +45,15 @@ const FloatingParticles = memo(() => {
     }));
 
     const animate = (currentTime: number) => {
-      // Throttle to ~30fps for better performance (33ms = ~30fps)
-      if (currentTime - lastTimeRef.current < 33) {
+      // Throttle to ~24fps for canvas rendering (better balance)
+      if (currentTime - lastTimeRef.current < 42) {
         animationRef.current = requestAnimationFrame(animate);
         return;
       }
       lastTimeRef.current = currentTime;
 
-      // Early exit if canvas is not visible
-      if (!canvas.offsetHeight) {
+      // Early exit if canvas is not visible (IntersectionObserver check)
+      if (!canvas.offsetHeight || !canvas.offsetParent) {
         animationRef.current = requestAnimationFrame(animate);
         return;
       }

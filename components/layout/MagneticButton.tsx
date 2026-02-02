@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 
 type Props = {
@@ -12,19 +12,30 @@ type Props = {
 export default function MagneticButton({ children, href, className = "" }: Props) {
   const ref = useRef<HTMLAnchorElement | null>(null);
   const [pos, setPos] = useState({ x: 0, y: 0 });
+  const rafRef = useRef<number>();
+  const lastTimeRef = useRef<number>(0);
 
-  const onMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    const el = ref.current;
-    if (!el) return;
+  const onMove = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
+    // Throttle to ~16ms (60fps)
+    const now = Date.now();
+    if (now - lastTimeRef.current < 16) return;
+    lastTimeRef.current = now;
 
-    const { clientX, clientY } = e;
-    const r = el.getBoundingClientRect();
-    const x = (clientX - (r.left + r.width / 2)) * 0.28;
-    const y = (clientY - (r.top + r.height / 2)) * 0.28;
-    setPos({ x, y });
-  };
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    
+    rafRef.current = requestAnimationFrame(() => {
+      const el = ref.current;
+      if (!el) return;
 
-  const onLeave = () => setPos({ x: 0, y: 0 });
+      const { clientX, clientY } = e;
+      const r = el.getBoundingClientRect();
+      const x = (clientX - (r.left + r.width / 2)) * 0.28;
+      const y = (clientY - (r.top + r.height / 2)) * 0.28;
+      setPos({ x, y });
+    });
+  }, []);
+
+  const onLeave = useCallback(() => setPos({ x: 0, y: 0 }), []);
   const isExternal = href.startsWith("http");
 
   return (

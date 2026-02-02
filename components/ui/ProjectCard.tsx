@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import Reveal from "@/components/animations/Reveal";
 
@@ -13,14 +13,25 @@ export type Project = {
 
 export default function ProjectCard({ project, index }: { project: Project; index: number }) {
   const [hovered, setHovered] = useState(false);
+  const rafRef = useRef<number>();
+  const lastTimeRef = useRef<number>(0);
 
-  const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const r = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
-    const x = e.clientX - r.left;
-    const y = e.clientY - r.top;
-    e.currentTarget.style.setProperty("--mx", `${x}px`);
-    e.currentTarget.style.setProperty("--my", `${y}px`);
-  };
+  const onMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    // Throttle to ~60fps (16ms)
+    const now = Date.now();
+    if (now - lastTimeRef.current < 16) return;
+    lastTimeRef.current = now;
+
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    
+    rafRef.current = requestAnimationFrame(() => {
+      const r = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
+      const x = e.clientX - r.left;
+      const y = e.clientY - r.top;
+      e.currentTarget.style.setProperty("--mx", `${x}px`);
+      e.currentTarget.style.setProperty("--my", `${y}px`);
+    });
+  }, []);
 
   return (
     <Reveal delay={index * 0.1}>

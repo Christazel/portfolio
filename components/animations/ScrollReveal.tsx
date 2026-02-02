@@ -49,7 +49,7 @@ const ScrollReveal = memo<ScrollRevealProps>(({
 
         gsap.set(element, initialState);
 
-        // Create scroll animation
+        // Create scroll animation with reduced motion support
         gsap.to(element, {
           scrollTrigger: {
             trigger: element,

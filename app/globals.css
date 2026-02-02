@@ -236,6 +236,18 @@ html[data-scrolling="1"] .nb-float {
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   transform: translate3d(0, 0, 0);
+  will-change: auto;
+}
+
+/* Enable GPU acceleration for animated elements */
+.nb-orb,
+.nb-scan,
+.nb-float,
+.skills-track {
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 /* ===== PERF PATCH: Mobile scroll biar lebih smooth ===== */
