@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+.next/
+.git/
+.vscode/
+.idea/
+
+# Build outputs
+build/
+dist/
+out/
+
+# Logs
+logs/
+*.log
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Package files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Static
+public/
+
+# Cache
+.eslintcache
+.stylelintcache
+
+# Generated
+next-env.d.ts
