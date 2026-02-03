@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef, memo } from "react";
 
-export default memo(function ScrollProgress() {
+export default memo(function ScrollProgress({ lite = false }: { lite?: boolean }) {
   const [progress, setProgress] = useState(0);
   const rafRef = useRef<number | undefined>(undefined);
   const lastProgressRef = useRef<number>(0);
@@ -39,15 +39,19 @@ export default memo(function ScrollProgress() {
   return (
     <>
       {/* Animated progress bar */}
-      <div className="fixed top-0 left-0 right-0 h-1 bg-linear-to-r from-cyan-500 via-purple-500 to-cyan-500 bg-size-[200%] z-50 pointer-events-none" style={{
-        width: `${progress}%`,
-        animation: "shimmer 2s infinite",
-        boxShadow: "0 0 20px rgba(100, 200, 255, 0.8)",
-        backgroundPosition: `${progress}% center`,
-      }} />
+      <div
+        className="fixed top-0 left-0 right-0 h-1 bg-linear-to-r from-cyan-500 via-purple-500 to-cyan-500 bg-size-[200%] z-50 pointer-events-none"
+        style={{
+          width: `${progress}%`,
+          animation: lite ? "none" : "shimmer 2s infinite",
+          boxShadow: lite ? "none" : "0 0 20px rgba(100, 200, 255, 0.8)",
+          backgroundPosition: `${progress}% center`,
+          opacity: lite ? 0.6 : 1,
+        }}
+      />
 
       {/* Scroll indicator */}
-      {progress < 5 && (
+      {!lite && progress < 5 && (
         <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-40 pointer-events-none">
           <div className="animate-bounce">
             <svg className="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

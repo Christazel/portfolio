@@ -25,10 +25,25 @@ export default memo(function NeonBackground() {
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const apply = () => setReduce(mq.matches);
+    const getLowPower = () => {
+      const connection = (navigator as any).connection;
+      const saveData = Boolean(connection?.saveData);
+      const effectiveType = String(connection?.effectiveType || "");
+      const deviceMemory = (navigator as any).deviceMemory || 8;
+      const cores = navigator.hardwareConcurrency || 8;
+      const smallScreen = window.innerWidth < 768;
+
+      return saveData || /2g/.test(effectiveType) || deviceMemory <= 4 || cores <= 4 || smallScreen;
+    };
+
+    const apply = () => setReduce(mq.matches || getLowPower());
     apply();
     mq.addEventListener?.("change", apply);
-    return () => mq.removeEventListener?.("change", apply);
+    window.addEventListener("resize", apply, { passive: true });
+    return () => {
+      mq.removeEventListener?.("change", apply);
+      window.removeEventListener("resize", apply);
+    };
   }, []);
 
   const particles = useMemo<Particle[]>(() => {

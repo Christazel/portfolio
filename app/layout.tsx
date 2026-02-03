@@ -1,6 +1,25 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { BackgroundEffects } from "@/components/layout/BackgroundEffects";
+import { Space_Grotesk, Manrope, JetBrains_Mono } from "next/font/google";
+
+const fontDisplay = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-display",
+  weight: ["400", "500", "600", "700"],
+});
+
+const fontBody = Manrope({
+  subsets: ["latin"],
+  variable: "--font-body",
+  weight: ["400", "500", "600", "700"],
+});
+
+const fontMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  weight: ["400", "500", "600"],
+});
 
 export const metadata: Metadata = {
   title: "Portfolio",
@@ -10,7 +29,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="id">
-      <body>
+      <body className={`${fontDisplay.variable} ${fontBody.variable} ${fontMono.variable} font-body`}>
         <BackgroundEffects />
         <div className="min-h-screen">
           {children}

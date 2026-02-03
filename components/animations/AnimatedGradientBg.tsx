@@ -2,10 +2,10 @@
 
 import { memo } from "react";
 
-export default memo(function AnimatedGradientBg() {
+export default memo(function AnimatedGradientBg({ animated = true }: { animated?: boolean }) {
   return (
     <div
-      className="fixed inset-0 pointer-events-none -z-10 animate-spin-slow"
+      className={`fixed inset-0 pointer-events-none -z-10 ${animated ? "animate-spin-slow" : ""}`}
       style={{
         background: `conic-gradient(
           from 0deg,
