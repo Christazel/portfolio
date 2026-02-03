@@ -135,6 +135,7 @@ h4 {
   background: rgba(10, 10, 10, 0.8);
   color: rgba(240, 240, 240, 1);
   letter-spacing: 0.02em;
+  line-height: 1.2;
 }
 .pill-strong {
   border-color: rgba(99, 102, 241, 0.5);
@@ -158,11 +159,10 @@ h4 {
   @apply text-zinc-400 hover:text-white transition;
 }
 
-/* Improve skills marquee: add breathing space and softer mask to avoid cutting labels */
+/* Improve skills marquee: add breathing space and avoid cutting labels */
 .skills-marquee {
   padding-inline: 1rem; /* ensure items don't sit flush at edges */
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
-  mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
+  /* mask removed to prevent accidental clipping of pill labels */
 }
 
 .skills-track {
