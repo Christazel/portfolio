@@ -158,6 +158,25 @@ h4 {
   @apply text-zinc-400 hover:text-white transition;
 }
 
+/* Improve skills marquee: add breathing space and softer mask to avoid cutting labels */
+.skills-marquee {
+  padding-inline: 1rem; /* ensure items don't sit flush at edges */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
+}
+
+.skills-track {
+  gap: 1rem; /* a bit more gap between pills to avoid seam-cutting */
+}
+
+@media (max-width: 768px) {
+  /* Slow down marquee on small screens for smoother experience */
+  .skills-track {
+    animation-duration: 30s !important;
+    gap: 1rem;
+  }
+}
+
 .section-kicker {
   font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
   text-transform: uppercase;
