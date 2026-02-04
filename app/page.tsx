@@ -336,21 +336,23 @@ export default function Page() {
               <h2 className="section-title">Skills</h2>
               <p className="section-subtitle">Core stack and the tools I enjoy shipping with.</p>
 
-              <div className="mt-4 neon-card p-5 md:p-7 overflow-hidden">
-                <div className="skills-marquee">
-                  <div className="skills-track">
-                    {skillsLoop.map(({ label, Icon }, idx) => (
-                      <Pill key={`${label}-${idx}`}>
-                        <span className="inline-flex items-center gap-2">
-                          <Icon className="h-4 w-4 opacity-90" />
-                          <span className="leading-none">{label}</span>
-                        </span>
-                      </Pill>
-                    ))}
+              <div className="mt-4 neon-card overflow-hidden">
+                <div className="skills-section-wrapper p-5 md:p-7">
+                  <div className="skills-marquee">
+                    <div className="skills-track">
+                      {skillsLoop.map(({ label, Icon }, idx) => (
+                        <Pill key={`${label}-${idx}`}>
+                          <span className="inline-flex items-center gap-2">
+                            <Icon className="h-4 w-4 opacity-90" />
+                            <span className="leading-none">{label}</span>
+                          </span>
+                        </Pill>
+                      ))}
+                    </div>
                   </div>
-                </div>
 
-                <p className="mt-4 text-xs text-zinc-500">Hover untuk pause.</p>
+                  <p className="mt-4 text-xs text-zinc-500">Hover untuk pause.</p>
+                </div>
               </div>
             </ScrollReveal>
           </ParallaxSection>

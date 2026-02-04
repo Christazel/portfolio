@@ -238,21 +238,23 @@ h4 {
 }
 
 /* ===== Skills Marquee (1 arah / loop tanpa jeda) ===== */
+.skills-section-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
 .skills-marquee {
   position: relative;
   overflow: hidden;
-  padding: 0 1.5rem;
-
-  -webkit-mask-image: linear-gradient(to right, transparent, #000 15%, #000 85%, transparent);
-  mask-image: linear-gradient(to right, transparent, #000 15%, #000 85%, transparent);
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
+  width: 100%;
+  margin: 0 -1.25rem;
+  padding: 0 1.25rem;
 }
 
 .skills-track {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 1rem;
   width: max-content;
   flex-wrap: nowrap;
   white-space: nowrap;
@@ -261,6 +263,13 @@ h4 {
 
   /* 1 arah terus (loop) */
   animation: skills-marquee 20s linear infinite;
+}
+
+@media (max-width: 768px) {
+  .skills-marquee {
+    margin: 0 -0.75rem;
+    padding: 0 0.75rem;
+  }
 }
 
 /* pause saat hover */
