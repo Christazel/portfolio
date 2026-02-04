@@ -245,10 +245,10 @@ h4 {
 
 .skills-marquee {
   position: relative;
-  overflow: hidden;
+  overflow: visible; /* allow pills to render fully within rounded container */
   width: 100%;
-  margin: 0 -1.25rem;
-  padding: 0 1.25rem;
+  margin: 0;
+  padding: 0; /* padding is handled by the wrapper (.skills-section-wrapper) */
 }
 
 .skills-track {
@@ -259,7 +259,8 @@ h4 {
   flex-wrap: nowrap;
   white-space: nowrap;
   will-change: transform;
-  padding: 0.5rem 0;
+  padding: 0.5rem 0 0.5rem 0;
+  padding-right: 2rem; /* ensure final pill has breathing room from card edge */
 
   /* 1 arah terus (loop) */
   animation: skills-marquee 20s linear infinite;
@@ -267,8 +268,8 @@ h4 {
 
 @media (max-width: 768px) {
   .skills-marquee {
-    margin: 0 -0.75rem;
-    padding: 0 0.75rem;
+    margin: 0;
+    padding: 0;
   }
 }
 
