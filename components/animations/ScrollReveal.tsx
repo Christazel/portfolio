@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, memo, useCallback } from "react";
+import { useEffect, useRef, memo, useCallback, useMemo } from "react";
 
 interface ScrollRevealProps {
   children: React.ReactNode;
@@ -57,7 +57,7 @@ const ScrollReveal = memo<ScrollRevealProps>(({
         gsap.set(element, initialState);
 
         // Create optimized scroll animation
-        const animConfig: { scrollTrigger: { trigger: HTMLElement; start: string; once: boolean; markers: boolean; onUpdate: (self: { progress: number }) => void }; opacity: number; duration: number; delay: number; ease: string | number[]; x?: number; y?: number } = {
+        const animConfig: Record<string, unknown> = {
           scrollTrigger: {
             trigger: element,
             start: `top ${85 - threshold * 100}%`,
@@ -74,14 +74,13 @@ const ScrollReveal = memo<ScrollRevealProps>(({
           opacity: 1,
           duration: prefersReducedMotion ? 0.3 : duration,
           delay,
-          ease: prefersReducedMotion ? "none" : ease,
+          ease: prefersReducedMotion ? "none" : (typeof ease === "string" ? ease : ease),
           // Use transform instead of x/y for better performance
           x: direction === "left" || direction === "right" ? 0 : undefined,
           y: direction === "up" || direction === "down" ? 0 : undefined,
         };
 
-        scrollTriggerRef.current = animConfig.scrollTrigger;
-        gsap.to(element, animConfig);
+        gsap.to(element, animConfig as Parameters<typeof gsap.to>[1]);
       } catch {
         // silence failures
       }
