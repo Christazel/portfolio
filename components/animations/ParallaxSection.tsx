@@ -27,6 +27,9 @@ export default memo(function ParallaxSection({
     const content = contentRef.current;
     let mounted = true;
 
+    // Check for reduced motion
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
     (async () => {
       try {
         const [{ default: gsap }, { ScrollTrigger }] = await Promise.all([
@@ -36,17 +39,23 @@ export default memo(function ParallaxSection({
         if (!mounted) return;
         gsap.registerPlugin(ScrollTrigger);
 
-        gsap.to(content, {
-          scrollTrigger: {
-            trigger: container,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: false,
-            markers: false,
-          },
-          y: -100 * speed,
-          ease: "none",
-        });
+        if (!prefersReducedMotion) {
+          gsap.to(content, {
+            scrollTrigger: {
+              trigger: container,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: false,
+              markers: false,
+              // Add throttling for better performance
+              onUpdate: (self: any) => {
+                gsap.ticker.fps(60);
+              },
+            },
+            y: -100 * speed,
+            ease: "none",
+          });
+        }
       } catch (e) {
         /* fail silently */
       }

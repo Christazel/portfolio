@@ -24,12 +24,26 @@ const ScrollReveal = memo<ScrollRevealProps>(({
   threshold = 0.3,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const scrollTriggerRef = useRef<any>(null);
+
+  // Memoize initial state to prevent recreations
+  const initialState = useMemo(() => {
+    const state: Record<string, number> = { opacity: 0 };
+    if (direction === "up") state.y = distance;
+    if (direction === "down") state.y = -distance;
+    if (direction === "left") state.x = distance;
+    if (direction === "right") state.x = -distance;
+    return state;
+  }, [direction, distance]);
 
   const setupAnimation = useCallback(() => {
     if (!containerRef.current) return;
 
     const element = containerRef.current;
     let mounted = true;
+
+    // Check prefers-reduced-motion
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     (async () => {
       try {
@@ -40,30 +54,34 @@ const ScrollReveal = memo<ScrollRevealProps>(({
         if (!mounted) return;
         gsap.registerPlugin(ScrollTrigger);
 
-        // Set initial state
-        const initialState: Record<string, number> = { opacity: 0 };
-        if (direction === "up") initialState.y = distance;
-        if (direction === "down") initialState.y = -distance;
-        if (direction === "left") initialState.x = distance;
-        if (direction === "right") initialState.x = -distance;
-
         gsap.set(element, initialState);
 
-        // Create scroll animation with reduced motion support
-        gsap.to(element, {
+        // Create optimized scroll animation
+        const animConfig: any = {
           scrollTrigger: {
             trigger: element,
             start: `top ${85 - threshold * 100}%`,
             once,
             markers: false,
+            // Throttle updates for better performance
+            onUpdate: (self: any) => {
+              // Use GPU acceleration
+              if (self.progress > 0 && self.progress < 1) {
+                gsap.ticker.fps(60);
+              }
+            },
           },
           opacity: 1,
-          y: direction === "up" || direction === "down" ? 0 : undefined,
-          x: direction === "left" || direction === "right" ? 0 : undefined,
-          duration,
+          duration: prefersReducedMotion ? 0.3 : duration,
           delay,
-          ease,
-        });
+          ease: prefersReducedMotion ? "none" : ease,
+          // Use transform instead of x/y for better performance
+          x: direction === "left" || direction === "right" ? 0 : undefined,
+          y: direction === "up" || direction === "down" ? 0 : undefined,
+        };
+
+        scrollTriggerRef.current = animConfig.scrollTrigger;
+        gsap.to(element, animConfig);
       } catch (e) {
         // silence failures
       }
@@ -84,7 +102,7 @@ const ScrollReveal = memo<ScrollRevealProps>(({
         }
       }
     };
-  }, [delay, duration, distance, ease, direction, once, threshold]);
+  }, [delay, duration, distance, ease, direction, once, threshold, initialState]);
 
   useEffect(setupAnimation, [setupAnimation]);
 

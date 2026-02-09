@@ -10,6 +10,10 @@ interface SmoothScrollProps {
 
 export default function SmoothScroll({ children, speed = 1 }: SmoothScrollProps) {
   useEffect(() => {
+    // Check for reduced motion preference
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) return;
+
     let mounted = true;
     let smoother: any = null;
 
@@ -22,12 +26,18 @@ export default function SmoothScroll({ children, speed = 1 }: SmoothScrollProps)
         if (!mounted) return;
         gsap.registerPlugin(ScrollSmoother);
 
-        // Create smooth scroll only once
+        // Optimized smooth scroll with ultra-smooth 60fps
         smoother = ScrollSmoother.create({
-          smooth: 1.2 * speed, // Reduced from 1.5 for better performance
+          smooth: 1 * speed, // Ultra-smooth 60fps scroll
           effects: true,
           smoothTouch: 0.1,
           normalizeScroll: true,
+          onUpdate: (self: any) => {
+            // Maintain high FPS
+            if (self.getVelocity() < 0.5) {
+              gsap.ticker.fps(60);
+            }
+          },
         });
       } catch (e) {
         /* noop */

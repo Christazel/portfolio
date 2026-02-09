@@ -28,13 +28,18 @@ export default memo(function RippleButton({
     const button = buttonRef.current || linkRef.current;
     if (!button) return;
 
+    // Check for reduced motion
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
     const onMouseDown = (e: Event) => {
+      if (prefersReducedMotion) return; // Skip ripple effect on reduced motion
+      
       const mouseEvent = e as MouseEvent;
       const rect = button.getBoundingClientRect();
       const x = mouseEvent.clientX - rect.left;
       const y = mouseEvent.clientY - rect.top;
 
-      // Create ripple element
+      // Create ripple element with GPU acceleration
       const ripple = document.createElement("div");
       ripple.className = "absolute rounded-full bg-white pointer-events-none";
       ripple.style.left = x + "px";
@@ -42,19 +47,21 @@ export default memo(function RippleButton({
       ripple.style.width = "0px";
       ripple.style.height = "0px";
       ripple.style.opacity = "0.5";
+      ripple.style.transform = "translate3d(0, 0, 0)"; // GPU acceleration
 
       button.appendChild(ripple);
       ripplesRef.current.add(ripple);
 
-      // Animate ripple
+      // Optimize ripple animation - use faster timing
       gsap.to(ripple, {
         width: Math.max(rect.width, rect.height) * 2,
         height: Math.max(rect.width, rect.height) * 2,
         left: x - (Math.max(rect.width, rect.height) * 2) / 2,
         top: y - (Math.max(rect.width, rect.height) * 2) / 2,
         opacity: 0,
-        duration: 0.6,
+        duration: 0.5,
         ease: "power2.out",
+        overwrite: "auto",
         onComplete: () => {
           ripple.remove();
           ripplesRef.current.delete(ripple);
