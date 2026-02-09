@@ -30,6 +30,7 @@ export default memo(function RippleButton({
 
     // Check for reduced motion
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const currentRipples = ripplesRef.current;
 
     const onMouseDown = (e: Event) => {
       if (prefersReducedMotion) return; // Skip ripple effect on reduced motion
@@ -50,7 +51,7 @@ export default memo(function RippleButton({
       ripple.style.transform = "translate3d(0, 0, 0)"; // GPU acceleration
 
       button.appendChild(ripple);
-      ripplesRef.current.add(ripple);
+      currentRipples.add(ripple);
 
       // Optimize ripple animation - use faster timing
       gsap.to(ripple, {
@@ -64,7 +65,7 @@ export default memo(function RippleButton({
         overwrite: "auto",
         onComplete: () => {
           ripple.remove();
-          ripplesRef.current.delete(ripple);
+          currentRipples.delete(ripple);
         },
       });
     };
@@ -73,10 +74,10 @@ export default memo(function RippleButton({
     return () => {
       button.removeEventListener("mousedown", onMouseDown);
       // Cleanup all remaining ripples
-      ripplesRef.current.forEach(ripple => {
+      currentRipples.forEach(ripple => {
         ripple.remove();
       });
-      ripplesRef.current.clear();
+      currentRipples.clear();
     };
   }, []);
 

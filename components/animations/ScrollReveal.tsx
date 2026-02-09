@@ -24,7 +24,7 @@ const ScrollReveal = memo<ScrollRevealProps>(({
   threshold = 0.3,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const scrollTriggerRef = useRef<any>(null);
+  const scrollTriggerRef = useRef<{ trigger: HTMLElement; start: string; once: boolean; markers: boolean; onUpdate: (self: { progress: number }) => void } | null>(null);
 
   // Memoize initial state to prevent recreations
   const initialState = useMemo(() => {
@@ -57,14 +57,14 @@ const ScrollReveal = memo<ScrollRevealProps>(({
         gsap.set(element, initialState);
 
         // Create optimized scroll animation
-        const animConfig: any = {
+        const animConfig: { scrollTrigger: { trigger: HTMLElement; start: string; once: boolean; markers: boolean; onUpdate: (self: { progress: number }) => void }; opacity: number; duration: number; delay: number; ease: string | number[]; x?: number; y?: number } = {
           scrollTrigger: {
             trigger: element,
             start: `top ${85 - threshold * 100}%`,
             once,
             markers: false,
             // Throttle updates for better performance
-            onUpdate: (self: any) => {
+            onUpdate: (self: { progress: number }) => {
               // Use GPU acceleration
               if (self.progress > 0 && self.progress < 1) {
                 gsap.ticker.fps(60);
@@ -82,7 +82,7 @@ const ScrollReveal = memo<ScrollRevealProps>(({
 
         scrollTriggerRef.current = animConfig.scrollTrigger;
         gsap.to(element, animConfig);
-      } catch (e) {
+      } catch {
         // silence failures
       }
     })();
@@ -91,18 +91,18 @@ const ScrollReveal = memo<ScrollRevealProps>(({
       mounted = false;
       if (containerRef.current) {
         try {
-          const st = (globalThis as any).ScrollTrigger;
+          const st = (globalThis as unknown as { ScrollTrigger?: { getAll: () => { trigger: HTMLElement; kill: () => void }[] } }).ScrollTrigger;
           if (st && st.getAll) {
-            st.getAll().forEach((trigger: any) => {
+            st.getAll().forEach((trigger) => {
               if (trigger.trigger === containerRef.current) trigger.kill();
             });
           }
-        } catch (e) {
+        } catch {
           /* noop */
         }
       }
     };
-  }, [delay, duration, distance, ease, direction, once, threshold, initialState]);
+  }, [delay, duration, ease, direction, once, threshold, initialState]);
 
   useEffect(setupAnimation, [setupAnimation]);
 

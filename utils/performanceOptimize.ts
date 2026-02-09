@@ -6,7 +6,7 @@
 /**
  * Debounce function - delays execution of callback until specified ms have passed
  */
-export function debounce<T extends (...args: any[]) => any>(
+export function debounce<T extends (...args: unknown[]) => unknown>(
   func: T,
   wait: number
 ): (...args: Parameters<T>) => void {
@@ -26,7 +26,7 @@ export function debounce<T extends (...args: any[]) => any>(
 /**
  * Throttle function - limits execution to once per specified ms interval
  */
-export function throttle<T extends (...args: any[]) => any>(
+export function throttle<T extends (...args: unknown[]) => unknown>(
   func: T,
   limit: number
 ): (...args: Parameters<T>) => void {
@@ -46,11 +46,11 @@ export function throttle<T extends (...args: any[]) => any>(
 /**
  * Request Animation Frame throttle - efficient for smooth animations
  */
-export function rafThrottle<T extends (...args: any[]) => any>(
+export function rafThrottle<T extends (...args: unknown[]) => unknown>(
   func: T
 ): (...args: Parameters<T>) => void {
   let frameId: number | null = null;
-  let lastArgs: any[] = [];
+  let lastArgs: unknown[] = [];
 
   return function executedFunction(...args: Parameters<T>) {
     lastArgs = args;

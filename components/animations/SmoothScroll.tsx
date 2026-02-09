@@ -15,7 +15,7 @@ export default function SmoothScroll({ children, speed = 1 }: SmoothScrollProps)
     if (prefersReducedMotion) return;
 
     let mounted = true;
-    let smoother: any = null;
+    let smoother: { kill: () => void } | null = null;
 
     (async () => {
       try {
@@ -32,14 +32,14 @@ export default function SmoothScroll({ children, speed = 1 }: SmoothScrollProps)
           effects: true,
           smoothTouch: 0.1,
           normalizeScroll: true,
-          onUpdate: (self: any) => {
+          onUpdate: (self: { getVelocity: () => number }) => {
             // Maintain high FPS
             if (self.getVelocity() < 0.5) {
               gsap.ticker.fps(60);
             }
           },
         });
-      } catch (e) {
+      } catch {
         /* noop */
       }
     })();
@@ -48,7 +48,7 @@ export default function SmoothScroll({ children, speed = 1 }: SmoothScrollProps)
       mounted = false;
       try {
         smoother?.kill();
-      } catch (e) {
+      } catch {
         /* noop */
       }
     };
