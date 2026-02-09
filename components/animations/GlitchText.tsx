@@ -40,14 +40,24 @@ export default memo(function GlitchText({ children, className = "" }: GlitchText
     const container = containerRef.current;
     if (!container) return;
 
+    // Check for reduced motion
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) return;
+
+    let isThrottled = false;
+
     const onMouseMove = () => {
-      // Debounce glitch trigger - only fire every 50ms max
+      if (isThrottled) return;
+      isThrottled = true;
+
+      // Throttle with requestAnimationFrame for smooth performance
       if (glitchTimeoutRef.current) {
         clearTimeout(glitchTimeoutRef.current);
       }
       glitchTimeoutRef.current = setTimeout(() => {
         triggerGlitch();
-      }, 50);
+        isThrottled = false;
+      }, 60);
     };
 
     container.addEventListener("mousemove", onMouseMove);

@@ -22,10 +22,23 @@ export default memo(function HoverFloat({
     const container = containerRef.current;
     if (!container) return;
 
+    // Check for reduced motion
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) return;
+
+    // Use passive event listener for better scroll performance
+    let isMoving = false;
+
     const onMouseMove = (e: MouseEvent) => {
+      if (isMoving) return; // Prevent excessive calls
+      isMoving = true;
+
       // Throttle to ~60fps (16ms)
       const now = Date.now();
-      if (now - lastTimeRef.current < 16) return;
+      if (now - lastTimeRef.current < 16) {
+        isMoving = false;
+        return;
+      }
       lastTimeRef.current = now;
 
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
@@ -45,9 +58,11 @@ export default memo(function HoverFloat({
           rotationX: angleX,
           rotationY: angleY,
           transformPerspective: 1000,
-          duration: 0.3,
+          duration: 0.25, // Faster response
           overwrite: "auto",
+          ease: "sine.out",
         });
+        isMoving = false;
       });
     };
 
