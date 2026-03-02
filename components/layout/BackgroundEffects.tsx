@@ -26,15 +26,18 @@ export function BackgroundEffects() {
 
   useEffect(() => {
     // Prefer requestIdleCallback, fall back to setTimeout
-    const id = (window as any).requestIdleCallback
-      ? (window as any).requestIdleCallback(() => setMounted(true))
+    const id = (window as unknown as Record<string, unknown>).requestIdleCallback
+      ? ((window as unknown as { requestIdleCallback: (cb: () => void) => number }).requestIdleCallback(() => setMounted(true)))
       : window.setTimeout(() => setMounted(true), 200);
 
     return () => {
       try {
-        if ((window as any).cancelIdleCallback) (window as any).cancelIdleCallback(id);
-        else clearTimeout(id as number);
-      } catch (e) {
+        if ((window as unknown as { cancelIdleCallback?: (id: number) => void }).cancelIdleCallback) {
+          (window as unknown as { cancelIdleCallback: (id: number) => void }).cancelIdleCallback(id as number);
+        } else {
+          clearTimeout(id as number);
+        }
+      } catch {
         /* noop */
       }
     };
@@ -43,10 +46,10 @@ export function BackgroundEffects() {
   useEffect(() => {
     const getMode = () => {
       const prefersReduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const connection = (navigator as any).connection;
+      const connection = (navigator as unknown as { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
       const saveData = Boolean(connection?.saveData);
       const effectiveType = String(connection?.effectiveType || "");
-      const deviceMemory = (navigator as any).deviceMemory || 8;
+      const deviceMemory = (navigator as unknown as { deviceMemory?: number }).deviceMemory || 8;
       const cores = navigator.hardwareConcurrency || 8;
       const smallScreen = window.innerWidth < 768;
 

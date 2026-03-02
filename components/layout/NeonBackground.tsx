@@ -26,10 +26,10 @@ export default memo(function NeonBackground() {
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     const getLowPower = () => {
-      const connection = (navigator as any).connection;
+      const connection = (navigator as unknown as { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
       const saveData = Boolean(connection?.saveData);
       const effectiveType = String(connection?.effectiveType || "");
-      const deviceMemory = (navigator as any).deviceMemory || 8;
+      const deviceMemory = (navigator as unknown as { deviceMemory?: number }).deviceMemory || 8;
       const cores = navigator.hardwareConcurrency || 8;
       const smallScreen = window.innerWidth < 768;
 
@@ -47,7 +47,7 @@ export default memo(function NeonBackground() {
   }, []);
 
   const particles = useMemo<Particle[]>(() => {
-    return Array.from({ length: 12 }).map((_, i) => { // Reduced from 18 to 12
+    return Array.from({ length: 12 }).map((_: unknown, i: number) => { // Reduced from 18 to 12
       const a = prand(i + 1);
       const b = prand(i + 33);
       const c = prand(i + 77);

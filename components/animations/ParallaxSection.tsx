@@ -48,7 +48,7 @@ export default memo(function ParallaxSection({
               scrub: false,
               markers: false,
               // Add throttling for better performance
-              onUpdate: (self: any) => {
+              onUpdate: () => {
                 gsap.ticker.fps(60);
               },
             },
@@ -56,7 +56,7 @@ export default memo(function ParallaxSection({
             ease: "none",
           });
         }
-      } catch (e) {
+      } catch {
         /* fail silently */
       }
     })();
@@ -64,13 +64,13 @@ export default memo(function ParallaxSection({
     return () => {
       mounted = false;
       try {
-        const st = (globalThis as any).ScrollTrigger;
+        const st = (globalThis as unknown as { ScrollTrigger?: { getAll: () => { trigger: HTMLElement; kill: () => void }[] } }).ScrollTrigger;
         if (st && st.getAll) {
-          st.getAll().forEach((trigger: any) => {
+          st.getAll().forEach((trigger) => {
             if (trigger.trigger === container) trigger.kill();
           });
         }
-      } catch (e) {
+      } catch {
         /* noop */
       }
     };
