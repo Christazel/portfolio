@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, memo, useCallback, useMemo } from "react";
+import { useEffect, useMemo, useRef, useState, memo } from "react";
 
 interface ScrollRevealProps {
   children: React.ReactNode;
@@ -24,88 +24,70 @@ const ScrollReveal = memo<ScrollRevealProps>(({
   threshold = 0.3,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const scrollTriggerRef = useRef<{ trigger: HTMLElement; start: string; once: boolean; markers: boolean; onUpdate: (self: { progress: number }) => void } | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
-  // Memoize initial state to prevent recreations
-  const initialState = useMemo(() => {
-    const state: Record<string, number> = { opacity: 0 };
-    if (direction === "up") state.y = distance;
-    if (direction === "down") state.y = -distance;
-    if (direction === "left") state.x = distance;
-    if (direction === "right") state.x = -distance;
-    return state;
+  const prefersReducedMotion = useMemo(() => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }, []);
+
+  const hiddenTransform = useMemo(() => {
+    if (direction === "up") return `translate3d(0, ${distance}px, 0)`;
+    if (direction === "down") return `translate3d(0, ${-distance}px, 0)`;
+    if (direction === "left") return `translate3d(${distance}px, 0, 0)`;
+    if (direction === "right") return `translate3d(${-distance}px, 0, 0)`;
+    return "translate3d(0, 0, 0)";
   }, [direction, distance]);
 
-  const setupAnimation = useCallback(() => {
-    if (!containerRef.current) return;
-
+  useEffect(() => {
     const element = containerRef.current;
-    let mounted = true;
+    if (!element) return;
 
-    // Check prefers-reduced-motion
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) {
+      return;
+    }
 
-    (async () => {
-      try {
-        const [{ default: gsap }, { ScrollTrigger }] = await Promise.all([
-          import("gsap"),
-          import("gsap/ScrollTrigger"),
-        ]);
-        if (!mounted) return;
-        gsap.registerPlugin(ScrollTrigger);
-
-        gsap.set(element, initialState);
-
-        // Create optimized scroll animation
-        const animConfig: Record<string, unknown> = {
-          scrollTrigger: {
-            trigger: element,
-            start: `top ${85 - threshold * 100}%`,
-            once,
-            markers: false,
-            // Throttle updates for better performance
-            onUpdate: (self: { progress: number }) => {
-              // Use GPU acceleration
-              if (self.progress > 0 && self.progress < 1) {
-                gsap.ticker.fps(60);
-              }
-            },
-          },
-          opacity: 1,
-          duration: prefersReducedMotion ? 0.3 : duration,
-          delay,
-          ease: prefersReducedMotion ? "none" : (typeof ease === "string" ? ease : ease),
-          // Use transform instead of x/y for better performance
-          x: direction === "left" || direction === "right" ? 0 : undefined,
-          y: direction === "up" || direction === "down" ? 0 : undefined,
-        };
-
-        gsap.to(element, animConfig as Parameters<typeof gsap.to>[1]);
-      } catch {
-        // silence failures
-      }
-    })();
-
-    return () => {
-      mounted = false;
-      if (containerRef.current) {
-        try {
-          const st = (globalThis as unknown as { ScrollTrigger?: { getAll: () => { trigger: HTMLElement; kill: () => void }[] } }).ScrollTrigger;
-          if (st && st.getAll) {
-            st.getAll().forEach((trigger) => {
-              if (trigger.trigger === containerRef.current) trigger.kill();
-            });
-          }
-        } catch {
-          /* noop */
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          if (once) observer.disconnect();
+        } else if (!once) {
+          setIsVisible(false);
         }
-      }
-    };
-  }, [delay, duration, ease, direction, once, threshold, initialState]);
+      },
+      { threshold }
+    );
 
-  useEffect(setupAnimation, [setupAnimation]);
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [once, threshold, prefersReducedMotion]);
 
-  return <div ref={containerRef}>{children}</div>;
+  const transitionTiming =
+    ease === "power3.out"
+      ? "cubic-bezier(0.22, 1, 0.36, 1)"
+      : ease === "power2.out"
+        ? "cubic-bezier(0.25, 0.46, 0.45, 0.94)"
+        : "ease-out";
+
+  const visible = prefersReducedMotion || isVisible;
+
+  return (
+    <div
+      ref={containerRef}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translate3d(0, 0, 0)" : hiddenTransform,
+        transitionProperty: "opacity, transform",
+        transitionDuration: `${prefersReducedMotion ? 0.2 : duration}s`,
+        transitionDelay: `${delay}s`,
+        transitionTimingFunction: prefersReducedMotion ? "linear" : transitionTiming,
+        willChange: "opacity, transform",
+      }}
+    >
+      {children}
+    </div>
+  );
 });
 
 ScrollReveal.displayName = "ScrollReveal";

@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 
-import NeonBackground from "../components/layout/NeonBackground";
 import LanyardHolderSingle from "../components/layout/LanyardHolderSingle";
 import CommentBox from "../components/ui/CommentBox";
 import ScrollReveal from "../components/animations/ScrollReveal";
@@ -126,8 +125,6 @@ export default function Page() {
 
   return (
     <div className="min-h-screen">
-      <NeonBackground />
-
       {/* ✅ blur hanya md+ supaya scroll mobile lebih smooth */}
       <header className="sticky top-0 z-50 border-b border-zinc-800/80 bg-zinc-950/95 md:bg-zinc-950/90 md:backdrop-blur-sm">
         <div className="container-page flex items-center justify-between py-4">
