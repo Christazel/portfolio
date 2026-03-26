@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState, useRef, memo } from "react";
+import { useEffect, useRef, memo } from "react";
 
 export default memo(function ScrollProgress({ lite = false }: { lite?: boolean }) {
-  const [progress, setProgress] = useState(0);
+  const progressBarRef = useRef<HTMLDivElement | null>(null);
+  const indicatorRef = useRef<HTMLDivElement | null>(null);
   const rafRef = useRef<number | undefined>(undefined);
   const lastProgressRef = useRef<number>(0);
 
@@ -11,12 +12,20 @@ export default memo(function ScrollProgress({ lite = false }: { lite?: boolean }
     const updateProgress = () => {
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const scrolled = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-      
-      // Only update if progress changed by at least 0.5%
-      if (Math.abs(scrolled - lastProgressRef.current) > 0.5) {
-        lastProgressRef.current = scrolled;
-        setProgress(scrolled);
+      const ratio = docHeight > 0 ? Math.min(1, Math.max(0, scrollTop / docHeight)) : 0;
+
+      // Skip tiny updates to avoid excessive style writes.
+      if (Math.abs(ratio - lastProgressRef.current) > 0.004) {
+        lastProgressRef.current = ratio;
+
+        if (progressBarRef.current) {
+          progressBarRef.current.style.transform = `scaleX(${ratio.toFixed(4)})`;
+          progressBarRef.current.style.backgroundPosition = `${Math.round(ratio * 100)}% center`;
+        }
+
+        if (indicatorRef.current && !lite) {
+          indicatorRef.current.style.opacity = ratio < 0.05 ? "1" : "0";
+        }
       }
     };
 
@@ -28,31 +37,38 @@ export default memo(function ScrollProgress({ lite = false }: { lite?: boolean }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll, { passive: true });
+    updateProgress();
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
       if (rafRef.current) {
         cancelAnimationFrame(rafRef.current);
       }
     };
-  }, []);
+  }, [lite]);
 
   return (
     <>
       {/* Animated progress bar */}
       <div
+        ref={progressBarRef}
         className="fixed top-0 left-0 right-0 h-1 bg-linear-to-r from-cyan-500 via-purple-500 to-cyan-500 bg-size-[200%] z-50 pointer-events-none"
         style={{
-          width: `${progress}%`,
+          transform: "scaleX(0)",
+          transformOrigin: "left center",
+          willChange: "transform",
           animation: lite ? "none" : "shimmer 2s infinite",
           boxShadow: lite ? "none" : "0 0 20px rgba(100, 200, 255, 0.8)",
-          backgroundPosition: `${progress}% center`,
+          backgroundPosition: "0% center",
           opacity: lite ? 0.6 : 1,
         }}
       />
 
       {/* Scroll indicator */}
-      {!lite && progress < 5 && (
-        <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-40 pointer-events-none">
+      {!lite && (
+        <div ref={indicatorRef} className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-40 pointer-events-none opacity-100 transition-opacity duration-200">
           <div className="animate-bounce">
             <svg className="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />

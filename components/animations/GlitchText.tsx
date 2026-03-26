@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, memo, useCallback } from "react";
-import gsap from "gsap";
 
 interface GlitchTextProps {
   children: string;
@@ -10,29 +9,28 @@ interface GlitchTextProps {
 
 export default memo(function GlitchText({ children, className = "" }: GlitchTextProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const glitchTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
+  const glitchTimeoutRef = useRef<number | undefined>(undefined);
+  const lastTickRef = useRef(0);
 
   const triggerGlitch = useCallback(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    if (Math.random() > 0.8) {
+    if (Math.random() > 0.82) {
       const glitchX = (Math.random() - 0.5) * 10;
       const glitchY = (Math.random() - 0.5) * 10;
 
-      gsap.to(container, {
-        x: glitchX,
-        y: glitchY,
-        duration: 0.05,
-        overwrite: "auto",
-        onComplete: () => {
-          gsap.to(container, {
-            x: 0,
-            y: 0,
-            duration: 0.1,
-          });
-        },
-      });
+      container.animate(
+        [
+          { transform: "translate3d(0, 0, 0)" },
+          { transform: `translate3d(${glitchX.toFixed(2)}px, ${glitchY.toFixed(2)}px, 0)` },
+          { transform: "translate3d(0, 0, 0)" },
+        ],
+        {
+          duration: 120,
+          easing: "steps(2, end)",
+        }
+      );
     }
   }, []);
 
@@ -40,32 +38,29 @@ export default memo(function GlitchText({ children, className = "" }: GlitchText
     const container = containerRef.current;
     if (!container) return;
 
-    // Check for reduced motion
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReducedMotion) return;
+    const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    if (prefersReducedMotion || !canHover) return;
 
-    let isThrottled = false;
+    const onPointerMove = () => {
+      const now = performance.now();
+      if (now - lastTickRef.current < 70) return;
+      lastTickRef.current = now;
 
-    const onMouseMove = () => {
-      if (isThrottled) return;
-      isThrottled = true;
-
-      // Throttle with requestAnimationFrame for smooth performance
       if (glitchTimeoutRef.current) {
-        clearTimeout(glitchTimeoutRef.current);
+        window.clearTimeout(glitchTimeoutRef.current);
       }
-      glitchTimeoutRef.current = setTimeout(() => {
+      glitchTimeoutRef.current = window.setTimeout(() => {
         triggerGlitch();
-        isThrottled = false;
       }, 60);
     };
 
-    container.addEventListener("mousemove", onMouseMove);
+    container.addEventListener("pointermove", onPointerMove);
 
     return () => {
-      container.removeEventListener("mousemove", onMouseMove);
+      container.removeEventListener("pointermove", onPointerMove);
       if (glitchTimeoutRef.current) {
-        clearTimeout(glitchTimeoutRef.current);
+        window.clearTimeout(glitchTimeoutRef.current);
       }
     };
   }, [triggerGlitch]);
