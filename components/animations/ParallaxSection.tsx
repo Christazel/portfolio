@@ -1,10 +1,6 @@
 "use client";
 
 import { useEffect, useRef, memo } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 interface ParallaxSectionProps {
   children: React.ReactNode;
@@ -25,54 +21,65 @@ export default memo(function ParallaxSection({
 
     const container = containerRef.current;
     const content = contentRef.current;
-    let mounted = true;
-
-    // Check for reduced motion
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
-    (async () => {
-      try {
-        const [{ default: gsap }, { ScrollTrigger }] = await Promise.all([
-          import("gsap"),
-          import("gsap/ScrollTrigger"),
-        ]);
-        if (!mounted) return;
-        gsap.registerPlugin(ScrollTrigger);
+    if (prefersReducedMotion || !canHover) {
+      content.style.transform = "translate3d(0, 0, 0)";
+      return;
+    }
 
-        if (!prefersReducedMotion) {
-          gsap.to(content, {
-            scrollTrigger: {
-              trigger: container,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: false,
-              markers: false,
-              // Add throttling for better performance
-              onUpdate: () => {
-                gsap.ticker.fps(60);
-              },
-            },
-            y: -100 * speed,
-            ease: "none",
-          });
+    const maxShift = 70 * Math.max(0.2, speed);
+    let rafId = 0;
+    let ticking = false;
+    let inView = true;
+
+    const updateParallax = () => {
+      ticking = false;
+      const rect = container.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || 1;
+
+      if (!inView) return;
+
+      const progress = (viewportHeight - rect.top) / (viewportHeight + rect.height);
+      const clamped = Math.max(0, Math.min(1, progress));
+      const offsetY = (0.5 - clamped) * 2 * maxShift;
+
+      content.style.transform = `translate3d(0, ${offsetY.toFixed(2)}px, 0)`;
+      content.style.willChange = "transform";
+    };
+
+    const requestTick = () => {
+      if (ticking) return;
+      ticking = true;
+      rafId = window.requestAnimationFrame(updateParallax);
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        inView = entry.isIntersecting;
+        if (!inView) {
+          content.style.willChange = "auto";
+        } else {
+          requestTick();
         }
-      } catch {
-        /* fail silently */
-      }
-    })();
+      },
+      { rootMargin: "140px 0px" }
+    );
+
+    observer.observe(container);
+    requestTick();
+
+    window.addEventListener("scroll", requestTick, { passive: true });
+    window.addEventListener("resize", requestTick, { passive: true });
 
     return () => {
-      mounted = false;
-      try {
-        const st = (globalThis as unknown as { ScrollTrigger?: { getAll: () => { trigger: HTMLElement; kill: () => void }[] } }).ScrollTrigger;
-        if (st && st.getAll) {
-          st.getAll().forEach((trigger) => {
-            if (trigger.trigger === container) trigger.kill();
-          });
-        }
-      } catch {
-        /* noop */
-      }
+      observer.disconnect();
+      window.removeEventListener("scroll", requestTick);
+      window.removeEventListener("resize", requestTick);
+      if (rafId) window.cancelAnimationFrame(rafId);
+      content.style.willChange = "auto";
+      content.style.transform = "translate3d(0, 0, 0)";
     };
   }, [speed]);
 

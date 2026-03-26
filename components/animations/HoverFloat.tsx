@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, memo } from "react";
-import gsap from "gsap";
 
 interface HoverFloatProps {
   children: React.ReactNode;
@@ -22,27 +21,29 @@ export default memo(function HoverFloat({
     const container = containerRef.current;
     if (!container) return;
 
-    // Check for reduced motion
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReducedMotion) return;
+    const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    if (prefersReducedMotion || !canHover) return;
 
-    // Use passive event listener for better scroll performance
-    let isMoving = false;
+    const maxTilt = Math.min(Math.max(strength / 2, 6), 18);
+    let nextRotationX = 0;
+    let nextRotationY = 0;
+    let isAnimating = false;
+
+    const applyTransform = () => {
+      isAnimating = false;
+      container.style.transform = `perspective(1000px) rotateX(${nextRotationX.toFixed(2)}deg) rotateY(${nextRotationY.toFixed(2)}deg) translate3d(0, 0, 0)`;
+    };
 
     const onMouseMove = (e: MouseEvent) => {
-      if (isMoving) return; // Prevent excessive calls
-      isMoving = true;
-
-      // Throttle to ~60fps (16ms)
-      const now = Date.now();
+      const now = performance.now();
       if (now - lastTimeRef.current < 16) {
-        isMoving = false;
         return;
       }
       lastTimeRef.current = now;
 
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
-      
+
       rafRef.current = requestAnimationFrame(() => {
         const rect = container.getBoundingClientRect();
         const x = e.clientX - rect.left;
@@ -51,29 +52,23 @@ export default memo(function HoverFloat({
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
 
-        const angleX = (y - centerY) / 5;
-        const angleY = (centerX - x) / 5;
+        nextRotationX = ((centerY - y) / centerY) * maxTilt;
+        nextRotationY = ((x - centerX) / centerX) * maxTilt;
 
-        gsap.to(container, {
-          rotationX: angleX,
-          rotationY: angleY,
-          transformPerspective: 1000,
-          duration: 0.25, // Faster response
-          overwrite: "auto",
-          ease: "sine.out",
-        });
-        isMoving = false;
+        if (!isAnimating) {
+          isAnimating = true;
+          applyTransform();
+        }
       });
     };
 
     const onMouseLeave = () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
-      gsap.to(container, {
-        rotationX: 0,
-        rotationY: 0,
-        duration: 0.5,
-        ease: "power2.out",
-      });
+      container.style.transition = "transform 280ms cubic-bezier(0.22, 1, 0.36, 1)";
+      container.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) translate3d(0, 0, 0)";
+      window.setTimeout(() => {
+        container.style.transition = "";
+      }, 300);
     };
 
     container.addEventListener("mousemove", onMouseMove);
@@ -87,7 +82,7 @@ export default memo(function HoverFloat({
   }, [strength]);
 
   return (
-    <div ref={containerRef} className={className} style={{ perspective: "1000px" }}>
+    <div ref={containerRef} className={className} style={{ transform: "translate3d(0, 0, 0)" }}>
       {children}
     </div>
   );
