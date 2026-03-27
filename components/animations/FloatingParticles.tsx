@@ -16,6 +16,7 @@ const FloatingParticles = memo(() => {
   const particlesRef = useRef<Particle[]>([]);
   const animationRef = useRef<number | undefined>(undefined);
   const lastTimeRef = useRef<number>(0);
+  const isRunningRef = useRef<boolean>(true);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -45,6 +46,8 @@ const FloatingParticles = memo(() => {
     }));
 
     const animate = (currentTime: number) => {
+      if (!isRunningRef.current) return;
+
       // Throttle to ~24fps for canvas rendering (better balance)
       if (currentTime - lastTimeRef.current < 42) {
         animationRef.current = requestAnimationFrame(animate);
@@ -88,10 +91,12 @@ const FloatingParticles = memo(() => {
         for (let j = i + 1; j < Math.min(i + 5, particlesRef.current.length); j++) { // Limit connections
           const dx = particlesRef.current[i].x - particlesRef.current[j].x;
           const dy = particlesRef.current[i].y - particlesRef.current[j].y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
+          const distanceSq = dx * dx + dy * dy;
+          const threshold = 120;
 
-          if (distance < 120) { // Shorter connection distance
-            ctx.strokeStyle = `rgba(100, 200, 255, ${(1 - distance / 120) * 0.2})`;
+          if (distanceSq < threshold * threshold) { // Shorter connection distance
+            const distance = Math.sqrt(distanceSq);
+            ctx.strokeStyle = `rgba(100, 200, 255, ${(1 - distance / threshold) * 0.2})`;
             ctx.lineWidth = 0.5;
             ctx.beginPath();
             ctx.moveTo(particlesRef.current[i].x, particlesRef.current[i].y);
@@ -104,10 +109,26 @@ const FloatingParticles = memo(() => {
       animationRef.current = requestAnimationFrame(animate);
     };
 
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        isRunningRef.current = false;
+        if (animationRef.current) {
+          cancelAnimationFrame(animationRef.current);
+          animationRef.current = undefined;
+        }
+      } else if (!isRunningRef.current) {
+        isRunningRef.current = true;
+        animationRef.current = requestAnimationFrame(animate);
+      }
+    };
+
     animate(0);
+    document.addEventListener("visibilitychange", onVisibilityChange);
 
     return () => {
       window.removeEventListener("resize", resizeCanvas);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+      isRunningRef.current = false;
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }

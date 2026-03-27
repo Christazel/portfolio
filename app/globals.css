@@ -330,7 +330,6 @@ html[data-scrolling="1"] .nb-float {
 .btn-neon-ghost {
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  transform: translate3d(0, 0, 0);
   will-change: auto;
 }
 
@@ -357,8 +356,76 @@ body {
 .transition {
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  -webkit-perspective: 1000;
-  perspective: 1000;
+}
+
+/* Opening loader */
+html[data-loading="1"],
+html[data-loading="1"] body {
+  overflow: hidden;
+}
+
+.opening-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(110% 110% at 20% 0%, rgba(34, 211, 238, 0.18), transparent 45%),
+    radial-gradient(120% 120% at 100% 100%, rgba(232, 121, 249, 0.16), transparent 52%),
+    rgba(7, 8, 11, 0.98);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.opening-loader-inner {
+  width: min(420px, calc(100vw - 2rem));
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 20px;
+  padding: 1.4rem;
+  background: rgba(12, 14, 20, 0.85);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+}
+
+.opening-loader-title {
+  margin: 0;
+  font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.68rem;
+  color: rgba(148, 163, 184, 0.85);
+}
+
+.opening-loader-value {
+  margin: 0.45rem 0 0;
+  font-family: var(--font-display), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: clamp(1.6rem, 5vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1;
+  color: rgba(232, 244, 255, 0.95);
+}
+
+.opening-loader-track {
+  margin-top: 0.85rem;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(39, 39, 42, 0.75);
+  overflow: hidden;
+}
+
+.opening-loader-bar {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(34, 211, 238, 0.92), rgba(99, 102, 241, 0.92), rgba(232, 121, 249, 0.92));
+  box-shadow: 0 0 16px rgba(34, 211, 238, 0.35);
+  transition: width 0.18s linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .opening-loader-bar {
+    transition: none;
+  }
 }
 
 /* ===== PERF PATCH: Mobile scroll biar lebih smooth ===== */
