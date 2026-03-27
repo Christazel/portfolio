@@ -232,7 +232,7 @@ export default function Page() {
                 </div>
 
                 <div className="space-y-4">
-                  <HoverFloat className="shrink-0">
+                  <div className="shrink-0">
                     <motion.div
                       initial={{ opacity: 0, scale: 0.98 }}
                       animate={{ opacity: 1, scale: 1 }}
@@ -240,9 +240,9 @@ export default function Page() {
                       className="relative group"
                     >
                       <div className="absolute inset-0 bg-linear-to-r from-cyan-500/24 to-indigo-400/24 rounded-2xl blur-lg opacity-0 group-hover:opacity-45 transition duration-400" />
-                      <LanyardHolderSingle imageSrc="/asset/profile.jpeg" alt="Yohan profile" />
+                      <LanyardHolderSingle imageSrc="/asset/profile.jpeg" alt="Yohan profile" staticMode />
                     </motion.div>
-                  </HoverFloat>
+                  </div>
 
                   <div className="stat-card">
                     <p className="section-kicker">Now Building</p>
