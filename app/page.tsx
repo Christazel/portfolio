@@ -158,10 +158,9 @@ export default function Page() {
         {/* hero */}
         <section className="py-14 md:py-24 relative">
           <div className="absolute inset-0 -z-10 overflow-hidden">
-            <div className="absolute top-20 left-1/4 w-72 h-72 bg-cyan-500/08 rounded-full filter blur-3xl opacity-30 animate-pulse" />
+            <div className="absolute top-24 left-1/4 w-64 h-64 bg-cyan-500/10 rounded-full blur-2xl opacity-22" />
             <div
-              className="absolute bottom-20 right-1/4 w-72 h-72 bg-purple-500/08 rounded-full filter blur-3xl opacity-30 animate-pulse"
-              style={{ animationDelay: "1s" }}
+              className="absolute bottom-24 right-1/4 w-64 h-64 bg-indigo-400/10 rounded-full blur-2xl opacity-18"
             />
           </div>
 
@@ -240,7 +239,7 @@ export default function Page() {
                       transition={{ duration: 0.45 }}
                       className="relative group"
                     >
-                      <div className="absolute inset-0 bg-linear-to-r from-cyan-500/30 to-purple-500/30 rounded-2xl blur-xl opacity-0 group-hover:opacity-70 transition duration-500" />
+                      <div className="absolute inset-0 bg-linear-to-r from-cyan-500/24 to-indigo-400/24 rounded-2xl blur-lg opacity-0 group-hover:opacity-45 transition duration-400" />
                       <LanyardHolderSingle imageSrc="/asset/profile.jpeg" alt="Yohan profile" />
                     </motion.div>
                   </HoverFloat>
