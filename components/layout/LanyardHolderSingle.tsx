@@ -56,38 +56,33 @@ export default function LanyardHolderSingle({
 
       {/* ===== HOLDER (POUCH) + SWING ===== */}
       <motion.div
-        className="relative"
+        className="relative transform-gpu"
         style={{ transformOrigin: "50% 0%" }}
         animate={
           reduce
             ? undefined
             : {
-                rotate: [-3.5, 3.5, -2.5, 2.5, -3.5],
-                y: [0, 2, 0, 1, 0],
+                rotate: [-2.4, 2.4, -2.4],
+                y: [0, 1.5, 0],
               }
         }
-        transition={reduce ? undefined : { duration: 7, repeat: Infinity, ease: "easeInOut" }}
+        transition={reduce ? undefined : { duration: 6.2, repeat: Infinity, ease: "easeInOut" }}
         whileHover={reduce ? undefined : { rotate: 0, y: 0 }}
       >
         {/* shadow */}
-        <div className="pointer-events-none absolute left-1/2 top-76.25 md:top-80 -translate-x-1/2 h-6 w-52.5 md:w-55 rounded-full bg-black/45 blur-xl" />
+        <div className="pointer-events-none absolute left-1/2 top-76.25 md:top-80 -translate-x-1/2 h-5 w-50 md:w-53 rounded-full bg-black/35 blur-lg" />
 
         {/* glow border */}
-        <div className="absolute -inset-1 rounded-[30px] bg-linear-to-br from-cyan-400/20 via-blue-500/10 to-purple-500/10 blur-md opacity-60" />
+        <div className="absolute -inset-0.5 rounded-[30px] bg-linear-to-br from-cyan-400/14 via-blue-500/8 to-indigo-400/8 blur-sm opacity-50" />
 
         {/* pouch body */}
         <div
-          className="relative rounded-[28px] border border-white/10 bg-[#0b2433]/45 backdrop-blur-md
-                     shadow-[0_24px_60px_rgba(0,0,0,0.60)]"
+          className="relative rounded-[28px] border border-white/10 bg-[#0d2740]/35 backdrop-blur-sm
+                     shadow-[0_16px_36px_rgba(0,0,0,0.45)]"
           style={{ width: 230, height: 300 }}
         >
-          {/* desktop size */}
-          <div className="hidden md:block">
-            <div className="absolute inset-0 rounded-[28px]" style={{ width: 250, height: 320 }} />
-          </div>
-
           {/* stitching */}
-          <div className="absolute inset-2.5 rounded-[22px] border border-white/10 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)]" />
+          <div className="absolute inset-2.5 rounded-[22px] border border-white/10 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.03)]" />
 
           {/* zipper strip kanan */}
           <div className="absolute right-3 top-6 h-58 md:h-62.5 w-2.5 rounded-full bg-black/25 border border-white/10" />
@@ -102,7 +97,7 @@ export default function LanyardHolderSingle({
                   alt={alt}
                   fill
                   priority
-                  quality={75}
+                  quality={70}
                   sizes="(max-width: 640px) 180px, (max-width: 1024px) 220px, 260px"
                   className="object-cover object-center"
                 />
@@ -110,13 +105,13 @@ export default function LanyardHolderSingle({
 
               {/* glossy plastik */}
               <div
-                className="pointer-events-none absolute inset-0 opacity-70"
+                className="pointer-events-none absolute inset-0 opacity-55"
                 style={{
                   background:
                     "linear-gradient(115deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.06) 30%, rgba(255,255,255,0.02) 55%, rgba(255,255,255,0.10) 75%, rgba(255,255,255,0.02) 100%)",
                 }}
               />
-              <div className="pointer-events-none absolute inset-0 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06),inset_0_-40px_60px_rgba(0,0,0,0.45)]" />
+              <div className="pointer-events-none absolute inset-0 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04),inset_0_-30px_45px_rgba(0,0,0,0.34)]" />
             </div>
           </div>
 
