@@ -6,13 +6,16 @@ import { motion, useReducedMotion } from "framer-motion";
 type Props = {
   imageSrc?: string; // "/asset/profile.jpeg"
   alt?: string;
+  staticMode?: boolean;
 };
 
 export default function LanyardHolderSingle({
   imageSrc = "/asset/profile_800.webp",
   alt = "Profile photo",
+  staticMode = false,
 }: Props) {
   const reduce = useReducedMotion();
+  const shouldAnimate = !reduce && !staticMode;
 
   return (
     // ✅ padding-top biar strap punya ruang sendiri (jadi tidak naik ke area tombol)
@@ -59,15 +62,15 @@ export default function LanyardHolderSingle({
         className="relative transform-gpu"
         style={{ transformOrigin: "50% 0%" }}
         animate={
-          reduce
-            ? undefined
-            : {
+          shouldAnimate
+            ? {
                 rotate: [-2.4, 2.4, -2.4],
                 y: [0, 1.5, 0],
               }
+            : undefined
         }
-        transition={reduce ? undefined : { duration: 6.2, repeat: Infinity, ease: "easeInOut" }}
-        whileHover={reduce ? undefined : { rotate: 0, y: 0 }}
+        transition={shouldAnimate ? { duration: 6.2, repeat: Infinity, ease: "easeInOut" } : undefined}
+        whileHover={shouldAnimate ? { rotate: 0, y: 0 } : undefined}
       >
         {/* shadow */}
         <div className="pointer-events-none absolute left-1/2 top-76.25 md:top-80 -translate-x-1/2 h-5 w-50 md:w-53 rounded-full bg-black/35 blur-lg" />
