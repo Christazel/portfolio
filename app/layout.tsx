@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { BackgroundEffects } from "@/components/layout/BackgroundEffects";
+import OpeningLoader from "@/components/layout/OpeningLoader";
 import { Space_Grotesk, Manrope, JetBrains_Mono } from "next/font/google";
 
 const fontDisplay = Space_Grotesk({
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="id">
       <body className={`${fontDisplay.variable} ${fontBody.variable} ${fontMono.variable} font-body`}>
+        <OpeningLoader />
         <BackgroundEffects />
         <div className="min-h-screen">
           {children}

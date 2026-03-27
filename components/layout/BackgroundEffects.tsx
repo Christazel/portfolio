@@ -25,17 +25,37 @@ export function BackgroundEffects() {
   const [mode, setMode] = useState<EffectsMode>("full");
 
   useEffect(() => {
-    // Prefer requestIdleCallback, fall back to setTimeout
-    const id = (window as unknown as Record<string, unknown>).requestIdleCallback
-      ? ((window as unknown as { requestIdleCallback: (cb: () => void) => number }).requestIdleCallback(() => setMounted(true)))
-      : window.setTimeout(() => setMounted(true), 200);
+    let idleId: number | null = null;
+    let timeoutId: number | null = null;
+
+    const mountOnIdle = () => {
+      if ((window as unknown as Record<string, unknown>).requestIdleCallback) {
+        idleId = (window as unknown as { requestIdleCallback: (cb: () => void) => number }).requestIdleCallback(() => {
+          setMounted(true);
+        });
+      } else {
+        timeoutId = window.setTimeout(() => setMounted(true), 260);
+      }
+    };
+
+    const onLoad = () => {
+      mountOnIdle();
+    };
+
+    if (document.readyState === "complete") {
+      mountOnIdle();
+    } else {
+      window.addEventListener("load", onLoad, { once: true });
+    }
 
     return () => {
+      window.removeEventListener("load", onLoad);
       try {
-        if ((window as unknown as { cancelIdleCallback?: (id: number) => void }).cancelIdleCallback) {
-          (window as unknown as { cancelIdleCallback: (id: number) => void }).cancelIdleCallback(id as number);
-        } else {
-          clearTimeout(id as number);
+        if (idleId !== null && (window as unknown as { cancelIdleCallback?: (id: number) => void }).cancelIdleCallback) {
+          (window as unknown as { cancelIdleCallback: (id: number) => void }).cancelIdleCallback(idleId);
+        }
+        if (timeoutId !== null) {
+          clearTimeout(timeoutId);
         }
       } catch {
         /* noop */
