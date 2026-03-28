@@ -64,21 +64,23 @@ export function BackgroundEffects() {
   }, []);
 
   useEffect(() => {
+    const motionMq = window.matchMedia("(prefers-reduced-motion: reduce)");
+
     const getMode = () => {
-      const prefersReduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const prefersReduce = motionMq.matches;
       const connection = (navigator as unknown as { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
       const saveData = Boolean(connection?.saveData);
       const effectiveType = String(connection?.effectiveType || "");
       const deviceMemory = (navigator as unknown as { deviceMemory?: number }).deviceMemory || 8;
       const cores = navigator.hardwareConcurrency || 8;
-      const smallScreen = window.innerWidth < 768;
+      const smallScreen = window.innerWidth < 1024;
 
       const lowPower =
         prefersReduce ||
         saveData ||
-        /2g/.test(effectiveType) ||
-        deviceMemory <= 4 ||
-        cores <= 4 ||
+        /(2g|3g)/.test(effectiveType) ||
+        deviceMemory <= 6 ||
+        cores <= 6 ||
         smallScreen;
 
       return lowPower ? "lite" : "full";
@@ -91,8 +93,12 @@ export function BackgroundEffects() {
     };
 
     applyMode();
+    motionMq.addEventListener?.("change", applyMode);
     window.addEventListener("resize", applyMode, { passive: true });
-    return () => window.removeEventListener("resize", applyMode);
+    return () => {
+      motionMq.removeEventListener?.("change", applyMode);
+      window.removeEventListener("resize", applyMode);
+    };
   }, []);
 
   if (!mounted) return null;

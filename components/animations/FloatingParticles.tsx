@@ -27,15 +27,22 @@ const FloatingParticles = memo(() => {
 
     // Resize canvas
     const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
 
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
 
     // Initialize particles - reduced count for better performance
-    const particleCount = 15; // Further reduced from 25 for even better perf
+    const particleCount = window.innerWidth < 1024 ? 10 : 14;
     particlesRef.current = Array.from({ length: particleCount }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
@@ -48,21 +55,25 @@ const FloatingParticles = memo(() => {
     const animate = (currentTime: number) => {
       if (!isRunningRef.current) return;
 
-      // Throttle to ~24fps for canvas rendering (better balance)
-      if (currentTime - lastTimeRef.current < 42) {
+      // Throttle to ~20fps on mobile and ~24fps on desktop.
+      const minFrameGap = window.innerWidth < 1024 ? 50 : 42;
+      if (currentTime - lastTimeRef.current < minFrameGap) {
         animationRef.current = requestAnimationFrame(animate);
         return;
       }
       lastTimeRef.current = currentTime;
 
-      // Early exit if canvas is not visible (IntersectionObserver check)
+      // Early exit if canvas is not visible.
       if (!canvas.offsetHeight || !canvas.offsetParent) {
         animationRef.current = requestAnimationFrame(animate);
         return;
       }
 
+      const isScrolling = document.documentElement.dataset.scrolling === "1";
+      const drawConnections = !isScrolling;
+
       ctx.fillStyle = "rgba(10, 10, 20, 0.05)"; // More transparent trail
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
       particlesRef.current.forEach((particle) => {
         // Update position
@@ -70,13 +81,13 @@ const FloatingParticles = memo(() => {
         particle.y += particle.vy;
 
         // Bounce off walls
-        if (particle.x - particle.radius < 0 || particle.x + particle.radius > canvas.width) {
+        if (particle.x - particle.radius < 0 || particle.x + particle.radius > window.innerWidth) {
           particle.vx *= -1;
-          particle.x = Math.max(particle.radius, Math.min(canvas.width - particle.radius, particle.x));
+          particle.x = Math.max(particle.radius, Math.min(window.innerWidth - particle.radius, particle.x));
         }
-        if (particle.y - particle.radius < 0 || particle.y + particle.radius > canvas.height) {
+        if (particle.y - particle.radius < 0 || particle.y + particle.radius > window.innerHeight) {
           particle.vy *= -1;
-          particle.y = Math.max(particle.radius, Math.min(canvas.height - particle.radius, particle.y));
+          particle.y = Math.max(particle.radius, Math.min(window.innerHeight - particle.radius, particle.y));
         }
 
         // Draw particle with glow - simplified
@@ -86,22 +97,24 @@ const FloatingParticles = memo(() => {
         ctx.fill();
       });
 
-      // Simplified connections - only check nearby particles
-      for (let i = 0; i < particlesRef.current.length; i++) {
-        for (let j = i + 1; j < Math.min(i + 5, particlesRef.current.length); j++) { // Limit connections
-          const dx = particlesRef.current[i].x - particlesRef.current[j].x;
-          const dy = particlesRef.current[i].y - particlesRef.current[j].y;
-          const distanceSq = dx * dx + dy * dy;
-          const threshold = 120;
+      if (drawConnections) {
+        // Simplified connections - only check nearby particles.
+        for (let i = 0; i < particlesRef.current.length; i++) {
+          for (let j = i + 1; j < Math.min(i + 4, particlesRef.current.length); j++) {
+            const dx = particlesRef.current[i].x - particlesRef.current[j].x;
+            const dy = particlesRef.current[i].y - particlesRef.current[j].y;
+            const distanceSq = dx * dx + dy * dy;
+            const threshold = 110;
 
-          if (distanceSq < threshold * threshold) { // Shorter connection distance
-            const distance = Math.sqrt(distanceSq);
-            ctx.strokeStyle = `rgba(100, 200, 255, ${(1 - distance / threshold) * 0.2})`;
-            ctx.lineWidth = 0.5;
-            ctx.beginPath();
-            ctx.moveTo(particlesRef.current[i].x, particlesRef.current[i].y);
-            ctx.lineTo(particlesRef.current[j].x, particlesRef.current[j].y);
-            ctx.stroke();
+            if (distanceSq < threshold * threshold) {
+              const distance = Math.sqrt(distanceSq);
+              ctx.strokeStyle = `rgba(100, 200, 255, ${(1 - distance / threshold) * 0.2})`;
+              ctx.lineWidth = 0.5;
+              ctx.beginPath();
+              ctx.moveTo(particlesRef.current[i].x, particlesRef.current[i].y);
+              ctx.lineTo(particlesRef.current[j].x, particlesRef.current[j].y);
+              ctx.stroke();
+            }
           }
         }
       }
@@ -122,7 +135,7 @@ const FloatingParticles = memo(() => {
       }
     };
 
-    animate(0);
+    animationRef.current = requestAnimationFrame(animate);
     document.addEventListener("visibilitychange", onVisibilityChange);
 
     return () => {

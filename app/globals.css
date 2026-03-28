@@ -324,6 +324,12 @@ html[data-scrolling="1"] .nb-float {
   animation-play-state: paused !important;
 }
 
+html[data-scrolling="1"] .neon-title,
+html[data-scrolling="1"] .animate-bounce,
+html[data-scrolling="1"] .page-enter {
+  animation-play-state: paused !important;
+}
+
 /* Reduce GPU usage with backface-visibility */
 .neon-card,
 .btn-neon,
@@ -484,6 +490,16 @@ html[data-loading="1"] body {
     /* Reduce motion on low-end devices */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@media (max-width: 1024px) {
+  .neon-title {
+    animation: none !important;
+  }
+
+  .page-enter {
+    animation-duration: 0.45s !important;
   }
 }
 

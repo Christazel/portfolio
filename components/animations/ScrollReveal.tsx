@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, memo } from "react";
+import { useEffect, useMemo, useRef, memo } from "react";
 
 interface ScrollRevealProps {
   children: React.ReactNode;
@@ -24,12 +24,6 @@ const ScrollReveal = memo<ScrollRevealProps>(({
   threshold = 0.3,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  const prefersReducedMotion = useMemo(() => {
-    if (typeof window === "undefined") return false;
-    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  }, []);
 
   const hiddenTransform = useMemo(() => {
     if (direction === "up") return `translate3d(0, ${distance}px, 0)`;
@@ -43,17 +37,34 @@ const ScrollReveal = memo<ScrollRevealProps>(({
     const element = containerRef.current;
     if (!element) return;
 
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const applyVisible = () => {
+      element.style.opacity = "1";
+      element.style.transform = "translate3d(0, 0, 0)";
+      element.style.willChange = "auto";
+    };
+
+    const applyHidden = () => {
+      element.style.opacity = "0";
+      element.style.transform = hiddenTransform;
+      element.style.willChange = "opacity, transform";
+    };
+
     if (prefersReducedMotion) {
+      applyVisible();
       return;
     }
+
+    applyHidden();
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsVisible(true);
+          applyVisible();
           if (once) observer.disconnect();
         } else if (!once) {
-          setIsVisible(false);
+          applyHidden();
         }
       },
       { threshold }
@@ -61,7 +72,7 @@ const ScrollReveal = memo<ScrollRevealProps>(({
 
     observer.observe(element);
     return () => observer.disconnect();
-  }, [once, threshold, prefersReducedMotion]);
+  }, [once, threshold, hiddenTransform]);
 
   const transitionTiming =
     ease === "power3.out"
@@ -70,19 +81,17 @@ const ScrollReveal = memo<ScrollRevealProps>(({
         ? "cubic-bezier(0.25, 0.46, 0.45, 0.94)"
         : "ease-out";
 
-  const visible = prefersReducedMotion || isVisible;
-
   return (
     <div
       ref={containerRef}
       style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? "translate3d(0, 0, 0)" : hiddenTransform,
+        opacity: 0,
+        transform: hiddenTransform,
         transitionProperty: "opacity, transform",
-        transitionDuration: `${prefersReducedMotion ? 0.2 : duration}s`,
+        transitionDuration: `${duration}s`,
         transitionDelay: `${delay}s`,
-        transitionTimingFunction: prefersReducedMotion ? "linear" : transitionTiming,
-        willChange: visible ? "auto" : "opacity, transform",
+        transitionTimingFunction: transitionTiming,
+        willChange: "opacity, transform",
       }}
     >
       {children}
