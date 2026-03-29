@@ -74,7 +74,7 @@ export default function Page() {
               </a>
             </nav>
 
-            <a className="btn-neon-ghost !rounded-xl !px-6 !py-2.5" href="#contact">
+            <a className="btn-neon-ghost rounded-xl! px-6! py-2.5!" href="#contact">
               Contact
             </a>
           </div>
