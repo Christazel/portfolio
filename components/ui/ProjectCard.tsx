@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
 import Reveal from "@/components/animations/Reveal";
 
@@ -13,35 +13,82 @@ export type Project = {
 
 export default function ProjectCard({ project, index }: { project: Project; index: number }) {
   const [hovered, setHovered] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number | null>(null);
   const lastTimeRef = useRef<number>(0);
+  const isHoveringRef = useRef<boolean>(false);
 
   const onMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    // Throttle to ~60fps (16ms)
-    const now = Date.now();
-    if (now - lastTimeRef.current < 16) return;
-    lastTimeRef.current = now;
+    if (!isHoveringRef.current) return;
 
-    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    // Throttle to ~60fps (16ms)
+    const now = performance.now();
+    if (now - lastTimeRef.current < 16) return;
+
+    if (rafRef.current !== null) {
+      cancelAnimationFrame(rafRef.current);
+    }
     
     rafRef.current = requestAnimationFrame(() => {
-      const r = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
+      const el = e.currentTarget;
+      if (!el) return;
+
+      const r = el.getBoundingClientRect();
       const x = e.clientX - r.left;
       const y = e.clientY - r.top;
-      e.currentTarget.style.setProperty("--mx", `${x}px`);
-      e.currentTarget.style.setProperty("--my", `${y}px`);
+
+      // Use CSS custom properties for glow position
+      el.style.setProperty("--mx", `${x}px`);
+      el.style.setProperty("--my", `${y}px`);
+
+      lastTimeRef.current = now;
+      rafRef.current = null;
     });
+  }, []);
+
+  const onHoverStart = useCallback(() => {
+    isHoveringRef.current = true;
+    setHovered(true);
+  }, []);
+
+  const onHoverEnd = useCallback(() => {
+    isHoveringRef.current = false;
+    setHovered(false);
+
+    // Cancel pending RAF
+    if (rafRef.current !== null) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+
+    // Reset glow position
+    if (cardRef.current) {
+      cardRef.current.style.removeProperty("--mx");
+      cardRef.current.style.removeProperty("--my");
+    }
+  }, []);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      isHoveringRef.current = false;
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
+    };
   }, []);
 
   return (
     <Reveal delay={index * 0.1}>
       <motion.div
+        ref={cardRef}
         className="relative group"
         onMouseMove={onMouseMove}
-        onHoverStart={() => setHovered(true)}
-        onHoverEnd={() => setHovered(false)}
+        onHoverStart={onHoverStart}
+        onHoverEnd={onHoverEnd}
         whileHover={{ y: -8 }}
-        transition={{ duration: 0.28 }}
+        transition={{ duration: 0.28, restDelta: 0.001 }}
       >
         <motion.div
           className="absolute -inset-0.5 bg-linear-to-r from-purple-600 via-blue-600 to-teal-600 rounded-2xl opacity-0 group-hover:opacity-100 blur transition-opacity duration-300"
@@ -56,6 +103,7 @@ export default function ProjectCard({ project, index }: { project: Project; inde
             style={{
               background:
                 "radial-gradient(600px circle at var(--mx, 50%) var(--my, 50%), rgba(139, 92, 246, 0.12), transparent 40%)",
+              pointerEvents: "none",
             }}
           />
 

@@ -17,19 +17,30 @@ const FloatingParticles = memo(() => {
   const animationRef = useRef<number | undefined>(undefined);
   const lastTimeRef = useRef<number>(0);
   const isRunningRef = useRef<boolean>(true);
+  const resizeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
 
-    // Resize canvas
+    let canvasWidth = 0;
+    let canvasHeight = 0;
+    let dpr = 1;
+
+    // Optimized resize handler with debounce
     const resizeCanvas = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
+      dpr = Math.min(window.devicePixelRatio || 1, 1.25);
       const width = window.innerWidth;
       const height = window.innerHeight;
+
+      // Only update if size actually changed
+      if (canvasWidth === width && canvasHeight === height) return;
+
+      canvasWidth = width;
+      canvasHeight = height;
 
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
@@ -38,82 +49,138 @@ const FloatingParticles = memo(() => {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
 
-    resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
+    const debouncedResize = () => {
+      if (resizeTimeoutRef.current) clearTimeout(resizeTimeoutRef.current);
+      resizeTimeoutRef.current = setTimeout(resizeCanvas, 150);
+    };
 
-    // Initialize particles - reduced count for better performance
-    const particleCount = window.innerWidth < 1024 ? 10 : 14;
+    resizeCanvas();
+    window.addEventListener("resize", debouncedResize);
+
+    // Initialize particles - adjusted for better performance
+    const isMobile = window.innerWidth < 1024;
+    const particleCount = isMobile ? 8 : 12;
+    const canvasArea = canvasWidth * canvasHeight;
+
     particlesRef.current = Array.from({ length: particleCount }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.3, // Slower movement
-      vy: (Math.random() - 0.5) * 0.3,
-      radius: Math.random() * 1.5 + 0.5, // Smaller particles
-      opacity: Math.random() * 0.3 + 0.2,
+      x: Math.random() * canvasWidth,
+      y: Math.random() * canvasHeight,
+      vx: (Math.random() - 0.5) * 0.25,
+      vy: (Math.random() - 0.5) * 0.25,
+      radius: Math.random() * 1.2 + 0.5,
+      opacity: Math.random() * 0.25 + 0.15,
     }));
+
+    const THROTTLE_MS = isMobile ? 50 : 40;
+    const CONNECTION_DISTANCE = 120;
+    const CONNECTION_DISTANCE_SQ = CONNECTION_DISTANCE * CONNECTION_DISTANCE;
+    const TRAIL_OPACITY = "rgba(10, 10, 20, 0.04)";
+    const PARTICLE_COLOR = "rgba(100, 200, 255,";
+    const CONNECTION_COLOR = "rgba(100, 200, 255,";
 
     const animate = (currentTime: number) => {
       if (!isRunningRef.current) return;
 
-      // Throttle to ~20fps on mobile and ~24fps on desktop.
-      const minFrameGap = window.innerWidth < 1024 ? 50 : 42;
-      if (currentTime - lastTimeRef.current < minFrameGap) {
+      // Efficient throttling
+      const timeDiff = currentTime - lastTimeRef.current;
+      if (timeDiff < THROTTLE_MS) {
         animationRef.current = requestAnimationFrame(animate);
         return;
       }
       lastTimeRef.current = currentTime;
 
-      // Early exit if canvas is not visible.
+      // Skip rendering if not visible
       if (!canvas.offsetHeight || !canvas.offsetParent) {
         animationRef.current = requestAnimationFrame(animate);
         return;
       }
 
       const isScrolling = document.documentElement.dataset.scrolling === "1";
-      const drawConnections = !isScrolling;
 
-      ctx.fillStyle = "rgba(10, 10, 20, 0.05)"; // More transparent trail
-      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+      // Clear canvas with trail effect
+      ctx.fillStyle = TRAIL_OPACITY;
+      ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-      particlesRef.current.forEach((particle) => {
+      const particles = particlesRef.current;
+      const particleCount = particles.length;
+
+      // Update and draw particles
+      for (let i = 0; i < particleCount; i++) {
+        const particle = particles[i];
+
         // Update position
         particle.x += particle.vx;
         particle.y += particle.vy;
 
-        // Bounce off walls
-        if (particle.x - particle.radius < 0 || particle.x + particle.radius > window.innerWidth) {
+        // Bounce off walls (optimized)
+        const minX = particle.radius;
+        const maxX = canvasWidth - particle.radius;
+        const minY = particle.radius;
+        const maxY = canvasHeight - particle.radius;
+
+        if (particle.x < minX || particle.x > maxX) {
           particle.vx *= -1;
-          particle.x = Math.max(particle.radius, Math.min(window.innerWidth - particle.radius, particle.x));
+          particle.x = particle.x < minX ? minX : maxX;
         }
-        if (particle.y - particle.radius < 0 || particle.y + particle.radius > window.innerHeight) {
+        if (particle.y < minY || particle.y > maxY) {
           particle.vy *= -1;
-          particle.y = Math.max(particle.radius, Math.min(window.innerHeight - particle.radius, particle.y));
+          particle.y = particle.y < minY ? minY : maxY;
         }
 
-        // Draw particle with glow - simplified
-        ctx.fillStyle = `rgba(100, 200, 255, ${particle.opacity})`;
+        // Draw particle
+        ctx.fillStyle = `${PARTICLE_COLOR} ${particle.opacity})`;
         ctx.beginPath();
-        ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+        ctx.arc(particle.x, particle.y, particle.radius, 0, 6.28);
         ctx.fill();
-      });
+      }
 
-      if (drawConnections) {
-        // Simplified connections - only check nearby particles.
-        for (let i = 0; i < particlesRef.current.length; i++) {
-          for (let j = i + 1; j < Math.min(i + 4, particlesRef.current.length); j++) {
-            const dx = particlesRef.current[i].x - particlesRef.current[j].x;
-            const dy = particlesRef.current[i].y - particlesRef.current[j].y;
-            const distanceSq = dx * dx + dy * dy;
-            const threshold = 110;
+      // Draw connections only when not scrolling
+      if (!isScrolling && particleCount > 1) {
+        // Use a spatial partition approach for faster lookup
+        const cellSize = 200;
+        const gridWidth = Math.ceil(canvasWidth / cellSize);
+        const gridHeight = Math.ceil(canvasHeight / cellSize);
+        const grid = new Map<string, number[]>();
 
-            if (distanceSq < threshold * threshold) {
-              const distance = Math.sqrt(distanceSq);
-              ctx.strokeStyle = `rgba(100, 200, 255, ${(1 - distance / threshold) * 0.2})`;
-              ctx.lineWidth = 0.5;
-              ctx.beginPath();
-              ctx.moveTo(particlesRef.current[i].x, particlesRef.current[i].y);
-              ctx.lineTo(particlesRef.current[j].x, particlesRef.current[j].y);
-              ctx.stroke();
+        // Populate grid
+        for (let i = 0; i < particleCount; i++) {
+          const cell = `${Math.floor(particles[i].x / cellSize)},${Math.floor(particles[i].y / cellSize)}`;
+          if (!grid.has(cell)) grid.set(cell, []);
+          grid.get(cell)!.push(i);
+        }
+
+        // Check connections in adjacent cells only
+        ctx.strokeStyle = `${CONNECTION_COLOR} 0.15)`;
+        ctx.lineWidth = 0.5;
+
+        for (let i = 0; i < particleCount; i++) {
+          const p1 = particles[i];
+          const cellX = Math.floor(p1.x / cellSize);
+          const cellY = Math.floor(p1.y / cellSize);
+
+          // Check only adjacent cells
+          for (let dx = -1; dx <= 1; dx++) {
+            for (let dy = -1; dy <= 1; dy++) {
+              const cell = `${cellX + dx},${cellY + dy}`;
+              const cellParticles = grid.get(cell);
+              
+              if (cellParticles) {
+                for (const j of cellParticles) {
+                  if (j <= i) continue;
+
+                  const p2 = particles[j];
+                  const dx = p1.x - p2.x;
+                  const dy = p1.y - p2.y;
+                  const distSq = dx * dx + dy * dy;
+
+                  if (distSq < CONNECTION_DISTANCE_SQ) {
+                    ctx.beginPath();
+                    ctx.moveTo(p1.x, p1.y);
+                    ctx.lineTo(p2.x, p2.y);
+                    ctx.stroke();
+                  }
+                }
+              }
             }
           }
         }
@@ -138,10 +205,15 @@ const FloatingParticles = memo(() => {
     animationRef.current = requestAnimationFrame(animate);
     document.addEventListener("visibilitychange", onVisibilityChange);
 
+    // Cleanup
     return () => {
-      window.removeEventListener("resize", resizeCanvas);
+      window.removeEventListener("resize", debouncedResize);
       document.removeEventListener("visibilitychange", onVisibilityChange);
       isRunningRef.current = false;
+      
+      if (resizeTimeoutRef.current) {
+        clearTimeout(resizeTimeoutRef.current);
+      }
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }

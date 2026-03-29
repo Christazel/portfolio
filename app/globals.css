@@ -701,3 +701,99 @@ html[data-perf="lite"] .backdrop-blur-md {
 .animate-spin-slow {
   animation: spin-slow 20s linear infinite;
 }
+
+/* ===== ENHANCED PERFORMANCE OPTIMIZATIONS ===== */
+
+/* Improved content visibility for sections */
+.section {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px auto;
+  /* Prevent reflow when section becomes visible */
+  contain: layout style paint;
+}
+
+/* Optimize animation containers */
+.animation-container {
+  will-change: initial;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Better animation performance with GPU */
+@supports (transform: translate3d(0, 0, 0)) {
+  .neon-card,
+  .btn-neon,
+  .skill-badge,
+  .project-item,
+  .motion-safe {
+    transform: translate3d(0, 0, 0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+}
+
+/* Optimize text rendering for better performance */
+* {
+  -webkit-font-smoothing: subpixel-antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Disable expensive effects during scroll */
+html[data-scrolling="1"] * {
+  -webkit-backface-visibility: auto;
+  backface-visibility: auto;
+  will-change: auto;
+}
+
+/* Better hover performance - use pointer media query */
+@media (hover: hover) and (pointer: fine) {
+  .neon-card:hover {
+    box-shadow:
+      0 0 0 1px rgba(129, 140, 248, 0.25) inset,
+      0 18px 60px rgba(0, 0, 0, 0.55),
+      0 0 90px rgba(34, 211, 238, 0.18);
+  }
+}
+
+/* Reduce motion for low-power devices */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Prevent layout shift during transitions */
+.transition-safe {
+  contain: layout style;
+}
+
+/* GPU optimization for high-frequency updates */
+.high-performance {
+  will-change: auto;
+  contain: layout style paint;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* Optimize scrollbar performance */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(24, 24, 27, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(113, 113, 122, 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(113, 113, 122, 0.8);
+}

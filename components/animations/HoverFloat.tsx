@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, memo } from "react";
+import { useEffect, useRef, memo, useCallback } from "react";
 
 interface HoverFloatProps {
   children: React.ReactNode;
@@ -15,34 +15,38 @@ export default memo(function HoverFloat({
 }: HoverFloatProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number | null>(null);
+  const transitionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const lastTimeRef = useRef<number>(0);
+  const rotationStateRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  const isHoveringRef = useRef<boolean>(false);
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduce-motion: reduce)").matches;
     const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     if (prefersReducedMotion || !canHover) return;
 
     const maxTilt = Math.min(Math.max(strength / 2, 6), 18);
-    let nextRotationX = 0;
-    let nextRotationY = 0;
-    let isAnimating = false;
+    const THROTTLE_MS = 16;
 
-    const applyTransform = () => {
-      isAnimating = false;
-      container.style.transform = `perspective(1000px) rotateX(${nextRotationX.toFixed(2)}deg) rotateY(${nextRotationY.toFixed(2)}deg) translate3d(0, 0, 0)`;
+    const applyTransform = (x: number, y: number) => {
+      if (!container) return;
+      container.style.transform = `perspective(1000px) rotateX(${x.toFixed(1)}deg) rotateY(${y.toFixed(1)}deg) translate3d(0, 0, 0)`;
     };
 
-    const onMouseMove = (e: MouseEvent) => {
+    const onMouseMove = useCallback((e: MouseEvent) => {
+      if (!isHoveringRef.current) return;
+
       const now = performance.now();
-      if (now - lastTimeRef.current < 16) {
+      if (now - lastTimeRef.current < THROTTLE_MS) {
         return;
       }
-      lastTimeRef.current = now;
 
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
+      }
 
       rafRef.current = requestAnimationFrame(() => {
         const rect = container.getBoundingClientRect();
@@ -52,32 +56,69 @@ export default memo(function HoverFloat({
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
 
-        nextRotationX = ((centerY - y) / centerY) * maxTilt;
-        nextRotationY = ((x - centerX) / centerX) * maxTilt;
+        const rotX = ((centerY - y) / centerY) * maxTilt;
+        const rotY = ((x - centerX) / centerX) * maxTilt;
 
-        if (!isAnimating) {
-          isAnimating = true;
-          applyTransform();
+        // Only update if rotation actually changed
+        if (rotationStateRef.current.x !== rotX || rotationStateRef.current.y !== rotY) {
+          rotationStateRef.current = { x: rotX, y: rotY };
+          applyTransform(rotX, rotY);
         }
+
+        lastTimeRef.current = now;
+        rafRef.current = null;
       });
-    };
+    }, []);
 
-    const onMouseLeave = () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    const onMouseEnter = useCallback(() => {
+      isHoveringRef.current = true;
+      lastTimeRef.current = performance.now();
+    }, []);
+
+    const onMouseLeave = useCallback(() => {
+      isHoveringRef.current = false;
+
+      // Cancel pending RAF
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
+
+      // Clear pending transition timeout
+      if (transitionTimeoutRef.current) {
+        clearTimeout(transitionTimeoutRef.current);
+      }
+
       container.style.transition = "transform 280ms cubic-bezier(0.22, 1, 0.36, 1)";
-      container.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) translate3d(0, 0, 0)";
-      window.setTimeout(() => {
-        container.style.transition = "";
-      }, 300);
-    };
+      applyTransform(0, 0);
+      rotationStateRef.current = { x: 0, y: 0 };
 
+      transitionTimeoutRef.current = setTimeout(() => {
+        if (container) {
+          container.style.transition = "";
+        }
+        transitionTimeoutRef.current = null;
+      }, 300);
+    }, []);
+
+    container.addEventListener("mouseenter", onMouseEnter);
     container.addEventListener("mousemove", onMouseMove);
     container.addEventListener("mouseleave", onMouseLeave);
 
     return () => {
+      container.removeEventListener("mouseenter", onMouseEnter);
       container.removeEventListener("mousemove", onMouseMove);
       container.removeEventListener("mouseleave", onMouseLeave);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
+      }
+
+      if (transitionTimeoutRef.current) {
+        clearTimeout(transitionTimeoutRef.current);
+      }
+
+      isHoveringRef.current = false;
     };
   }, [strength]);
 
