@@ -88,7 +88,11 @@ export default function SplitText({
         },
       });
       timelineRef.current = timeline;
-      scrollTriggerRef.current = timeline.scrollTrigger as ScrollTrigger;
+      
+      // Safely get scrollTrigger if it exists
+      if (timeline.scrollTrigger) {
+        scrollTriggerRef.current = timeline.scrollTrigger as ScrollTrigger;
+      }
 
       timeline.to(
         charSpans,

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { motion } from "framer-motion";
 
 import LanyardHolderSingle from "../components/layout/LanyardHolderSingle";
@@ -98,29 +98,30 @@ export default function Page() {
   const skillsLoop = useMemo(() => [...skills, ...skills], []);
 
   const [aboutLang, setAboutLang] = useState<"id" | "en">("id");
+  const scrollTimeoutRef = useRef<number | undefined>(undefined);
 
   // ✅ pause animasi saat user sedang scroll (biar scroll ke #about lebih mulus)
   useEffect(() => {
-    let t: number | undefined;
-    let isScrolling = false;
-
     const onScroll = () => {
-      if (isScrolling) return; // Already in scrolling mode, prevent redundant updates
-      
-      isScrolling = true;
       document.documentElement.setAttribute("data-scrolling", "1");
       
-      window.clearTimeout(t);
-      t = window.setTimeout(() => {
-        isScrolling = false;
+      // Clear existing timeout
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+      
+      scrollTimeoutRef.current = window.setTimeout(() => {
         document.documentElement.removeAttribute("data-scrolling");
-      }, 120); // Reduced from 140ms to 120ms for faster recovery
+        scrollTimeoutRef.current = undefined;
+      }, 120);
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", onScroll);
-      if (t) window.clearTimeout(t);
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
     };
   }, []);
 
