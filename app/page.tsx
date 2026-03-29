@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { SiLinkedin } from "react-icons/si";
 
 import GlitchText from "@/components/animations/GlitchText";
-import HoverFloat from "@/components/animations/HoverFloat";
 import ParallaxSection from "@/components/animations/ParallaxSection";
 import RippleButton from "@/components/animations/RippleButton";
 import ScrollReveal from "@/components/animations/ScrollReveal";
@@ -290,11 +289,10 @@ export default function Page() {
             <div className="mt-4 grid gap-4 md:grid-cols-2">
               {projects.map((p, idx) => (
                 <ScrollReveal key={p.title} delay={idx * 0.1} distance={40}>
-                  <HoverFloat>
-                    <div className="neon-card p-6 transition hover:-translate-y-1 duration-300 h-full relative group overflow-hidden">
-                      {/* Animated gradient background on hover */}
-                      <div className="absolute inset-0 bg-linear-to-br from-cyan-500/05 via-transparent to-purple-500/05 opacity-0 group-hover:opacity-70 transition duration-500 -z-10" />
-                      <div className="absolute top-0 right-0 w-40 h-40 bg-cyan-500/08 rounded-full blur-2xl opacity-0 group-hover:opacity-50 transition duration-500 -z-10" />
+                  <div className="neon-card p-6 h-full relative overflow-hidden">
+                      {/* Static decorative background (flat card, no hover motion) */}
+                      <div className="absolute inset-0 bg-linear-to-br from-cyan-500/05 via-transparent to-purple-500/05 opacity-55 -z-10" />
+                      <div className="absolute top-0 right-0 w-40 h-40 bg-cyan-500/08 rounded-full blur-2xl opacity-30 -z-10" />
 
                       <div className="flex items-center justify-between relative">
                         <p className="section-kicker">Case Study</p>
@@ -320,7 +318,6 @@ export default function Page() {
                         ))}
                       </div>
                     </div>
-                  </HoverFloat>
                 </ScrollReveal>
               ))}
             </div>
