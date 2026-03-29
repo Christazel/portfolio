@@ -60,7 +60,6 @@ const FloatingParticles = memo(() => {
     // Initialize particles - adjusted for better performance
     const isMobile = window.innerWidth < 1024;
     const particleCount = isMobile ? 8 : 12;
-    const canvasArea = canvasWidth * canvasHeight;
 
     particlesRef.current = Array.from({ length: particleCount }, () => ({
       x: Math.random() * canvasWidth,
@@ -138,8 +137,6 @@ const FloatingParticles = memo(() => {
       if (!isScrolling && particleCount > 1) {
         // Use a spatial partition approach for faster lookup
         const cellSize = 200;
-        const gridWidth = Math.ceil(canvasWidth / cellSize);
-        const gridHeight = Math.ceil(canvasHeight / cellSize);
         const grid = new Map<string, number[]>();
 
         // Populate grid

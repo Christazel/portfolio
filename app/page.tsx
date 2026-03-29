@@ -3,13 +3,13 @@
 import { useEffect, useMemo, useState, useRef } from "react";
 import { motion } from "framer-motion";
 
-import LanyardHolderSingle from "../components/layout/LanyardHolderSingle";
-import CommentBox from "../components/ui/CommentBox";
-import ScrollReveal from "../components/animations/ScrollReveal";
-import ParallaxSection from "../components/animations/ParallaxSection";
-import HoverFloat from "../components/animations/HoverFloat";
-import GlitchText from "../components/animations/GlitchText";
-import RippleButton from "../components/animations/RippleButton";
+import GlitchText from "@/components/animations/GlitchText";
+import HoverFloat from "@/components/animations/HoverFloat";
+import ParallaxSection from "@/components/animations/ParallaxSection";
+import RippleButton from "@/components/animations/RippleButton";
+import ScrollReveal from "@/components/animations/ScrollReveal";
+import LanyardHolderSingle from "@/components/layout/LanyardHolderSingle";
+import CommentBox from "@/components/ui/CommentBox";
 
 import {
   SiGithub,
