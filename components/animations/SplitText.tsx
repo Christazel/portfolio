@@ -26,7 +26,7 @@ export default function SplitText({
   textAlign = "left",
 }: SplitTextProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const timelineRef = useRef<gsap.core.Timeline | null>(null);
+  const timelineRef = useRef<gsap.core.Timeline | gsap.core.Tween | null>(null);
   const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
 
   useEffect(() => {
