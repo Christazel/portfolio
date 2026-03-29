@@ -48,7 +48,7 @@ export default function SplitText({
       wordSpan.className = "inline-block mr-1.5";
       wordSpan.style.opacity = "0";
 
-      // Split word into characters (limit to 3 chars per word for performance)
+      // Split word into characters and cap very long words to keep animation cost low
       const displayChars = word.length > 15 ? word.substring(0, 15) + "..." : word;
       const chars = displayChars.split("").map((char) => {
         const charSpan = document.createElement("span");

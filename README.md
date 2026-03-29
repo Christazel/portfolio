@@ -43,7 +43,7 @@ npm run dev
 
 ## 📁 Project Structure
 
-See [DEVELOPMENT.md](./DEVELOPMENT.md) for detailed structure and guidelines.
+See [docs/DEVELOPMENT.md](./docs/DEVELOPMENT.md) for detailed structure and guidelines.
 
 ```
 portfolio/
@@ -96,7 +96,7 @@ npm run format:check     # Check formatting
 | Paint Operations | -50% reduction |
 | GPU Memory | -25% reduction |
 
-See [OPTIMIZATION_SUMMARY.md](./OPTIMIZATION_SUMMARY.md) for details.
+See [docs/OPTIMIZATION_SUMMARY.md](./docs/OPTIMIZATION_SUMMARY.md) for details.
 
 ## 🔧 Configuration
 
@@ -180,7 +180,7 @@ npm run dev
 3. Check FPS: should be 60fps or consistent 24-30fps
 4. Look for red bars (dropped frames)
 
-See [DEVELOPMENT.md](./DEVELOPMENT.md#-debugging) for more tips.
+See [docs/DEVELOPMENT.md](./docs/DEVELOPMENT.md#-debugging) for more tips.
 
 ## 📦 Deployment
 
@@ -208,9 +208,9 @@ npm run start
 
 ## 📖 Documentation
 
-- [DEVELOPMENT.md](./DEVELOPMENT.md) - Development guide & detailed structure
-- [OPTIMIZATION_SUMMARY.md](./OPTIMIZATION_SUMMARY.md) - Performance optimization details
-- [PERFORMANCE_OPTIMIZATION_COMPLETE.md](./PERFORMANCE_OPTIMIZATION_COMPLETE.md) - Advanced optimization guide
+- [docs/DEVELOPMENT.md](./docs/DEVELOPMENT.md) - Development guide & detailed structure
+- [docs/OPTIMIZATION_SUMMARY.md](./docs/OPTIMIZATION_SUMMARY.md) - Performance optimization details
+- [docs/PERFORMANCE_OPTIMIZATION_COMPLETE.md](./docs/PERFORMANCE_OPTIMIZATION_COMPLETE.md) - Advanced optimization guide
 
 ## 📄 License
 
