@@ -25,6 +25,9 @@ const fontMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Portfolio",
   description: "Personal portfolio website",
+  verification: {
+    google: "MJwLCkIEi6CxPUeDXeV1kE8Dr6sVwnlSoFtLIS5nLP4",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
