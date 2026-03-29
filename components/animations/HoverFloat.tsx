@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, memo, useCallback } from "react";
+import { useEffect, useRef, memo } from "react";
 
 interface HoverFloatProps {
   children: React.ReactNode;
@@ -24,7 +24,7 @@ export default memo(function HoverFloat({
     const container = containerRef.current;
     if (!container) return;
 
-    const prefersReducedMotion = window.matchMedia("(prefers-reduce-motion: reduce)").matches;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     if (prefersReducedMotion || !canHover) return;
 
@@ -36,7 +36,7 @@ export default memo(function HoverFloat({
       container.style.transform = `perspective(1000px) rotateX(${x.toFixed(1)}deg) rotateY(${y.toFixed(1)}deg) translate3d(0, 0, 0)`;
     };
 
-    const onMouseMove = useCallback((e: MouseEvent) => {
+    const onMouseMove = (e: MouseEvent) => {
       if (!isHoveringRef.current) return;
 
       const now = performance.now();
@@ -68,14 +68,14 @@ export default memo(function HoverFloat({
         lastTimeRef.current = now;
         rafRef.current = null;
       });
-    }, []);
+    };
 
-    const onMouseEnter = useCallback(() => {
+    const onMouseEnter = () => {
       isHoveringRef.current = true;
       lastTimeRef.current = performance.now();
-    }, []);
+    };
 
-    const onMouseLeave = useCallback(() => {
+    const onMouseLeave = () => {
       isHoveringRef.current = false;
 
       // Cancel pending RAF
@@ -99,7 +99,7 @@ export default memo(function HoverFloat({
         }
         transitionTimeoutRef.current = null;
       }, 300);
-    }, []);
+    };
 
     container.addEventListener("mouseenter", onMouseEnter);
     container.addEventListener("mousemove", onMouseMove);
