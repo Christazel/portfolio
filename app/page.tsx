@@ -51,31 +51,33 @@ export default function Page() {
   return (
     <div className="min-h-screen">
       {/* ✅ blur hanya md+ supaya scroll mobile lebih smooth */}
-      <header className="sticky top-0 z-50 border-b border-zinc-800/80 bg-zinc-950/95 md:bg-zinc-950/90 md:backdrop-blur-sm">
-        <div className="container-page flex items-center justify-between py-4">
-          <div className="flex items-center gap-3">
-            <div className="text-sm font-semibold tracking-tight neon-title">Yohan • Portfolio</div>
-            <span className="hidden text-xs text-zinc-500 font-mono md:inline">Fullstack Developer</span>
-          </div>
+      <header className="sticky top-0 z-50 border-b border-zinc-800/70 bg-zinc-950/90 backdrop-blur-md">
+        <div className="container-page py-3">
+          <div className="header-shell flex items-center justify-between rounded-2xl px-4 py-3 md:px-5">
+            <div className="flex items-center gap-3">
+              <div className="brand-chip text-sm font-semibold tracking-tight neon-title">Yohan • Portfolio</div>
+              <span className="hidden items-center gap-2 text-xs text-zinc-400 font-mono md:inline-flex">
+                <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.7)]" />
+                Fullstack Developer
+              </span>
+            </div>
 
-          <nav className="hidden items-center gap-6 rounded-full px-5 py-2 text-sm text-zinc-300 md:flex nav-glass">
-            <a className="hover:text-white transition" href="#about">
-              About
-            </a>
-            <a className="hover:text-white transition" href="#skills">
-              Skills
-            </a>
-            <a className="hover:text-white transition" href="#projects">
-              Projects
-            </a>
-            <a className="hover:text-white transition" href="#contact">
+            <nav className="hidden items-center gap-2 rounded-full px-2 py-1 text-sm text-zinc-300 md:flex nav-glass">
+              <a className="nav-link" href="#about">
+                About
+              </a>
+              <a className="nav-link" href="#skills">
+                Skills
+              </a>
+              <a className="nav-link" href="#projects">
+                Projects
+              </a>
+            </nav>
+
+            <a className="btn-neon-ghost !rounded-xl !px-6 !py-2.5" href="#contact">
               Contact
             </a>
-          </nav>
-
-          <a className="btn-neon-ghost" href="#contact">
-            Contact
-          </a>
+          </div>
         </div>
       </header>
 
