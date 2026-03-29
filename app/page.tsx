@@ -125,7 +125,7 @@ export default function Page() {
                       <RippleButton className="btn-neon" href="#projects">
                         View Projects
                       </RippleButton>
-                      <RippleButton className="btn-neon-ghost" href="/cv.pdf" target="_blank" rel="noreferrer">
+                      <RippleButton className="btn-neon-ghost" href="/asset/yohan-christazel-jeffry-cv.pdf" target="_blank" rel="noreferrer">
                         Download CV
                       </RippleButton>
                     </div>
