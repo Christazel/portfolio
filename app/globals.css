@@ -491,6 +491,15 @@ html[data-loading="1"] body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
+  /* Disable backdrop-filter globally on mobile */
+  .backdrop-blur,
+  .backdrop-blur-sm,
+  .backdrop-blur-md,
+  .nav-glass {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
 }
 
 @media (max-width: 1024px) {
@@ -500,6 +509,45 @@ html[data-loading="1"] body {
 
   .page-enter {
     animation-duration: 0.45s !important;
+  }
+
+  /* Reduce glow effects on tablet */
+  .neon-border::before {
+    filter: blur(6px) !important;
+  }
+}
+
+/* ===== ADVANCED: Content Visibility & Containment ===== */
+/* Defer rendering of off-screen content */
+.section-lazy {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 500px;
+}
+
+.project-card {
+  contain: content;
+}
+
+.animation-container {
+  contain: layout style paint;
+}
+
+/* Reduce blur on elements that are frequently animated */
+@supports (backdrop-filter: blur(1px)) {
+  @media (prefers-reduced-motion: no-preference) {
+    .neon-card {
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+  }
+}
+
+/* Further optimizations for large displays */
+@media (min-width: 1920px) {
+  /* Reduce animation complexity on UHD screens */
+  .nb-orb {
+    blur: 120px;
+    opacity: 0.15;
   }
 }
 

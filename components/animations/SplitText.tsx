@@ -26,9 +26,17 @@ export default function SplitText({
   textAlign = "left",
 }: SplitTextProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const timelineRef = useRef<gsap.core.Timeline | null>(null);
+  const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) {
+      containerRef.current.textContent = children;
+      return;
+    }
 
     const words = children.split(" ");
     const container = containerRef.current;
@@ -40,8 +48,9 @@ export default function SplitText({
       wordSpan.className = "inline-block mr-1.5";
       wordSpan.style.opacity = "0";
 
-      // Split word into characters
-      const chars = word.split("").map((char) => {
+      // Split word into characters (limit to 3 chars per word for performance)
+      const displayChars = word.length > 15 ? word.substring(0, 15) + "..." : word;
+      const chars = displayChars.split("").map((char) => {
         const charSpan = document.createElement("span");
         charSpan.textContent = char;
         charSpan.className = "inline-block";
@@ -55,6 +64,16 @@ export default function SplitText({
 
     const charSpans = container.querySelectorAll("span span");
 
+    // Cleanup previous animations
+    if (timelineRef.current) {
+      timelineRef.current.kill();
+      timelineRef.current = null;
+    }
+    if (scrollTriggerRef.current) {
+      scrollTriggerRef.current.kill();
+      scrollTriggerRef.current = null;
+    }
+
     if (animateOnScroll) {
       gsap.set(charSpans, { opacity: 0, y: 10 });
 
@@ -63,8 +82,13 @@ export default function SplitText({
           trigger: container,
           start: "top 80%",
           once: true,
+          markers: false,
+          // Refresh less frequently
+          invalidateOnRefresh: false,
         },
       });
+      timelineRef.current = timeline;
+      scrollTriggerRef.current = timeline.scrollTrigger as ScrollTrigger;
 
       timeline.to(
         charSpans,
@@ -79,7 +103,7 @@ export default function SplitText({
       );
     } else {
       gsap.set(charSpans, { opacity: 0, y: 10 });
-      gsap.to(charSpans, {
+      timelineRef.current = gsap.to(charSpans, {
         opacity: 1,
         y: 0,
         duration,
@@ -90,11 +114,14 @@ export default function SplitText({
     }
 
     return () => {
-      ScrollTrigger.getAll().forEach((trigger) => {
-        if (trigger.trigger === container) {
-          trigger.kill();
-        }
-      });
+      if (timelineRef.current) {
+        timelineRef.current.kill();
+        timelineRef.current = null;
+      }
+      if (scrollTriggerRef.current) {
+        scrollTriggerRef.current.kill();
+        scrollTriggerRef.current = null;
+      }
     };
   }, [children, staggerDelay, duration, delay, animateOnScroll]);
 

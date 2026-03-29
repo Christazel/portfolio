@@ -15,6 +15,7 @@ export default memo(function ParallaxSection({
 }: ParallaxSectionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const throttleTimeRef = useRef<number>(0);
 
   useEffect(() => {
     if (!containerRef.current || !contentRef.current) return;
@@ -33,9 +34,18 @@ export default memo(function ParallaxSection({
     let rafId = 0;
     let ticking = false;
     let inView = true;
+    const THROTTLE_MS = 16; // 60fps throttle
 
     const updateParallax = () => {
       ticking = false;
+      
+      // Additional throttle check
+      const now = performance.now();
+      if (now - throttleTimeRef.current < THROTTLE_MS) {
+        return;
+      }
+      throttleTimeRef.current = now;
+
       const rect = container.getBoundingClientRect();
       const viewportHeight = window.innerHeight || 1;
 

@@ -42,9 +42,12 @@ export default memo(function GlitchText({ children, className = "" }: GlitchText
     const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     if (prefersReducedMotion || !canHover) return;
 
+    // More aggressive throttle (90ms) to reduce glitch spam
+    const THROTTLE_MS = 90;
+
     const onPointerMove = () => {
       const now = performance.now();
-      if (now - lastTickRef.current < 70) return;
+      if (now - lastTickRef.current < THROTTLE_MS) return;
       lastTickRef.current = now;
 
       if (glitchTimeoutRef.current) {
@@ -52,10 +55,10 @@ export default memo(function GlitchText({ children, className = "" }: GlitchText
       }
       glitchTimeoutRef.current = window.setTimeout(() => {
         triggerGlitch();
-      }, 60);
+      }, 40);
     };
 
-    container.addEventListener("pointermove", onPointerMove);
+    container.addEventListener("pointermove", onPointerMove, { passive: true });
 
     return () => {
       container.removeEventListener("pointermove", onPointerMove);
