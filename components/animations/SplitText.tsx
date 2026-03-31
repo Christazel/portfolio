@@ -132,8 +132,8 @@ export default function SplitText({
   return (
     <div
       ref={containerRef}
-      className={`${className}`}
-      style={{ textAlign: textAlign as React.CSSProperties['textAlign'] }}
+      className={className}
+      style={{ textAlign }}
     />
   );
 }

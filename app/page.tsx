@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { SiLinkedin } from "react-icons/si";
 
@@ -127,14 +127,22 @@ export default function Page() {
                       <RippleButton className="btn-neon" href="#projects">
                         View Projects
                       </RippleButton>
-                      <RippleButton className="btn-neon-ghost" href="/asset/yohan-christazel-jeffry-cv.pdf" target="_blank" rel="noreferrer">
+                      <RippleButton
+                        className="btn-neon-ghost"
+                        href="/asset/yohan-christazel-jeffry-cv.pdf"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
                         Download CV
                       </RippleButton>
                     </div>
                   </ScrollReveal>
 
                   <div className="mt-7 flex flex-wrap items-center gap-4 text-xs text-zinc-400">
-                    <a className="inline-flex items-center gap-2 hover:text-white transition" href="mailto:yohan.christazel9@gmail.com">
+                    <a
+                      className="inline-flex items-center gap-2 hover:text-white transition"
+                      href="mailto:yohan.christazel9@gmail.com"
+                    >
                       Email
                     </a>
                     <a
