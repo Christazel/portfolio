@@ -91,7 +91,7 @@ const ScrollReveal = memo<ScrollRevealProps>(({
         transitionDuration: `${duration}s`,
         transitionDelay: `${delay}s`,
         transitionTimingFunction: transitionTiming,
-        willChange: "opacity, transform",
+        willChange: "auto",
       }}
     >
       {children}

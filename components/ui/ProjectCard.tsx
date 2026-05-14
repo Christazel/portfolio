@@ -17,8 +17,10 @@ export default function ProjectCard({ project, index }: { project: Project; inde
   const rafRef = useRef<number | null>(null);
   const lastTimeRef = useRef<number>(0);
   const isHoveringRef = useRef<boolean>(false);
+  const canHoverRef = useRef<boolean>(true);
 
   const onMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!canHoverRef.current) return;
     if (!isHoveringRef.current) return;
 
     // Throttle to ~60fps (16ms)
@@ -47,6 +49,7 @@ export default function ProjectCard({ project, index }: { project: Project; inde
   }, []);
 
   const onHoverStart = useCallback(() => {
+    if (!canHoverRef.current) return;
     isHoveringRef.current = true;
     setHovered(true);
   }, []);
@@ -70,7 +73,16 @@ export default function ProjectCard({ project, index }: { project: Project; inde
 
   // Cleanup on unmount
   useEffect(() => {
+    const mediaQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const onChange = () => {
+      canHoverRef.current = mediaQuery.matches;
+    };
+
+    onChange();
+    mediaQuery.addEventListener?.("change", onChange);
+
     return () => {
+      mediaQuery.removeEventListener?.("change", onChange);
       isHoveringRef.current = false;
       if (rafRef.current !== null) {
         cancelAnimationFrame(rafRef.current);

@@ -22,11 +22,15 @@ export default function Page() {
 
   const [aboutLang, setAboutLang] = useState<"id" | "en">("id");
   const scrollTimeoutRef = useRef<number | undefined>(undefined);
+  const isScrollingRef = useRef(false);
 
   // ✅ pause animasi saat user sedang scroll (biar scroll ke #about lebih mulus)
   useEffect(() => {
     const onScroll = () => {
-      document.documentElement.setAttribute("data-scrolling", "1");
+      if (!isScrollingRef.current) {
+        isScrollingRef.current = true;
+        document.documentElement.setAttribute("data-scrolling", "1");
+      }
       
       // Clear existing timeout
       if (scrollTimeoutRef.current) {
@@ -34,6 +38,7 @@ export default function Page() {
       }
       
       scrollTimeoutRef.current = window.setTimeout(() => {
+        isScrollingRef.current = false;
         document.documentElement.removeAttribute("data-scrolling");
         scrollTimeoutRef.current = undefined;
       }, 120);
@@ -45,6 +50,7 @@ export default function Page() {
       if (scrollTimeoutRef.current) {
         clearTimeout(scrollTimeoutRef.current);
       }
+      isScrollingRef.current = false;
     };
   }, []);
 

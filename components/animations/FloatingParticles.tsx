@@ -96,6 +96,11 @@ const FloatingParticles = memo(() => {
 
       const isScrolling = document.documentElement.dataset.scrolling === "1";
 
+      if (isScrolling) {
+        animationRef.current = requestAnimationFrame(animate);
+        return;
+      }
+
       // Clear canvas with trail effect
       ctx.fillStyle = TRAIL_OPACITY;
       ctx.fillRect(0, 0, canvasWidth, canvasHeight);
@@ -133,8 +138,8 @@ const FloatingParticles = memo(() => {
         ctx.fill();
       }
 
-      // Draw connections only when not scrolling
-      if (!isScrolling && particleCount > 1) {
+      // Draw connections when not scrolling
+      if (particleCount > 1) {
         // Use a spatial partition approach for faster lookup
         const cellSize = 200;
         const grid = new Map<string, number[]>();

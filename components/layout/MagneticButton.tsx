@@ -15,8 +15,11 @@ export default function MagneticButton({ children, href, className = "" }: Props
   const rafRef = useRef<number | null>(null);
   const lastTimeRef = useRef<number>(0);
   const isHoveringRef = useRef<boolean>(false);
+  const canHoverRef = useRef<boolean>(true);
 
   const onMove = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!canHoverRef.current) return;
+
     // Throttle to ~16ms (60fps)
     const now = performance.now();
     if (now - lastTimeRef.current < 16) return;
@@ -48,6 +51,7 @@ export default function MagneticButton({ children, href, className = "" }: Props
   }, []);
 
   const onEnter = useCallback(() => {
+    if (!canHoverRef.current) return;
     isHoveringRef.current = true;
   }, []);
 
@@ -64,7 +68,16 @@ export default function MagneticButton({ children, href, className = "" }: Props
 
   // Cleanup on unmount
   useEffect(() => {
+    const mediaQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const onChange = () => {
+      canHoverRef.current = mediaQuery.matches;
+    };
+
+    onChange();
+    mediaQuery.addEventListener?.("change", onChange);
+
     return () => {
+      mediaQuery.removeEventListener?.("change", onChange);
       isHoveringRef.current = false;
       if (rafRef.current !== null) {
         cancelAnimationFrame(rafRef.current);

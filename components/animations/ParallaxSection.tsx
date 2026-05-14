@@ -34,11 +34,17 @@ export default memo(function ParallaxSection({
     let rafId = 0;
     let ticking = false;
     let inView = true;
+    let listenersActive = false;
     const THROTTLE_MS = 16; // 60fps throttle
 
     const updateParallax = () => {
       ticking = false;
       
+      if (!inView) return;
+
+      const isScrolling = document.documentElement.dataset.scrolling === "1";
+      if (isScrolling) return;
+
       // Additional throttle check
       const now = performance.now();
       if (now - throttleTimeRef.current < THROTTLE_MS) {
@@ -48,8 +54,6 @@ export default memo(function ParallaxSection({
 
       const rect = container.getBoundingClientRect();
       const viewportHeight = window.innerHeight || 1;
-
-      if (!inView) return;
 
       const progress = (viewportHeight - rect.top) / (viewportHeight + rect.height);
       const clamped = Math.max(0, Math.min(1, progress));
@@ -65,12 +69,28 @@ export default memo(function ParallaxSection({
       rafId = window.requestAnimationFrame(updateParallax);
     };
 
+    const enableListeners = () => {
+      if (listenersActive) return;
+      listenersActive = true;
+      window.addEventListener("scroll", requestTick, { passive: true });
+      window.addEventListener("resize", requestTick, { passive: true });
+    };
+
+    const disableListeners = () => {
+      if (!listenersActive) return;
+      listenersActive = false;
+      window.removeEventListener("scroll", requestTick);
+      window.removeEventListener("resize", requestTick);
+    };
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         inView = entry.isIntersecting;
         if (!inView) {
+          disableListeners();
           content.style.willChange = "auto";
         } else {
+          enableListeners();
           requestTick();
         }
       },
@@ -80,13 +100,11 @@ export default memo(function ParallaxSection({
     observer.observe(container);
     requestTick();
 
-    window.addEventListener("scroll", requestTick, { passive: true });
-    window.addEventListener("resize", requestTick, { passive: true });
+    enableListeners();
 
     return () => {
       observer.disconnect();
-      window.removeEventListener("scroll", requestTick);
-      window.removeEventListener("resize", requestTick);
+      disableListeners();
       if (rafId) window.cancelAnimationFrame(rafId);
       content.style.willChange = "auto";
       content.style.transform = "translate3d(0, 0, 0)";
