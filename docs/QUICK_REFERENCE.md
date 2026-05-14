@@ -147,11 +147,6 @@ hidden md:block    # Hide on mobile
   <h2>Title</h2>
 </ScrollReveal>
 
-// Hover float
-<HoverFloat>
-  <Card />
-</HoverFloat>
-
 // Glitch text
 <GlitchText>Amazing Text</GlitchText>
 

@@ -22,7 +22,6 @@ Portfolio Anda telah dioptimalkan untuk **performa maksimal** dengan **mengurang
 
 ### 1. **Event Handler Optimization** (-40% fire rate)
 - ✅ MagneticButton: RAF throttling (16ms/~60fps)
-- ✅ HoverFloat: Debounce + RAF cleanup
 - ✅ ProjectCard: Cursor tracking throttle
 - ✅ Hasil: Hover effects lebih smooth tanpa jank
 
@@ -89,7 +88,6 @@ Next Frame
 ### Changed Files (6)
 ```
 ✏️  components/layout/MagneticButton.tsx     (+18 lines, -8)
-✏️  components/animations/HoverFloat.tsx      (+21 lines, -9)
 ✏️  components/ui/ProjectCard.tsx             (+19 lines, -8)
 ✏️  components/animations/FloatingParticles.tsx (+4 lines, -2)
 ✏️  components/animations/ScrollReveal.tsx    (+1 line)

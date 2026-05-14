@@ -68,18 +68,14 @@ portfolio/
 │
 ├── components/
 │   ├── animations/             # Animation components
-│   │   ├── AnimatedBackground.tsx
 │   │   ├── FloatingParticles.tsx
 │   │   ├── GlitchText.tsx
-│   │   ├── HoverFloat.tsx
 │   │   ├── ParallaxSection.tsx
 │   │   ├── Reveal.tsx
 │   │   ├── RippleButton.tsx
 │   │   ├── ScrollProgress.tsx
 │   │   ├── ScrollReveal.tsx
-│   │   ├── SmoothScroll.tsx
-│   │   ├── SplitText.tsx
-│   │   └── TextReveal.tsx
+│   │   
 │   │
 │   ├── layout/                 # Layout components
 │   │   ├── BackgroundEffects.tsx
@@ -199,11 +195,6 @@ import { debounce } from '../../utils/performanceOptimize';
 <ScrollReveal delay={0.2}>
   <h2>Section Title</h2>
 </ScrollReveal>
-
-// Hover float effect
-<HoverFloat className="h-64">
-  <ProjectCard project={project} />
-</HoverFloat>
 
 // Magnetic button
 <MagneticButton href="/projects">

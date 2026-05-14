@@ -22,11 +22,6 @@ const onMove = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
 }, []);
 ```
 
-#### HoverFloat (`components/animations/HoverFloat.tsx`)
-- ✅ Tambah RAF throttling dengan debounce mechanism
-- ✅ Cancel pending RAF frame saat perlu
-- ✅ Improve 3D rotation smoothness tanpa lag spikes
-
 #### ProjectCard (`components/ui/ProjectCard.tsx`)
 - ✅ Throttle cursor tracking untuk glow effect (16ms)
 - ✅ RAF-based position updates
@@ -94,7 +89,7 @@ Created `utils/performanceOptimize.ts`:
 #### Existing Memoization (Already in place)
 - ✅ All animation components use `React.memo()`
 - ✅ Prevents unnecessary re-renders from parent updates
-- ✅ Components: `HoverFloat`, `GlitchText`, `Reveal`, `RippleButton`, etc.
+- ✅ Components: `GlitchText`, `Reveal`, `RippleButton`, etc.
 
 #### ScrollReveal (`components/animations/ScrollReveal.tsx`)
 - ✅ Already optimized with GSAP ScrollTrigger
@@ -171,7 +166,6 @@ Date:   [Current Date]
     perf: optimize portfolio for smoother scrolling and reduced lag
     
     - Add RAF throttling to MagneticButton mousemove events (16ms throttle)
-    - Optimize HoverFloat with debounce and RAF cancellation
     - Add debounce to ProjectCard cursor tracking (16ms throttle) 
     - Improve FloatingParticles canvas throttling (42ms for ~24fps)
     - Add GPU acceleration with translate3d, backface-visibility
@@ -196,7 +190,6 @@ Date:   [Current Date]
 | File | Changes | Status |
 |------|---------|--------|
 | `components/layout/MagneticButton.tsx` | RAF throttling + cleanup | ✅ |
-| `components/animations/HoverFloat.tsx` | RAF throttling + debounce | ✅ |
 | `components/ui/ProjectCard.tsx` | RAF throttle cursor tracking | ✅ |
 | `components/animations/FloatingParticles.tsx` | Canvas optimization, visibility check | ✅ |
 | `components/animations/ScrollReveal.tsx` | Minor comment update | ✅ |

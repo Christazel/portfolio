@@ -12,7 +12,6 @@ Optimasi terbaru telah diterapkan pada branch `feat/update` untuk membuat portfo
 |-----------|--------------|--------|
 | **ParallaxSection** | Explicit 16ms throttle check | Reduced frame drops during scroll |
 | **GlitchText** | Increased throttle 70ms → 90ms | Smoother pointer interactions |
-| **SplitText** | Fixed GSAP memory leaks, better cleanup | Stable memory usage |
 | **Scroll Handler** | Reduced pause time 140ms → 120ms | Faster animation recovery |
 | **CSS Animations** | Added content-visibility & containment | Faster paint, better GPU usage |
 | **Mobile Optimization** | Improved backdrop-filter balance | 50%+ smoother mobile scroll |
@@ -44,21 +43,6 @@ container.addEventListener("pointermove", onPointerMove, { passive: true });
 ```
 **Result**: Less frequent glitch effect, better scroll performance
 
-#### SplitText.tsx (GSAP)
-```typescript
-// Proper cleanup for timelines and ScrollTriggers
-const timelineRef = useRef<gsap.core.Timeline | gsap.core.Tween | null>(null);
-
-return () => {
-  if (timelineRef.current) {
-    timelineRef.current.kill();
-  }
-  if (scrollTriggerRef.current) {
-    scrollTriggerRef.current.kill();
-  }
-};
-```
-**Result**: Fixed memory leaks, prevents duplicate ScrollTrigger instances
 
 ### 2. **CSS Performance Enhancements**
 
@@ -183,7 +167,6 @@ const onScroll = () => {
 
 ### Latest Commits (feat/update branch)
 ```
-d280bcb - fix: resolve TypeScript type error in SplitText component
 5fab08e - perf: optimize animations, scroll handling, and css for smoother experience
 ```
 

@@ -28,18 +28,14 @@ app/
 ```
 components/
 ├── animations/               # Entrance & scroll animations
-│   ├── AnimatedBackground.tsx
 │   ├── FloatingParticles.tsx
 │   ├── GlitchText.tsx
-│   ├── HoverFloat.tsx
 │   ├── ParallaxSection.tsx
 │   ├── Reveal.tsx
 │   ├── RippleButton.tsx
 │   ├── ScrollProgress.tsx
 │   ├── ScrollReveal.tsx
-│   ├── SmoothScroll.tsx
-│   ├── SplitText.tsx
-│   └── TextReveal.tsx
+│   
 │
 ├── layout/                   # Layout components
 │   ├── BackgroundEffects.tsx

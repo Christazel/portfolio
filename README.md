@@ -126,17 +126,12 @@ npm run format
 
 ```typescript
 import ScrollReveal from '@/components/animations/ScrollReveal';
-import HoverFloat from '@/components/animations/HoverFloat';
 import GlitchText from '@/components/animations/GlitchText';
 
 // Usage
 <ScrollReveal delay={0.2}>
   <h2>Section Title</h2>
 </ScrollReveal>
-
-<HoverFloat>
-  <ProjectCard />
-</HoverFloat>
 
 <GlitchText>Glitch Effect</GlitchText>
 ```
