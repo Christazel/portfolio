@@ -2,6 +2,50 @@
 
 import { useEffect, useMemo, useRef, memo } from "react";
 
+type RevealMeta = {
+  once: boolean;
+  applyVisible: () => void;
+  applyHidden: () => void;
+};
+
+type ObserverEntry = {
+  observer: IntersectionObserver;
+  elements: Map<Element, RevealMeta>;
+};
+
+const observerPool = new Map<string, ObserverEntry>();
+
+const getObserverEntry = (threshold: number) => {
+  const key = `${threshold}`;
+  const existing = observerPool.get(key);
+  if (existing) return existing;
+
+  const elements = new Map<Element, RevealMeta>();
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        const meta = elements.get(entry.target);
+        if (!meta) continue;
+
+        if (entry.isIntersecting) {
+          meta.applyVisible();
+          if (meta.once) {
+            observer.unobserve(entry.target);
+            elements.delete(entry.target);
+          }
+        } else if (!meta.once) {
+          meta.applyHidden();
+        }
+      }
+    },
+    { threshold }
+  );
+
+  const created = { observer, elements };
+  observerPool.set(key, created);
+  return created;
+};
+
 interface ScrollRevealProps {
   children: React.ReactNode;
   delay?: number;
@@ -58,20 +102,18 @@ const ScrollReveal = memo<ScrollRevealProps>(({
 
     applyHidden();
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          applyVisible();
-          if (once) observer.disconnect();
-        } else if (!once) {
-          applyHidden();
-        }
-      },
-      { threshold }
-    );
+    const entry = getObserverEntry(threshold);
+    entry.elements.set(element, { once, applyVisible, applyHidden });
+    entry.observer.observe(element);
 
-    observer.observe(element);
-    return () => observer.disconnect();
+    return () => {
+      entry.observer.unobserve(element);
+      entry.elements.delete(element);
+      if (entry.elements.size === 0) {
+        entry.observer.disconnect();
+        observerPool.delete(`${threshold}`);
+      }
+    };
   }, [once, threshold, hiddenTransform]);
 
   const transitionTiming =
