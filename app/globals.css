@@ -2,12 +2,7 @@
 
 :root {
   color-scheme: dark;
-  --bg-ink: #07080b;
-  --bg-surface: rgba(12, 14, 20, 0.9);
-  --accent-cyan: #22d3ee;
-  --accent-indigo: #6366f1;
-  --accent-pink: #e879f9;
-  --accent-emerald: #34d399;
+  --bg-ink: #09090b;
   --text-strong: #f4f4f5;
 }
 
@@ -15,921 +10,105 @@ html,
 body {
   height: 100%;
   scroll-behavior: smooth;
-  /* Optimize rendering performance */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  @apply text-zinc-100 antialiased;
-  background-color: var(--bg-ink);
-  font-family: var(--font-body), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  @apply text-zinc-100 antialiased bg-zinc-950;
+  font-family: system-ui, -apple-system, sans-serif;
 }
 
-.font-body {
-  font-family: var(--font-body), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+h1, h2, h3, h4 {
+  font-weight: 600;
 }
 
-.font-display {
-  font-family: var(--font-display), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  letter-spacing: -0.015em;
-}
-
-.font-mono {
-  font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-}
-
-h1,
-h2,
-h3,
-h4 {
-  font-family: var(--font-display), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-}
-
-/* Layout */
 .container-page {
-  @apply mx-auto w-full max-w-6xl px-4;
+  @apply mx-auto w-full max-w-5xl px-4;
 }
 
-/* Neon helpers */
 .neon-card {
-  @apply rounded-3xl border overflow-hidden;
-  position: relative;
-  border-color: rgba(148, 163, 184, 0.16);
-  background:
-    radial-gradient(120% 120% at 12% 0%, rgba(34, 211, 238, 0.12), transparent 46%),
-    radial-gradient(140% 140% at 100% 10%, rgba(232, 121, 249, 0.12), transparent 52%),
-    linear-gradient(135deg, rgba(12, 14, 20, 0.98), rgba(8, 10, 14, 0.95));
-  box-shadow:
-    0 0 0 1px rgba(56, 189, 248, 0.08) inset,
-    0 10px 32px rgba(0, 0, 0, 0.45),
-    0 0 42px rgba(59, 130, 246, 0.06);
-  backdrop-filter: blur(8px);
-  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease, border-color 0.35s ease;
-  contain: layout style paint;
-  will-change: transform;
+  @apply rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6;
+  transition: transform 0.2s ease;
 }
 
 .neon-card:hover {
-  border-color: rgba(129, 140, 248, 0.5);
-  box-shadow:
-    0 0 0 1px rgba(129, 140, 248, 0.25) inset,
-    0 14px 48px rgba(0, 0, 0, 0.5),
-    0 0 65px rgba(34, 211, 238, 0.14);
-  transform: translateY(-4px);
+  transform: translateY(-2px);
+  border-color: rgba(228, 228, 231, 0.2);
 }
 
-.neon-border {
-  position: relative;
-}
-.neon-border::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: 24px;
-  background: linear-gradient(
-    90deg,
-    rgba(168, 85, 247, 0.7),
-    rgba(34, 211, 238, 0.7),
-    rgba(16, 185, 129, 0.7)
-  );
-  filter: blur(7px);
-  opacity: 0;
-  transition: opacity 0.25s ease;
-  pointer-events: none;
-}
-.neon-border:hover::before {
-  opacity: 0.55;
-}
-
-/* Buttons */
 .btn-neon {
-  @apply inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-semibold transition;
-  background: linear-gradient(110deg, rgba(232, 121, 249, 0.95), rgba(59, 130, 246, 0.95), rgba(34, 211, 238, 0.95));
-  color: #0a0a0a;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow:
-    0 8px 26px rgba(59, 130, 246, 0.24),
-    0 0 22px rgba(232, 121, 249, 0.16);
+  @apply inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-medium bg-zinc-100 text-zinc-900 transition;
 }
 .btn-neon:hover {
-  transform: translateY(-1px);
-  box-shadow:
-    0 10px 30px rgba(59, 130, 246, 0.28),
-    0 0 34px rgba(168, 85, 247, 0.2);
+  background: rgba(244, 244, 245, 0.9);
 }
 
 .btn-neon-ghost {
-  @apply inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-medium transition;
-  border: 1.5px solid rgba(99, 102, 241, 0.5);
-  background: rgba(9, 11, 16, 0.72);
-  color: rgba(244, 244, 245, 1);
-  backdrop-filter: blur(6px);
+  @apply inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-medium border border-zinc-700 bg-zinc-900/50 transition;
 }
 .btn-neon-ghost:hover {
-  border-color: rgba(99, 102, 241, 0.55);
-  box-shadow: 0 0 32px rgba(99, 102, 241, 0.18);
+  border-color: rgba(228, 228, 231, 0.3);
+  background: rgba(244, 244, 245, 0.05);
 }
 
-/* Pills */
 .pill {
-  @apply inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium;
-  border-color: rgba(63, 63, 70, 1);
-  background: rgba(10, 10, 10, 0.8);
-  color: rgba(240, 240, 240, 1);
-  letter-spacing: 0.02em;
-  line-height: 1.2;
+  @apply inline-flex items-center rounded-full border border-zinc-700 bg-zinc-800/50 px-2.5 py-0.5 text-xs text-zinc-300;
 }
 .pill-strong {
-  border-color: rgba(99, 102, 241, 0.5);
-  box-shadow: 0 0 18px rgba(99, 102, 241, 0.12);
+  @apply border-zinc-500 bg-zinc-700/50 text-zinc-100;
 }
 
-/* Text */
 .neon-title {
-  background: linear-gradient(
-    90deg,
-    rgba(232, 121, 249, 1),
-    rgba(96, 165, 250, 1),
-    rgba(34, 211, 238, 1)
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  @apply text-3xl font-semibold tracking-tight text-zinc-50;
 }
-
-.link {
-  @apply text-zinc-400 hover:text-white transition;
-}
-
-/* Mobile responsiveness - handled in media query below */
 
 .section-kicker {
-  font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  font-size: 0.65rem;
-  color: rgba(148, 163, 184, 0.7);
+  @apply text-xs font-medium uppercase tracking-widest text-zinc-500;
 }
 
 .section-title {
-  @apply text-xl font-semibold tracking-tight text-zinc-50;
+  @apply text-xl font-semibold text-zinc-50;
 }
 
 .section-subtitle {
   @apply mt-1 text-sm text-zinc-400;
 }
 
-.nav-glass {
-  border: 1px solid rgba(148, 163, 184, 0.18);
-  background: rgba(8, 10, 14, 0.7);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.36);
-  backdrop-filter: blur(6px);
+.nav-link {
+  @apply text-sm text-zinc-400 hover:text-white transition;
 }
 
 .header-shell {
-  border: 1px solid rgba(148, 163, 184, 0.14);
-  background:
-    linear-gradient(130deg, rgba(15, 23, 42, 0.72), rgba(7, 10, 18, 0.84)),
-    radial-gradient(140% 120% at 0% 0%, rgba(34, 211, 238, 0.08), transparent 55%);
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.03),
-    0 8px 22px rgba(0, 0, 0, 0.3);
-}
-
-.brand-chip {
-  position: relative;
-}
-
-.brand-chip::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -6px;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(99, 102, 241, 0.5), rgba(34, 211, 238, 0.25), transparent 90%);
-}
-
-.nav-link {
-  display: inline-flex;
-  align-items: center;
-  border-radius: 999px;
-  padding: 0.45rem 0.9rem;
-  color: rgba(212, 212, 216, 0.96);
-  transition: color 0.2s ease, background-color 0.2s ease;
-}
-
-.nav-link:hover {
-  color: rgba(244, 244, 245, 1);
-  background: rgba(24, 24, 27, 0.65);
-}
-
-/* Reduce default backdrop blur intensity */
-.backdrop-blur {
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-}
-
-.backdrop-blur-sm {
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-}
-
-.backdrop-blur-md {
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  @apply flex items-center justify-between;
 }
 
 .stat-card {
-  @apply rounded-2xl border px-4 py-3;
-  border-color: rgba(148, 163, 184, 0.16);
-  background: rgba(9, 11, 16, 0.8);
+  @apply rounded-xl border border-zinc-800 bg-zinc-900/50 p-4;
 }
 
 .stat-value {
-  font-family: var(--font-display), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  font-size: 1.35rem;
-  font-weight: 600;
-  color: var(--text-strong);
+  @apply text-2xl font-semibold text-zinc-50;
 }
 
 .stat-label {
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: rgba(148, 163, 184, 0.65);
+  @apply mt-1 text-xs text-zinc-500 uppercase tracking-wider;
 }
 
-/* Scanline effect helpers */
-@keyframes scan {
-  0% {
-    transform: translateY(-40%);
-    opacity: 0;
-  }
-  15% {
-    opacity: 0.25;
-  }
-  50% {
-    opacity: 0.12;
-  }
-  100% {
-    transform: translateY(140%);
-    opacity: 0;
-  }
+.neon-border {
+  border: 1px solid rgba(228, 228, 231, 0.1);
 }
 
-@keyframes shimmer {
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-.animate-shimmer {
-  background-size: 200% 200%;
-  animation: shimmer 6s ease-in-out infinite;
-}
-
-/* ===== Skills Marquee (1 arah / loop tanpa jeda) ===== */
-.skills-section-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.skills-marquee {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  border-radius: 16px;
-}
-
-.skills-track {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  width: max-content;
-  flex-wrap: nowrap;
-  white-space: nowrap;
-  will-change: transform;
-  padding: 0.5rem 0 0.5rem 0;
-  padding-right: 2rem;
-  margin-bottom: 0.5rem;
-
-  /* 1 arah terus (loop) */
-  animation: skills-marquee 20s linear infinite;
-}
-
-@media (max-width: 768px) {
-  .skills-marquee {
-    margin: 0;
-    padding: 0;
-  }
-}
-
-/* pause saat hover */
-.skills-marquee:hover .skills-track {
-  animation-play-state: paused;
-}
-
-/* untuk user yang prefer reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .skills-track {
-    animation: none;
-    transform: translateX(0);
-  }
-  .animate-shimmer {
-    animation: none;
-  }
-}
-
-/* PENTING:
-   Karena di TS saya duplikasi skills jadi 2x,
-   maka geser -50% akan sejajar & seamless */
-@keyframes skills-marquee {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-/* ===== PERF: render section hanya saat terlihat ===== */
-.cv-auto {
-  content-visibility: auto;
-  contain-intrinsic-size: 1px 900px; /* perkiraan tinggi agar tidak layout shift */
-}
-
-/* ===== PERF: pause animasi saat user scroll (biar anchor ke #about lebih mulus) ===== */
-html[data-scrolling="1"] .skills-track {
-  animation-play-state: paused !important;
-}
-
-html[data-scrolling="1"] .nb-orb,
-html[data-scrolling="1"] .nb-scan,
-html[data-scrolling="1"] .nb-float {
-  animation-play-state: paused !important;
-}
-
-html[data-scrolling="1"] .neon-title,
-html[data-scrolling="1"] .animate-bounce,
-html[data-scrolling="1"] .page-enter {
-  animation-play-state: paused !important;
-}
-
-html[data-scrolling="1"] .backdrop-blur,
-html[data-scrolling="1"] .backdrop-blur-sm,
-html[data-scrolling="1"] .backdrop-blur-md,
-html[data-scrolling="1"] .neon-card,
-html[data-scrolling="1"] .nav-glass,
-html[data-scrolling="1"] .btn-neon-ghost,
-html[data-scrolling="1"] .opening-loader {
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-}
-
-/* Reduce GPU usage with backface-visibility */
-.neon-card,
-.btn-neon,
-.btn-neon-ghost {
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  will-change: auto;
-}
-
-/* Enable GPU acceleration for animated elements */
-.nb-orb,
-.nb-scan,
-.nb-float,
-.skills-track {
-  will-change: transform;
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-
-/* ===== Ultra-smooth scroll performance ===== */
-/* Force hardware acceleration on scroll containers */
-body {
-  /* Use GPU-accelerated scrolling */
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-/* Optimize transition performance */
-.transition {
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-}
-
-/* Opening loader */
-html[data-loading="1"],
-html[data-loading="1"] body {
-  overflow: hidden;
-}
-
-.opening-loader {
-  position: fixed;
-  inset: 0;
-  z-index: 120;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background:
-    radial-gradient(110% 110% at 20% 0%, rgba(34, 211, 238, 0.18), transparent 45%),
-    radial-gradient(120% 120% at 100% 100%, rgba(232, 121, 249, 0.16), transparent 52%),
-    rgba(7, 8, 11, 0.98);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-}
-
-.opening-loader-inner {
-  width: min(240px, calc(100vw - 2.5rem));
-  border: none;
-  border-radius: 0;
-  padding: 1.25rem 1.5rem;
-  background: transparent;
-  box-shadow: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-}
-
-.opening-loader-title {
-  margin: 0;
-  font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  font-size: 0.72rem;
-  color: rgba(226, 232, 240, 0.9);
-}
-
-.opening-spinner {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  animation: spinner-rotate 0.9s linear infinite;
-  position: relative;
-}
-
-.opening-spinner.segmented {
-  background:
-    conic-gradient(
-      rgba(255, 255, 255, 0.95) 0deg 16deg,
-      rgba(255, 255, 255, 0.08) 16deg 32deg,
-      rgba(255, 255, 255, 0.7) 32deg 48deg,
-      rgba(255, 255, 255, 0.08) 48deg 64deg,
-      rgba(255, 255, 255, 0.6) 64deg 80deg,
-      rgba(255, 255, 255, 0.08) 80deg 96deg,
-      rgba(255, 255, 255, 0.5) 96deg 112deg,
-      rgba(255, 255, 255, 0.08) 112deg 128deg,
-      rgba(255, 255, 255, 0.42) 128deg 144deg,
-      rgba(255, 255, 255, 0.08) 144deg 160deg,
-      rgba(255, 255, 255, 0.34) 160deg 176deg,
-      rgba(255, 255, 255, 0.08) 176deg 192deg,
-      rgba(255, 255, 255, 0.28) 192deg 208deg,
-      rgba(255, 255, 255, 0.08) 208deg 224deg,
-      rgba(255, 255, 255, 0.22) 224deg 240deg,
-      rgba(255, 255, 255, 0.08) 240deg 256deg,
-      rgba(255, 255, 255, 0.18) 256deg 272deg,
-      rgba(255, 255, 255, 0.08) 272deg 288deg,
-      rgba(255, 255, 255, 0.14) 288deg 304deg,
-      rgba(255, 255, 255, 0.08) 304deg 320deg,
-      rgba(255, 255, 255, 0.12) 320deg 336deg,
-      rgba(255, 255, 255, 0.08) 336deg 352deg,
-      rgba(255, 255, 255, 0.1) 352deg 360deg
-    );
-  mask: radial-gradient(transparent 0 58%, #000 59%);
-}
-
-@keyframes spinner-rotate {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .opening-spinner {
-    animation-duration: 1.6s;
-  }
-}
-
-/* ===== PERF PATCH: Mobile scroll biar lebih smooth ===== */
-@media (max-width: 768px) {
-  /* backdrop blur bikin scroll patah-patah di banyak device */
-  .neon-card {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-
-    /* shadow diperkecil biar paint ringan */
-    box-shadow:
-      0 0 0 1px rgba(255, 255, 255, 0.03) inset,
-      0 0 18px rgba(99, 102, 241, 0.07),
-      0 0 28px rgba(34, 211, 238, 0.05) !important;
-    
-    /* Reduce animation on mobile */
-    animation: none !important;
-    /* Enable GPU acceleration */
-    transform: translate3d(0, 0, 0);
-  }
-
-  .neon-card:hover {
-    box-shadow:
-      0 0 0 1px rgba(255, 255, 255, 0.05) inset,
-      0 0 22px rgba(99, 102, 241, 0.10),
-      0 0 34px rgba(34, 211, 238, 0.08) !important;
-    /* Lighter transform on hover */
-    transform: translate3d(0, -1px, 0) !important;
-  }
-
-  /* glow blur hover dimatikan di HP */
-  .neon-border::before {
-    filter: none !important;
-  }
-
-  /* Reduce particle animations on mobile */
-  .nb-orb,
-  .nb-scan,
-  .nb-float {
-    animation: none !important;
-  }
-
-  /* Reduce marquee animation intensity */
-  .skills-track {
-    animation-duration: 30s !important;
-    /* Better scroll performance */
-    transform: translate3d(0, 0, 0);
-  }
-
-  /* Optimize scroll performance */
-  html {
-    scroll-behavior: auto !important;
-  }
-  
-  body {
-    /* Reduce motion on low-end devices */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  /* Disable backdrop-filter globally on mobile */
-  .backdrop-blur,
-  .backdrop-blur-sm,
-  .backdrop-blur-md,
-  .nav-glass {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-}
-
-@media (max-width: 1024px) {
-  .neon-title {
-    animation: none !important;
-  }
-
-  .page-enter {
-    animation-duration: 0.45s !important;
-  }
-
-  /* Reduce glow effects on tablet */
-  .neon-border::before {
-    filter: blur(6px) !important;
-  }
-}
-
-/* ===== ADVANCED: Content Visibility & Containment ===== */
-/* Defer rendering of off-screen content */
-.section-lazy {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 500px;
-}
-
-.project-card {
-  contain: content;
-}
-
-.animation-container {
-  contain: layout style paint;
-}
-
-/* Reduce blur on elements that are frequently animated */
-@supports (backdrop-filter: blur(1px)) {
-  @media (prefers-reduced-motion: no-preference) {
-    .neon-card {
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-    }
-  }
-}
-
-/* Further optimizations for large displays */
-@media (min-width: 1920px) {
-  /* Reduce animation complexity on UHD screens */
-  .nb-orb {
-    blur: 120px;
-    opacity: 0.15;
-  }
-}
-
-/* ===== ADVANCED ANIMATIONS ===== */
-
-/* Floating animation */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-}
-
-/* Glow pulse animation */
-@keyframes glow-pulse {
-  0%, 100% {
-    box-shadow:
-      0 0 0 1px rgba(139, 92, 246, 0.2) inset,
-      0 0 28px rgba(99, 102, 241, 0.12);
-  }
-  50% {
-    box-shadow:
-      0 0 0 1px rgba(168, 85, 247, 0.4) inset,
-      0 0 42px rgba(99, 102, 241, 0.2);
-  }
-}
-
-/* Title glow effect */
-@keyframes title-glow {
-  0%, 100% {
-    text-shadow:
-      0 0 6px rgba(100, 200, 255, 0.25),
-      0 0 14px rgba(100, 200, 255, 0.12);
-  }
-  50% {
-    text-shadow:
-      0 0 14px rgba(100, 200, 255, 0.45),
-      0 0 26px rgba(100, 200, 255, 0.22),
-      0 0 40px rgba(168, 85, 247, 0.16);
-  }
-}
-
-/* Apply animations to elements */
-.neon-title {
-  animation: title-glow 5s ease-in-out infinite;
-}
-
-.float {
-  animation: float 3s ease-in-out infinite;
-}
-
-/* Text reveal animation */
-.text-reveal {
-  overflow: hidden;
-}
-
-.text-reveal span {
-  display: inline-block;
-  will-change: transform, opacity;
-}
-
-/* Ripple effect styles */
-.ripple {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-}
-
-/* Enhanced button styles with animations */
-.btn-neon,
-.btn-neon-ghost {
-  position: relative;
-  overflow: hidden;
-}
-
-.btn-neon::before,
-.btn-neon-ghost::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.3);
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-}
-
-/* Link underline animation */
-a[href]:not(.btn-neon):not(.btn-neon-ghost) {
-  position: relative;
-}
-
-/* Section reveal animations */
 @keyframes page-in {
-  from {
-    opacity: 0;
-    transform: translateY(18px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .page-enter {
-  animation: page-in 0.9s ease-out both;
+  animation: page-in 0.5s ease-out both;
 }
 
-/* Scroll indicator pulsing */
-@keyframes pulse-bounce {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-}
-
-/* Gradient text animation */
-@keyframes gradient-shift {
-  0%, 100% {
-    background-position: 0% center;
-  }
-  50% {
-    background-position: 100% center;
-  }
-}
-
-/* Enhanced focus states for accessibility */
-a:focus-visible,
-button:focus-visible {
-  outline: 2px solid rgba(168, 85, 247, 0.8);
-  outline-offset: 2px;
-  border-radius: 12px;
-}
-
-/* Transform accelerator */
-.will-transform {
-  will-change: transform;
-}
-
-/* ===== Performance Mode ===== */
-html[data-perf="lite"] .neon-title,
-html[data-perf="lite"] .float,
-html[data-perf="lite"] .animate-spin-slow,
-html[data-perf="lite"] .skills-track {
-  animation: none !important;
-}
-
-html[data-perf="lite"] .neon-card {
-  backdrop-filter: none;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
-}
-
-html[data-perf="lite"] .btn-neon,
-html[data-perf="lite"] .btn-neon-ghost,
-html[data-perf="lite"] .nav-glass {
-  backdrop-filter: none;
-  box-shadow: none;
-}
-
-html[data-perf="lite"] .nb-orb,
-html[data-perf="lite"] .nb-scan,
-html[data-perf="lite"] .nb-float {
-  animation: none !important;
-}
-
-html[data-perf="lite"] .backdrop-blur,
-html[data-perf="lite"] .backdrop-blur-sm,
-html[data-perf="lite"] .backdrop-blur-md {
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .neon-title,
-  .float,
-  .animate-spin-slow,
-  .skills-track,
-  .page-enter {
-    animation: none !important;
-  }
-}
-
-/* Slow spinning animation for gradient background */
-@keyframes spin-slow {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.animate-spin-slow {
-  animation: spin-slow 20s linear infinite;
-}
-
-/* ===== ENHANCED PERFORMANCE OPTIMIZATIONS ===== */
-
-/* Improved content visibility for sections */
-.section {
-  content-visibility: auto;
-  contain-intrinsic-size: 1px auto;
-  /* Prevent reflow when section becomes visible */
-  contain: layout style paint;
-}
-
-/* Optimize animation containers */
-.animation-container {
-  will-change: initial;
-  transform: translate3d(0, 0, 0);
-}
-
-/* Better animation performance with GPU */
-@supports (transform: translate3d(0, 0, 0)) {
-  .neon-card,
-  .btn-neon,
-  .skill-badge,
-  .project-item,
-  .motion-safe {
-    transform: translate3d(0, 0, 0);
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-  }
-}
-
-/* Optimize text rendering for better performance */
-* {
-  -webkit-font-smoothing: subpixel-antialiased;
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* Disable expensive effects during scroll */
-html[data-scrolling="1"] * {
-  -webkit-backface-visibility: auto;
-  backface-visibility: auto;
-  will-change: auto;
-}
-
-/* Better hover performance - use pointer media query */
-@media (hover: hover) and (pointer: fine) {
-  .neon-card:hover {
-    box-shadow:
-      0 0 0 1px rgba(129, 140, 248, 0.25) inset,
-      0 14px 48px rgba(0, 0, 0, 0.5),
-      0 0 65px rgba(34, 211, 238, 0.14);
-  }
-}
-
-/* Reduce motion for low-power devices */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/* Prevent layout shift during transitions */
-.transition-safe {
-  contain: layout style;
-}
-
-/* GPU optimization for high-frequency updates */
-.high-performance {
-  will-change: auto;
-  contain: layout style paint;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-}
-
-/* Optimize scrollbar performance */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(24, 24, 27, 0.5);
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(113, 113, 122, 0.5);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(113, 113, 122, 0.8);
-}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(113, 113, 122, 0.4); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(113, 113, 122, 0.6); }
