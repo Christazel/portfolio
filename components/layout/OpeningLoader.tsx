@@ -6,7 +6,10 @@ const TOTAL_DURATION_MS = 3000;
 
 function OpeningLoaderComponent() {
   const [hidden, setHidden] = useState(false);
+  const [fading, setFading] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [dots, setDots] = useState("");
+  const [showError, setShowError] = useState(false);
   const startedAtRef = useRef(0);
 
   useEffect(() => {
@@ -19,13 +22,25 @@ function OpeningLoaderComponent() {
       const nextProgress = Math.min(100, Math.round((elapsed / TOTAL_DURATION_MS) * 100));
       setProgress(nextProgress);
 
+      const dotCount = Math.floor(elapsed / 400) % 4;
+      setDots(".".repeat(dotCount));
+
+      if (elapsed >= 2000 && elapsed < 2600) {
+        setShowError(true);
+      }
+
       if (elapsed < TOTAL_DURATION_MS) {
         rafId = window.requestAnimationFrame(animate);
       } else {
+        setShowError(true);
+        setProgress(100);
         setTimeout(() => {
-          setHidden(true);
-          delete document.documentElement.dataset.loading;
-        }, 200);
+          setFading(true);
+          setTimeout(() => {
+            setHidden(true);
+            delete document.documentElement.dataset.loading;
+          }, 400);
+        }, 500);
       }
     };
 
@@ -40,27 +55,36 @@ function OpeningLoaderComponent() {
   if (hidden) return null;
 
   return (
-    <div className="loader-overlay">
-      <div className="loader-content">
-        <div className="loader-ring">
-          <svg viewBox="0 0 100 100" className="loader-svg">
-            <circle cx="50" cy="50" r="45" className="loader-track" />
-            <circle
-              cx="50"
-              cy="50"
-              r="45"
-              className="loader-progress"
-              style={{
-                strokeDashoffset: 283 - (283 * progress) / 100,
-              }}
-            />
-          </svg>
-          <div className="loader-percent">{progress}%</div>
+    <div className={`loader-overlay ${fading ? "loader-fade-out" : ""}`}>
+      <div className="loader-terminal">
+        <div className="terminal-header">
+          <span className="terminal-dot red" />
+          <span className="terminal-dot yellow" />
+          <span className="terminal-dot green" />
+          <span className="terminal-title">Terminal</span>
         </div>
-        <div className="loader-bar-container">
-          <div className="loader-bar" style={{ width: `${progress}%` }} />
+        <div className="terminal-body">
+          {showError ? (
+            <div className="terminal-error">
+              <span className="error-icon">!</span>
+              <div className="error-text">
+                <p className="error-main">ERROR: Cannot read &quot;image.png&quot;</p>
+                <p className="error-sub">This model does not support image input.</p>
+                <p className="error-info">Inform the user.{dots}</p>
+              </div>
+            </div>
+          ) : (
+            <div className="terminal-loading">
+              <p className="terminal-line">
+                <span className="terminal-prompt">$</span> loading portfolio{dots}
+              </p>
+              <div className="terminal-progress">
+                <div className="terminal-progress-bar" style={{ width: `${progress}%` }} />
+              </div>
+              <p className="terminal-percent">{progress}%</p>
+            </div>
+          )}
         </div>
-        <p className="loader-text">Loading</p>
       </div>
     </div>
   );
