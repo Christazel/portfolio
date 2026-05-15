@@ -451,12 +451,16 @@ html[data-loading="1"] body {
 }
 
 .opening-loader-inner {
-  width: min(420px, calc(100vw - 2rem));
-  border: 1px solid rgba(148, 163, 184, 0.22);
-  border-radius: 20px;
-  padding: 1.4rem;
-  background: rgba(12, 14, 20, 0.85);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+  width: min(240px, calc(100vw - 2.5rem));
+  border: none;
+  border-radius: 0;
+  padding: 1.25rem 1.5rem;
+  background: transparent;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 }
 
 .opening-loader-title {
@@ -464,38 +468,57 @@ html[data-loading="1"] body {
   font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  font-size: 0.68rem;
-  color: rgba(148, 163, 184, 0.85);
+  font-size: 0.72rem;
+  color: rgba(226, 232, 240, 0.9);
 }
 
-.opening-loader-value {
-  margin: 0.45rem 0 0;
-  font-family: var(--font-display), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  font-size: clamp(1.6rem, 5vw, 2.6rem);
-  font-weight: 700;
-  line-height: 1;
-  color: rgba(232, 244, 255, 0.95);
+.opening-spinner {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  animation: spinner-rotate 0.9s linear infinite;
+  position: relative;
 }
 
-.opening-loader-track {
-  margin-top: 0.85rem;
-  height: 6px;
-  border-radius: 999px;
-  background: rgba(39, 39, 42, 0.75);
-  overflow: hidden;
+.opening-spinner.segmented {
+  background:
+    conic-gradient(
+      rgba(255, 255, 255, 0.95) 0deg 16deg,
+      rgba(255, 255, 255, 0.08) 16deg 32deg,
+      rgba(255, 255, 255, 0.7) 32deg 48deg,
+      rgba(255, 255, 255, 0.08) 48deg 64deg,
+      rgba(255, 255, 255, 0.6) 64deg 80deg,
+      rgba(255, 255, 255, 0.08) 80deg 96deg,
+      rgba(255, 255, 255, 0.5) 96deg 112deg,
+      rgba(255, 255, 255, 0.08) 112deg 128deg,
+      rgba(255, 255, 255, 0.42) 128deg 144deg,
+      rgba(255, 255, 255, 0.08) 144deg 160deg,
+      rgba(255, 255, 255, 0.34) 160deg 176deg,
+      rgba(255, 255, 255, 0.08) 176deg 192deg,
+      rgba(255, 255, 255, 0.28) 192deg 208deg,
+      rgba(255, 255, 255, 0.08) 208deg 224deg,
+      rgba(255, 255, 255, 0.22) 224deg 240deg,
+      rgba(255, 255, 255, 0.08) 240deg 256deg,
+      rgba(255, 255, 255, 0.18) 256deg 272deg,
+      rgba(255, 255, 255, 0.08) 272deg 288deg,
+      rgba(255, 255, 255, 0.14) 288deg 304deg,
+      rgba(255, 255, 255, 0.08) 304deg 320deg,
+      rgba(255, 255, 255, 0.12) 320deg 336deg,
+      rgba(255, 255, 255, 0.08) 336deg 352deg,
+      rgba(255, 255, 255, 0.1) 352deg 360deg
+    );
+  mask: radial-gradient(transparent 0 58%, #000 59%);
 }
 
-.opening-loader-bar {
-  height: 100%;
-  border-radius: 999px;
-  background: linear-gradient(90deg, rgba(34, 211, 238, 0.92), rgba(99, 102, 241, 0.92), rgba(232, 121, 249, 0.92));
-  box-shadow: 0 0 12px rgba(34, 211, 238, 0.28);
-  transition: width 0.18s linear;
+@keyframes spinner-rotate {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .opening-loader-bar {
-    transition: none;
+  .opening-spinner {
+    animation-duration: 1.6s;
   }
 }
 

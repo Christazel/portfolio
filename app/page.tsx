@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { SiLinkedin } from "react-icons/si";
 
@@ -10,16 +10,22 @@ import RippleButton from "@/components/animations/RippleButton";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 import LanyardHolderSingle from "@/components/layout/LanyardHolderSingle";
 import CommentBox from "@/components/ui/CommentBox";
-import { aboutText, heroStats, highlights, projects, skills } from "@/app/data/homeData";
+import { aboutText, heroStats, highlights, projects, skillGroups } from "@/app/data/homeData";
 
 function Pill({ children, strong }: { children: React.ReactNode; strong?: boolean }) {
   return <span className={`pill font-mono ${strong ? "pill-strong" : ""}`}>{children}</span>;
 }
 
-export default function Page() {
-  // ✅ WAJIB 2x DUPLICATE supaya -50% seamless
-  const skillsLoop = useMemo(() => [...skills, ...skills], []);
+function SkillChip({ label, Icon }: { label: string; Icon: React.ComponentType<{ className?: string }> }) {
+  return (
+    <span className="inline-flex max-w-full items-center gap-1.5 rounded-full border border-zinc-700/80 bg-zinc-950/70 px-2 py-1 text-[10px] font-medium text-zinc-200 sm:gap-2 sm:px-3 sm:text-xs">
+      <Icon className="h-3.5 w-3.5 opacity-90 sm:h-4 sm:w-4" />
+      <span className="leading-none">{label}</span>
+    </span>
+  );
+}
 
+export default function Page() {
   const [aboutLang, setAboutLang] = useState<"id" | "en">("id");
   const scrollTimeoutRef = useRef<number | undefined>(undefined);
   const isScrollingRef = useRef(false);
@@ -103,17 +109,13 @@ export default function Page() {
 
               <div className="grid gap-10 md:grid-cols-[1.1fr,0.9fr] md:items-center relative z-10">
                 <div className="max-w-2xl">
-                  <ScrollReveal delay={0.3} direction="right" distance={30}>
-                    <p className="section-kicker">Fullstack Developer • Yogyakarta</p>
-                  </ScrollReveal>
+                  <p className="section-kicker">Fullstack Developer • Yogyakarta</p>
 
-                  <ScrollReveal delay={0.35} direction="right" distance={30}>
-                    <div className="mt-3 flex flex-wrap items-center gap-2">
-                      <Pill strong>Available</Pill>
-                      <Pill>Freelance / Internship</Pill>
-                      <Pill>Cyber / Neon UI</Pill>
-                    </div>
-                  </ScrollReveal>
+                  <div className="mt-3 flex flex-wrap items-center gap-2">
+                    <Pill strong>Available</Pill>
+                    <Pill>Freelance / Internship</Pill>
+                    <Pill>Cyber / Neon UI</Pill>
+                  </div>
 
                   <div className="mt-5">
                     <GlitchText className="text-3xl font-semibold tracking-tight md:text-6xl neon-title">
@@ -121,28 +123,24 @@ export default function Page() {
                     </GlitchText>
                   </div>
 
-                  <ScrollReveal delay={0.4} distance={30}>
-                    <p className="mt-4 text-base text-zinc-200/95 md:text-lg leading-relaxed font-medium">
-                      Fullstack developer building fast, modern products. Next.js + Tailwind for web, Express/MongoDB
-                      for backend, and Flutter for mobile.
-                    </p>
-                  </ScrollReveal>
+                  <p className="mt-4 text-base text-zinc-200/95 md:text-lg leading-relaxed font-medium">
+                    Fullstack developer building fast, modern products. Next.js + Tailwind for web, Express/MongoDB
+                    for backend, and Flutter for mobile.
+                  </p>
 
-                  <ScrollReveal delay={0.5} direction="up" distance={20}>
-                    <div className="mt-7 flex flex-wrap gap-3">
-                      <RippleButton className="btn-neon" href="#projects">
-                        View Projects
-                      </RippleButton>
-                      <RippleButton
-                        className="btn-neon-ghost"
-                        href="/asset/yohan-christazel-jeffry-cv.pdf"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        Download CV
-                      </RippleButton>
-                    </div>
-                  </ScrollReveal>
+                  <div className="mt-7 flex flex-wrap gap-3">
+                    <RippleButton className="btn-neon" href="#projects">
+                      View Projects
+                    </RippleButton>
+                    <RippleButton
+                      className="btn-neon-ghost"
+                      href="/asset/yohan-christazel-jeffry-cv.pdf"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Download CV
+                    </RippleButton>
+                  </div>
 
                   <div className="mt-7 flex flex-wrap items-center gap-4 text-xs text-zinc-400">
                     <a
@@ -273,22 +271,20 @@ export default function Page() {
               <h2 className="section-title">Skills</h2>
               <p className="section-subtitle">Core stack and the tools I enjoy shipping with.</p>
 
-              <div className="mt-4 neon-card overflow-hidden">
-                <div className="skills-section-wrapper p-5 md:p-7">
-                  <div className="skills-marquee">
-                    <div className="skills-track">
-                      {skillsLoop.map(({ label, Icon }, idx) => (
-                        <Pill key={`${label}-${idx}`}>
-                          <span className="inline-flex items-center gap-2">
-                            <Icon className="h-4 w-4 opacity-90" />
-                            <span className="leading-none">{label}</span>
-                          </span>
-                        </Pill>
-                      ))}
+              <div className="mt-4 neon-card p-5 md:p-7">
+                <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+                  {Object.entries(skillGroups).map(([group, items]) => (
+                    <div key={group} className="min-w-0 space-y-3">
+                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-zinc-400">
+                        {group}
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {items.map(({ label, Icon }) => (
+                          <SkillChip key={label} label={label} Icon={Icon} />
+                        ))}
+                      </div>
                     </div>
-                  </div>
-
-                  <p className="mt-4 text-xs text-zinc-500">Hover untuk pause.</p>
+                  ))}
                 </div>
               </div>
             </ScrollReveal>
@@ -304,37 +300,35 @@ export default function Page() {
 
             <div className="mt-4 grid gap-4 md:grid-cols-2">
               {projects.map((p, idx) => (
-                <ScrollReveal key={p.title} delay={idx * 0.1} distance={40}>
-                  <div className="neon-card p-6 h-full relative overflow-hidden">
-                      {/* Static decorative background (flat card, no hover motion) */}
-                      <div className="absolute inset-0 bg-linear-to-br from-cyan-500/05 via-transparent to-purple-500/05 opacity-55 -z-10" />
-                      <div className="absolute top-0 right-0 w-40 h-40 bg-cyan-500/08 rounded-full blur-2xl opacity-30 -z-10" />
+                <div key={p.title} className="neon-card p-6 h-full relative overflow-hidden">
+                  {/* Static decorative background (flat card, no hover motion) */}
+                  <div className="absolute inset-0 bg-linear-to-br from-cyan-500/05 via-transparent to-purple-500/05 opacity-55 -z-10" />
+                  <div className="absolute top-0 right-0 w-40 h-40 bg-cyan-500/08 rounded-full blur-2xl opacity-30 -z-10" />
 
-                      <div className="flex items-center justify-between relative">
-                        <p className="section-kicker">Case Study</p>
-                        <Pill>{p.year}</Pill>
-                      </div>
+                  <div className="flex items-center justify-between relative">
+                    <p className="section-kicker">Case Study</p>
+                    <Pill>{p.year}</Pill>
+                  </div>
 
-                      <h3 className="mt-3 text-base font-bold text-zinc-50 relative">{p.title}</h3>
-                      <p className="mt-2 text-sm text-zinc-300/90 leading-relaxed relative font-medium">{p.desc}</p>
-                      <p className="mt-3 text-xs text-zinc-400 leading-relaxed relative">{p.highlight}</p>
-                      <p className="mt-3 text-xs text-zinc-500 font-mono relative">{p.role}</p>
+                  <h3 className="mt-3 text-base font-bold text-zinc-50 relative">{p.title}</h3>
+                  <p className="mt-2 text-sm text-zinc-300/90 leading-relaxed relative font-medium">{p.desc}</p>
+                  <p className="mt-3 text-xs text-zinc-400 leading-relaxed relative">{p.highlight}</p>
+                  <p className="mt-3 text-xs text-zinc-500 font-mono relative">{p.role}</p>
 
-                      <div className="mt-4 flex flex-wrap gap-2 relative">
-                        {p.tech.map((t) => (
-                          <Pill key={t}>{t}</Pill>
-                        ))}
-                      </div>
+                  <div className="mt-4 flex flex-wrap gap-2 relative">
+                    {p.tech.map((t) => (
+                      <Pill key={t}>{t}</Pill>
+                    ))}
+                  </div>
 
-                      <div className="mt-5 flex gap-3 relative">
-                        {p.links.map((l) => (
-                          <RippleButton key={l.label} className="btn-neon-ghost" href={l.href}>
-                            {l.label}
-                          </RippleButton>
-                        ))}
-                      </div>
-                    </div>
-                </ScrollReveal>
+                  <div className="mt-5 flex gap-3 relative">
+                    {p.links.map((l) => (
+                      <RippleButton key={l.label} className="btn-neon-ghost" href={l.href}>
+                        {l.label}
+                      </RippleButton>
+                    ))}
+                  </div>
+                </div>
               ))}
             </div>
           </ScrollReveal>
@@ -356,48 +350,42 @@ export default function Page() {
               
               <div className="grid gap-6 md:grid-cols-[1.2fr,0.8fr] relative z-10">
                 <div className="grid gap-5 md:grid-cols-3">
-                  <ScrollReveal delay={0.1} distance={20}>
-                    <div className="group/item">
-                      <p className="text-xs text-zinc-400 font-semibold">Email</p>
-                      <a
-                        className="mt-1 inline-block text-sm text-zinc-100 hover:text-cyan-300 transition break-all relative overflow-hidden font-medium"
-                        href="mailto:yohan.christazel9@gmail.com"
-                      >
-                        <span className="relative">yohan.christazel9@gmail.com</span>
-                        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-linear-to-r from-cyan-400 to-cyan-300 group-hover/item:w-full transition-all duration-300" />
-                      </a>
-                    </div>
-                  </ScrollReveal>
+                  <div className="group/item">
+                    <p className="text-xs text-zinc-400 font-semibold">Email</p>
+                    <a
+                      className="mt-1 inline-block text-sm text-zinc-100 hover:text-cyan-300 transition break-all relative overflow-hidden font-medium"
+                      href="mailto:yohan.christazel9@gmail.com"
+                    >
+                      <span className="relative">yohan.christazel9@gmail.com</span>
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-linear-to-r from-cyan-400 to-cyan-300 group-hover/item:w-full transition-all duration-300" />
+                    </a>
+                  </div>
 
-                  <ScrollReveal delay={0.2} distance={20}>
-                    <div className="group/item">
-                      <p className="text-xs text-zinc-400 font-semibold">WhatsApp</p>
-                      <a
-                        className="mt-1 inline-block text-sm text-zinc-100 hover:text-cyan-300 transition relative overflow-hidden font-medium"
-                        href="https://wa.me/6282150754301"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        <span className="relative">+62 821-5075-4301</span>
-                        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-linear-to-r from-cyan-400 to-cyan-300 group-hover/item:w-full transition-all duration-300" />
-                      </a>
-                    </div>
-                  </ScrollReveal>
+                  <div className="group/item">
+                    <p className="text-xs text-zinc-400 font-semibold">WhatsApp</p>
+                    <a
+                      className="mt-1 inline-block text-sm text-zinc-100 hover:text-cyan-300 transition relative overflow-hidden font-medium"
+                      href="https://wa.me/6282150754301"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <span className="relative">+62 821-5075-4301</span>
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-linear-to-r from-cyan-400 to-cyan-300 group-hover/item:w-full transition-all duration-300" />
+                    </a>
+                  </div>
 
-                  <ScrollReveal delay={0.3} distance={20}>
-                    <div className="group/item">
-                      <p className="text-xs text-zinc-400 font-semibold">LinkedIn</p>
-                      <a
-                        className="mt-1 inline-block text-sm text-zinc-100 hover:text-purple-300 transition break-all relative overflow-hidden font-medium"
-                        href="https://www.linkedin.com/in/yohan-christazel-jeffry"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        <span className="relative">linkedin.com/in/yohan-christazel-jeffry</span>
-                        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-linear-to-r from-purple-400 to-purple-300 group-hover/item:w-full transition-all duration-300" />
-                      </a>
-                    </div>
-                  </ScrollReveal>
+                  <div className="group/item">
+                    <p className="text-xs text-zinc-400 font-semibold">LinkedIn</p>
+                    <a
+                      className="mt-1 inline-block text-sm text-zinc-100 hover:text-purple-300 transition break-all relative overflow-hidden font-medium"
+                      href="https://www.linkedin.com/in/yohan-christazel-jeffry"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <span className="relative">linkedin.com/in/yohan-christazel-jeffry</span>
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-linear-to-r from-purple-400 to-purple-300 group-hover/item:w-full transition-all duration-300" />
+                    </a>
+                  </div>
                 </div>
 
                 <div className="stat-card h-fit">
