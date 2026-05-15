@@ -57,9 +57,24 @@ const FloatingParticles = memo(() => {
     resizeCanvas();
     window.addEventListener("resize", debouncedResize);
 
-    // Initialize particles - adjusted for better performance
+    const connection = (navigator as unknown as { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+    const saveData = Boolean(connection?.saveData);
+    const effectiveType = String(connection?.effectiveType || "");
+    const deviceMemory = (navigator as unknown as { deviceMemory?: number }).deviceMemory || 8;
+    const cores = navigator.hardwareConcurrency || 8;
     const isMobile = window.innerWidth < 1024;
-    const particleCount = isMobile ? 8 : 12;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const lowPower =
+      prefersReducedMotion ||
+      saveData ||
+      /(2g|3g)/.test(effectiveType) ||
+      deviceMemory <= 6 ||
+      cores <= 6 ||
+      isMobile;
+
+    // Initialize particles - tuned for perf
+    const particleCount = lowPower ? 6 : isMobile ? 8 : 12;
 
     particlesRef.current = Array.from({ length: particleCount }, () => ({
       x: Math.random() * canvasWidth,
@@ -70,12 +85,13 @@ const FloatingParticles = memo(() => {
       opacity: Math.random() * 0.25 + 0.15,
     }));
 
-    const THROTTLE_MS = isMobile ? 50 : 40;
-    const CONNECTION_DISTANCE = 120;
+    const THROTTLE_MS = lowPower ? 72 : isMobile ? 50 : 40;
+    const CONNECTION_DISTANCE = lowPower ? 90 : 120;
     const CONNECTION_DISTANCE_SQ = CONNECTION_DISTANCE * CONNECTION_DISTANCE;
     const TRAIL_OPACITY = "rgba(10, 10, 20, 0.04)";
     const PARTICLE_COLOR = "rgba(100, 200, 255,";
     const CONNECTION_COLOR = "rgba(100, 200, 255,";
+    const ENABLE_CONNECTIONS = !lowPower;
 
     const animate = (currentTime: number) => {
       if (!isRunningRef.current) return;
@@ -139,7 +155,7 @@ const FloatingParticles = memo(() => {
       }
 
       // Draw connections when not scrolling
-      if (particleCount > 1) {
+      if (ENABLE_CONNECTIONS && particleCount > 1) {
         // Use a spatial partition approach for faster lookup
         const cellSize = 200;
         const grid = new Map<string, number[]>();
