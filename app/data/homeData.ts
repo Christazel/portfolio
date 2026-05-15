@@ -40,6 +40,25 @@ export const skills: SkillItem[] = [
   { label: "Framer Motion", Icon: SiFramer },
 ];
 
+export const skillGroups: Record<string, SkillItem[]> = {
+  Frontend: [
+    { label: "Next.js", Icon: SiNextdotjs },
+    { label: "React", Icon: SiReact },
+    { label: "TypeScript", Icon: SiTypescript },
+    { label: "Tailwind CSS", Icon: SiTailwindcss },
+    { label: "Framer Motion", Icon: SiFramer },
+  ],
+  Backend: [
+    { label: "Node.js", Icon: SiNodedotjs },
+    { label: "MongoDB", Icon: SiMongodb },
+  ],
+  Tools: [
+    { label: "GitHub", Icon: SiGithub },
+    { label: "Swagger", Icon: SiSwagger },
+    { label: "Flutter", Icon: SiFlutter },
+  ],
+};
+
 export const projects: ProjectItem[] = [
   {
     title: "Sistem Magang",
