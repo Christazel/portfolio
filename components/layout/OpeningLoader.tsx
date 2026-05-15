@@ -2,74 +2,69 @@
 
 import { useEffect, useRef, useState, memo } from "react";
 
-const MIN_VISIBLE_MS = 900;
-
-function scrollToHash() {
-  const hash = window.location.hash;
-  if (!hash) return;
-
-  const target = document.querySelector(hash);
-  if (!target) return;
-
-  target.scrollIntoView({ block: "start" });
-}
+const TOTAL_DURATION_MS = 3000;
 
 function OpeningLoaderComponent() {
   const [hidden, setHidden] = useState(false);
-  const loadedRef = useRef(false);
+  const [progress, setProgress] = useState(0);
   const startedAtRef = useRef(0);
 
   useEffect(() => {
     startedAtRef.current = performance.now();
     document.documentElement.dataset.loading = "1";
+    let rafId = 0;
 
-    const onLoad = () => {
-      loadedRef.current = true;
-    };
-
-    if (document.readyState === "complete") {
-      loadedRef.current = true;
-    } else {
-      window.addEventListener("load", onLoad, { once: true });
-    }
-
-    const timer = window.setInterval(() => {
+    const animate = () => {
       const elapsed = performance.now() - startedAtRef.current;
-      const canFinish = loadedRef.current && elapsed >= MIN_VISIBLE_MS;
+      const nextProgress = Math.min(100, Math.round((elapsed / TOTAL_DURATION_MS) * 100));
+      setProgress(nextProgress);
 
-      if (canFinish) {
-        window.clearInterval(timer);
-        window.setTimeout(() => {
+      if (elapsed < TOTAL_DURATION_MS) {
+        rafId = window.requestAnimationFrame(animate);
+      } else {
+        setTimeout(() => {
           setHidden(true);
           delete document.documentElement.dataset.loading;
-          window.requestAnimationFrame(() => {
-            window.requestAnimationFrame(scrollToHash);
-          });
-        }, 220);
+        }, 200);
       }
-    }, 120);
+    };
+
+    rafId = window.requestAnimationFrame(animate);
 
     return () => {
-      clearInterval(timer);
-      window.removeEventListener("load", onLoad);
+      window.cancelAnimationFrame(rafId);
       delete document.documentElement.dataset.loading;
     };
   }, []);
 
-  if (hidden) {
-    return null;
-  }
+  if (hidden) return null;
 
   return (
-    <div className="opening-loader" aria-live="polite" aria-label="Loading page">
-      <div className="opening-loader-inner" role="status" aria-label="Loading">
-        <div className="opening-spinner segmented" aria-hidden="true" />
-        <p className="opening-loader-title">Loading...</p>
+    <div className="loader-overlay">
+      <div className="loader-content">
+        <div className="loader-ring">
+          <svg viewBox="0 0 100 100" className="loader-svg">
+            <circle cx="50" cy="50" r="45" className="loader-track" />
+            <circle
+              cx="50"
+              cy="50"
+              r="45"
+              className="loader-progress"
+              style={{
+                strokeDashoffset: 283 - (283 * progress) / 100,
+              }}
+            />
+          </svg>
+          <div className="loader-percent">{progress}%</div>
+        </div>
+        <div className="loader-bar-container">
+          <div className="loader-bar" style={{ width: `${progress}%` }} />
+        </div>
+        <p className="loader-text">Loading</p>
       </div>
     </div>
   );
 }
 
 const OpeningLoader = memo(OpeningLoaderComponent);
-
 export default OpeningLoader;
