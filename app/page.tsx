@@ -95,7 +95,7 @@ export default function Page() {
           </div>
         </section>
 
-        <section id="about" className="py-10">
+        <section id="about" className="scroll-mt-24 py-10">
           <div className="flex items-end justify-between gap-3">
             <div>
               <p className="section-kicker">About</p>
@@ -145,7 +145,7 @@ export default function Page() {
           </div>
         </section>
 
-        <section id="skills" className="py-10">
+        <section id="skills" className="scroll-mt-24 py-10">
           <p className="section-kicker">Toolkit</p>
           <h2 className="section-title">Skills</h2>
 
@@ -165,7 +165,7 @@ export default function Page() {
           </div>
         </section>
 
-        <section id="projects" className="py-10">
+        <section id="projects" className="scroll-mt-24 py-10">
           <p className="section-kicker">Selected</p>
           <h2 className="section-title">Projects</h2>
 
@@ -198,7 +198,7 @@ export default function Page() {
           </div>
         </section>
 
-        <section id="contact" className="py-10">
+        <section id="contact" className="scroll-mt-24 py-10">
           <p className="section-kicker">Get in touch</p>
           <h2 className="section-title">Contact</h2>
 

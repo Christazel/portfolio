@@ -4,6 +4,16 @@ import { useEffect, useRef, useState, memo } from "react";
 
 const MIN_VISIBLE_MS = 900;
 
+function scrollToHash() {
+  const hash = window.location.hash;
+  if (!hash) return;
+
+  const target = document.querySelector(hash);
+  if (!target) return;
+
+  target.scrollIntoView({ block: "start" });
+}
+
 function OpeningLoaderComponent() {
   const [hidden, setHidden] = useState(false);
   const loadedRef = useRef(false);
@@ -32,6 +42,9 @@ function OpeningLoaderComponent() {
         window.setTimeout(() => {
           setHidden(true);
           delete document.documentElement.dataset.loading;
+          window.requestAnimationFrame(() => {
+            window.requestAnimationFrame(scrollToHash);
+          });
         }, 220);
       }
     }, 120);
