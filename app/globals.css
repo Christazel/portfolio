@@ -95,6 +95,106 @@ h1, h2, h3, h4 {
   @apply mt-1 text-xs text-zinc-500 uppercase tracking-wider;
 }
 
+.skill-slider {
+  position: relative;
+  margin-top: 2.25rem;
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+
+.skill-track {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  gap: clamp(3rem, 8vw, 7rem);
+  padding-inline: clamp(2rem, 6vw, 5rem);
+  animation: skill-marquee 28s linear infinite;
+}
+
+.skill-slider:hover .skill-track {
+  animation-play-state: paused;
+}
+
+.skill-logo {
+  display: inline-flex;
+  min-width: max-content;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 700;
+  line-height: 1;
+  opacity: 0.92;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.skill-logo:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.cursor-trail {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  overflow: hidden;
+  mix-blend-mode: screen;
+}
+
+.cursor-trail-dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.95), rgba(59, 130, 246, 0.4) 48%, transparent 72%);
+  box-shadow: 0 0 18px rgba(34, 211, 238, 0.45);
+  will-change: transform;
+}
+
+.cursor-click-burst {
+  position: absolute;
+  height: 12px;
+  width: 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(103, 232, 249, 0.9);
+  box-shadow: 0 0 28px rgba(34, 211, 238, 0.75), inset 0 0 18px rgba(125, 211, 252, 0.45);
+  transform: translate(-50%, -50%) scale(0.4);
+  animation: cursor-burst 0.65s ease-out forwards;
+}
+
+@keyframes cursor-burst {
+  0% {
+    opacity: 0.95;
+    transform: translate(-50%, -50%) scale(0.35);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(4.6);
+  }
+}
+
+@keyframes skill-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skill-track {
+    animation: none;
+    flex-wrap: wrap;
+    width: auto;
+  }
+
+  .cursor-trail {
+    display: none;
+  }
+}
+
 .neon-border {
   border: 1px solid rgba(228, 228, 231, 0.1);
 }

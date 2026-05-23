@@ -1,18 +1,27 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import { FaLaptopCode } from "react-icons/fa";
 import LanyardHolderSingle from "@/components/layout/LanyardHolderSingle";
 import CommentBox from "@/components/ui/CommentBox";
-import { aboutText, heroStats, highlights, projects, skillGroups } from "@/app/data/homeData";
+import { aboutText, heroStats, highlights, projects, skills } from "@/app/data/homeData";
 
 function Pill({ children, strong }: { children: React.ReactNode; strong?: boolean }) {
   return <span className={`pill ${strong ? "pill-strong" : ""}`}>{children}</span>;
 }
 
-function SkillChip({ label, Icon }: { label: string; Icon: React.ComponentType<{ className?: string }> }) {
+function SkillChip({
+  label,
+  Icon,
+  color,
+}: {
+  label: string;
+  Icon: React.ComponentType<{ className?: string }>;
+  color?: string;
+}) {
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-zinc-700 bg-zinc-800/50 px-2.5 py-1 text-xs text-zinc-300">
-      <Icon className="h-3.5 w-3.5" />
+    <span className="skill-logo" style={{ color }}>
+      <Icon className="h-8 w-8 shrink-0 sm:h-10 sm:w-10" />
       <span>{label}</span>
     </span>
   );
@@ -20,16 +29,20 @@ function SkillChip({ label, Icon }: { label: string; Icon: React.ComponentType<{
 
 export default function Page() {
   const [aboutLang, setAboutLang] = useState<"id" | "en">("id");
+  const skillSlides = skills;
 
   return (
     <div className="min-h-screen">
       <header className="sticky top-0 z-50 border-b border-zinc-800 bg-zinc-950/90">
         <div className="container-page py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <span className="text-sm font-semibold text-zinc-100">Yohan</span>
-              <span className="hidden text-xs text-zinc-500 sm:inline">Fullstack Developer</span>
-            </div>
+            <a
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-zinc-700 bg-zinc-900 text-zinc-100 transition hover:border-cyan-400 hover:text-cyan-300"
+              href="#"
+              aria-label="Yohan programmer logo"
+            >
+              <FaLaptopCode className="h-4.5 w-4.5" />
+            </a>
 
             <nav className="flex items-center gap-6 text-sm text-zinc-400">
               <a className="nav-link" href="#about">About</a>
@@ -123,7 +136,7 @@ export default function Page() {
           <div className="mt-4 neon-card p-6">
             <div className="grid gap-6 md:grid-cols-2 md:items-start">
               <div>
-                <p className="text-zinc-300 leading-relaxed">
+                <p className="text-justify text-zinc-300 leading-relaxed">
                   {aboutLang === "id" ? aboutText.id : aboutText.en}
                 </p>
 
@@ -146,21 +159,17 @@ export default function Page() {
         </section>
 
         <section id="skills" className="py-10">
-          <p className="section-kicker">Toolkit</p>
-          <h2 className="section-title">Skills</h2>
+          <div className="relative left-1/2 w-screen -translate-x-1/2 overflow-hidden border-y border-zinc-800 bg-zinc-950 py-10">
+            <div className="container-page text-center">
+              <p className="text-sm font-medium text-zinc-500 sm:text-base">Tools and technologies I work with</p>
+            </div>
 
-          <div className="mt-4 neon-card p-5">
-            <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-              {Object.entries(skillGroups).map(([group, items]) => (
-                <div key={group} className="space-y-3">
-                  <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">{group}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {items.map(({ label, Icon }) => (
-                      <SkillChip key={label} label={label} Icon={Icon} />
-                    ))}
-                  </div>
-                </div>
-              ))}
+            <div className="skill-slider" aria-label="Skills slider">
+              <div className="skill-track">
+                {[...skillSlides, ...skillSlides].map(({ label, Icon, color }, index) => (
+                  <SkillChip key={`${label}-${index}`} label={label} Icon={Icon} color={color} />
+                ))}
+              </div>
             </div>
           </div>
         </section>
