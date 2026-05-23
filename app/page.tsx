@@ -21,7 +21,7 @@ function SkillChip({
 }) {
   return (
     <span className="skill-logo" style={{ color }}>
-      <Icon className="h-8 w-8 shrink-0 sm:h-10 sm:w-10" />
+      <Icon className="h-7 w-7 shrink-0 sm:h-8 sm:w-8" />
       <span>{label}</span>
     </span>
   );
@@ -166,8 +166,12 @@ export default function Page() {
 
             <div className="skill-slider" aria-label="Skills slider">
               <div className="skill-track">
-                {[...skillSlides, ...skillSlides].map(({ label, Icon, color }, index) => (
-                  <SkillChip key={`${label}-${index}`} label={label} Icon={Icon} color={color} />
+                {[0, 1].map((sequence) => (
+                  <div key={sequence} className="skill-sequence" aria-hidden={sequence === 1}>
+                    {skillSlides.map(({ label, Icon, color }) => (
+                      <SkillChip key={`${label}-${sequence}`} label={label} Icon={Icon} color={color} />
+                    ))}
+                  </div>
                 ))}
               </div>
             </div>

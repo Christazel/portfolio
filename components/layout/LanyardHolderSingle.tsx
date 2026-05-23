@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useMotionValue, useReducedMotion, useTransform } from "framer-motion";
 
 type Props = {
-  imageSrc?: string; // "/asset/profile.jpeg"
+  imageSrc?: string;
   alt?: string;
   staticMode?: boolean;
 };
@@ -15,111 +15,65 @@ export default function LanyardHolderSingle({
   staticMode = false,
 }: Props) {
   const reduce = useReducedMotion();
-  const shouldAnimate = !reduce && !staticMode;
+  const dragX = useMotionValue(0);
+  const dragY = useMotionValue(0);
+  const rotate = useTransform(dragX, [-120, 120], [-9, 9]);
+  const shouldIdle = !reduce && !staticMode;
 
   return (
-    // ✅ padding-top biar strap punya ruang sendiri (jadi tidak naik ke area tombol)
-    <div className="relative flex justify-center pt-47.5 md:pt-50">
-      {/* ===== STRAP (SINGLE) + BUCKLE + CLIP ===== */}
-      <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2">
-        <div className="relative h-50 w-35">
-          {/* strap */}
-          <div
-            className="absolute left-1/2 top-0 h-37.5 w-4.5 -translate-x-1/2 rounded-full
-                       border border-white/10 shadow-[0_18px_40px_rgba(0,0,0,0.40)]"
-            style={{
-              backgroundImage:
-                "repeating-linear-gradient(0deg, rgba(255,255,255,0.12) 0 7px, rgba(255,255,255,0.05) 7px 14px), linear-gradient(180deg, rgba(14,165,233,0.22), rgba(2,6,23,0.18))",
-            }}
-          />
-
-          {/* buckle */}
-          <div className="absolute left-1/2 top-15.5 -translate-x-1/2">
-            <div className="h-10 w-14 rounded-xl border border-white/10 bg-zinc-950/75 shadow-[0_14px_28px_rgba(0,0,0,0.50)]" />
-            <div className="absolute left-1/2 top-1/2 h-4 w-10 -translate-x-1/2 -translate-y-1/2 rounded-lg border border-white/10 bg-zinc-900/70" />
-          </div>
-
-          {/* ring + chain + clip */}
-          <div className="absolute left-1/2 top-29.5 -translate-x-1/2 flex flex-col items-center">
-            <div className="relative h-6 w-6 rounded-full border border-white/25 bg-zinc-950/35 shadow-[0_0_18px_rgba(34,211,238,0.14)]">
-              <div className="absolute left-1/2 top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-zinc-950" />
-            </div>
-
-            <div className="mt-1 flex flex-col items-center gap-1">
-              <div className="h-3 w-3 rounded-full border border-white/20 bg-zinc-950/35" />
-              <div className="h-3 w-3 rounded-full border border-white/20 bg-zinc-950/35" />
-            </div>
-
-            <div className="relative mt-1 h-8 w-11 rounded-2xl border border-white/18 bg-linear-to-b from-white/22 to-white/6 shadow-[0_18px_35px_rgba(0,0,0,0.55)]">
-              <div className="absolute left-1/2 top-1/2 h-3 w-8 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/14 bg-zinc-950/45" />
-            </div>
-          </div>
-        </div>
+    <div className="lanyard-wrapper" aria-label={alt}>
+      <div className="lanyard-anchor">
+        <span className="lanyard-anchor-dot" />
+        <span className="lanyard-anchor-glow" />
       </div>
 
-      {/* ===== HOLDER (POUCH) + SWING ===== */}
       <motion.div
-        className="relative transform-gpu"
-        style={{ transformOrigin: "50% 0%" }}
-        animate={
-          shouldAnimate
-            ? {
-                rotate: [-2.4, 2.4, -2.4],
-                y: [0, 1.5, 0],
-              }
-            : undefined
-        }
-        transition={shouldAnimate ? { duration: 6.2, repeat: Infinity, ease: "easeInOut" } : undefined}
-        whileHover={shouldAnimate ? { rotate: 0, y: 0 } : undefined}
+        className="lanyard-rig"
+        animate={shouldIdle ? { rotate: [-1.4, 1.4, -1.4], y: [0, 3, 0] } : undefined}
+        transition={shouldIdle ? { duration: 6.5, ease: "easeInOut", repeat: Infinity } : undefined}
+        style={{ x: dragX, y: dragY, rotate, transformOrigin: "50% 0%" }}
+        drag={!reduce}
+        dragConstraints={{ left: -92, right: 92, top: -34, bottom: 86 }}
+        dragElastic={0.16}
+        whileDrag={{ scale: 1.02 }}
       >
-        {/* shadow */}
-        <div className="pointer-events-none absolute left-1/2 top-76.25 md:top-80 -translate-x-1/2 h-5 w-50 md:w-53 rounded-full bg-black/35 blur-lg" />
+        <div className="lanyard-strap">
+          <span className="lanyard-strap-line" />
+          <span className="lanyard-strap-line" />
+        </div>
 
-        {/* glow border */}
-        <div className="absolute -inset-0.5 rounded-[30px] bg-linear-to-br from-cyan-400/14 via-blue-500/8 to-indigo-400/8 blur-sm opacity-50" />
+        <div className="lanyard-buckle">
+          <span />
+        </div>
 
-        {/* pouch body */}
-        <div
-          className="relative rounded-[28px] border border-white/10 bg-[#0d2740]/35 backdrop-blur-sm
-                     shadow-[0_16px_36px_rgba(0,0,0,0.45)]"
-          style={{ width: 230, height: 300 }}
-        >
-          {/* stitching */}
-          <div className="absolute inset-2.5 rounded-[22px] border border-white/10 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.03)]" />
+        <div className="lanyard-ring">
+          <span />
+        </div>
 
-          {/* zipper strip kanan */}
-          <div className="absolute right-3 top-6 h-58 md:h-62.5 w-2.5 rounded-full bg-black/25 border border-white/10" />
-          <div className="absolute right-2 top-10 h-7 w-5 rounded-xl border border-white/10 bg-white/10 shadow-[0_10px_20px_rgba(0,0,0,0.35)]" />
+        <div className="lanyard-clip">
+          <span />
+        </div>
 
-          {/* window foto */}
-          <div className="absolute left-6 top-8 right-10 bottom-10 rounded-[20px] border border-white/12 bg-black/20">
-            <div className="absolute inset-2 rounded-2xl border border-white/10 bg-black/25 overflow-hidden">
-              <div className="relative h-full w-full">
-                <Image
-                  src={imageSrc}
-                  alt={alt}
-                  fill
-                  priority
-                  quality={70}
-                  sizes="(max-width: 640px) 180px, (max-width: 1024px) 220px, 260px"
-                  className="object-cover object-center"
-                />
-              </div>
+        <div className="lanyard-card-shadow" />
 
-              {/* glossy plastik */}
-              <div
-                className="pointer-events-none absolute inset-0 opacity-55"
-                style={{
-                  background:
-                    "linear-gradient(115deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.06) 30%, rgba(255,255,255,0.02) 55%, rgba(255,255,255,0.10) 75%, rgba(255,255,255,0.02) 100%)",
-                }}
-              />
-              <div className="pointer-events-none absolute inset-0 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04),inset_0_-30px_45px_rgba(0,0,0,0.34)]" />
-            </div>
+        <div className="lanyard-card">
+          <div className="lanyard-card-hole" />
+          <div className="lanyard-card-window">
+            <Image
+              src={imageSrc}
+              alt={alt}
+              fill
+              priority
+              quality={80}
+              sizes="(max-width: 640px) 190px, (max-width: 1024px) 220px, 250px"
+              className="object-cover object-center"
+            />
+            <span className="lanyard-card-shine" />
           </div>
-
-          {/* bottom lip */}
-          <div className="absolute left-0 bottom-0 h-10 w-full rounded-b-[28px] bg-black/15 border-t border-white/10" />
+          <div className="lanyard-card-footer">
+            <span>Yohan Christazel Jeffry</span>
+            <span>Informatics Student</span>
+          </div>
         </div>
       </motion.div>
     </div>
