@@ -17,6 +17,37 @@ body {
 body {
   @apply text-zinc-100 antialiased bg-zinc-950;
   font-family: system-ui, -apple-system, sans-serif;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(161, 161, 170, 0.14), transparent 28rem),
+    radial-gradient(circle at 8% 22%, rgba(113, 113, 122, 0.12), transparent 24rem),
+    linear-gradient(180deg, #0b0b0d 0%, #050506 48%, #0a0a0c 100%);
+  background-attachment: fixed;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 90px 90px;
+  mask-image: radial-gradient(circle at 50% 16%, #000 0%, transparent 68%);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 120%, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.72)),
+    linear-gradient(rgba(255, 255, 255, 0.018) 50%, transparent 50%);
+  background-size: auto, 100% 6px;
+  opacity: 0.7;
 }
 
 h1, h2, h3, h4 {
@@ -24,11 +55,13 @@ h1, h2, h3, h4 {
 }
 
 .container-page {
-  @apply mx-auto w-full max-w-5xl px-4;
+  width: min(calc(100% - 2rem), 116rem);
+  margin-inline: auto;
 }
 
 .neon-card {
-  @apply rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6;
+  @apply rounded-2xl border border-zinc-800 bg-zinc-900/50;
+  padding: clamp(1.25rem, 2vw, 2rem);
   transition: transform 0.2s ease;
 }
 
@@ -38,14 +71,18 @@ h1, h2, h3, h4 {
 }
 
 .btn-neon {
-  @apply inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-medium bg-zinc-100 text-zinc-900 transition;
+  @apply inline-flex items-center justify-center rounded-xl font-medium bg-zinc-100 text-zinc-900 transition;
+  padding: 0.85rem 1.45rem;
+  font-size: clamp(0.94rem, 1vw, 1.08rem);
 }
 .btn-neon:hover {
   background: rgba(244, 244, 245, 0.9);
 }
 
 .btn-neon-ghost {
-  @apply inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-medium border border-zinc-700 bg-zinc-900/50 transition;
+  @apply inline-flex items-center justify-center rounded-xl font-medium border border-zinc-700 bg-zinc-900/50 transition;
+  padding: 0.85rem 1.45rem;
+  font-size: clamp(0.94rem, 1vw, 1.08rem);
 }
 .btn-neon-ghost:hover {
   border-color: rgba(228, 228, 231, 0.3);
@@ -60,15 +97,27 @@ h1, h2, h3, h4 {
 }
 
 .neon-title {
-  @apply text-3xl font-semibold tracking-tight text-zinc-50;
+  color: #fafafa;
+  font-size: clamp(3.35rem, 7.4vw, 8rem);
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: 0;
 }
 
 .section-kicker {
-  @apply text-xs font-medium uppercase tracking-widest text-zinc-500;
+  color: #71717a;
+  font-size: clamp(0.78rem, 0.9vw, 0.95rem);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 .section-title {
-  @apply text-xl font-semibold text-zinc-50;
+  color: #fafafa;
+  font-size: clamp(2.5rem, 5vw, 5.8rem);
+  font-weight: 600;
+  line-height: 0.98;
+  letter-spacing: 0;
 }
 
 .section-subtitle {
@@ -84,8 +133,8 @@ h1, h2, h3, h4 {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 4.6rem;
-  padding: 0.95rem clamp(1rem, 3vw, 2.25rem);
+  min-height: 5.2rem;
+  padding: 1.15rem clamp(1rem, 3vw, 2.5rem);
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 1.35rem;
@@ -127,7 +176,7 @@ h1, h2, h3, h4 {
   align-items: center;
   gap: 0.62rem;
   color: rgba(244, 244, 245, 0.72);
-  font-size: 0.94rem;
+  font-size: clamp(0.96rem, 1.1vw, 1.2rem);
   font-weight: 650;
   line-height: 1;
   text-shadow: 0 1px 18px rgba(255, 255, 255, 0.08);
@@ -144,22 +193,77 @@ h1, h2, h3, h4 {
 }
 
 .stat-card {
-  @apply rounded-xl border border-zinc-800 bg-zinc-900/50 p-4;
+  @apply rounded-xl border border-zinc-800 bg-zinc-900/50;
+  padding: clamp(1rem, 1.6vw, 1.6rem);
 }
 
 .stat-value {
-  @apply text-2xl font-semibold text-zinc-50;
+  color: #fafafa;
+  font-size: clamp(1.75rem, 2.4vw, 3.15rem);
+  font-weight: 600;
+  line-height: 1;
 }
 
 .stat-label {
   @apply mt-1 text-xs text-zinc-500 uppercase tracking-wider;
 }
 
+.scroll-card-section {
+  position: relative;
+  padding-block: clamp(1.5rem, 4vw, 3rem);
+  scroll-margin-top: 8rem;
+}
+
+.section-card-surface {
+  position: relative;
+  min-height: clamp(34rem, 72svh, 58rem);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: clamp(1.45rem, 3vw, 2.25rem);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.065), transparent 30rem),
+    linear-gradient(180deg, rgba(12, 12, 15, 0.9), rgba(0, 0, 0, 0.92));
+  box-shadow:
+    0 34px 100px rgba(0, 0, 0, 0.46),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px) saturate(130%);
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
+}
+
+.hero-section-card .section-card-surface {
+  min-height: calc(100svh - 8.5rem);
+}
+
+.skills-section-card {
+  width: min(100%, 82rem);
+  margin-inline: auto;
+}
+
+.skills-section-card .section-card-surface {
+  min-height: auto;
+}
+
+.section-card-surface::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent),
+    radial-gradient(circle at 15% 20%, rgba(0, 97, 255, 0.12), transparent 22rem);
+  opacity: 0.38;
+}
+
+.section-card-surface > * {
+  position: relative;
+  z-index: 1;
+}
+
 .lanyard-wrapper {
   position: relative;
   z-index: 0;
   display: flex;
-  height: clamp(430px, 58vh, 560px);
+  height: clamp(520px, 68vh, 720px);
   width: 100%;
   align-items: center;
   justify-content: center;
@@ -222,7 +326,7 @@ h1, h2, h3, h4 {
   flex-shrink: 0;
   align-items: center;
   gap: 0.65rem;
-  font-size: clamp(1.25rem, 3vw, 1.9rem);
+  font-size: clamp(1.55rem, 3vw, 2.55rem);
   font-weight: 700;
   line-height: 1;
   opacity: 0.92;

@@ -54,6 +54,7 @@ interface ScrollRevealProps {
   ease?: string;
   direction?: "up" | "down" | "left" | "right";
   once?: boolean;
+  scale?: number;
   threshold?: number;
 }
 
@@ -65,17 +66,20 @@ const ScrollReveal = memo<ScrollRevealProps>(({
   ease = "power3.out",
   direction = "up",
   once = true,
+  scale = 1,
   threshold = 0.3,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const hiddenTransform = useMemo(() => {
-    if (direction === "up") return `translate3d(0, ${distance}px, 0)`;
-    if (direction === "down") return `translate3d(0, ${-distance}px, 0)`;
-    if (direction === "left") return `translate3d(${distance}px, 0, 0)`;
-    if (direction === "right") return `translate3d(${-distance}px, 0, 0)`;
-    return "translate3d(0, 0, 0)";
-  }, [direction, distance]);
+    const scaleTransform = scale === 1 ? "" : ` scale(${scale})`;
+
+    if (direction === "up") return `translate3d(0, ${distance}px, 0)${scaleTransform}`;
+    if (direction === "down") return `translate3d(0, ${-distance}px, 0)${scaleTransform}`;
+    if (direction === "left") return `translate3d(${distance}px, 0, 0)${scaleTransform}`;
+    if (direction === "right") return `translate3d(${-distance}px, 0, 0)${scaleTransform}`;
+    return `translate3d(0, 0, 0)${scaleTransform}`;
+  }, [direction, distance, scale]);
 
   useEffect(() => {
     const element = containerRef.current;
@@ -85,7 +89,7 @@ const ScrollReveal = memo<ScrollRevealProps>(({
 
     const applyVisible = () => {
       element.style.opacity = "1";
-      element.style.transform = "translate3d(0, 0, 0)";
+      element.style.transform = "translate3d(0, 0, 0) scale(1)";
       element.style.willChange = "auto";
     };
 
