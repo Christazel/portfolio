@@ -1,29 +1,59 @@
+"use client";
+
 import Lanyard from "@/components/layout/Lanyard/Lanyard";
+import MetaBalls from "@/components/layout/MetaBalls";
 import { heroStats } from "@/app/data/homeData";
 import PortfolioPill from "@/components/sections/PortfolioPill";
 import SectionSurface from "@/components/sections/SectionSurface";
 
 export default function HeroSection() {
   return (
-    <SectionSurface className="hero-section-card pt-16 md:pt-24">
-      <div className="p-10 md:p-16 xl:p-20 page-enter">
-        <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-center xl:gap-16">
-          <div>
-            <p className="section-kicker">Fullstack Developer</p>
+    <SectionSurface className="hero-section-card pt-0">
+      <div className="hero-container">
+        {/* Left side: Dark visual section with Lanyard */}
+        <div className="hero-left">
+          <MetaBalls
+            color="#ffffff"
+            cursorBallColor="#ffffff"
+            cursorBallSize={2}
+            ballCount={15}
+            animationSize={30}
+            enableMouseInteraction
+            enableTransparency={true}
+            hoverSmoothness={0.15}
+            clumpFactor={1}
+            speed={0.3}
+          />
+          <div className="hero-lanyard-wrapper">
+            <Lanyard position={[0, 0, 20]} gravity={[0, -40, 0]} />
+          </div>
+        </div>
+
+        {/* Right side: Light content section */}
+        <div className="hero-right page-enter">
+          <div className="hero-content-inner">
+            <div className="hero-eyebrow">
+              <span className="hero-dot" aria-hidden="true" />
+              <p className="section-kicker">Fullstack Developer</p>
+            </div>
 
             <div className="mt-3 flex flex-wrap gap-2">
               <PortfolioPill strong>Available</PortfolioPill>
               <PortfolioPill>Freelance</PortfolioPill>
             </div>
 
-            <h1 className="neon-title mt-4">Yohan Christazel Jeffry</h1>
+            <h1 className="hero-title mt-6">
+              Yohan
+              <span className="hero-title-accent">Christazel</span>
+              Jeffry
+            </h1>
 
-            <p className="mt-6 max-w-3xl text-lg leading-relaxed text-zinc-400 md:text-xl">
+            <p className="hero-subtitle mt-6">
               Fullstack developer building fast, modern products. Next.js + Tailwind for web, Express/MongoDB for
               backend, and Flutter for mobile.
             </p>
 
-            <div className="mt-8 flex flex-wrap gap-4">
+            <div className="hero-actions mt-8">
               <a className="btn-neon" href="#projects">
                 View Projects
               </a>
@@ -33,11 +63,11 @@ export default function HeroSection() {
                 target="_blank"
                 rel="noreferrer"
               >
-                Download CV
+                Get CV PDF
               </a>
             </div>
 
-            <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-zinc-500">
+            <div className="hero-meta mt-6">
               <a className="nav-link" href="mailto:yohan.christazel9@gmail.com">
                 Email
               </a>
@@ -51,26 +81,13 @@ export default function HeroSection() {
               </a>
             </div>
 
-            <div className="mt-8 grid gap-4 sm:grid-cols-3">
+            <div className="hero-stats mt-8">
               {heroStats.map((stat) => (
                 <div key={stat.label} className="stat-card">
                   <div className="stat-value">{stat.value}</div>
                   <div className="stat-label">{stat.label}</div>
                 </div>
               ))}
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            <div className="shrink-0">
-              <Lanyard position={[0, 0, 20]} gravity={[0, -40, 0]} />
-            </div>
-
-            <div className="stat-card">
-              <p className="section-kicker">Now Building</p>
-              <p className="mt-2 text-sm text-zinc-300">
-                Shipping web apps with clean UX, thoughtful systems, and reliable APIs.
-              </p>
             </div>
           </div>
         </div>

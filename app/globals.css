@@ -220,6 +220,10 @@ h1, h2, h3, h4 {
   isolation: isolate;
 }
 
+.hero-section-card.scroll-card-section {
+  padding-block: 0;
+}
+
 .scroll-card-section::before,
 .scroll-card-section::after {
   content: "";
@@ -260,6 +264,186 @@ h1, h2, h3, h4 {
 
 .hero-section-card .section-card-surface {
   min-height: calc(100svh - 8.5rem);
+  background: #ffffff;
+  display: flex;
+  overflow: hidden;
+  padding: 0;
+}
+
+.hero-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  height: 100%;
+  gap: 0;
+}
+
+.hero-left {
+  position: relative;
+  background: #0a0a0a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-lanyard-wrapper {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-right {
+  background: linear-gradient(135deg, #f9fafb 0%, #f4f4f5 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(2rem, 5vw, 4rem);
+  overflow-y: auto;
+}
+
+.hero-content-inner {
+  width: 100%;
+  max-width: 32rem;
+}
+
+.hero-section-card .section-kicker {
+  color: rgba(9, 9, 11, 0.7);
+  font-size: clamp(0.78rem, 0.9vw, 0.95rem);
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  border-radius: 999px;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid rgba(9, 9, 11, 0.1);
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(6px);
+}
+
+.hero-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: #22c55e;
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+}
+
+.hero-title {
+  color: #0a0a0a;
+  font-size: clamp(2.8rem, 5.2vw, 4.2rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+
+.hero-title-accent {
+  display: block;
+  background: linear-gradient(135deg, #0a0a0a 0%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  color: rgba(24, 24, 27, 0.72);
+  font-size: clamp(0.95rem, 1.1vw, 1.1rem);
+  line-height: 1.8;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+}
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.9rem;
+  color: rgba(39, 39, 42, 0.7);
+}
+
+.hero-meta .nav-link {
+  color: rgba(39, 39, 42, 0.7);
+}
+
+.hero-meta .nav-link:hover {
+  color: #0a0a0a;
+}
+
+.hero-stats {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.hero-section-card .stat-card {
+  border: 1px solid rgba(9, 9, 11, 0.1);
+  background: rgba(255, 255, 255, 0.8);
+  padding: clamp(0.9rem, 1.4vw, 1.2rem);
+}
+
+.hero-section-card .stat-value {
+  color: #0a0a0a;
+  font-size: clamp(1.4rem, 2vw, 2rem);
+}
+
+.hero-section-card .stat-label {
+  color: rgba(39, 39, 42, 0.6);
+  font-size: 0.7rem;
+}
+
+.hero-section-card .btn-neon {
+  background: #0a0a0a;
+  color: #f4f4f5;
+  font-size: clamp(0.9rem, 1vw, 1rem);
+}
+
+.hero-section-card .btn-neon:hover {
+  background: rgba(9, 9, 11, 0.9);
+}
+
+.hero-section-card .btn-neon-ghost {
+  border-color: rgba(9, 9, 11, 0.2);
+  background: rgba(255, 255, 255, 0.7);
+  color: #0a0a0a;
+}
+
+.hero-section-card .btn-neon-ghost:hover {
+  background: rgba(9, 9, 11, 0.05);
+  border-color: rgba(9, 9, 11, 0.3);
+}
+
+@media (max-width: 768px) {
+  .hero-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+
+  .hero-left {
+    min-height: 45vh;
+  }
+
+  .hero-right {
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+  }
+
+  .hero-content-inner {
+    max-width: 100%;
+  }
+
+  .hero-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .skills-section-card {
@@ -282,9 +466,18 @@ h1, h2, h3, h4 {
   opacity: 0.42;
 }
 
+.hero-section-card .section-card-surface::before {
+  display: none;
+}
+
 .section-card-surface > * {
   position: relative;
   z-index: 1;
+}
+
+.hero-section-card .section-card-surface > * {
+  position: static;
+  z-index: auto;
 }
 
 .lanyard-wrapper {
