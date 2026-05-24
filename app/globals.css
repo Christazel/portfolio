@@ -18,9 +18,8 @@ body {
   @apply text-zinc-100 antialiased bg-zinc-950;
   font-family: system-ui, -apple-system, sans-serif;
   background:
-    radial-gradient(circle at 50% 0%, rgba(161, 161, 170, 0.14), transparent 28rem),
-    radial-gradient(circle at 8% 22%, rgba(113, 113, 122, 0.12), transparent 24rem),
-    linear-gradient(180deg, #0b0b0d 0%, #050506 48%, #0a0a0c 100%);
+    radial-gradient(circle at 50% 0%, rgba(244, 244, 245, 0.07), transparent 30rem),
+    linear-gradient(180deg, #101010 0%, #0b0b0b 46%, #111111 100%);
 }
 
 body::before {
@@ -56,7 +55,9 @@ h1, h2, h3, h4 {
 }
 
 .neon-card {
-  @apply rounded-2xl border border-zinc-800 bg-zinc-900/50;
+  @apply rounded-2xl border;
+  border-color: rgba(244, 244, 245, 0.1);
+  background: #1f1f1f;
   padding: clamp(1.25rem, 2vw, 2rem);
   transition: transform 0.2s ease;
 }
@@ -76,7 +77,9 @@ h1, h2, h3, h4 {
 }
 
 .btn-neon-ghost {
-  @apply inline-flex items-center justify-center rounded-xl font-medium border border-zinc-700 bg-zinc-900/50 transition;
+  @apply inline-flex items-center justify-center rounded-xl font-medium border transition;
+  border-color: rgba(244, 244, 245, 0.14);
+  background: #1f1f1f;
   padding: 0.85rem 1.45rem;
   font-size: clamp(0.94rem, 1vw, 1.08rem);
 }
@@ -86,10 +89,14 @@ h1, h2, h3, h4 {
 }
 
 .pill {
-  @apply inline-flex items-center rounded-full border border-zinc-700 bg-zinc-800/50 px-2.5 py-0.5 text-xs text-zinc-300;
+  @apply inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs text-zinc-300;
+  border-color: rgba(244, 244, 245, 0.12);
+  background: #242424;
 }
 .pill-strong {
-  @apply border-zinc-500 bg-zinc-700/50 text-zinc-100;
+  border-color: rgba(244, 244, 245, 0.24);
+  background: #2b2b2b;
+  color: #f4f4f5;
 }
 
 .neon-title {
@@ -189,7 +196,9 @@ h1, h2, h3, h4 {
 }
 
 .stat-card {
-  @apply rounded-xl border border-zinc-800 bg-zinc-900/50;
+  @apply rounded-xl border;
+  border-color: rgba(244, 244, 245, 0.1);
+  background: #1f1f1f;
   padding: clamp(1rem, 1.6vw, 1.6rem);
 }
 
@@ -242,13 +251,11 @@ h1, h2, h3, h4 {
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: clamp(1.45rem, 3vw, 2.25rem);
   background:
-    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.065), transparent 30rem),
-    linear-gradient(180deg, rgba(12, 12, 15, 0.9), rgba(0, 0, 0, 0.92));
+    radial-gradient(circle at 50% 0%, rgba(244, 244, 245, 0.08), transparent 30rem),
+    #171717;
   box-shadow:
-    0 34px 100px rgba(0, 0, 0, 0.46),
+    0 28px 86px rgba(0, 0, 0, 0.34),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(14px) saturate(130%);
-  -webkit-backdrop-filter: blur(14px) saturate(130%);
 }
 
 .hero-section-card .section-card-surface {
@@ -270,9 +277,9 @@ h1, h2, h3, h4 {
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent),
-    radial-gradient(circle at 15% 20%, rgba(0, 97, 255, 0.12), transparent 22rem);
-  opacity: 0.38;
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.055), transparent),
+    radial-gradient(circle at 15% 20%, rgba(244, 244, 245, 0.055), transparent 22rem);
+  opacity: 0.42;
 }
 
 .section-card-surface > * {

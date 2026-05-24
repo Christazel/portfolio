@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
     <footer className="relative left-1/2 min-h-[70vh] w-screen -translate-x-1/2 overflow-hidden bg-zinc-100 text-zinc-950">
-      <div className="pointer-events-none absolute inset-0 opacity-[0.055] [background-image:radial-gradient(circle_at_1px_1px,#09090b_1px,transparent_0)] [background-size:18px_18px]" />
+      <div className="pointer-events-none absolute inset-0 opacity-[0.055] bg-[radial-gradient(circle_at_1px_1px,#09090b_1px,transparent_0)] bg-size-[18px_18px]" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-zinc-950/15" />
 
       <div className="relative z-10 flex min-h-[70vh] flex-col justify-between px-5 py-8 sm:px-8 md:px-12 lg:px-16">

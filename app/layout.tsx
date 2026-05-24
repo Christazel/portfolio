@@ -4,8 +4,8 @@ import ClickSpark from "@/components/animations/ClickSpark";
 import OpeningLoader from "@/components/layout/OpeningLoader";
 
 export const metadata: Metadata = {
-  title: "Portfolio",
-  description: "Personal portfolio website",
+  title: "Yohan Christazel Jeffry",
+  description: "Portfolio website of Yohan Christazel Jeffry",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
