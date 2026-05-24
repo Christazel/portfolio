@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { FaLaptopCode } from "react-icons/fa";
-import LanyardHolderSingle from "@/components/layout/LanyardHolderSingle";
+import Lanyard from "@/components/layout/Lanyard/Lanyard";
 import CommentBox from "@/components/ui/CommentBox";
 import { aboutText, heroStats, highlights, projects, skills } from "@/app/data/homeData";
 
@@ -94,7 +94,7 @@ export default function Page() {
 
               <div className="space-y-4">
                 <div className="shrink-0">
-                  <LanyardHolderSingle imageSrc="/asset/profile.jpeg" alt="Yohan profile" staticMode />
+                  <Lanyard position={[0, 0, 20]} gravity={[0, -40, 0]} />
                 </div>
 
                 <div className="stat-card">
