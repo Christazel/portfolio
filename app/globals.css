@@ -221,7 +221,8 @@ h1, h2, h3, h4 {
 }
 
 .hero-section-card.scroll-card-section {
-  padding-block: 0;
+  padding-top: clamp(1.5rem, 5vw, 3.25rem);
+  padding-bottom: clamp(1.5rem, 4vw, 3rem);
 }
 
 .scroll-card-section::before,
