@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Canvas, extend, useFrame } from "@react-three/fiber";
+import { Canvas, extend, useFrame, useThree } from "@react-three/fiber";
 import { Environment, Lightformer, useGLTF, useTexture } from "@react-three/drei";
 import {
   BallCollider,
@@ -18,7 +18,7 @@ import * as THREE from "three";
 
 extend({ MeshLineGeometry, MeshLineMaterial });
 
-const CARD_GLB_PATH = "/asset/lanyard/card.glb";
+const CARD_GLB_PATH = "/asset/lanyard/my-card.glb";
 const LANYARD_TEXTURE_PATH = "/asset/lanyard/lanyard.png";
 
 type LanyardProps = {
@@ -52,8 +52,8 @@ export default function Lanyard({
     <div className="lanyard-wrapper">
       <Canvas
         camera={{ position, fov }}
-        dpr={[1, isMobile ? 1.5 : 2]}
-        gl={{ alpha: transparent }}
+        dpr={isMobile ? [1.5, 2] : [2, 3]}
+        gl={{ alpha: transparent, antialias: true, powerPreference: "high-performance" }}
         onCreated={({ gl }) => gl.setClearColor(new THREE.Color(0x000000), transparent ? 0 : 1)}
       >
         <ambientLight intensity={Math.PI} />
@@ -96,6 +96,7 @@ export default function Lanyard({
 }
 
 function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
+  const { gl } = useThree();
   const band = useRef<any>(null);
   const fixed = useRef<any>(null);
   const j1 = useRef<any>(null);
@@ -202,6 +203,20 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
     texture.wrapT = THREE.RepeatWrapping;
     texture.needsUpdate = true;
   }, [texture]);
+
+  useEffect(() => {
+    const cardTexture = materials.base.map as THREE.Texture | undefined;
+
+    if (!cardTexture) {
+      return;
+    }
+
+    cardTexture.anisotropy = gl.capabilities.getMaxAnisotropy();
+    cardTexture.generateMipmaps = false;
+    cardTexture.magFilter = THREE.LinearFilter;
+    cardTexture.minFilter = THREE.LinearFilter;
+    cardTexture.needsUpdate = true;
+  }, [gl, materials]);
 
   return (
     <>
