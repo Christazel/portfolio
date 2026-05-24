@@ -1,17 +1,18 @@
 "use client";
 
-import { useEffect, useRef, useState, memo } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 
-const MIN_VISIBLE_MS = 900;
+const MIN_VISIBLE_MS = 450;
+const FADE_OUT_MS = 180;
 
 function OpeningLoaderComponent() {
   const [hidden, setHidden] = useState(false);
+  const [fadingOut, setFadingOut] = useState(false);
   const loadedRef = useRef(false);
   const startedAtRef = useRef(0);
 
   useEffect(() => {
     startedAtRef.current = performance.now();
-    document.documentElement.dataset.loading = "1";
 
     const onLoad = () => {
       loadedRef.current = true;
@@ -29,17 +30,14 @@ function OpeningLoaderComponent() {
 
       if (canFinish) {
         window.clearInterval(timer);
-        window.setTimeout(() => {
-          setHidden(true);
-          delete document.documentElement.dataset.loading;
-        }, 220);
+        setFadingOut(true);
+        window.setTimeout(() => setHidden(true), FADE_OUT_MS);
       }
     }, 120);
 
     return () => {
       clearInterval(timer);
       window.removeEventListener("load", onLoad);
-      delete document.documentElement.dataset.loading;
     };
   }, []);
 
@@ -48,10 +46,20 @@ function OpeningLoaderComponent() {
   }
 
   return (
-    <div className="opening-loader" aria-live="polite" aria-label="Loading page">
-      <div className="opening-loader-inner" role="status" aria-label="Loading">
-        <div className="opening-spinner segmented" aria-hidden="true" />
-        <p className="opening-loader-title">Loading...</p>
+    <div
+      className={`fixed inset-0 z-[999] flex items-center justify-center bg-zinc-950/80 backdrop-blur-sm transition-opacity duration-200 ${
+        fadingOut ? "opacity-0" : "opacity-100"
+      }`}
+      role="status"
+      aria-live="polite"
+      aria-label="Loading"
+    >
+      <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-zinc-950/60 px-5 py-4 text-sm text-zinc-200">
+        <span
+          className="h-4 w-4 animate-spin rounded-full border-2 border-zinc-300/40 border-t-zinc-200"
+          aria-hidden="true"
+        />
+        <span>Loading...</span>
       </div>
     </div>
   );
