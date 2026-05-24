@@ -5,12 +5,11 @@ import SectionSurface from "@/components/sections/SectionSurface";
 type SkillChipProps = {
   label: string;
   Icon: ComponentType<{ className?: string }>;
-  color?: string;
 };
 
-function SkillChip({ label, Icon, color }: SkillChipProps) {
+function SkillChip({ label, Icon }: SkillChipProps) {
   return (
-    <span className="skill-logo" style={{ color }}>
+    <span className="skill-logo">
       <Icon className="h-7 w-7 shrink-0 sm:h-8 sm:w-8" />
       <span>{label}</span>
     </span>
@@ -29,8 +28,8 @@ export default function SkillsSection() {
           <div className="skill-track">
             {[0, 1].map((sequence) => (
               <div key={sequence} className="skill-sequence" aria-hidden={sequence === 1}>
-                {skills.map(({ label, Icon, color }) => (
-                  <SkillChip key={`${label}-${sequence}`} label={label} Icon={Icon} color={color} />
+                {skills.map(({ label, Icon }) => (
+                  <SkillChip key={`${label}-${sequence}`} label={label} Icon={Icon} />
                 ))}
               </div>
             ))}

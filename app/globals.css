@@ -326,12 +326,12 @@ h1, h2, h3, h4 {
 
 .skill-slider::before {
   left: 0;
-  background: linear-gradient(90deg, #09090b 0%, #09090b 45%, rgba(9, 9, 11, 0) 100%);
+  background: transparent;
 }
 
 .skill-slider::after {
   right: 0;
-  background: linear-gradient(90deg, rgba(9, 9, 11, 0) 0%, #09090b 55%, #09090b 100%);
+  background: transparent;
 }
 
 .skill-track {
@@ -354,6 +354,7 @@ h1, h2, h3, h4 {
   flex-shrink: 0;
   align-items: center;
   gap: 0.65rem;
+  color: #e4e4e7;
   font-size: clamp(1.55rem, 3vw, 2.55rem);
   font-weight: 700;
   line-height: 1;
