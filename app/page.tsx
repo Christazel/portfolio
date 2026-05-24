@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { FaLaptopCode } from "react-icons/fa";
 import Lanyard from "@/components/layout/Lanyard/Lanyard";
 import CommentBox from "@/components/ui/CommentBox";
 import { aboutText, heroStats, highlights, projects, skills } from "@/app/data/homeData";
@@ -33,22 +32,22 @@ export default function Page() {
 
   return (
     <div className="min-h-screen">
-      <header className="sticky top-0 z-50 border-b border-zinc-800 bg-zinc-950/90">
-        <div className="container-page py-4">
-          <div className="flex items-center justify-between">
-            <a
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-zinc-700 bg-zinc-900 text-zinc-100 transition hover:border-cyan-400 hover:text-cyan-300"
-              href="#"
-              aria-label="Yohan programmer logo"
-            >
-              <FaLaptopCode className="h-4.5 w-4.5" />
-            </a>
-
-            <nav className="flex items-center gap-6 text-sm text-zinc-400">
-              <a className="nav-link" href="#about">About</a>
-              <a className="nav-link" href="#skills">Skills</a>
-              <a className="nav-link" href="#projects">Projects</a>
-              <a className="nav-link" href="#contact">Contact</a>
+      <header className="sticky top-3 z-50 px-3 sm:top-4">
+        <div className="container-page max-w-6xl px-0">
+          <div className="navbar-glass">
+            <nav className="nav-menu" aria-label="Primary navigation">
+              <a className="nav-glass-link" href="#about">
+                <span>About Me</span>
+              </a>
+              <a className="nav-glass-link" href="#skills">
+                <span>Skill Stack</span>
+              </a>
+              <a className="nav-glass-link" href="#projects">
+                <span>Projects</span>
+              </a>
+              <a className="nav-glass-link" href="#contact">
+                <span>Contact</span>
+              </a>
             </nav>
           </div>
         </div>
