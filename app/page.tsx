@@ -1,8 +1,8 @@
 import AboutSection from "@/components/sections/AboutSection";
-import ContactSection from "@/components/sections/ContactSection";
+import Footer from "@/components/sections/Footer";
 import HeroSection from "@/components/sections/HeroSection";
 import PortfolioNavbar from "@/components/sections/PortfolioNavbar";
-import ProjectsSection from "@/components/sections/ProjectsSection";
+import ProjectContactStackSection from "@/components/sections/ProjectContactStackSection";
 import SkillsSection from "@/components/sections/SkillsSection";
 
 export default function Page() {
@@ -14,11 +14,10 @@ export default function Page() {
         <HeroSection />
         <AboutSection />
         <SkillsSection />
-        <ProjectsSection />
-        <ContactSection />
-
-        <div className="h-12" />
+        <ProjectContactStackSection />
       </main>
+
+      <Footer />
     </div>
   );
 }

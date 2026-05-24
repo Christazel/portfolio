@@ -16,11 +16,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <OpeningLoader />
           <div className="relative z-10 min-h-screen">
             {children}
-            <footer className="border-t border-zinc-800 py-8">
-              <div className="container-page text-sm text-zinc-500">
-                © {new Date().getFullYear()} • Built with Next.js
-              </div>
-            </footer>
           </div>
         </ClickSpark>
       </body>

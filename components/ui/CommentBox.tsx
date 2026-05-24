@@ -9,6 +9,8 @@ type CommentItem = {
   created_at: string;
 };
 
+type ToastType = "success" | "error" | "info";
+
 const MAX_LEN = 400;
 
 function timeAgo(iso: string) {
@@ -28,13 +30,50 @@ function timeAgo(iso: string) {
   return `${d}d ago`;
 }
 
-type ToastType = "success" | "error" | "info";
+function getInitials(name: string) {
+  return name
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join("");
+}
 
-export default function CommentBox() {
+function SkeletonComment({ variant = "dark" }: { variant?: "dark" | "light" }) {
+  const pulseClass = variant === "light" ? "bg-zinc-950/10" : "bg-white/10";
+
+  return (
+    <div
+      className={`rounded-3xl border p-4 ${
+        variant === "light" ? "border-zinc-950/10 bg-zinc-950/[0.035]" : "border-white/10 bg-white/[0.03]"
+      }`}
+    >
+      <div className="flex items-center gap-3">
+        <div className={`h-10 w-10 animate-pulse rounded-full ${pulseClass}`} />
+        <div className="space-y-2">
+          <div className={`h-3 w-28 animate-pulse rounded-full ${pulseClass}`} />
+          <div className={`h-2 w-16 animate-pulse rounded-full ${pulseClass}`} />
+        </div>
+      </div>
+      <div className="mt-4 space-y-2">
+        <div className={`h-3 w-full animate-pulse rounded-full ${pulseClass}`} />
+        <div className={`h-3 w-4/5 animate-pulse rounded-full ${pulseClass}`} />
+      </div>
+    </div>
+  );
+}
+
+export default function CommentBox({
+  maxVisible = 30,
+  variant = "dark",
+  compact = false,
+}: {
+  maxVisible?: number;
+  variant?: "dark" | "light";
+  compact?: boolean;
+}) {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
-
-  // honeypot (disembunyikan dari UI)
   const [website, setWebsite] = useState("");
 
   const [items, setItems] = useState<CommentItem[]>([]);
@@ -45,19 +84,27 @@ export default function CommentBox() {
   const toastTimer = useRef<number | null>(null);
 
   const remaining = useMemo(() => MAX_LEN - message.length, [message.length]);
+  const visibleItems = useMemo(() => items.slice(0, maxVisible), [items, maxVisible]);
 
-  const showToast = (type: ToastType, text: string) => {
+  const showToast = useCallback((type: ToastType, text: string) => {
     setToast({ type, text });
+
     if (toastTimer.current) window.clearTimeout(toastTimer.current);
-    toastTimer.current = window.setTimeout(() => setToast(null), 2800);
-  };
+
+    toastTimer.current = window.setTimeout(() => {
+      setToast(null);
+    }, 2800);
+  }, []);
 
   const loadComments = useCallback(async () => {
     setLoadingList(true);
+
     try {
       const res = await fetch("/api/comments", { cache: "no-store" });
       const json = await res.json().catch(() => ({}));
+
       if (!res.ok) throw new Error(json?.message || "Gagal memuat komentar.");
+
       setItems(json.data || []);
     } catch (e: unknown) {
       const error = e instanceof Error ? e.message : "Gagal memuat komentar.";
@@ -65,10 +112,11 @@ export default function CommentBox() {
     } finally {
       setLoadingList(false);
     }
-  }, []);
+  }, [showToast]);
 
   useEffect(() => {
     loadComments();
+
     return () => {
       if (toastTimer.current) window.clearTimeout(toastTimer.current);
     };
@@ -84,19 +132,21 @@ export default function CommentBox() {
     if (m.length > MAX_LEN) return showToast("error", "Komentar terlalu panjang.");
 
     setSending(true);
+
     try {
       const res = await fetch("/api/comments", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        // website = honeypot
         body: JSON.stringify({ name: n, message: m, website }),
       });
 
       const json = await res.json().catch(() => ({}));
+
       if (!res.ok) throw new Error(json?.message || "Gagal mengirim komentar.");
 
-      setItems((prev) => [json.data, ...prev].slice(0, 30));
+      setItems((prev) => [json.data, ...prev].slice(0, maxVisible));
       setMessage("");
+      setWebsite("");
       showToast("success", "Komentar berhasil dikirim!");
     } catch (e: unknown) {
       const error = e instanceof Error ? e.message : "Gagal mengirim komentar.";
@@ -106,135 +156,385 @@ export default function CommentBox() {
     }
   };
 
-  return (
-    <div className="neon-border">
-      <div className="neon-card p-6 md:p-8 relative overflow-hidden">
-        {/* Toast */}
+  const resetForm = () => {
+    setName("");
+    setMessage("");
+    setWebsite("");
+    showToast("info", "Form direset.");
+  };
+
+  const isLight = variant === "light";
+  const shellClass = compact
+    ? "relative"
+    : `relative overflow-hidden rounded-[2rem] border p-[1px] shadow-xl ${
+        isLight
+          ? "border-zinc-950/10 bg-white/80 shadow-zinc-950/10"
+          : "border-white/10 bg-zinc-950/60 shadow-cyan-950/20"
+      }`;
+  const contentClass = compact
+    ? "relative"
+    : `relative rounded-[2rem] p-5 md:p-8 ${isLight ? "bg-zinc-100/90" : "bg-zinc-950/75 backdrop-blur-xl"}`;
+  const formShellClass = compact
+    ? "mt-7"
+    : `mt-7 rounded-3xl border p-4 md:p-5 ${isLight ? "border-zinc-950/10 bg-white/65" : "border-white/10 bg-white/[0.03]"}`;
+
+  if (compact) {
+    return (
+      <section className="relative">
         {toast && (
           <div
             className={[
-              "absolute right-4 top-4 z-20 rounded-2xl border px-4 py-3 text-sm shadow-lg backdrop-blur",
-              toast.type === "success" ? "border-emerald-400/30 bg-emerald-500/10 text-emerald-100" : "",
-              toast.type === "error" ? "border-red-400/30 bg-red-500/10 text-red-100" : "",
-              toast.type === "info" ? "border-white/15 bg-zinc-950/35 text-zinc-100" : "",
+              "fixed right-4 top-4 z-50 rounded-2xl border px-4 py-3 text-sm shadow-2xl backdrop-blur-xl",
+              toast.type === "success" ? "border-emerald-400/30 bg-emerald-500/15 text-emerald-100" : "",
+              toast.type === "error" ? "border-red-400/30 bg-red-500/15 text-red-100" : "",
+              toast.type === "info" ? "border-white/15 bg-zinc-900/80 text-zinc-100" : "",
             ].join(" ")}
           >
             {toast.text}
           </div>
         )}
 
-        <div className="flex items-end justify-between gap-3">
-          <div>
-            <h3 className="text-base font-semibold text-zinc-100">Leave a comment</h3>
-            <p className="mt-1 text-sm text-zinc-500">Feedback, pertanyaan, atau sekadar say hi.</p>
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <p className="section-kicker">Quick Message</p>
+              <h3 className="mt-3 text-3xl font-semibold leading-tight text-zinc-50">Send a simple note</h3>
+              <p className="mt-3 max-w-xl text-sm leading-relaxed text-zinc-400">
+                Use this form for project inquiries, feedback, or a quick hello. I read every message.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={loadComments}
+              disabled={loadingList}
+              className="w-fit rounded-full border border-white/10 px-4 py-2 text-xs text-zinc-400 transition hover:border-white/20 hover:text-zinc-100 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {loadingList ? "Loading" : `${items.length} notes`}
+            </button>
           </div>
 
-          <button
-            type="button"
-            onClick={loadComments}
-            className="btn-neon-ghost text-xs"
-            disabled={loadingList}
-            title="Refresh comments"
-          >
-            {loadingList ? "Loading..." : "Refresh"}
-          </button>
+          <div className="grid gap-4">
+            <div>
+              <label className="mb-2 block text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">Name</label>
+              <input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Nama kamu"
+                className="w-full rounded-2xl border border-white/10 bg-zinc-950 px-4 py-3 text-sm text-zinc-100 outline-none transition placeholder:text-zinc-600 focus:border-cyan-300/50 focus:ring-4 focus:ring-cyan-400/10"
+                autoComplete="name"
+              />
+            </div>
+
+            <div>
+              <label className="mb-2 block text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">Message</label>
+              <textarea
+                value={message}
+                onChange={(e) => setMessage(e.target.value.slice(0, MAX_LEN))}
+                placeholder="Tulis komentar atau kebutuhan project..."
+                rows={4}
+                className="w-full resize-none rounded-2xl border border-white/10 bg-zinc-950 px-4 py-3 text-sm leading-relaxed text-zinc-100 outline-none transition placeholder:text-zinc-600 focus:border-purple-300/50 focus:ring-4 focus:ring-purple-400/10"
+              />
+
+              <div className="mt-2 flex items-center justify-between text-xs text-zinc-500">
+                <span className={remaining < 40 ? "text-amber-300" : ""}>{remaining} chars left</span>
+                <span>Max {MAX_LEN}</span>
+              </div>
+            </div>
+          </div>
+
+          <input
+            value={website}
+            onChange={(e) => setWebsite(e.target.value)}
+            tabIndex={-1}
+            autoComplete="off"
+            className="hidden"
+            aria-hidden="true"
+          />
+
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <button
+              type="button"
+              onClick={submit}
+              disabled={sending}
+              className="rounded-2xl bg-zinc-100 px-6 py-3 text-sm font-semibold text-zinc-950 transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-70"
+            >
+              {sending ? "Sending..." : "Send Message"}
+            </button>
+
+            <button
+              type="button"
+              onClick={resetForm}
+              className="rounded-2xl border border-white/10 px-5 py-3 text-sm text-zinc-400 transition hover:border-white/20 hover:text-white"
+            >
+              Reset
+            </button>
+          </div>
+
+          <div className="border-t border-white/10 pt-5">
+            <div className="flex items-center justify-between">
+              <p className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">Recent notes</p>
+              <p className="text-xs text-zinc-600">{Math.min(items.length, maxVisible)}/{items.length || 0}</p>
+            </div>
+
+            {loadingList ? (
+              <p className="mt-4 text-sm text-zinc-500">Loading notes...</p>
+            ) : items.length === 0 ? (
+              <p className="mt-4 text-sm leading-relaxed text-zinc-500">
+                No notes yet. This area will show recent visitor messages.
+              </p>
+            ) : (
+              <div className="mt-4 divide-y divide-white/10">
+                {visibleItems.map((comment) => (
+                  <article key={comment.id} className="py-4">
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="truncate text-sm font-semibold text-zinc-100">{comment.name}</p>
+                      <span className="shrink-0 text-xs text-zinc-600">{timeAgo(comment.created_at)}</span>
+                    </div>
+                    <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-zinc-400">{comment.message}</p>
+                  </article>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section className={shellClass}>
+      {toast && (
+        <div
+          className={[
+            "fixed right-4 top-4 z-50 rounded-2xl border px-4 py-3 text-sm shadow-2xl backdrop-blur-xl",
+            toast.type === "success"
+              ? "border-emerald-400/30 bg-emerald-500/15 text-emerald-100"
+              : "",
+            toast.type === "error"
+              ? "border-red-400/30 bg-red-500/15 text-red-100"
+              : "",
+            toast.type === "info"
+              ? "border-white/15 bg-zinc-900/80 text-zinc-100"
+              : "",
+          ].join(" ")}
+        >
+          {toast.text}
+        </div>
+      )}
+
+      {!compact && (
+        <div
+          className={`pointer-events-none absolute inset-0 ${
+            isLight
+              ? "bg-[radial-gradient(circle_at_top_left,rgba(14,165,233,0.11),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(124,58,237,0.10),transparent_35%)]"
+              : "bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.18),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(168,85,247,0.16),transparent_35%)]"
+          }`}
+        />
+      )}
+
+      <div className={contentClass}>
+        <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+          <div>
+            <div
+              className={`mb-3 inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium ${
+                isLight
+                  ? "border-sky-500/20 bg-sky-500/10 text-sky-700"
+                  : "border-cyan-400/20 bg-cyan-400/10 text-cyan-100"
+              }`}
+            >
+              <span className="h-1.5 w-1.5 rounded-full bg-cyan-300 shadow-[0_0_12px_rgba(103,232,249,0.9)]" />
+              Guestbook
+            </div>
+
+            <h3 className={`text-2xl font-semibold tracking-tight md:text-3xl ${isLight ? "text-zinc-950" : "text-white"}`}>
+              Leave your mark here
+            </h3>
+
+            <p className={`mt-2 max-w-xl text-sm leading-relaxed ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
+              Tulis feedback, pertanyaan, atau sekadar say hi untuk portfolio ini.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <div
+              className={`rounded-2xl border px-4 py-2 text-sm ${
+                isLight ? "border-zinc-950/10 bg-zinc-950/[0.035] text-zinc-600" : "border-white/10 bg-white/[0.04] text-zinc-300"
+              }`}
+            >
+              <span className={`font-semibold ${isLight ? "text-zinc-950" : "text-white"}`}>{items.length}</span> comments
+            </div>
+
+            <button
+              type="button"
+              onClick={loadComments}
+              disabled={loadingList}
+              className={`rounded-2xl border px-4 py-2 text-sm transition disabled:cursor-not-allowed disabled:opacity-60 ${
+                isLight
+                  ? "border-zinc-950/10 bg-zinc-950/[0.035] text-zinc-600 hover:border-sky-500/30 hover:bg-sky-500/10 hover:text-zinc-950"
+                  : "border-white/10 bg-white/[0.04] text-zinc-300 hover:border-cyan-300/30 hover:bg-cyan-300/10 hover:text-cyan-100"
+              }`}
+            >
+              {loadingList ? "Loading..." : "Refresh"}
+            </button>
+          </div>
         </div>
 
-        <div className="mt-5 grid gap-3 md:grid-cols-2">
-          <div>
-            <label className="block text-xs text-zinc-500">Name</label>
-            <input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Nama kamu"
-              className="mt-2 w-full rounded-2xl border border-white/10 bg-zinc-950/35 px-4 py-3 text-sm text-zinc-100 outline-none
-                         focus:border-cyan-300/40 focus:ring-2 focus:ring-cyan-400/10"
-              autoComplete="name"
-            />
+        <div className={formShellClass}>
+          <div className="grid gap-4">
+            <div>
+              <label className="mb-2 block text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">
+                Name
+              </label>
+
+              <input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Nama kamu"
+                className={`w-full rounded-2xl border px-4 py-3 text-sm outline-none transition placeholder:text-zinc-500 focus:border-cyan-300/50 focus:ring-4 focus:ring-cyan-400/10 ${
+                  isLight ? "border-zinc-950/10 bg-zinc-950/[0.035] text-zinc-950" : "border-white/10 bg-zinc-950/60 text-zinc-100"
+                }`}
+                autoComplete="name"
+              />
+            </div>
+
+            <div>
+              <label className="mb-2 block text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">
+                Message
+              </label>
+
+              <textarea
+                value={message}
+                onChange={(e) => setMessage(e.target.value.slice(0, MAX_LEN))}
+                placeholder="Tulis komentar terbaikmu..."
+                rows={5}
+                className={`w-full resize-none rounded-2xl border px-4 py-3 text-sm leading-relaxed outline-none transition placeholder:text-zinc-500 focus:border-purple-300/50 focus:ring-4 focus:ring-purple-400/10 ${
+                  isLight ? "border-zinc-950/10 bg-zinc-950/[0.035] text-zinc-950" : "border-white/10 bg-zinc-950/60 text-zinc-100"
+                }`}
+              />
+
+              <div className="mt-2 flex items-center justify-between text-xs text-zinc-500">
+                <span className={remaining < 40 ? "text-amber-300" : ""}>
+                  {remaining} chars left
+                </span>
+                <span>Max {MAX_LEN}</span>
+              </div>
+            </div>
           </div>
 
-          <div>
-            <label className="block text-xs text-zinc-500">Message</label>
-            <textarea
-              value={message}
-              onChange={(e) => setMessage(e.target.value.slice(0, MAX_LEN))}
-              placeholder="Tulis komentar..."
-              rows={3}
-              className="mt-2 w-full resize-none rounded-2xl border border-white/10 bg-zinc-950/35 px-4 py-3 text-sm text-zinc-100 outline-none
-                         focus:border-purple-300/40 focus:ring-2 focus:ring-purple-400/10"
-            />
-            <div className="mt-1 flex items-center justify-between text-xs text-zinc-500">
-              <span>{remaining} chars left</span>
-              <span>Max {MAX_LEN}</span>
+          <input
+            value={website}
+            onChange={(e) => setWebsite(e.target.value)}
+            tabIndex={-1}
+            autoComplete="off"
+            className="hidden"
+            aria-hidden="true"
+          />
+
+          <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <button
+              type="button"
+              onClick={submit}
+              disabled={sending}
+              className="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-cyan-400 via-sky-400 to-purple-500 px-6 py-3 text-sm font-semibold text-zinc-950 shadow-lg shadow-cyan-500/20 transition hover:scale-[1.01] hover:shadow-cyan-500/30 disabled:cursor-not-allowed disabled:opacity-70"
+            >
+              <span className="relative z-10">{sending ? "Sending..." : "Send Comment"}</span>
+              <span className="absolute inset-0 translate-x-[-100%] bg-white/30 transition duration-500 group-hover:translate-x-[100%]" />
+            </button>
+
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={resetForm}
+                className={`rounded-2xl border px-4 py-3 text-sm transition ${
+                  isLight
+                    ? "border-zinc-950/10 text-zinc-600 hover:border-zinc-950/20 hover:bg-zinc-950/[0.05] hover:text-zinc-950"
+                    : "border-white/10 text-zinc-400 hover:border-white/20 hover:bg-white/[0.05] hover:text-white"
+                }`}
+              >
+                Reset
+              </button>
             </div>
           </div>
         </div>
 
-        {/* Honeypot field (hidden) */}
-        <input
-          value={website}
-          onChange={(e) => setWebsite(e.target.value)}
-          tabIndex={-1}
-          autoComplete="off"
-          className="hidden"
-          aria-hidden="true"
-        />
+        <div className="mt-7">
+          <div className="mb-4 flex items-center justify-between">
+            <p className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">
+              Recent Comments
+            </p>
 
-        <div className="mt-4 flex flex-wrap gap-3">
-          <button
-            type="button"
-            onClick={submit}
-            disabled={sending}
-            className={`btn-neon ${sending ? "opacity-70 cursor-not-allowed" : ""}`}
-          >
-            {sending ? "Sending..." : "Send"}
-          </button>
-
-          <button
-            type="button"
-            onClick={() => {
-              setName("");
-              setMessage("");
-              setWebsite("");
-              showToast("info", "Form direset.");
-            }}
-            className="btn-neon-ghost"
-          >
-            Reset
-          </button>
-        </div>
-
-        <div className="mt-6 border-t border-white/8 pt-5">
-          <div className="flex items-center justify-between">
-            <p className="text-xs text-zinc-500">Recent</p>
-            <p className="text-xs text-zinc-500">{items.length}/30</p>
+            <p className="text-xs text-zinc-500">
+              {Math.min(items.length, maxVisible)}/{items.length || 0}
+            </p>
           </div>
 
           {loadingList ? (
-            <div className="mt-4 rounded-2xl border border-white/10 bg-zinc-950/25 px-4 py-4 text-sm text-zinc-400">
-              Loading comments...
+            <div className="space-y-3">
+              <SkeletonComment variant={variant} />
+              <SkeletonComment variant={variant} />
+              <SkeletonComment variant={variant} />
             </div>
           ) : items.length === 0 ? (
-            <div className="mt-4 rounded-2xl border border-white/10 bg-zinc-950/25 px-4 py-4 text-sm text-zinc-400">
-              Belum ada komentar.
+            <div
+              className={`rounded-3xl border border-dashed px-5 py-10 text-center ${
+                isLight ? "border-zinc-950/15 bg-zinc-950/[0.035]" : "border-white/15 bg-white/[0.03]"
+              }`}
+            >
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-cyan-300/20 bg-cyan-300/10 text-xl">
+                ✦
+              </div>
+
+              <h4 className={`mt-4 text-base font-semibold ${isLight ? "text-zinc-950" : "text-white"}`}>
+                Belum ada komentar
+              </h4>
+
+              <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-zinc-500">
+                Jadilah orang pertama yang meninggalkan pesan di guestbook ini.
+              </p>
             </div>
           ) : (
-            <div className="mt-4 space-y-3">
-              {items.map((c) => (
-                <div key={c.id} className="rounded-2xl border border-white/10 bg-zinc-950/25 px-4 py-4">
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <p className="text-sm font-semibold text-zinc-100">{c.name}</p>
-                      <p className="text-xs text-zinc-500">{timeAgo(c.created_at)}</p>
+            <div className="space-y-3">
+              {visibleItems.map((c) => (
+                <article
+                  key={c.id}
+                  className={`group rounded-3xl border p-4 transition duration-300 hover:-translate-y-0.5 hover:shadow-lg ${
+                    isLight
+                      ? "border-zinc-950/10 bg-zinc-950/[0.035] hover:border-sky-500/20 hover:bg-white/80 hover:shadow-zinc-950/10"
+                      : "border-white/10 bg-white/[0.03] hover:border-cyan-300/20 hover:bg-white/[0.05] hover:shadow-cyan-950/20"
+                  }`}
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-cyan-300/20 bg-gradient-to-br from-cyan-400/20 to-purple-500/20 text-sm font-semibold text-cyan-100 shadow-inner">
+                      {getInitials(c.name) || "?"}
+                    </div>
+
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <p className={`truncate text-sm font-semibold ${isLight ? "text-zinc-950" : "text-zinc-100"}`}>
+                          {c.name}
+                        </p>
+
+                        <span
+                          className={`rounded-full border px-2.5 py-1 text-[11px] text-zinc-500 ${
+                            isLight ? "border-zinc-950/10 bg-white/60" : "border-white/10 bg-zinc-950/40"
+                          }`}
+                        >
+                          {timeAgo(c.created_at)}
+                        </span>
+                      </div>
+
+                      <p className={`mt-3 whitespace-pre-wrap text-sm leading-relaxed ${isLight ? "text-zinc-700" : "text-zinc-400"}`}>
+                        {c.message}
+                      </p>
                     </div>
                   </div>
-                  <p className="mt-3 text-sm text-zinc-300 leading-relaxed whitespace-pre-wrap">{c.message}</p>
-                </div>
+                </article>
               ))}
             </div>
           )}
         </div>
       </div>
-    </div>
+    </section>
   );
 }

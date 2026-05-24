@@ -21,7 +21,6 @@ body {
     radial-gradient(circle at 50% 0%, rgba(161, 161, 170, 0.14), transparent 28rem),
     radial-gradient(circle at 8% 22%, rgba(113, 113, 122, 0.12), transparent 24rem),
     linear-gradient(180deg, #0b0b0d 0%, #050506 48%, #0a0a0c 100%);
-  background-attachment: fixed;
 }
 
 body::before {
@@ -31,10 +30,10 @@ body::before {
   z-index: 0;
   pointer-events: none;
   background:
-    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-  background-size: 90px 90px;
-  mask-image: radial-gradient(circle at 50% 16%, #000 0%, transparent 68%);
+    linear-gradient(to right, rgba(255, 255, 255, 0.024) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+  background-size: 130px 130px;
+  opacity: 0.58;
 }
 
 body::after {
@@ -43,11 +42,8 @@ body::after {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background:
-    radial-gradient(circle at 50% 120%, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.72)),
-    linear-gradient(rgba(255, 255, 255, 0.018) 50%, transparent 50%);
-  background-size: auto, 100% 6px;
-  opacity: 0.7;
+  background: radial-gradient(circle at 50% 120%, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.66));
+  opacity: 0.62;
 }
 
 h1, h2, h3, h4 {
@@ -212,6 +208,31 @@ h1, h2, h3, h4 {
   position: relative;
   padding-block: clamp(1.5rem, 4vw, 3rem);
   scroll-margin-top: 8rem;
+  isolation: isolate;
+}
+
+.scroll-card-section::before,
+.scroll-card-section::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  z-index: -1;
+  width: min(82rem, 88vw);
+  height: clamp(7rem, 12vw, 14rem);
+  pointer-events: none;
+  transform: translateX(-50%);
+  filter: blur(42px);
+  opacity: 0.5;
+}
+
+.scroll-card-section::before {
+  top: -2rem;
+  background: radial-gradient(ellipse at center, rgba(161, 161, 170, 0.14), transparent 68%);
+}
+
+.scroll-card-section::after {
+  bottom: -2rem;
+  background: radial-gradient(ellipse at center, rgba(39, 39, 42, 0.5), transparent 70%);
 }
 
 .section-card-surface {
@@ -338,6 +359,18 @@ h1, h2, h3, h4 {
   transform: translateY(-2px);
 }
 
+.footer-giant-text {
+  margin-inline: -0.08em;
+  margin-bottom: -0.24em;
+  color: #09090b;
+  font-size: clamp(5.8rem, 18vw, 24rem);
+  font-weight: 950;
+  line-height: 0.74;
+  letter-spacing: -0.08em;
+  text-transform: lowercase;
+  white-space: nowrap;
+}
+
 .click-spark-root {
   min-height: 100%;
 }
@@ -407,6 +440,12 @@ h1, h2, h3, h4 {
   .nav-glass-link {
     gap: 0.5rem;
     font-size: 0.84rem;
+  }
+
+  .footer-giant-text {
+    margin-inline: -0.1em;
+    font-size: clamp(5.2rem, 24vw, 8rem);
+    letter-spacing: -0.09em;
   }
 }
 
