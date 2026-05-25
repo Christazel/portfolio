@@ -63,6 +63,56 @@ function SkeletonComment({ variant = "dark" }: { variant?: "dark" | "light" }) {
   );
 }
 
+function RecentNoteCard({ comment }: { comment: CommentItem }) {
+  return (
+    <article className="recent-note-card group">
+      <div className="flex items-center gap-3">
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-cyan-300/20 bg-gradient-to-br from-cyan-300/20 via-white/5 to-purple-400/20 text-xs font-semibold text-cyan-100 shadow-inner">
+          {getInitials(comment.name) || "?"}
+        </div>
+
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2 text-[11px] text-zinc-500">
+            <p className="truncate font-semibold uppercase tracking-[0.12em] text-zinc-400">{comment.name}</p>
+            <span className="h-1 w-1 shrink-0 rounded-full bg-zinc-700" />
+            <span className="shrink-0">{timeAgo(comment.created_at)}</span>
+          </div>
+
+          <p className="mt-1 line-clamp-2 text-base font-semibold leading-relaxed text-zinc-100">{comment.message}</p>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function RecentNotesMarquee({ items }: { items: CommentItem[] }) {
+  const rowCount = Math.min(3, Math.max(1, items.length));
+  const rows = Array.from({ length: rowCount }, (_, rowIndex) =>
+    items.filter((_, index) => index % rowCount === rowIndex),
+  );
+
+  return (
+    <div className="notes-marquee" aria-label="Recent visitor notes">
+      {rows.map((row, rowIndex) => (
+        <div
+          key={rowIndex}
+          className={`notes-marquee-row ${rowIndex % 2 === 1 ? "notes-marquee-row-reverse" : ""}`}
+        >
+          <div className="notes-marquee-track">
+            {[0, 1, 2].map((loop) => (
+              <div key={loop} className="notes-marquee-sequence" aria-hidden={loop > 0 ? true : undefined}>
+                {row.map((comment) => (
+                  <RecentNoteCard key={`${rowIndex}-${loop}-${comment.id}`} comment={comment} />
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function CommentBox({
   maxVisible = 30,
   variant = "dark",
@@ -144,7 +194,10 @@ export default function CommentBox({
 
       if (!res.ok) throw new Error(json?.message || "Gagal mengirim komentar.");
 
-      setItems((prev) => [json.data, ...prev].slice(0, maxVisible));
+      setItems((prev) => {
+        const nextItems = [json.data, ...prev];
+        return compact ? nextItems : nextItems.slice(0, maxVisible);
+      });
       setMessage("");
       setWebsite("");
       showToast("success", "Komentar berhasil dikirim!");
@@ -180,7 +233,7 @@ export default function CommentBox({
 
   if (compact) {
     return (
-      <section className="relative">
+      <section className="contact-notes-stage relative flex min-h-full flex-col">
         {toast && (
           <div
             className={[
@@ -194,12 +247,12 @@ export default function CommentBox({
           </div>
         )}
 
-        <div className="flex flex-col gap-6">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div className="contact-compose mx-auto w-full max-w-5xl">
+          <div className="flex flex-col gap-3 text-center">
             <div>
               <p className="section-kicker">Quick Message</p>
-              <h3 className="mt-3 text-2xl font-semibold leading-tight text-zinc-50 sm:text-3xl">Send a simple note</h3>
-              <p className="mt-3 max-w-xl text-sm leading-relaxed text-zinc-400">
+              <h3 className="mt-3 text-3xl font-semibold leading-tight text-zinc-50 sm:text-4xl md:text-5xl">Send a simple note</h3>
+              <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-zinc-400 sm:text-base">
                 Use this form for project inquiries, feedback, or a quick hello. I read every message.
               </p>
             </div>
@@ -208,13 +261,13 @@ export default function CommentBox({
               type="button"
               onClick={loadComments}
               disabled={loadingList}
-              className="w-full rounded-full border border-white/10 px-4 py-2 text-xs text-zinc-400 transition hover:border-white/20 hover:text-zinc-100 disabled:cursor-not-allowed disabled:opacity-60 sm:w-fit"
+              className="mx-auto w-full rounded-full border border-white/10 px-4 py-2 text-xs text-zinc-400 transition hover:border-white/20 hover:text-zinc-100 disabled:cursor-not-allowed disabled:opacity-60 sm:w-fit"
             >
               {loadingList ? "Loading" : `${items.length} notes`}
             </button>
           </div>
 
-          <div className="grid gap-4">
+          <div className="mt-7 grid gap-4 md:grid-cols-[0.62fr_1.38fr]">
             <div>
               <label className="mb-2 block text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">Name</label>
               <input
@@ -252,7 +305,7 @@ export default function CommentBox({
             aria-hidden="true"
           />
 
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-center">
             <button
               type="button"
               onClick={submit}
@@ -270,33 +323,23 @@ export default function CommentBox({
               Reset
             </button>
           </div>
+        </div>
 
-          <div className="border-t border-white/10 pt-5">
-            <div className="flex items-center justify-between">
+        <div className="contact-notes-full mt-8 flex-1 border-t border-white/10 pt-6">
+          <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-1">
               <p className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">Recent notes</p>
-              <p className="text-xs text-zinc-600">{Math.min(items.length, maxVisible)}/{items.length || 0}</p>
+              <p className="text-xs text-zinc-600">{items.length}/{items.length || 0}</p>
             </div>
 
             {loadingList ? (
-              <p className="mt-4 text-sm text-zinc-500">Loading notes...</p>
+            <p className="mx-auto mt-4 max-w-7xl px-1 text-sm text-zinc-500">Loading notes...</p>
             ) : items.length === 0 ? (
-              <p className="mt-4 text-sm leading-relaxed text-zinc-500">
+            <p className="mx-auto mt-4 max-w-7xl px-1 text-sm leading-relaxed text-zinc-500">
                 No notes yet. This area will show recent visitor messages.
               </p>
             ) : (
-              <div className="mt-4 divide-y divide-white/10">
-                {visibleItems.map((comment) => (
-                  <article key={comment.id} className="py-4">
-                    <div className="flex items-center justify-between gap-3">
-                      <p className="truncate text-sm font-semibold text-zinc-100">{comment.name}</p>
-                      <span className="shrink-0 text-xs text-zinc-600">{timeAgo(comment.created_at)}</span>
-                    </div>
-                    <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-zinc-400">{comment.message}</p>
-                  </article>
-                ))}
-              </div>
+              <RecentNotesMarquee items={items} />
             )}
-          </div>
         </div>
       </section>
     );
