@@ -154,33 +154,23 @@ export default function ProjectContactStackSection() {
             </div>
           </StackCard>
 
-          <StackCard card={stackMeta[2]} index={2} total={stackMeta.length} progress={smoothProgress}>
-            <div id="contact" className="contact-card-layout grid h-full content-center gap-5">
-              <div className="contact-link-grid grid gap-4 xl:grid-cols-2">
-                <div className="contact-link-card rounded-2xl border border-white/10 bg-[#242424] p-5">
-                  <p className="text-xs text-zinc-500">Email</p>
+          <StackCard card={stackMeta[2]} index={2} total={stackMeta.length} progress={smoothProgress} panelChrome={false}>
+            <div id="contact" className="contact-open-panel grid h-full content-center gap-8">
+              <div className="grid gap-y-7">
+                <div className="contact-open-item">
+                  <p className="contact-open-label">Email</p>
                   <a
-                    className="contact-link-text mt-2 block text-base text-zinc-200 transition hover:text-white"
+                    className="contact-open-link break-all sm:break-normal"
                     href="mailto:yohan.christazel9@gmail.com"
                   >
                     yohan.christazel9@gmail.com
                   </a>
                 </div>
-                <div className="contact-link-card rounded-2xl border border-white/10 bg-[#242424] p-5">
-                  <p className="text-xs text-zinc-500">WhatsApp</p>
+
+                <div className="contact-open-item">
+                  <p className="contact-open-label">LinkedIn</p>
                   <a
-                    className="contact-link-text mt-2 block text-base text-zinc-200 transition hover:text-white"
-                    href="https://wa.me/6282150754301"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    +62 821-5075-4301
-                  </a>
-                </div>
-                <div className="contact-link-card rounded-2xl border border-white/10 bg-[#242424] p-5 xl:col-span-2">
-                  <p className="text-xs text-zinc-500">LinkedIn</p>
-                  <a
-                    className="contact-link-text mt-2 block text-base text-zinc-200 transition hover:text-white"
+                    className="contact-open-link break-all sm:break-normal"
                     href="https://www.linkedin.com/in/yohan-christazel-jeffry"
                     target="_blank"
                     rel="noreferrer"
@@ -190,22 +180,33 @@ export default function ProjectContactStackSection() {
                 </div>
               </div>
 
-              <div className="contact-link-card rounded-2xl border border-white/10 bg-[#242424] p-5">
-                <p className="section-kicker">Availability</p>
-                <p className="mt-3 text-sm leading-relaxed text-zinc-300">
-                  Open for freelance projects, internships, and collaborative builds.
-                </p>
-                <div className="mt-4 flex flex-wrap gap-2">
+              <div className="contact-availability-open">
+                <div>
+                  <p className="section-kicker">Availability</p>
+                  <p className="mt-3 max-w-2xl text-base leading-relaxed text-zinc-300">
+                    Open for freelance projects, internships, and collaborative builds.
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap gap-2">
                   <PortfolioPill>Remote</PortfolioPill>
                   <PortfolioPill>On-site</PortfolioPill>
                 </div>
               </div>
+
+              <a
+                href="mailto:yohan.christazel9@gmail.com"
+                className="group inline-flex w-fit items-center gap-3 text-sm font-semibold uppercase tracking-[0.18em] text-zinc-400 transition hover:text-white"
+              >
+                Start a conversation
+                <span className="h-px w-12 bg-zinc-500 transition group-hover:w-20 group-hover:bg-white" />
+              </a>
             </div>
           </StackCard>
 
-          <StackCard card={stackMeta[3]} index={3} total={stackMeta.length} progress={smoothProgress}>
-            <div className="h-full overflow-y-auto pr-1">
-              <CommentBox maxVisible={4} compact />
+          <StackCard card={stackMeta[3]} index={3} total={stackMeta.length} progress={smoothProgress} layout="full">
+            <div className="h-full">
+              <CommentBox compact />
             </div>
           </StackCard>
         </div>

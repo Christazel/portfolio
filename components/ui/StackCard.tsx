@@ -17,10 +17,21 @@ type StackCardProps = {
   total: number;
   progress: MotionValue<number>;
   children?: ReactNode;
+  layout?: "split" | "full";
+  panelChrome?: boolean;
   variant?: "dark" | "light";
 };
 
-export default function StackCard({ card, index, total, progress, children, variant = "dark" }: StackCardProps) {
+export default function StackCard({
+  card,
+  index,
+  total,
+  progress,
+  children,
+  layout = "split",
+  panelChrome = true,
+  variant = "dark",
+}: StackCardProps) {
   const segment = 1 / total;
   const start = index * segment;
   const arrive = Math.max(start - segment * 0.45, 0);
@@ -69,69 +80,81 @@ export default function StackCard({ card, index, total, progress, children, vari
           />
           <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.12),transparent_28%,rgba(255,255,255,0.04)_70%,transparent)] opacity-60" />
 
-          <div className="stack-card-content relative grid min-h-[34rem] gap-8 p-7 md:min-h-[38rem] md:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] md:p-8 lg:p-10 xl:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] xl:p-14">
-            <div className="flex flex-col justify-between">
-              <div>
-                <h3
-                  className={`stack-card-title max-w-2xl text-4xl font-semibold leading-[0.98] md:text-5xl xl:text-6xl ${
-                    variant === "light" ? "text-zinc-950" : "text-zinc-50"
-                  }`}
-                >
-                  {card.title}
-                </h3>
-                <p
-                  className={`mt-6 max-w-xl text-base leading-relaxed md:text-lg ${
-                    variant === "light" ? "text-zinc-600" : "text-zinc-400"
-                  }`}
-                >
-                  {card.description}
-                </p>
-              </div>
-
-              <div className={`stack-card-footer mt-10 flex items-center gap-3 text-sm ${variant === "light" ? "text-zinc-500" : "text-zinc-500"}`}>
-                <span className="h-2.5 w-2.5 rounded-full bg-zinc-100" />
-                <span>{card.footer ?? "Scroll to stack the next card"}</span>
-              </div>
+          {layout === "full" && children ? (
+            <div className="stack-card-content stack-card-content-full relative min-h-[34rem] p-7 md:min-h-[38rem] md:p-10 lg:p-14">
+              {children}
             </div>
+          ) : (
+            <div className="stack-card-content relative grid min-h-[34rem] gap-8 p-7 md:min-h-[38rem] md:grid-cols-[0.9fr_1.1fr] md:p-10 lg:p-14">
+              <div className="flex flex-col justify-between">
+                <div>
+                  <h3
+                    className={`stack-card-title max-w-2xl text-4xl font-semibold leading-[0.98] md:text-6xl ${
+                      variant === "light" ? "text-zinc-950" : "text-zinc-50"
+                    }`}
+                  >
+                    {card.title}
+                  </h3>
+                  <p
+                    className={`mt-6 max-w-xl text-base leading-relaxed md:text-lg ${
+                      variant === "light" ? "text-zinc-600" : "text-zinc-400"
+                    }`}
+                  >
+                    {card.description}
+                  </p>
+                </div>
 
-            {children ? (
-              <div
-                className={`stack-card-panel relative min-h-[22rem] overflow-hidden rounded-3xl border p-5 shadow-xl md:min-h-full md:p-5 lg:p-6 xl:p-7 ${
-                  variant === "light" ? "border-zinc-950/10 bg-white" : "border-white/10 bg-[#1f1f1f]"
-                }`}
-              >
-                <div
-                  className="pointer-events-none absolute inset-0 opacity-60"
-                  style={{
-                    background:
-                      variant === "light"
-                        ? "radial-gradient(circle at 70% 10%, rgba(9,9,11,0.06), transparent 24rem)"
-                        : "radial-gradient(circle at 70% 10%, rgba(244,244,245,0.06), transparent 24rem)",
-                  }}
-                />
-                <div className="relative z-10">{children}</div>
-              </div>
-            ) : (
-              <div className="stack-card-panel relative min-h-[22rem] overflow-hidden rounded-3xl border border-white/10 bg-zinc-900/70 shadow-xl md:min-h-full">
-                {card.image && (
-                  <motion.img
-                    src={card.image}
-                    alt=""
-                    className="h-full w-full scale-110 object-cover opacity-80 grayscale transition duration-700 group-hover:scale-[1.14] group-hover:opacity-100 group-hover:grayscale-0"
-                    style={{ y: imageY }}
-                    draggable={false}
-                  />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-white/5" />
-                <div
-                  className="absolute inset-x-6 bottom-6 rounded-2xl border border-white/10 bg-black/35 p-4 text-sm text-zinc-300 backdrop-blur-md"
-                  style={{ boxShadow: `0 0 34px ${card.accentColor}1f` }}
-                >
-                  Smooth sticky overlap, glass detail, and subtle image parallax.
+                <div className={`stack-card-footer mt-10 flex items-center gap-3 text-sm ${variant === "light" ? "text-zinc-500" : "text-zinc-500"}`}>
+                  <span className="h-2.5 w-2.5 rounded-full bg-zinc-100" />
+                  <span>{card.footer ?? "Scroll to stack the next card"}</span>
                 </div>
               </div>
-            )}
-          </div>
+
+              {children ? (
+                panelChrome ? (
+                  <div
+                    className={`stack-card-panel relative min-h-[22rem] overflow-hidden rounded-3xl border p-5 shadow-xl md:min-h-full md:p-7 ${
+                      variant === "light" ? "border-zinc-950/10 bg-white" : "border-white/10 bg-[#1f1f1f]"
+                    }`}
+                  >
+                    <div
+                      className="pointer-events-none absolute inset-0 opacity-60"
+                      style={{
+                        background:
+                          variant === "light"
+                            ? "radial-gradient(circle at 70% 10%, rgba(9,9,11,0.06), transparent 24rem)"
+                            : "radial-gradient(circle at 70% 10%, rgba(244,244,245,0.06), transparent 24rem)",
+                      }}
+                    />
+                    <div className="relative z-10">{children}</div>
+                  </div>
+                ) : (
+                  <div className="stack-card-panel stack-card-panel-plain relative min-h-[22rem] md:min-h-full">
+                    {children}
+                  </div>
+                )
+              ) : (
+                <div className="stack-card-panel relative min-h-[22rem] overflow-hidden rounded-3xl border border-white/10 bg-zinc-900/70 shadow-xl md:min-h-full">
+                  {card.image && (
+                    <motion.img
+                      src={card.image}
+                      alt=""
+                      className="h-full w-full scale-110 object-cover opacity-80 grayscale transition duration-700 group-hover:scale-[1.14] group-hover:opacity-100 group-hover:grayscale-0"
+                      style={{ y: imageY }}
+                      draggable={false}
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-white/5" />
+                  <div
+                    className="absolute inset-x-6 bottom-6 rounded-2xl border border-white/10 bg-black/35 p-4 text-sm text-zinc-300 backdrop-blur-md"
+                    style={{ boxShadow: `0 0 34px ${card.accentColor}1f` }}
+                  >
+                    Smooth sticky overlap, glass detail, and subtle image parallax.
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </motion.article>
     </div>

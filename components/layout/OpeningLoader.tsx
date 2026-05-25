@@ -47,7 +47,7 @@ function OpeningLoaderComponent() {
 
   return (
     <div
-      className={`fixed inset-0 z-[999] flex items-center justify-center bg-zinc-950/80 backdrop-blur-sm transition-opacity duration-200 ${
+      className={`fixed inset-0 z-999 flex items-center justify-center bg-zinc-950/80 backdrop-blur-sm transition-opacity duration-200 ${
         fadingOut ? "opacity-0" : "opacity-100"
       }`}
       role="status"
