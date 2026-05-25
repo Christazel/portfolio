@@ -117,10 +117,14 @@ export default function CommentBox({
   maxVisible = 30,
   variant = "dark",
   compact = false,
+  showComposer = true,
+  showRecentNotes = true,
 }: {
   maxVisible?: number;
   variant?: "dark" | "light";
   compact?: boolean;
+  showComposer?: boolean;
+  showRecentNotes?: boolean;
 }) {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
@@ -233,7 +237,7 @@ export default function CommentBox({
 
   if (compact) {
     return (
-      <section className="contact-notes-stage relative flex min-h-full flex-col">
+      <section className={`contact-notes-stage relative flex min-h-full flex-col ${!showComposer ? "contact-notes-only" : ""}`}>
         {toast && (
           <div
             className={[
@@ -247,6 +251,7 @@ export default function CommentBox({
           </div>
         )}
 
+        {showComposer && (
         <div className="contact-compose mx-auto w-full max-w-5xl">
           <div className="flex flex-col gap-3 text-center">
             <div>
@@ -324,8 +329,10 @@ export default function CommentBox({
             </button>
           </div>
         </div>
+        )}
 
-        <div className="contact-notes-full mt-8 flex-1 border-t border-white/10 pt-6">
+        {showRecentNotes && (
+        <div className={`contact-notes-full flex-1 ${showComposer ? "mt-8 border-t border-white/10 pt-6" : ""}`}>
           <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-1">
               <p className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">Recent notes</p>
               <p className="text-xs text-zinc-600">{items.length}/{items.length || 0}</p>
@@ -341,6 +348,7 @@ export default function CommentBox({
               <RecentNotesMarquee items={items} />
             )}
         </div>
+        )}
       </section>
     );
   }

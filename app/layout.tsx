@@ -1,11 +1,17 @@
 import "./globals.css";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import ClickSpark from "@/components/animations/ClickSpark";
 import OpeningLoader from "@/components/layout/OpeningLoader";
 
 export const metadata: Metadata = {
   title: "Yohan Christazel Jeffry",
   description: "Portfolio website of Yohan Christazel Jeffry",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

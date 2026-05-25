@@ -70,7 +70,7 @@ export const projects: ProjectItem[] = [
     highlight: "Streamlined internship workflows with role-based dashboards and progress tracking.",
     links: [
       { label: "Demo", href: "https://web-magang-melawi.vercel.app/" },
-      { label: "Repo", href: "#" },
+      { label: "GitHub", href: "https://github.com/Christazel" },
     ],
   },
 ];
