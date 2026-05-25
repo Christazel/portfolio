@@ -9,9 +9,15 @@
 html,
 body {
   height: 100%;
+  max-width: 100%;
+  overflow-x: clip;
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  position: relative;
 }
 
 body {
@@ -20,6 +26,17 @@ body {
   background:
     radial-gradient(circle at 50% 0%, rgba(244, 244, 245, 0.07), transparent 30rem),
     linear-gradient(180deg, #101010 0%, #0b0b0b 46%, #111111 100%);
+}
+
+* {
+  min-width: 0;
+}
+
+img,
+svg,
+canvas,
+video {
+  max-width: 100%;
 }
 
 body::before {
@@ -50,7 +67,7 @@ h1, h2, h3, h4 {
 }
 
 .container-page {
-  width: min(calc(100% - 2rem), 116rem);
+  width: min(calc(100% - clamp(1rem, 4vw, 2rem)), 116rem);
   margin-inline: auto;
 }
 
@@ -71,6 +88,8 @@ h1, h2, h3, h4 {
   @apply inline-flex items-center justify-center rounded-xl font-medium bg-zinc-100 text-zinc-900 transition;
   padding: 0.85rem 1.45rem;
   font-size: clamp(0.94rem, 1vw, 1.08rem);
+  min-height: 2.9rem;
+  text-align: center;
 }
 .btn-neon:hover {
   background: rgba(244, 244, 245, 0.9);
@@ -82,6 +101,8 @@ h1, h2, h3, h4 {
   background: #1f1f1f;
   padding: 0.85rem 1.45rem;
   font-size: clamp(0.94rem, 1vw, 1.08rem);
+  min-height: 2.9rem;
+  text-align: center;
 }
 .btn-neon-ghost:hover {
   border-color: rgba(228, 228, 231, 0.3);
@@ -90,8 +111,10 @@ h1, h2, h3, h4 {
 
 .pill {
   @apply inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs text-zinc-300;
+  max-width: 100%;
   border-color: rgba(244, 244, 245, 0.12);
   background: #242424;
+  line-height: 1.35;
 }
 .pill-strong {
   border-color: rgba(244, 244, 245, 0.24);
@@ -117,10 +140,11 @@ h1, h2, h3, h4 {
 
 .section-title {
   color: #fafafa;
-  font-size: clamp(2.5rem, 5vw, 5.8rem);
+  font-size: clamp(2.05rem, 5vw, 5.8rem);
   font-weight: 600;
   line-height: 0.98;
   letter-spacing: 0;
+  text-wrap: balance;
 }
 
 .section-subtitle {
@@ -167,6 +191,7 @@ h1, h2, h3, h4 {
 
 .nav-menu {
   display: flex;
+  width: 100%;
   min-width: 0;
   align-items: center;
   justify-content: center;
@@ -251,7 +276,7 @@ h1, h2, h3, h4 {
 
 .section-card-surface {
   position: relative;
-  min-height: clamp(34rem, 72svh, 58rem);
+  min-height: clamp(28rem, 72svh, 58rem);
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: clamp(1.45rem, 3vw, 2.25rem);
@@ -338,10 +363,11 @@ h1, h2, h3, h4 {
 
 .hero-title {
   color: #0a0a0a;
-  font-size: clamp(2.8rem, 5.2vw, 4.2rem);
+  font-size: clamp(2.35rem, 5.2vw, 4.2rem);
   font-weight: 700;
   line-height: 1.08;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
+  text-wrap: balance;
 }
 
 .hero-title-accent {
@@ -356,6 +382,7 @@ h1, h2, h3, h4 {
   color: rgba(24, 24, 27, 0.72);
   font-size: clamp(0.95rem, 1.1vw, 1.1rem);
   line-height: 1.8;
+  text-wrap: pretty;
 }
 
 .hero-actions {
@@ -568,9 +595,29 @@ h1, h2, h3, h4 {
   font-size: clamp(5.8rem, 18vw, 24rem);
   font-weight: 950;
   line-height: 0.74;
-  letter-spacing: -0.08em;
+  letter-spacing: 0;
   text-transform: lowercase;
   white-space: nowrap;
+}
+
+.stack-card-shell {
+  min-height: 100svh;
+}
+
+.stack-card-article {
+  border-radius: 1.5rem;
+}
+
+.stack-card-inner {
+  min-height: min(38rem, calc(100svh - 8rem));
+}
+
+.stack-card-content {
+  min-height: min(38rem, calc(100svh - 8rem));
+}
+
+.stack-card-panel {
+  min-height: 22rem;
 }
 
 .click-spark-root {
@@ -619,6 +666,7 @@ h1, h2, h3, h4 {
   .navbar-glass {
     min-height: auto;
     padding: 0.85rem;
+    border-radius: 1.05rem;
   }
 
   .nav-menu {
@@ -626,6 +674,7 @@ h1, h2, h3, h4 {
     overflow-x: auto;
     padding: 0.45rem 0.1rem 0.1rem;
     scrollbar-width: none;
+    scroll-padding-inline: 0.75rem;
   }
 
   .nav-menu::-webkit-scrollbar {
@@ -634,20 +683,163 @@ h1, h2, h3, h4 {
 }
 
 @media (max-width: 520px) {
+  body::before {
+    background-size: 76px 76px;
+    opacity: 0.36;
+  }
+
   .navbar-glass {
     border-radius: 1.05rem;
-    padding-inline: 0.7rem;
+    padding: 0.55rem 0.65rem;
+  }
+
+  .nav-menu {
+    justify-content: flex-start;
+    gap: 1rem;
   }
 
   .nav-glass-link {
     gap: 0.5rem;
-    font-size: 0.84rem;
+    font-size: 0.82rem;
   }
 
   .footer-giant-text {
-    margin-inline: -0.1em;
-    font-size: clamp(5.2rem, 24vw, 8rem);
-    letter-spacing: -0.09em;
+    margin-inline: 0;
+    font-size: clamp(3.4rem, 17vw, 5.4rem);
+    line-height: 0.88;
+  }
+}
+
+@media (max-width: 768px) {
+  .scroll-card-section {
+    padding-block: 1rem;
+    scroll-margin-top: 6rem;
+  }
+
+  .section-card-surface {
+    min-height: auto;
+    border-radius: 1.2rem;
+  }
+
+  .hero-section-card .section-card-surface {
+    display: block;
+    min-height: auto;
+  }
+
+  .hero-container {
+    min-height: auto;
+  }
+
+  .hero-left {
+    min-height: clamp(18rem, 44svh, 28rem);
+  }
+
+  .hero-right {
+    align-items: flex-start;
+    overflow-y: visible;
+  }
+
+  .hero-actions > a {
+    flex: 1 1 11rem;
+  }
+
+  .lanyard-wrapper {
+    height: clamp(340px, 52svh, 520px);
+    transform: scale(0.92);
+  }
+
+  .project-stack-header {
+    position: static;
+    margin-bottom: 1.5rem;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  .stack-card-shell {
+    position: relative;
+    top: auto;
+    min-height: auto;
+    padding-top: 0;
+  }
+
+  .stack-card-article {
+    transform: none !important;
+    opacity: 1 !important;
+    border-radius: 1.2rem;
+  }
+
+  .stack-card-inner,
+  .stack-card-content {
+    min-height: auto;
+  }
+
+  .stack-card-content {
+    gap: 1.5rem;
+    padding: 1.25rem;
+  }
+
+  .stack-card-title {
+    font-size: clamp(2rem, 10vw, 3rem);
+    line-height: 1.02;
+  }
+
+  .stack-card-panel {
+    min-height: auto;
+    border-radius: 1rem;
+    padding: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section-card.scroll-card-section {
+    padding-top: 0.75rem;
+  }
+
+  .hero-left {
+    min-height: 17rem;
+  }
+
+  .hero-right {
+    padding: 1.25rem;
+  }
+
+  .hero-eyebrow {
+    max-width: 100%;
+    padding: 0.45rem 0.75rem;
+  }
+
+  .hero-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .btn-neon,
+  .btn-neon-ghost {
+    width: 100%;
+    padding-inline: 1rem;
+  }
+
+  .skill-slider {
+    margin-top: 1.4rem;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  .skill-sequence {
+    gap: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .skill-logo {
+    font-size: 1.2rem;
+  }
+
+  .stack-card-content {
+    padding: 1rem;
+  }
+
+  .stack-card-footer {
+    align-items: flex-start;
+    font-size: 0.8rem;
   }
 }
 

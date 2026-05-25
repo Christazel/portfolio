@@ -10,8 +10,8 @@ export default function AboutSection() {
 
   return (
     <SectionSurface id="about">
-      <div className="p-8 md:p-12 xl:p-16">
-        <div className="flex items-end justify-between gap-3">
+      <div className="p-5 sm:p-8 md:p-12 xl:p-16">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="section-kicker">About</p>
             <h2 className="section-title">A quick intro</h2>
@@ -46,7 +46,7 @@ export default function AboutSection() {
         <div className="mt-6">
           <div className="grid gap-6 md:grid-cols-2 md:items-start">
             <div>
-              <p className="text-justify text-lg leading-relaxed text-zinc-300 md:text-xl">
+              <p className="text-left text-base leading-relaxed text-zinc-300 sm:text-justify md:text-xl">
                 {aboutLang === "id" ? aboutText.id : aboutText.en}
               </p>
 

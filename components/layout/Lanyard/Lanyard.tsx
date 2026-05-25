@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, react-hooks/immutability */
 "use client";
 
+import "@/lib/consoleWarningFilter";
 import { useEffect, useRef, useState } from "react";
 import { Canvas, extend, useFrame, useThree } from "@react-three/fiber";
 import { Environment, Lightformer, useGLTF, useTexture } from "@react-three/drei";
