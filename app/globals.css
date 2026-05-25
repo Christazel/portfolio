@@ -656,11 +656,11 @@ h1, h2, h3, h4 {
 .footer-giant-text {
   width: max-content;
   margin-inline: -0.14em;
-  margin-bottom: -0.3em;
+  margin-bottom: clamp(0.35rem, 1vw, 0.9rem);
   color: #09090b;
   font-size: clamp(8.5rem, 29vw, 44rem);
   font-weight: 950;
-  line-height: 0.68;
+  line-height: 0.82;
   letter-spacing: 0;
   text-transform: lowercase;
   white-space: nowrap;
@@ -893,9 +893,9 @@ h1, h2, h3, h4 {
 
   .footer-giant-text {
     margin-inline: -0.08em;
-    margin-bottom: -0.18em;
+    margin-bottom: 0.35rem;
     font-size: clamp(5.5rem, 29vw, 10rem);
-    line-height: 0.78;
+    line-height: 0.86;
   }
 }
 
