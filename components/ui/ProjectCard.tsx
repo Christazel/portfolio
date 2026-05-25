@@ -115,7 +115,7 @@ export default function ProjectCard({ project, index }: { project: Project; inde
             <p className="text-zinc-400 text-sm mb-4 leading-relaxed">{project.desc}</p>
 
             <div className="flex flex-wrap gap-2 mb-5">
-              {project.tech.map((t, i) => (
+              {project.tech.map((t) => (
                 <span
                   key={t}
                   className="px-3 py-1 bg-zinc-800/50 border border-zinc-700/50 rounded-lg text-xs text-zinc-300"

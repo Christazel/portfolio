@@ -35,11 +35,11 @@ export default function StackCard({ card, index, total, progress, children, vari
 
   return (
     <div
-      className="sticky top-24 flex min-h-screen items-start justify-center pt-8 md:pt-12"
+      className="stack-card-shell sticky top-24 flex min-h-screen items-start justify-center pt-8 md:pt-12"
       style={{ zIndex: index + 1 }}
     >
       <motion.article
-        className="group relative w-full max-w-7xl overflow-hidden rounded-3xl border shadow-xl will-change-transform"
+        className="stack-card-article group relative w-full max-w-7xl overflow-hidden rounded-3xl border shadow-xl will-change-transform"
         style={{
           y,
           scale,
@@ -54,7 +54,7 @@ export default function StackCard({ card, index, total, progress, children, vari
         }}
       >
         <div
-          className={`relative min-h-[34rem] overflow-hidden rounded-[calc(1.5rem-1px)] md:min-h-[38rem] ${
+          className={`stack-card-inner relative min-h-[34rem] overflow-hidden rounded-[calc(1.5rem-1px)] md:min-h-[38rem] ${
             variant === "light" ? "bg-zinc-100/96 text-zinc-950" : "bg-[#171717] text-zinc-50"
           }`}
         >
@@ -69,11 +69,11 @@ export default function StackCard({ card, index, total, progress, children, vari
           />
           <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.12),transparent_28%,rgba(255,255,255,0.04)_70%,transparent)] opacity-60" />
 
-          <div className="relative grid min-h-[34rem] gap-8 p-7 md:min-h-[38rem] md:grid-cols-[0.9fr_1.1fr] md:p-10 lg:p-14">
+          <div className="stack-card-content relative grid min-h-[34rem] gap-8 p-7 md:min-h-[38rem] md:grid-cols-[0.9fr_1.1fr] md:p-10 lg:p-14">
             <div className="flex flex-col justify-between">
               <div>
                 <h3
-                  className={`max-w-2xl text-4xl font-semibold leading-[0.98] md:text-6xl ${
+                  className={`stack-card-title max-w-2xl text-4xl font-semibold leading-[0.98] md:text-6xl ${
                     variant === "light" ? "text-zinc-950" : "text-zinc-50"
                   }`}
                 >
@@ -88,7 +88,7 @@ export default function StackCard({ card, index, total, progress, children, vari
                 </p>
               </div>
 
-              <div className={`mt-10 flex items-center gap-3 text-sm ${variant === "light" ? "text-zinc-500" : "text-zinc-500"}`}>
+              <div className={`stack-card-footer mt-10 flex items-center gap-3 text-sm ${variant === "light" ? "text-zinc-500" : "text-zinc-500"}`}>
                 <span className="h-2.5 w-2.5 rounded-full bg-zinc-100" />
                 <span>{card.footer ?? "Scroll to stack the next card"}</span>
               </div>
@@ -96,7 +96,7 @@ export default function StackCard({ card, index, total, progress, children, vari
 
             {children ? (
               <div
-                className={`relative min-h-[22rem] overflow-hidden rounded-3xl border p-5 shadow-xl md:min-h-full md:p-7 ${
+                className={`stack-card-panel relative min-h-[22rem] overflow-hidden rounded-3xl border p-5 shadow-xl md:min-h-full md:p-7 ${
                   variant === "light" ? "border-zinc-950/10 bg-white" : "border-white/10 bg-[#1f1f1f]"
                 }`}
               >
@@ -112,7 +112,7 @@ export default function StackCard({ card, index, total, progress, children, vari
                 <div className="relative z-10">{children}</div>
               </div>
             ) : (
-              <div className="relative min-h-[22rem] overflow-hidden rounded-3xl border border-white/10 bg-zinc-900/70 shadow-xl md:min-h-full">
+              <div className="stack-card-panel relative min-h-[22rem] overflow-hidden rounded-3xl border border-white/10 bg-zinc-900/70 shadow-xl md:min-h-full">
                 {card.image && (
                   <motion.img
                     src={card.image}

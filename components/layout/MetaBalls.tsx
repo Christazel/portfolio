@@ -16,6 +16,58 @@ type MetaBallsProps = {
   containerMode?: boolean;
 };
 
+type BallState = {
+  x: number;
+  y: number;
+  radius: number;
+  targetX: number;
+  targetY: number;
+};
+
+function createBall(width: number, height: number, animationSize: number): BallState {
+  const x = Math.random() * width;
+  const y = Math.random() * height;
+
+  return {
+    x,
+    y,
+    radius: Math.random() * animationSize + 10,
+    targetX: x,
+    targetY: y,
+  };
+}
+
+function updateBall(
+  ball: BallState,
+  width: number,
+  height: number,
+  hoverSmoothness: number,
+  clumpFactor: number,
+) {
+  ball.targetX += (Math.random() - 0.5) * clumpFactor;
+  ball.targetY += (Math.random() - 0.5) * clumpFactor;
+
+  ball.x += (ball.targetX - ball.x) * hoverSmoothness;
+  ball.y += (ball.targetY - ball.y) * hoverSmoothness;
+
+  if (ball.x - ball.radius < 0 || ball.x + ball.radius > width) {
+    ball.x = Math.max(ball.radius, Math.min(width - ball.radius, ball.x));
+    ball.targetX = ball.x;
+  }
+
+  if (ball.y - ball.radius < 0 || ball.y + ball.radius > height) {
+    ball.y = Math.max(ball.radius, Math.min(height - ball.radius, ball.y));
+    ball.targetY = ball.y;
+  }
+}
+
+function drawBall(ctx: CanvasRenderingContext2D, ball: BallState, fillStyle: string) {
+  ctx.beginPath();
+  ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+  ctx.fillStyle = fillStyle;
+  ctx.fill();
+}
+
 export default function MetaBalls({
   color = "#ffffff",
   cursorBallColor = "#ffffff",
@@ -40,7 +92,6 @@ export default function MetaBalls({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Set canvas size
     const resizeCanvas = () => {
       if (containerMode && canvas.parentElement) {
         const rect = canvas.parentElement.getBoundingClientRect();
@@ -58,55 +109,11 @@ export default function MetaBalls({
     }
     window.addEventListener("resize", resizeCanvas);
 
-    // Ball class
-    class Ball {
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      radius: number;
-      targetX: number;
-      targetY: number;
-
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.vx = (Math.random() - 0.5) * speed * 2;
-        this.vy = (Math.random() - 0.5) * speed * 2;
-        this.radius = Math.random() * animationSize + 10;
-        this.targetX = this.x;
-        this.targetY = this.y;
-      }
-
-      update() {
-        this.targetX += (Math.random() - 0.5) * clumpFactor;
-        this.targetY += (Math.random() - 0.5) * clumpFactor;
-
-        this.x += (this.targetX - this.x) * hoverSmoothness;
-        this.y += (this.targetY - this.y) * hoverSmoothness;
-
-        if (this.x - this.radius < 0 || this.x + this.radius > canvas.width) {
-          this.vx *= -1;
-          this.x = Math.max(this.radius, Math.min(canvas.width - this.radius, this.x));
-        }
-        if (this.y - this.radius < 0 || this.y + this.radius > canvas.height) {
-          this.vy *= -1;
-          this.y = Math.max(this.radius, Math.min(canvas.height - this.radius, this.y));
-        }
-      }
-
-      draw() {
-        if (!ctx) return;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = enableTransparency ? `${color}33` : color;
-        ctx.fill();
-      }
-    }
-
-    const balls = Array.from({ length: ballCount }, () => new Ball());
+    const balls = Array.from({ length: ballCount }, () => createBall(canvas.width, canvas.height, animationSize));
+    const fillStyle = enableTransparency ? `${color}33` : color;
     let mouseX = canvas.width / 2;
     let mouseY = canvas.height / 2;
+    let animationFrameId: number | null = null;
 
     const handleMouseMove = (e: MouseEvent) => {
       if (!enableMouseInteraction || !containerMode) return;
@@ -125,18 +132,16 @@ export default function MetaBalls({
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       balls.forEach((ball) => {
-        ball.update();
-        ball.draw();
+        updateBall(ball, canvas.width, canvas.height, hoverSmoothness, clumpFactor * speed);
+        drawBall(ctx, ball, fillStyle);
       });
 
       if (enableMouseInteraction && containerMode) {
-        // Draw cursor ball
         ctx.beginPath();
         ctx.arc(mouseX, mouseY, cursorBallSize, 0, Math.PI * 2);
         ctx.fillStyle = cursorBallColor;
         ctx.fill();
 
-        // Influence balls towards cursor
         balls.forEach((ball) => {
           const dx = mouseX - ball.x;
           const dy = mouseY - ball.y;
@@ -151,25 +156,35 @@ export default function MetaBalls({
         });
       }
 
-      requestAnimationFrame(animate);
+      animationFrameId = requestAnimationFrame(animate);
     };
 
     animate();
 
     return () => {
+      if (animationFrameId !== null) {
+        cancelAnimationFrame(animationFrameId);
+      }
+
       window.removeEventListener("resize", resizeCanvas);
       canvas.parentElement?.removeEventListener("mousemove", handleMouseMove);
       resizeObserver.disconnect();
     };
-  }, [color, cursorBallColor, cursorBallSize, ballCount, animationSize, enableMouseInteraction, enableTransparency, hoverSmoothness, clumpFactor, speed, containerMode]);
+  }, [
+    color,
+    cursorBallColor,
+    cursorBallSize,
+    ballCount,
+    animationSize,
+    enableMouseInteraction,
+    enableTransparency,
+    hoverSmoothness,
+    clumpFactor,
+    speed,
+    containerMode,
+  ]);
 
   const positionClass = containerMode ? "absolute inset-0 z-0" : "pointer-events-none fixed inset-0 z-0";
 
-  return (
-    <canvas
-      ref={canvasRef}
-      className={positionClass}
-      style={{ background: "transparent" }}
-    />
-  );
+  return <canvas ref={canvasRef} className={positionClass} style={{ background: "transparent" }} />;
 }

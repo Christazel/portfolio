@@ -184,7 +184,7 @@ export default function CommentBox({
         {toast && (
           <div
             className={[
-              "fixed right-4 top-4 z-50 rounded-2xl border px-4 py-3 text-sm shadow-2xl backdrop-blur-xl",
+              "fixed inset-x-4 top-4 z-50 rounded-2xl border px-4 py-3 text-sm shadow-2xl backdrop-blur-xl sm:inset-x-auto sm:right-4",
               toast.type === "success" ? "border-emerald-400/30 bg-emerald-500/15 text-emerald-100" : "",
               toast.type === "error" ? "border-red-400/30 bg-red-500/15 text-red-100" : "",
               toast.type === "info" ? "border-white/15 bg-zinc-900/80 text-zinc-100" : "",
@@ -198,7 +198,7 @@ export default function CommentBox({
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <p className="section-kicker">Quick Message</p>
-              <h3 className="mt-3 text-3xl font-semibold leading-tight text-zinc-50">Send a simple note</h3>
+              <h3 className="mt-3 text-2xl font-semibold leading-tight text-zinc-50 sm:text-3xl">Send a simple note</h3>
               <p className="mt-3 max-w-xl text-sm leading-relaxed text-zinc-400">
                 Use this form for project inquiries, feedback, or a quick hello. I read every message.
               </p>
@@ -208,7 +208,7 @@ export default function CommentBox({
               type="button"
               onClick={loadComments}
               disabled={loadingList}
-              className="w-fit rounded-full border border-white/10 px-4 py-2 text-xs text-zinc-400 transition hover:border-white/20 hover:text-zinc-100 disabled:cursor-not-allowed disabled:opacity-60"
+              className="w-full rounded-full border border-white/10 px-4 py-2 text-xs text-zinc-400 transition hover:border-white/20 hover:text-zinc-100 disabled:cursor-not-allowed disabled:opacity-60 sm:w-fit"
             >
               {loadingList ? "Loading" : `${items.length} notes`}
             </button>
@@ -307,7 +307,7 @@ export default function CommentBox({
       {toast && (
         <div
           className={[
-            "fixed right-4 top-4 z-50 rounded-2xl border px-4 py-3 text-sm shadow-2xl backdrop-blur-xl",
+            "fixed inset-x-4 top-4 z-50 rounded-2xl border px-4 py-3 text-sm shadow-2xl backdrop-blur-xl sm:inset-x-auto sm:right-4",
             toast.type === "success"
               ? "border-emerald-400/30 bg-emerald-500/15 text-emerald-100"
               : "",
