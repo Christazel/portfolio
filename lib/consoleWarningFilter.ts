@@ -21,6 +21,18 @@ function shouldFilterWarning(args: unknown[]) {
   );
 }
 
+function isInterruptedPlayError(reason: unknown) {
+  if (reason instanceof DOMException) {
+    return reason.name === "AbortError" && reason.message.includes("play() request was interrupted");
+  }
+
+  if (reason instanceof Error) {
+    return reason.name === "AbortError" && reason.message.includes("play() request was interrupted");
+  }
+
+  return typeof reason === "string" && reason.includes("play() request was interrupted");
+}
+
 if (typeof window !== "undefined" && !window.__portfolioConsoleWarnPatched) {
   const originalWarn = console.warn.bind(console);
 
@@ -31,6 +43,12 @@ if (typeof window !== "undefined" && !window.__portfolioConsoleWarnPatched) {
 
     originalWarn(...args);
   };
+
+  window.addEventListener("unhandledrejection", (event) => {
+    if (isInterruptedPlayError(event.reason)) {
+      event.preventDefault();
+    }
+  });
 
   window.__portfolioConsoleWarnPatched = true;
 }
