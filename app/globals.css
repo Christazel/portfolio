@@ -620,6 +620,24 @@ h1, h2, h3, h4 {
   min-height: 22rem;
 }
 
+.contact-card-layout {
+  min-width: 0;
+}
+
+.contact-link-grid {
+  min-width: 0;
+}
+
+.contact-link-card {
+  min-width: 0;
+}
+
+.contact-link-text {
+  overflow-wrap: anywhere;
+  word-break: normal;
+  line-height: 1.45;
+}
+
 .click-spark-root {
   min-height: 100%;
 }
@@ -679,6 +697,40 @@ h1, h2, h3, h4 {
 
   .nav-menu::-webkit-scrollbar {
     display: none;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1180px) {
+  .stack-card-shell {
+    top: 6rem;
+  }
+
+  .stack-card-content {
+    gap: clamp(1.25rem, 2.4vw, 2rem);
+  }
+
+  .stack-card-title {
+    font-size: clamp(3rem, 5.8vw, 4.4rem);
+  }
+
+  .stack-card-panel {
+    padding: clamp(1.1rem, 2vw, 1.5rem);
+  }
+
+  .contact-card-layout {
+    gap: 1rem;
+  }
+
+  .contact-link-grid {
+    gap: 1rem;
+  }
+
+  .contact-link-card {
+    padding: clamp(1rem, 1.8vw, 1.25rem);
+  }
+
+  .contact-link-text {
+    font-size: clamp(0.9rem, 1.6vw, 1rem);
   }
 }
 

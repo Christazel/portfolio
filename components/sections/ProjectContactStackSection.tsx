@@ -155,21 +155,21 @@ export default function ProjectContactStackSection() {
           </StackCard>
 
           <StackCard card={stackMeta[2]} index={2} total={stackMeta.length} progress={smoothProgress}>
-            <div id="contact" className="grid h-full content-center gap-6">
-              <div className="grid gap-5 md:grid-cols-2">
-                <div className="rounded-2xl border border-white/10 bg-[#242424] p-5">
+            <div id="contact" className="contact-card-layout grid h-full content-center gap-5">
+              <div className="contact-link-grid grid gap-4 xl:grid-cols-2">
+                <div className="contact-link-card rounded-2xl border border-white/10 bg-[#242424] p-5">
                   <p className="text-xs text-zinc-500">Email</p>
                   <a
-                    className="mt-2 block break-all text-base text-zinc-200 transition hover:text-white sm:break-normal"
+                    className="contact-link-text mt-2 block text-base text-zinc-200 transition hover:text-white"
                     href="mailto:yohan.christazel9@gmail.com"
                   >
                     yohan.christazel9@gmail.com
                   </a>
                 </div>
-                <div className="rounded-2xl border border-white/10 bg-[#242424] p-5">
+                <div className="contact-link-card rounded-2xl border border-white/10 bg-[#242424] p-5">
                   <p className="text-xs text-zinc-500">WhatsApp</p>
                   <a
-                    className="mt-2 block text-base text-zinc-200 transition hover:text-white"
+                    className="contact-link-text mt-2 block text-base text-zinc-200 transition hover:text-white"
                     href="https://wa.me/6282150754301"
                     target="_blank"
                     rel="noreferrer"
@@ -177,10 +177,10 @@ export default function ProjectContactStackSection() {
                     +62 821-5075-4301
                   </a>
                 </div>
-                <div className="rounded-2xl border border-white/10 bg-[#242424] p-5 md:col-span-2">
+                <div className="contact-link-card rounded-2xl border border-white/10 bg-[#242424] p-5 xl:col-span-2">
                   <p className="text-xs text-zinc-500">LinkedIn</p>
                   <a
-                    className="mt-2 block break-all text-base text-zinc-200 transition hover:text-white sm:break-normal"
+                    className="contact-link-text mt-2 block text-base text-zinc-200 transition hover:text-white"
                     href="https://www.linkedin.com/in/yohan-christazel-jeffry"
                     target="_blank"
                     rel="noreferrer"
@@ -190,7 +190,7 @@ export default function ProjectContactStackSection() {
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-white/10 bg-[#242424] p-5">
+              <div className="contact-link-card rounded-2xl border border-white/10 bg-[#242424] p-5">
                 <p className="section-kicker">Availability</p>
                 <p className="mt-3 text-sm leading-relaxed text-zinc-300">
                   Open for freelance projects, internships, and collaborative builds.

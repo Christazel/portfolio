@@ -69,11 +69,11 @@ export default function StackCard({ card, index, total, progress, children, vari
           />
           <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.12),transparent_28%,rgba(255,255,255,0.04)_70%,transparent)] opacity-60" />
 
-          <div className="stack-card-content relative grid min-h-[34rem] gap-8 p-7 md:min-h-[38rem] md:grid-cols-[0.9fr_1.1fr] md:p-10 lg:p-14">
+          <div className="stack-card-content relative grid min-h-[34rem] gap-8 p-7 md:min-h-[38rem] md:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] md:p-8 lg:p-10 xl:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] xl:p-14">
             <div className="flex flex-col justify-between">
               <div>
                 <h3
-                  className={`stack-card-title max-w-2xl text-4xl font-semibold leading-[0.98] md:text-6xl ${
+                  className={`stack-card-title max-w-2xl text-4xl font-semibold leading-[0.98] md:text-5xl xl:text-6xl ${
                     variant === "light" ? "text-zinc-950" : "text-zinc-50"
                   }`}
                 >
@@ -96,7 +96,7 @@ export default function StackCard({ card, index, total, progress, children, vari
 
             {children ? (
               <div
-                className={`stack-card-panel relative min-h-[22rem] overflow-hidden rounded-3xl border p-5 shadow-xl md:min-h-full md:p-7 ${
+                className={`stack-card-panel relative min-h-[22rem] overflow-hidden rounded-3xl border p-5 shadow-xl md:min-h-full md:p-5 lg:p-6 xl:p-7 ${
                   variant === "light" ? "border-zinc-950/10 bg-white" : "border-white/10 bg-[#1f1f1f]"
                 }`}
               >
