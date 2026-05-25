@@ -1,214 +1,161 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useRef } from "react";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { projects } from "@/app/data/homeData";
 import PortfolioPill from "@/components/sections/PortfolioPill";
 import CommentBox from "@/components/ui/CommentBox";
-import StackCard, { type StackingCardItem } from "@/components/ui/StackCard";
-
-const stackMeta: StackingCardItem[] = [
-  {
-    title: "Selected Project",
-    description: "A focused look at shipped work, role, stack, and the real problem each build solves.",
-    accentColor: "#60a5fa",
-    footer: "Projects stack into the contact flow",
-  },
-  {
-    title: "Build Approach",
-    description: "How I think through product flow, API design, interface polish, and maintainability.",
-    accentColor: "#a78bfa",
-    footer: "Process details stay close to the work",
-  },
-  {
-    title: "Let’s Work Together",
-    description: "Open for freelance builds, internships, and collaborative product development.",
-    accentColor: "#22d3ee",
-    footer: "Contact details appear as the next layer",
-  },
-  {
-    title: "Send a Message",
-    description: "Leave a note directly from the site so we can start with context.",
-    accentColor: "#84cc16",
-    footer: "Final card holds the contact form",
-  },
-];
 
 export default function ProjectContactStackSection() {
-  const containerRef = useRef<HTMLElement | null>(null);
   const featuredProject = projects[0];
-  const scrollYProgress = useMotionValue(0);
+  const trackRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    let frameId: number | null = null;
+  const slide = (direction: "prev" | "next") => {
+    const track = trackRef.current;
+    if (!track) return;
 
-    const updateProgress = () => {
-      frameId = null;
-
-      const container = containerRef.current;
-      if (!container) return;
-
-      const rect = container.getBoundingClientRect();
-      const scrollableDistance = Math.max(rect.height - window.innerHeight, 1);
-      const nextProgress = Math.min(Math.max(-rect.top / scrollableDistance, 0), 1);
-
-      scrollYProgress.set(nextProgress);
-    };
-
-    const requestUpdate = () => {
-      if (frameId !== null) return;
-      frameId = window.requestAnimationFrame(updateProgress);
-    };
-
-    updateProgress();
-    window.addEventListener("scroll", requestUpdate, { passive: true });
-    window.addEventListener("resize", requestUpdate);
-
-    return () => {
-      if (frameId !== null) {
-        window.cancelAnimationFrame(frameId);
-      }
-
-      window.removeEventListener("scroll", requestUpdate);
-      window.removeEventListener("resize", requestUpdate);
-    };
-  }, [scrollYProgress]);
-
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 90,
-    damping: 28,
-    mass: 0.25,
-  });
-
-  const headerY = useTransform(smoothProgress, [0, 0.22], [0, -48]);
-  const headerOpacity = useTransform(smoothProgress, [0, 0.22], [1, 0.35]);
+    const amount = track.clientWidth * 0.82;
+    track.scrollBy({
+      left: direction === "next" ? amount : -amount,
+      behavior: "smooth",
+    });
+  };
 
   return (
-    <section
-      ref={containerRef}
-      id="projects"
-      className="relative py-10 text-zinc-100 md:py-24"
-    >
+    <section id="projects" className="project-carousel-section relative py-10 text-zinc-100 md:py-24">
       <div className="container-page relative z-10">
-        <motion.div
-          className="project-stack-header sticky top-28 z-0 mx-auto mb-10 max-w-5xl text-center"
-          style={{ y: headerY, opacity: headerOpacity }}
-        >
+        <div className="project-stack-header mx-auto mb-10 max-w-5xl text-center">
           <p className="section-kicker">Selected Work</p>
           <h2 className="section-title mt-3">Projects & Contact</h2>
           <p className="mx-auto mt-5 max-w-3xl text-base leading-relaxed text-zinc-400 md:text-lg">
-            Project details and contact touchpoints now stack into each other with a smooth sticky scroll experience.
+            Project details and contact touchpoints are arranged in a horizontal card slider.
           </p>
-        </motion.div>
+        </div>
 
-        <div className="relative">
-          <StackCard card={stackMeta[0]} index={0} total={stackMeta.length} progress={smoothProgress}>
-            {featuredProject ? (
-              <div className="flex h-full flex-col justify-between gap-8">
-                <div>
-                  <div className="flex flex-wrap items-center justify-between gap-4">
-                    <p className="section-kicker">Case Study</p>
-                    <PortfolioPill>{featuredProject.year}</PortfolioPill>
+        <div className="project-carousel-frame">
+          <button
+            type="button"
+            className="project-carousel-control project-carousel-control-prev"
+            onClick={() => slide("prev")}
+            aria-label="Previous project card"
+          >
+            <FiChevronLeft aria-hidden="true" />
+          </button>
+
+          <div ref={trackRef} className="project-carousel-track" aria-label="Projects and contact slider">
+            <article className="project-carousel-card project-carousel-card-featured">
+              {featuredProject ? (
+                <div className="project-featured-layout">
+                  <div className="project-featured-main">
+                    <div className="flex flex-wrap items-center gap-3">
+                      <p className="section-kicker">Selected Project</p>
+                      <PortfolioPill>{featuredProject.year}</PortfolioPill>
+                    </div>
+
+                    <h3 className="mt-7 text-4xl font-semibold leading-none text-zinc-50 md:text-6xl">
+                      {featuredProject.title}
+                    </h3>
+
+                    <p className="mt-6 max-w-3xl text-base leading-relaxed text-zinc-300 md:text-lg">
+                      {featuredProject.desc}
+                    </p>
                   </div>
 
-                  <h3 className="mt-5 text-3xl font-semibold leading-tight text-zinc-50 md:text-5xl">
-                    {featuredProject.title}
+                  <div className="project-featured-side">
+                    <div>
+                      <p className="project-carousel-label">Role</p>
+                      <p className="mt-2 text-lg font-semibold text-zinc-100">{featuredProject.role}</p>
+                    </div>
+
+                    <div>
+                      <p className="project-carousel-label">Highlight</p>
+                      <p className="mt-2 text-sm leading-relaxed text-zinc-400">{featuredProject.highlight}</p>
+                    </div>
+
+                    <div>
+                      <p className="project-carousel-label">Stack</p>
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {featuredProject.tech.map((tech) => (
+                          <PortfolioPill key={tech}>{tech}</PortfolioPill>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap gap-3">
+                      {featuredProject.links.map((link) => {
+                        const isExternal = link.href.startsWith("http");
+
+                        return (
+                          <a
+                            key={link.label}
+                            className="btn-neon-ghost text-xs"
+                            href={link.href}
+                            target={isExternal ? "_blank" : undefined}
+                            rel={isExternal ? "noreferrer" : undefined}
+                          >
+                            {link.label}
+                          </a>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+            </article>
+
+            <article id="contact" className="project-carousel-card">
+              <div className="flex h-full flex-col justify-between gap-10">
+                <div>
+                  <p className="section-kicker">Contact</p>
+                  <h3 className="mt-5 text-4xl font-semibold leading-none text-zinc-50 md:text-5xl">
+                    Let&apos;s Work Together
                   </h3>
-                  <p className="mt-5 text-base leading-relaxed text-zinc-300 md:text-lg">{featuredProject.desc}</p>
-                  <p className="mt-4 text-sm leading-relaxed text-zinc-500">{featuredProject.highlight}</p>
-                  <p className="mt-4 text-sm text-zinc-600">{featuredProject.role}</p>
-                </div>
-
-                <div>
-                  <div className="flex flex-wrap gap-2">
-                    {featuredProject.tech.map((tech) => (
-                      <PortfolioPill key={tech}>{tech}</PortfolioPill>
-                    ))}
-                  </div>
-
-                  <div className="mt-6 flex flex-wrap gap-3">
-                    {featuredProject.links.map((link) => (
-                      <a key={link.label} className="btn-neon-ghost text-xs" href={link.href}>
-                        {link.label}
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ) : null}
-          </StackCard>
-
-          <StackCard card={stackMeta[1]} index={1} total={stackMeta.length} progress={smoothProgress}>
-            <div className="grid h-full content-center gap-4">
-              {[
-                ["Discovery", "Clarify goals, users, features, and technical boundaries before building."],
-                ["Interface", "Create responsive layouts with calm motion, clear hierarchy, and reusable components."],
-                ["Backend", "Connect data, API routes, authentication patterns, and deployment concerns."],
-                ["Polish", "Check performance, interaction details, and maintainability before handoff."],
-              ].map(([title, description]) => (
-                <div key={title} className="rounded-2xl border border-white/10 bg-[#242424] p-5">
-                  <p className="text-lg font-semibold text-zinc-100">{title}</p>
-                  <p className="mt-2 text-sm leading-relaxed text-zinc-500">{description}</p>
-                </div>
-              ))}
-            </div>
-          </StackCard>
-
-          <StackCard card={stackMeta[2]} index={2} total={stackMeta.length} progress={smoothProgress} panelChrome={false}>
-            <div id="contact" className="contact-open-panel grid h-full content-center gap-8">
-              <div className="grid gap-y-7">
-                <div className="contact-open-item">
-                  <p className="contact-open-label">Email</p>
-                  <a
-                    className="contact-open-link break-all sm:break-normal"
-                    href="mailto:yohan.christazel9@gmail.com"
-                  >
-                    yohan.christazel9@gmail.com
-                  </a>
-                </div>
-
-                <div className="contact-open-item">
-                  <p className="contact-open-label">LinkedIn</p>
-                  <a
-                    className="contact-open-link break-all sm:break-normal"
-                    href="https://www.linkedin.com/in/yohan-christazel-jeffry"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    linkedin.com/in/yohan-christazel-jeffry
-                  </a>
-                </div>
-              </div>
-
-              <div className="contact-availability-open">
-                <div>
-                  <p className="section-kicker">Availability</p>
-                  <p className="mt-3 max-w-2xl text-base leading-relaxed text-zinc-300">
-                    Open for freelance projects, internships, and collaborative builds.
+                  <p className="mt-6 max-w-xl text-base leading-relaxed text-zinc-400 md:text-lg">
+                    Open for freelance builds, internships, and collaborative product development.
                   </p>
                 </div>
 
-                <div className="flex flex-wrap gap-2">
-                  <PortfolioPill>Remote</PortfolioPill>
-                  <PortfolioPill>On-site</PortfolioPill>
+                <div className="grid gap-6">
+                  <div className="contact-open-item">
+                    <p className="contact-open-label">Email</p>
+                    <a className="contact-open-link break-all sm:break-normal" href="mailto:yohan.christazel9@gmail.com">
+                      yohan.christazel9@gmail.com
+                    </a>
+                  </div>
+
+                  <div className="contact-open-item">
+                    <p className="contact-open-label">LinkedIn</p>
+                    <a
+                      className="contact-open-link break-all sm:break-normal"
+                      href="https://www.linkedin.com/in/yohan-christazel-jeffry"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      linkedin.com/in/yohan-christazel-jeffry
+                    </a>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2">
+                    <PortfolioPill>Remote</PortfolioPill>
+                    <PortfolioPill>On-site</PortfolioPill>
+                  </div>
                 </div>
               </div>
+            </article>
 
-              <a
-                href="mailto:yohan.christazel9@gmail.com"
-                className="group inline-flex w-fit items-center gap-3 text-sm font-semibold uppercase tracking-[0.18em] text-zinc-400 transition hover:text-white"
-              >
-                Start a conversation
-                <span className="h-px w-12 bg-zinc-500 transition group-hover:w-20 group-hover:bg-white" />
-              </a>
-            </div>
-          </StackCard>
+            <article className="project-carousel-card project-carousel-card-message">
+              <CommentBox compact showRecentNotes={false} />
+            </article>
+          </div>
 
-          <StackCard card={stackMeta[3]} index={3} total={stackMeta.length} progress={smoothProgress} layout="full">
-            <div className="h-full">
-              <CommentBox compact />
-            </div>
-          </StackCard>
+          <button
+            type="button"
+            className="project-carousel-control project-carousel-control-next"
+            onClick={() => slide("next")}
+            aria-label="Next project card"
+          >
+            <FiChevronRight aria-hidden="true" />
+          </button>
         </div>
       </div>
     </section>

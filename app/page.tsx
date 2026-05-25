@@ -3,6 +3,7 @@ import Footer from "@/components/sections/Footer";
 import HeroSection from "@/components/sections/HeroSection";
 import PortfolioNavbar from "@/components/sections/PortfolioNavbar";
 import ProjectContactStackSection from "@/components/sections/ProjectContactStackSection";
+import RecentNotesSection from "@/components/sections/RecentNotesSection";
 import SkillsSection from "@/components/sections/SkillsSection";
 
 export default function Page() {
@@ -15,6 +16,7 @@ export default function Page() {
         <AboutSection />
         <SkillsSection />
         <ProjectContactStackSection />
+        <RecentNotesSection />
       </main>
 
       <Footer />

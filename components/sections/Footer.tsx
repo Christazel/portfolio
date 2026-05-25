@@ -37,12 +37,12 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="relative left-1/2 min-h-[92svh] w-screen -translate-x-1/2 overflow-hidden bg-zinc-100 text-zinc-950">
+    <footer className="relative left-1/2 w-screen -translate-x-1/2 overflow-hidden bg-zinc-100 text-zinc-950">
       <div className="pointer-events-none absolute inset-0 opacity-[0.055] bg-[radial-gradient(circle_at_1px_1px,#09090b_1px,transparent_0)] bg-size-[18px_18px]" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-zinc-950/15" />
 
-      <div className="relative z-10 flex min-h-[92svh] flex-col">
-        <div className="px-5 py-10 sm:px-8 md:px-12 md:py-14 lg:px-16">
+      <div className="relative z-10 flex flex-col">
+        <div className="px-5 py-10 sm:px-8 md:px-12 md:py-12 lg:px-16">
           <div className="grid gap-8 sm:grid-cols-3 md:ml-auto md:max-w-4xl">
             {footerColumns.map((column) => (
               <nav key={column.title} aria-label={column.title}>
@@ -63,7 +63,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-auto select-none px-5 sm:px-8 md:px-12 lg:px-16">
+        <div className="select-none px-5 sm:px-8 md:px-12 lg:px-16">
           <p className="footer-giant-text">christazel</p>
         </div>
 
