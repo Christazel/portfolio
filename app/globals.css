@@ -12,6 +12,7 @@ body {
   width: 100%;
   max-width: 100%;
   overflow-x: hidden;
+  overscroll-behavior-y: none;
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

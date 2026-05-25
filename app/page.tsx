@@ -8,10 +8,10 @@ import SkillsSection from "@/components/sections/SkillsSection";
 
 export default function Page() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen flex flex-col">
       <PortfolioNavbar />
 
-      <main className="container-page">
+      <main className="container-page flex-1">
         <HeroSection />
         <AboutSection />
         <SkillsSection />
