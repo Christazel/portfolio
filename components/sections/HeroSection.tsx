@@ -7,13 +7,14 @@ export default function HeroSection() {
 
       <div className="hero-cover-inner">
         <div className="hero-portrait-shell">
+          <span className="hero-portrait-orbit hero-portrait-orbit-primary" aria-hidden="true" />
+          <span className="hero-portrait-orbit hero-portrait-orbit-secondary" aria-hidden="true" />
           <Image
             src="/asset/profile_800.webp"
             alt="Yohan Christazel Jeffry"
             width={480}
             height={480}
             priority
-            quality={62}
             sizes="(max-width: 520px) 42vw, (max-width: 980px) 36vw, 24vw"
             className="hero-portrait"
           />
@@ -40,8 +41,13 @@ export default function HeroSection() {
               <span className="hero-btn-icon" aria-hidden="true">◎</span>
               <span>View My Work</span>
             </a>
-            <a className="btn-neon-ghost" href="#contact">
-              <span>Get in Touch</span>
+            <a
+              className="btn-neon-ghost"
+              href="/asset/yohan-christazel-jeffry-cv.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span>Open CV</span>
               <span aria-hidden="true">-&gt;</span>
             </a>
           </div>
