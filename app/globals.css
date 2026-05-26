@@ -350,7 +350,7 @@ h1, h2, h3, h4 {
   margin-inline: auto;
   grid-template-columns: minmax(17rem, 0.38fr) minmax(0, 1fr);
   align-items: center;
-  gap: clamp(2rem, 4vw, 4.6rem);
+  gap: clamp(3rem, 5.2vw, 6.25rem);
   padding-top: clamp(6.25rem, 12svh, 8rem);
   padding-bottom: clamp(2rem, 5svh, 4rem);
 }
@@ -361,6 +361,7 @@ h1, h2, h3, h4 {
   aspect-ratio: 1;
   align-self: center;
   justify-self: center;
+  margin-left: clamp(0.35rem, 1.2vw, 1.5rem);
   transition: transform 0.35s ease, filter 0.35s ease;
 }
 
@@ -368,11 +369,82 @@ h1, h2, h3, h4 {
   content: "";
   position: absolute;
   inset: -0.8rem;
+  z-index: 0;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.14);
   background: rgba(255, 255, 255, 0.055);
   box-shadow: 0 34px 96px rgba(0, 0, 0, 0.5);
   transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
+}
+
+.hero-portrait-shell::after {
+  content: "";
+  position: absolute;
+  inset: -1rem;
+  z-index: 0;
+  border-radius: 999px;
+  background:
+    conic-gradient(
+      from 35deg,
+      transparent 0deg,
+      transparent 36deg,
+      rgba(255, 255, 255, 0.58) 48deg,
+      transparent 62deg,
+      transparent 176deg,
+      rgba(255, 255, 255, 0.28) 190deg,
+      transparent 206deg,
+      transparent 360deg
+    );
+  opacity: 0.72;
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1px));
+  pointer-events: none;
+  animation: portrait-ring-spin 12s linear infinite;
+}
+
+.hero-portrait-orbit {
+  position: absolute;
+  inset: -1.12rem;
+  z-index: 0;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-right-color: rgba(255, 255, 255, 0.3);
+  border-bottom-color: transparent;
+  pointer-events: none;
+  animation: portrait-orbit-spin 15s linear infinite;
+}
+
+.hero-portrait-orbit::before {
+  content: "";
+  position: absolute;
+  top: 13%;
+  left: 15%;
+  width: clamp(0.42rem, 0.72vw, 0.66rem);
+  aspect-ratio: 1;
+  border-radius: 999px;
+  background: #f8fafc;
+  box-shadow:
+    0 0 0 0.38rem rgba(255, 255, 255, 0.08),
+    0 0 22px rgba(255, 255, 255, 0.34);
+}
+
+.hero-portrait-orbit-secondary {
+  inset: -1.65rem;
+  opacity: 0.55;
+  border-color: rgba(255, 255, 255, 0.08);
+  border-left-color: rgba(255, 255, 255, 0.24);
+  border-top-color: transparent;
+  animation-duration: 22s;
+  animation-direction: reverse;
+}
+
+.hero-portrait-orbit-secondary::before {
+  top: auto;
+  left: auto;
+  right: 11%;
+  bottom: 19%;
+  width: clamp(0.34rem, 0.6vw, 0.54rem);
+  opacity: 0.82;
 }
 
 .hero-portrait-shell:hover,
@@ -390,6 +462,7 @@ h1, h2, h3, h4 {
 
 .hero-portrait {
   position: relative;
+  z-index: 1;
   width: 100%;
   height: 100%;
   border: 0.42rem solid rgba(255, 255, 255, 0.22);
@@ -409,6 +482,7 @@ h1, h2, h3, h4 {
   position: absolute;
   right: 4%;
   bottom: 10%;
+  z-index: 2;
   display: grid;
   width: clamp(3.4rem, 6vw, 5rem);
   aspect-ratio: 1;
@@ -636,6 +710,7 @@ h1, h2, h3, h4 {
   border-radius: 999px;
   background: #22c55e;
   box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+  animation: availability-pulse 1.75s ease-in-out infinite;
 }
 
 .hero-title {
@@ -1219,6 +1294,40 @@ h1, h2, h3, h4 {
   box-shadow: none;
 }
 
+@keyframes portrait-ring-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes portrait-orbit-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes availability-pulse {
+  0%,
+  100% {
+    opacity: 0.72;
+    transform: scale(0.92);
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.34);
+  }
+  45% {
+    opacity: 1;
+    transform: scale(1.12);
+    box-shadow:
+      0 0 0 0.32rem rgba(34, 197, 94, 0.1),
+      0 0 18px rgba(34, 197, 94, 0.68);
+  }
+}
+
 @keyframes skill-marquee {
   from {
     transform: translateX(0);
@@ -1247,6 +1356,12 @@ h1, h2, h3, h4 {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .hero-portrait-shell::after,
+  .hero-portrait-orbit,
+  .hero-dot {
+    animation: none;
+  }
+
   .skill-track {
     animation: none;
     flex-wrap: wrap;
@@ -1315,6 +1430,7 @@ h1, h2, h3, h4 {
 
   .hero-portrait-shell {
     width: min(14rem, 44vw);
+    margin-left: 0;
   }
 
   .hero-copy {
@@ -1395,6 +1511,7 @@ h1, h2, h3, h4 {
 
   .hero-portrait-shell {
     width: min(10.5rem, 47vw);
+    margin-left: 0;
   }
 
   .hero-display {
@@ -1715,6 +1832,79 @@ h1, h2, h3, h4 {
 
 .page-enter {
   animation: page-in 0.5s ease-out both;
+}
+
+.cursor-follower {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 2147483000;
+  width: 2.6rem;
+  height: 2.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.018);
+  opacity: 0;
+  pointer-events: none;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 0 26px rgba(255, 255, 255, 0.24);
+  transition:
+    width 0.24s ease,
+    height 0.24s ease,
+    border-color 0.24s ease,
+    opacity 0.18s ease;
+  will-change: transform, opacity;
+}
+
+.cursor-trail {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 2147482999;
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  filter: blur(10px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease;
+  will-change: transform, opacity;
+}
+
+.cursor-trail-visible {
+  opacity: 0.42;
+}
+
+.cursor-follower::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0.28rem;
+  height: 0.28rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.34);
+}
+
+.cursor-follower-visible {
+  opacity: 1;
+}
+
+.cursor-follower-active {
+  width: 2.95rem;
+  height: 2.95rem;
+  border-color: rgba(255, 255, 255, 0.82);
+}
+
+@media (not (any-pointer: fine)), (prefers-reduced-motion: reduce) {
+  .cursor-trail,
+  .cursor-follower {
+    display: none;
+  }
 }
 
 .site-shell {
