@@ -1,6 +1,6 @@
 export default function PortfolioNavbar() {
   return (
-    <header className="sticky top-3 z-50 px-3 sm:top-4">
+    <header className="fixed inset-x-0 top-3 z-50 px-3 sm:top-4">
       <div className="container-page">
         <div className="navbar-glass">
           <nav className="nav-menu" aria-label="Primary navigation">

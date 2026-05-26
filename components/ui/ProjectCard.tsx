@@ -133,7 +133,7 @@ export default function ProjectCard({ project, index }: { project: Project; inde
                     key={l.label}
                     href={l.href}
                     target={ext ? "_blank" : undefined}
-                    rel={ext ? "noreferrer" : undefined}
+                    rel={ext ? "noopener noreferrer" : undefined}
                     className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 rounded-lg text-sm text-zinc-200 transition-colors"
                   >
                     {l.label}

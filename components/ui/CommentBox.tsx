@@ -66,19 +66,19 @@ function SkeletonComment({ variant = "dark" }: { variant?: "dark" | "light" }) {
 function RecentNoteCard({ comment }: { comment: CommentItem }) {
   return (
     <article className="recent-note-card group">
-      <div className="flex items-center gap-3">
-        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-cyan-300/20 bg-gradient-to-br from-cyan-300/20 via-white/5 to-purple-400/20 text-xs font-semibold text-cyan-100 shadow-inner">
+      <div className="flex items-center gap-2.5">
+        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/8 text-[10px] font-semibold text-zinc-200">
           {getInitials(comment.name) || "?"}
         </div>
 
         <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-2 text-[11px] text-zinc-500">
-            <p className="truncate font-semibold uppercase tracking-[0.12em] text-zinc-400">{comment.name}</p>
+          <div className="flex items-center gap-2 text-[10px] text-zinc-600">
+            <p className="truncate font-semibold uppercase tracking-[0.1em] text-zinc-500">{comment.name}</p>
             <span className="h-1 w-1 shrink-0 rounded-full bg-zinc-700" />
             <span className="shrink-0">{timeAgo(comment.created_at)}</span>
           </div>
 
-          <p className="mt-1 line-clamp-2 text-base font-semibold leading-relaxed text-zinc-100">{comment.message}</p>
+          <p className="mt-0.5 line-clamp-2 text-sm font-medium leading-snug text-zinc-300">{comment.message}</p>
         </div>
       </div>
     </article>

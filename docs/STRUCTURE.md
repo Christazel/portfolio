@@ -39,7 +39,6 @@ components/
 │
 ├── layout/                   # Layout components
 │   ├── BackgroundEffects.tsx
-│   ├── LanyardHolderSingle.tsx
 │   ├── MagneticButton.tsx
 │   └── NeonBackground.tsx
 │

@@ -9,7 +9,7 @@ export async function GET() {
     .limit(30);
 
   if (error) {
-    return NextResponse.json({ message: error.message }, { status: 500 });
+    return NextResponse.json({ data: [], message: "Comments are temporarily unavailable." });
   }
   return NextResponse.json({ data });
 }

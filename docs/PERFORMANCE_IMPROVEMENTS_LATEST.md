@@ -135,8 +135,8 @@ const onScroll = () => {
 ✅ Prevention of redundant scroll flag updates
 
 ### 3. **Memory Leak Fixes**
-✅ Proper GSAP timeline cleanup  
-✅ ScrollTrigger instance management  
+✅ Proper animation cleanup  
+✅ IntersectionObserver instance management  
 ✅ Better garbage collection
 
 ### 4. **Mobile Optimization**
@@ -213,7 +213,6 @@ npm run lint
 - [MDN Web Performance](https://developer.mozilla.org/en-US/docs/Web/Performance)
 - [Web Vitals Guide](https://web.dev/vitals/)
 - [React Performance Patterns](https://react.dev/reference/react/memo)
-- [GSAP Docs](https://gsap.com/docs/)
 - [CSS Containment](https://developer.mozilla.org/en-US/docs/Web/CSS/contain)
 
 ---

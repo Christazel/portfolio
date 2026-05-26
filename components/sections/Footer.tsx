@@ -37,7 +37,7 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="relative w-full overflow-hidden bg-zinc-100 text-zinc-950">
+    <footer className="relative z-20 w-full overflow-hidden bg-zinc-100 text-zinc-950">
       <div className="pointer-events-none absolute inset-0 opacity-[0.055] bg-[radial-gradient(circle_at_1px_1px,#09090b_1px,transparent_0)] bg-size-[18px_18px]" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-zinc-950/15" />
 
@@ -77,7 +77,7 @@ export default function Footer() {
                   key={label}
                   href={href}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   aria-label={label}
                   className="text-xl text-zinc-700 transition hover:-translate-y-0.5 hover:text-zinc-950"
                 >

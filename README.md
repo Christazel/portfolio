@@ -5,7 +5,7 @@ A modern, high-performance portfolio website built with Next.js, React, and Type
 ## ✨ Features
 
 - ⚡ **Performance Optimized** - 40% faster interactions, 70% less jank on mobile
-- 🎨 **Smooth Animations** - Framer Motion & GSAP powered effects
+- 🎨 **Smooth Animations** - Lightweight CSS and React-powered effects
 - 📱 **Fully Responsive** - Works perfectly on all devices
 - 🌙 **Dark Theme** - Modern neon-inspired design
 - 🚀 **Production Ready** - TypeScript, ESLint, Prettier configured
@@ -19,7 +19,7 @@ A modern, high-performance portfolio website built with Next.js, React, and Type
 | **UI Library** | React 19.2.3 |
 | **Language** | TypeScript 5 |
 | **Styling** | Tailwind CSS 4 |
-| **Animations** | Framer Motion, GSAP |
+| **Animations** | CSS transitions, React animation helpers |
 | **Backend** | Supabase |
 | **Icons** | React Icons |
 | **Code Quality** | ESLint, Prettier |
@@ -73,6 +73,18 @@ npm run start            # Start production server
 npm run lint             # Run ESLint
 npm run format           # Format code with Prettier
 npm run format:check     # Check formatting
+```
+
+### Bundle Analyzer
+
+Run a production build with `ANALYZE=true` to inspect client/server bundles. Next 16 uses Turbopack by default, so pass `--webpack` for the current `@next/bundle-analyzer` report:
+
+```powershell
+$env:ANALYZE="true"; npm run build -- --webpack
+```
+
+```bash
+ANALYZE=true npm run build -- --webpack
 ```
 
 ## 🎯 Performance

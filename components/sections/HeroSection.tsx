@@ -1,97 +1,57 @@
-"use client";
-
-import Lanyard from "@/components/layout/Lanyard/Lanyard";
-import MetaBalls from "@/components/layout/MetaBalls";
-import { heroStats } from "@/app/data/homeData";
-import PortfolioPill from "@/components/sections/PortfolioPill";
-import SectionSurface from "@/components/sections/SectionSurface";
+import Image from "next/image";
 
 export default function HeroSection() {
   return (
-    <SectionSurface className="hero-section-card pt-0">
-      <div className="hero-container">
-        {/* Left side: Dark visual section with Lanyard */}
-        <div className="hero-left">
-          <MetaBalls
-            color="#ffffff"
-            cursorBallColor="#ffffff"
-            cursorBallSize={2}
-            ballCount={15}
-            animationSize={30}
-            enableMouseInteraction
-            enableTransparency={true}
-            hoverSmoothness={0.15}
-            clumpFactor={1}
-            speed={0.3}
+    <section className="hero-cover" aria-label="Portfolio introduction">
+      <div className="hero-cover-overlay" />
+
+      <div className="hero-cover-inner">
+        <div className="hero-portrait-shell">
+          <Image
+            src="/asset/profile_800.webp"
+            alt="Yohan Christazel Jeffry"
+            width={480}
+            height={480}
+            priority
+            quality={62}
+            sizes="(max-width: 520px) 42vw, (max-width: 980px) 36vw, 24vw"
+            className="hero-portrait"
           />
-          <div className="hero-lanyard-wrapper">
-            <Lanyard position={[0, 0, 20]} gravity={[0, -40, 0]} />
+          <div className="hero-portrait-badge" aria-hidden="true">
+            YC
           </div>
         </div>
 
-        {/* Right side: Light content section */}
-        <div className="hero-right page-enter">
-          <div className="hero-content-inner">
-            <div className="hero-eyebrow">
-              <span className="hero-dot" aria-hidden="true" />
-              <p className="section-kicker">Fullstack Developer</p>
-            </div>
+        <div className="hero-copy">
+          <p className="hero-kicker">Fullstack Developer</p>
 
-            <div className="mt-3 flex flex-wrap gap-2">
-              <PortfolioPill strong>Available</PortfolioPill>
-              <PortfolioPill>Freelance</PortfolioPill>
-            </div>
+          <h1 className="hero-display">
+            Hi, I&apos;m <em>Yohan Christazel Jeffry</em>.
+          </h1>
 
-            <h1 className="hero-title mt-6">
-              Yohan
-              <span className="hero-title-accent">Christazel</span>
-              Jeffry
-            </h1>
+          <p className="hero-lede">
+            I build fast web products, reliable APIs, and useful mobile experiences from idea to production.
+          </p>
 
-            <p className="hero-subtitle mt-6">
-              Fullstack developer building fast, modern products. Next.js + Tailwind for web, Express/MongoDB for
-              backend, and Flutter for mobile.
-            </p>
+          <p className="hero-tags">Web · Mobile · UI/UX · API</p>
 
-            <div className="hero-actions mt-8">
-              <a className="btn-neon" href="#projects">
-                View Projects
-              </a>
-              <a
-                className="btn-neon-ghost"
-                href="/asset/yohan-christazel-jeffry-cv.pdf"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Get CV PDF
-              </a>
-            </div>
+          <div className="hero-actions hero-cover-actions">
+            <a className="btn-neon" href="#projects">
+              <span className="hero-btn-icon" aria-hidden="true">◎</span>
+              <span>View My Work</span>
+            </a>
+            <a className="btn-neon-ghost" href="#contact">
+              <span>Get in Touch</span>
+              <span aria-hidden="true">-&gt;</span>
+            </a>
+          </div>
 
-            <div className="hero-meta mt-6">
-              <a className="nav-link" href="mailto:yohan.christazel9@gmail.com">
-                Email
-              </a>
-              <a
-                className="nav-link"
-                href="https://www.linkedin.com/in/yohan-christazel-jeffry"
-                target="_blank"
-                rel="noreferrer"
-              >
-                LinkedIn
-              </a>
-            </div>
-
-            <div className="hero-stats mt-8">
-              {heroStats.map((stat) => (
-                <div key={stat.label} className="stat-card">
-                  <div className="stat-value">{stat.value}</div>
-                  <div className="stat-label">{stat.label}</div>
-                </div>
-              ))}
-            </div>
+          <div className="hero-availability">
+            <span className="hero-dot" aria-hidden="true" />
+            <span>Available for opportunities</span>
           </div>
         </div>
       </div>
-    </SectionSurface>
+    </section>
   );
 }

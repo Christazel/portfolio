@@ -92,8 +92,8 @@ Created `utils/performanceOptimize.ts`:
 - ✅ Components: `GlitchText`, `Reveal`, `RippleButton`, etc.
 
 #### ScrollReveal (`components/animations/ScrollReveal.tsx`)
-- ✅ Already optimized with GSAP ScrollTrigger
-- ✅ Proper cleanup of triggers on unmount
+- ✅ Optimized with pooled IntersectionObserver
+- ✅ Proper cleanup of observers on unmount
 - ✅ Threshold already set to 0.3 (good value)
 
 ---
