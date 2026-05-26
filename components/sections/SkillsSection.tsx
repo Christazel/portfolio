@@ -1,16 +1,16 @@
-import type { ComponentType } from "react";
+import type { IconType } from "react-icons";
 import { skills } from "@/app/data/homeData";
 import SectionSurface from "@/components/sections/SectionSurface";
 
 type SkillChipProps = {
   label: string;
-  Icon: ComponentType<{ className?: string }>;
+  Icon: IconType;
 };
 
 function SkillChip({ label, Icon }: SkillChipProps) {
   return (
     <span className="skill-logo">
-      <Icon className="h-7 w-7 shrink-0 sm:h-8 sm:w-8" />
+      <Icon className="h-7 w-7 shrink-0 sm:h-8 sm:w-8" aria-hidden={true} focusable="false" />
       <span>{label}</span>
     </span>
   );

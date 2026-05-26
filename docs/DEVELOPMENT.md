@@ -5,12 +5,12 @@
 Modern, performant portfolio website built with Next.js, React, and TypeScript. Features smooth animations, optimized performance, and responsive design.
 
 **Tech Stack:**
-- Next.js 16.1.1 (App Router)
+- Next.js 16.2.6 (App Router)
 - React 19.2.3
 - TypeScript 5.x
 - Tailwind CSS 4
 - Framer Motion (animations)
-- GSAP (advanced animations)
+- CSS transitions and React animation helpers
 - Supabase (backend)
 
 ---
@@ -79,7 +79,6 @@ portfolio/
 │   │
 │   ├── layout/                 # Layout components
 │   │   ├── BackgroundEffects.tsx
-│   │   ├── LanyardHolderSingle.tsx
 │   │   ├── MagneticButton.tsx
 │   │   └── NeonBackground.tsx
 │   │
@@ -268,11 +267,10 @@ className="
 ### Core Dependencies
 ```json
 {
-  "next": "16.1.1",
+  "next": "16.2.6",
   "react": "19.2.3",
   "typescript": "5.x",
   "framer-motion": "12.23.26",
-  "gsap": "3.14.2",
   "tailwindcss": "4"
 }
 ```

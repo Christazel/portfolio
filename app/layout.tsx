@@ -1,7 +1,12 @@
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
-import ClickSpark from "@/components/animations/ClickSpark";
+import { Geist } from "next/font/google";
 import OpeningLoader from "@/components/layout/OpeningLoader";
+
+const geistSans = Geist({
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Yohan Christazel Jeffry",
@@ -17,13 +22,11 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="id">
-      <body className="font-sans">
-        <ClickSpark sparkColor="#ffffff" sparkSize={10} sparkRadius={15} sparkCount={8} duration={400}>
-          <OpeningLoader />
-          <div className="site-shell relative z-10 min-h-screen">
-            {children}
-          </div>
-        </ClickSpark>
+      <body className={geistSans.className}>
+        <OpeningLoader />
+        <div className="site-shell relative z-10 min-h-screen">
+          {children}
+        </div>
       </body>
     </html>
   );

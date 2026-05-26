@@ -11,12 +11,17 @@ export default function Page() {
     <div className="min-h-screen flex flex-col">
       <PortfolioNavbar />
 
-      <main className="container-page flex-1">
+      <main className="portfolio-scroll-stage flex-1">
         <HeroSection />
-        <AboutSection />
-        <SkillsSection />
-        <ProjectContactStackSection />
-        <RecentNotesSection />
+
+        <div className="content-cover">
+          <div className="container-page">
+            <AboutSection />
+            <SkillsSection />
+            <ProjectContactStackSection />
+            <RecentNotesSection />
+          </div>
+        </div>
       </main>
 
       <Footer />

@@ -24,7 +24,7 @@ export default function ContactSection() {
                   className="text-sm text-zinc-300 transition hover:text-white"
                   href="https://wa.me/6282150754301"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                 >
                   +62 821-5075-4301
                 </a>
@@ -35,7 +35,7 @@ export default function ContactSection() {
                   className="text-sm text-zinc-300 transition hover:text-white"
                   href="https://www.linkedin.com/in/yohan-christazel-jeffry"
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                 >
                   linkedin.com/in/yohan-christazel-jeffry
                 </a>

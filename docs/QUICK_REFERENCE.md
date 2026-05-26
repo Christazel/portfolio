@@ -202,7 +202,6 @@ git push origin feature-branch
 | **Tailwind** | https://tailwindcss.com |
 | **TypeScript** | https://www.typescriptlang.org |
 | **Framer Motion** | https://www.framer.com/motion |
-| **GSAP** | https://gsap.com |
 | **Supabase** | https://supabase.com |
 
 ## 🚨 Common Errors

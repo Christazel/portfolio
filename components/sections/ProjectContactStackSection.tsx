@@ -91,7 +91,7 @@ export default function ProjectContactStackSection() {
                             className="btn-neon-ghost text-xs"
                             href={link.href}
                             target={isExternal ? "_blank" : undefined}
-                            rel={isExternal ? "noreferrer" : undefined}
+                            rel={isExternal ? "noopener noreferrer" : undefined}
                           >
                             {link.label}
                           </a>
@@ -129,7 +129,7 @@ export default function ProjectContactStackSection() {
                       className="contact-open-link break-all sm:break-normal"
                       href="https://www.linkedin.com/in/yohan-christazel-jeffry"
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
                     >
                       linkedin.com/in/yohan-christazel-jeffry
                     </a>

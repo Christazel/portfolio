@@ -2,8 +2,8 @@
 
 import { memo, useEffect, useRef, useState } from "react";
 
-const MIN_VISIBLE_MS = 1400;
-const FADE_OUT_MS = 980;
+const MIN_VISIBLE_MS = 80;
+const FADE_OUT_MS = 140;
 
 function OpeningLoaderComponent() {
   const [hidden, setHidden] = useState(false);
