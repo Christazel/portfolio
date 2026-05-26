@@ -1,4 +1,6 @@
-import CommentBox from "@/components/ui/CommentBox";
+import dynamic from "next/dynamic";
+
+const CommentBox = dynamic(() => import("@/components/ui/CommentBox"));
 
 export default function RecentNotesSection() {
   return (
