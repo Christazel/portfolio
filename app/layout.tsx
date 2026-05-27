@@ -12,8 +12,16 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://christazel.vercel.app"),
   title: "Yohan Christazel Jeffry",
   description: "Portfolio website of Yohan Christazel Jeffry",
+  alternates: {
+    canonical: "/",
+  },
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+  },
 };
 
 export const viewport: Viewport = {
