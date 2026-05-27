@@ -29,7 +29,7 @@ function CursorFollowerComponent() {
     let trailY = targetY;
     let currentScale = 1;
     let targetScale = 1;
-    let frameId = 0;
+    let frameId: number | null = null;
 
     const render = () => {
       currentX += (targetX - currentX) * 0.18;
@@ -43,6 +43,12 @@ function CursorFollowerComponent() {
       frameId = window.requestAnimationFrame(render);
     };
 
+    const startRender = () => {
+      if (frameId === null) {
+        frameId = window.requestAnimationFrame(render);
+      }
+    };
+
     const show = () => {
       ring.classList.add("cursor-follower-visible");
       trail.classList.add("cursor-trail-visible");
@@ -52,6 +58,10 @@ function CursorFollowerComponent() {
       ring.classList.remove("cursor-follower-visible", "cursor-follower-active");
       trail.classList.remove("cursor-trail-visible");
       targetScale = 1;
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId);
+        frameId = null;
+      }
     };
 
     const handlePointerMove = (event: PointerEvent) => {
@@ -60,6 +70,7 @@ function CursorFollowerComponent() {
       targetX = event.clientX;
       targetY = event.clientY;
       show();
+      startRender();
     };
 
     const handlePointerOver = (event: PointerEvent) => {
@@ -83,8 +94,6 @@ function CursorFollowerComponent() {
       targetScale = target instanceof Element && target.closest(INTERACTIVE_SELECTOR) ? 1.38 : 1;
     };
 
-    frameId = window.requestAnimationFrame(render);
-
     window.addEventListener("pointermove", handlePointerMove, { passive: true });
     window.addEventListener("pointerover", handlePointerOver, { passive: true });
     window.addEventListener("pointerleave", hide, { passive: true });
@@ -93,7 +102,9 @@ function CursorFollowerComponent() {
     window.addEventListener("blur", hide);
 
     return () => {
-      window.cancelAnimationFrame(frameId);
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId);
+      }
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("pointerover", handlePointerOver);
       window.removeEventListener("pointerleave", hide);

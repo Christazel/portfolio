@@ -1,10 +1,12 @@
-import AboutSection from "@/components/sections/AboutSection";
-import Footer from "@/components/sections/Footer";
 import HeroSection from "@/components/sections/HeroSection";
 import PortfolioNavbar from "@/components/sections/PortfolioNavbar";
-import ProjectContactStackSection from "@/components/sections/ProjectContactStackSection";
-import RecentNotesSection from "@/components/sections/RecentNotesSection";
-import SkillsSection from "@/components/sections/SkillsSection";
+import dynamic from "next/dynamic";
+
+const AboutSection = dynamic(() => import("@/components/sections/AboutSection"));
+const SkillsSection = dynamic(() => import("@/components/sections/SkillsSection"));
+const ProjectContactStackSection = dynamic(() => import("@/components/sections/ProjectContactStackSection"));
+const RecentNotesSection = dynamic(() => import("@/components/sections/RecentNotesSection"));
+const Footer = dynamic(() => import("@/components/sections/Footer"));
 
 export default function Page() {
   return (

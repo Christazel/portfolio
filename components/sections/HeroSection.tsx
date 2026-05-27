@@ -15,6 +15,7 @@ export default function HeroSection() {
             width={480}
             height={480}
             priority
+            fetchPriority="high"
             sizes="(max-width: 520px) 42vw, (max-width: 980px) 36vw, 24vw"
             className="hero-portrait"
           />

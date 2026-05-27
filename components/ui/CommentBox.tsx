@@ -12,6 +12,60 @@ type CommentItem = {
 type ToastType = "success" | "error" | "info";
 
 const MAX_LEN = 400;
+const COMMENTS_CACHE_TTL_MS = 60_000;
+
+let commentsCache: { data: CommentItem[]; timestamp: number } | null = null;
+let commentsRequest: Promise<CommentItem[]> | null = null;
+
+function scheduleAfterInteractive(callback: () => void) {
+  let cancelled = false;
+  let idleId: number | null = null;
+  let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
+  const run = () => {
+    if (!cancelled) callback();
+  };
+
+  if ("requestIdleCallback" in window) {
+    idleId = window.requestIdleCallback(run, { timeout: 1600 });
+  } else {
+    timeoutId = globalThis.setTimeout(run, 900);
+  }
+
+  return () => {
+    cancelled = true;
+    if (idleId !== null) window.cancelIdleCallback(idleId);
+    if (timeoutId !== null) globalThis.clearTimeout(timeoutId);
+  };
+}
+
+async function fetchComments(force = false) {
+  const now = Date.now();
+
+  if (!force && commentsCache && now - commentsCache.timestamp < COMMENTS_CACHE_TTL_MS) {
+    return commentsCache.data;
+  }
+
+  if (!force && commentsRequest) {
+    return commentsRequest;
+  }
+
+  commentsRequest = fetch("/api/comments", { cache: "no-store" })
+    .then(async (res) => {
+      const json = await res.json().catch(() => ({}));
+
+      if (!res.ok) throw new Error(json?.message || "Gagal memuat komentar.");
+
+      const data = json.data || [];
+      commentsCache = { data, timestamp: Date.now() };
+      return data;
+    })
+    .finally(() => {
+      commentsRequest = null;
+    });
+
+  return commentsRequest;
+}
 
 function timeAgo(iso: string) {
   const ts = new Date(iso).getTime();
@@ -150,16 +204,12 @@ export default function CommentBox({
     }, 2800);
   }, []);
 
-  const loadComments = useCallback(async () => {
+  const loadComments = useCallback(async ({ force = false }: { force?: boolean } = {}) => {
     setLoadingList(true);
 
     try {
-      const res = await fetch("/api/comments", { cache: "no-store" });
-      const json = await res.json().catch(() => ({}));
-
-      if (!res.ok) throw new Error(json?.message || "Gagal memuat komentar.");
-
-      setItems(json.data || []);
+      const data = await fetchComments(force);
+      setItems(data);
     } catch (e: unknown) {
       const error = e instanceof Error ? e.message : "Gagal memuat komentar.";
       showToast("error", error);
@@ -169,9 +219,12 @@ export default function CommentBox({
   }, [showToast]);
 
   useEffect(() => {
-    loadComments();
+    const cancelScheduledLoad = scheduleAfterInteractive(() => {
+      loadComments();
+    });
 
     return () => {
+      cancelScheduledLoad();
       if (toastTimer.current) window.clearTimeout(toastTimer.current);
     };
   }, [loadComments]);
@@ -200,6 +253,7 @@ export default function CommentBox({
 
       setItems((prev) => {
         const nextItems = [json.data, ...prev];
+        commentsCache = { data: nextItems, timestamp: Date.now() };
         return compact ? nextItems : nextItems.slice(0, maxVisible);
       });
       setMessage("");
@@ -264,7 +318,7 @@ export default function CommentBox({
 
             <button
               type="button"
-              onClick={loadComments}
+              onClick={() => loadComments({ force: true })}
               disabled={loadingList}
               className="mx-auto w-full rounded-full border border-white/10 px-4 py-2 text-xs text-zinc-400 transition hover:border-white/20 hover:text-zinc-100 disabled:cursor-not-allowed disabled:opacity-60 sm:w-fit"
             >
@@ -418,7 +472,7 @@ export default function CommentBox({
 
             <button
               type="button"
-              onClick={loadComments}
+              onClick={() => loadComments({ force: true })}
               disabled={loadingList}
               className={`rounded-2xl border px-4 py-2 text-sm transition disabled:cursor-not-allowed disabled:opacity-60 ${
                 isLight
