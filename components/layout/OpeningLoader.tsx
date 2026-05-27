@@ -18,34 +18,34 @@ function OpeningLoaderComponent() {
     root.classList.remove("is-opening-ready");
     startedAtRef.current = performance.now();
 
-    const onLoad = () => {
-      loadedRef.current = true;
-    };
+    let fadeTimer: number | null = null;
+    let hideTimer: number | null = null;
 
-    if (document.readyState === "complete") {
+    const finish = () => {
       loadedRef.current = true;
-    } else {
-      window.addEventListener("load", onLoad, { once: true });
-    }
-
-    const timer = window.setInterval(() => {
       const elapsed = performance.now() - startedAtRef.current;
-      const canFinish = loadedRef.current && elapsed >= MIN_VISIBLE_MS;
+      const remaining = Math.max(0, MIN_VISIBLE_MS - elapsed);
 
-      if (canFinish) {
-        window.clearInterval(timer);
+      fadeTimer = window.setTimeout(() => {
         root.classList.add("is-opening-ready");
         setFadingOut(true);
-        window.setTimeout(() => {
+        hideTimer = window.setTimeout(() => {
           setHidden(true);
           root.classList.remove("is-opening-loading");
         }, FADE_OUT_MS);
-      }
-    }, 120);
+      }, remaining);
+    };
+
+    if (document.readyState === "complete") {
+      finish();
+    } else {
+      window.addEventListener("load", finish, { once: true });
+    }
 
     return () => {
-      clearInterval(timer);
-      window.removeEventListener("load", onLoad);
+      if (fadeTimer !== null) window.clearTimeout(fadeTimer);
+      if (hideTimer !== null) window.clearTimeout(hideTimer);
+      window.removeEventListener("load", finish);
       root.classList.remove("is-opening-loading");
     };
   }, []);

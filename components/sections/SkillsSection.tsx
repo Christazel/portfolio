@@ -1,5 +1,5 @@
 import type { IconType } from "react-icons";
-import { skills } from "@/app/data/homeData";
+import { skills } from "@/app/data/skillsData";
 import SectionSurface from "@/components/sections/SectionSurface";
 
 type SkillChipProps = {
