@@ -4,11 +4,11 @@ import { memo, useEffect, useRef, useState } from "react";
 
 const MIN_VISIBLE_MS = 80;
 const FADE_OUT_MS = 140;
+const SPINNER_SEGMENTS = Array.from({ length: 12 }, (_, index) => index);
 
 function OpeningLoaderComponent() {
   const [hidden, setHidden] = useState(false);
   const [fadingOut, setFadingOut] = useState(false);
-  const loadedRef = useRef(false);
   const startedAtRef = useRef(0);
 
   useEffect(() => {
@@ -22,7 +22,6 @@ function OpeningLoaderComponent() {
     let hideTimer: number | null = null;
 
     const finish = () => {
-      loadedRef.current = true;
       const elapsed = performance.now() - startedAtRef.current;
       const remaining = Math.max(0, MIN_VISIBLE_MS - elapsed);
 
@@ -64,7 +63,7 @@ function OpeningLoaderComponent() {
       aria-label="Loading"
     >
       <div className="opening-spinner" aria-hidden="true">
-        {Array.from({ length: 12 }, (_, index) => (
+        {SPINNER_SEGMENTS.map((index) => (
           <span key={index} />
         ))}
       </div>
