@@ -1,25 +1,12 @@
-"use client";
-
-import { useRef } from "react";
-import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import dynamic from "next/dynamic";
 import { projects } from "@/app/data/homeData";
+import ProjectCarouselControls from "@/components/sections/ProjectCarouselControls";
 import PortfolioPill from "@/components/sections/PortfolioPill";
-import CommentBox from "@/components/ui/CommentBox";
+
+const CommentBox = dynamic(() => import("@/components/ui/CommentBox"));
 
 export default function ProjectContactStackSection() {
   const featuredProject = projects[0];
-  const trackRef = useRef<HTMLDivElement | null>(null);
-
-  const slide = (direction: "prev" | "next") => {
-    const track = trackRef.current;
-    if (!track) return;
-
-    const amount = track.clientWidth * 0.82;
-    track.scrollBy({
-      left: direction === "next" ? amount : -amount,
-      behavior: "smooth",
-    });
-  };
 
   return (
     <section id="projects" className="project-carousel-section relative py-10 text-zinc-100 md:py-24">
@@ -33,16 +20,9 @@ export default function ProjectContactStackSection() {
         </div>
 
         <div className="project-carousel-frame">
-          <button
-            type="button"
-            className="project-carousel-control project-carousel-control-prev"
-            onClick={() => slide("prev")}
-            aria-label="Previous project card"
-          >
-            <FiChevronLeft aria-hidden="true" />
-          </button>
+          <ProjectCarouselControls />
 
-          <div ref={trackRef} className="project-carousel-track" aria-label="Projects and contact slider">
+          <div id="project-carousel-track" className="project-carousel-track" aria-label="Projects and contact slider">
             <article className="project-carousel-card project-carousel-card-featured">
               {featuredProject ? (
                 <div className="project-featured-layout">
@@ -148,14 +128,6 @@ export default function ProjectContactStackSection() {
             </article>
           </div>
 
-          <button
-            type="button"
-            className="project-carousel-control project-carousel-control-next"
-            onClick={() => slide("next")}
-            aria-label="Next project card"
-          >
-            <FiChevronRight aria-hidden="true" />
-          </button>
         </div>
       </div>
     </section>

@@ -1,8 +1,10 @@
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
+import dynamic from "next/dynamic";
 import { Geist } from "next/font/google";
-import CursorFollower from "@/components/layout/CursorFollower";
 import OpeningLoader from "@/components/layout/OpeningLoader";
+
+const CursorFollower = dynamic(() => import("@/components/layout/CursorFollower"));
 
 const geistSans = Geist({
   subsets: ["latin"],
