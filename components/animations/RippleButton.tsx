@@ -85,24 +85,14 @@ export default memo(function RippleButton({
 
   if (href) {
     return (
-      <a
-        ref={linkRef}
-        href={href}
-        target={target}
-        rel={rel}
-        className={baseClass}
-      >
+      <a ref={linkRef} href={href} target={target} rel={rel} className={baseClass}>
         {children}
       </a>
     );
   }
 
   return (
-    <button
-      ref={buttonRef}
-      className={baseClass}
-      onClick={onClick}
-    >
+    <button ref={buttonRef} className={baseClass} onClick={onClick}>
       {children}
     </button>
   );

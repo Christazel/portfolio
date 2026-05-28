@@ -77,7 +77,9 @@ export default function StackCard({
                   >
                     {card.title}
                   </h3>
-                  <p className={`mt-6 max-w-xl text-base leading-relaxed md:text-lg ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
+                  <p
+                    className={`mt-6 max-w-xl text-base leading-relaxed md:text-lg ${isLight ? "text-zinc-600" : "text-zinc-400"}`}
+                  >
                     {card.description}
                   </p>
                 </div>
@@ -106,7 +108,9 @@ export default function StackCard({
                     <div className="relative z-10">{children}</div>
                   </div>
                 ) : (
-                  <div className="stack-card-panel stack-card-panel-plain relative min-h-[22rem] md:min-h-full">{children}</div>
+                  <div className="stack-card-panel stack-card-panel-plain relative min-h-[22rem] md:min-h-full">
+                    {children}
+                  </div>
                 )
               ) : (
                 <div className="stack-card-panel relative min-h-[22rem] overflow-hidden rounded-3xl border border-white/10 bg-zinc-900/70 md:min-h-full">

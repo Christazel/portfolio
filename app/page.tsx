@@ -4,7 +4,9 @@ import dynamic from "next/dynamic";
 
 const AboutSection = dynamic(() => import("@/components/sections/AboutSection"));
 const SkillsSection = dynamic(() => import("@/components/sections/SkillsSection"));
-const ProjectContactStackSection = dynamic(() => import("@/components/sections/ProjectContactStackSection"));
+const ProjectContactStackSection = dynamic(
+  () => import("@/components/sections/ProjectContactStackSection")
+);
 const RecentNotesSection = dynamic(() => import("@/components/sections/RecentNotesSection"));
 const Footer = dynamic(() => import("@/components/sections/Footer"));
 

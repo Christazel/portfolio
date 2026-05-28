@@ -8,14 +8,14 @@ Optimasi terbaru telah diterapkan pada branch `feat/update` untuk membuat portfo
 
 ## 📊 Improvements Summary
 
-| Component | Optimization | Impact |
-|-----------|--------------|--------|
-| **ParallaxSection** | Explicit 16ms throttle check | Reduced frame drops during scroll |
-| **GlitchText** | Increased throttle 70ms → 90ms | Smoother pointer interactions |
-| **Scroll Handler** | Reduced pause time 140ms → 120ms | Faster animation recovery |
-| **CSS Animations** | Added content-visibility & containment | Faster paint, better GPU usage |
-| **Mobile Optimization** | Improved backdrop-filter balance | 50%+ smoother mobile scroll |
-| **Event Listeners** | Added passive: true flags | Non-blocking scroll performance |
+| Component               | Optimization                           | Impact                            |
+| ----------------------- | -------------------------------------- | --------------------------------- |
+| **ParallaxSection**     | Explicit 16ms throttle check           | Reduced frame drops during scroll |
+| **GlitchText**          | Increased throttle 70ms → 90ms         | Smoother pointer interactions     |
+| **Scroll Handler**      | Reduced pause time 140ms → 120ms       | Faster animation recovery         |
+| **CSS Animations**      | Added content-visibility & containment | Faster paint, better GPU usage    |
+| **Mobile Optimization** | Improved backdrop-filter balance       | 50%+ smoother mobile scroll       |
+| **Event Listeners**     | Added passive: true flags              | Non-blocking scroll performance   |
 
 ---
 
@@ -24,6 +24,7 @@ Optimasi terbaru telah diterapkan pada branch `feat/update` untuk membuat portfo
 ### 1. **Animation Component Optimizations**
 
 #### ParallaxSection.tsx
+
 ```typescript
 // Added explicit throttle check
 const THROTTLE_MS = 16; // 60fps throttle
@@ -32,30 +33,35 @@ if (now - throttleTimeRef.current < THROTTLE_MS) {
 }
 throttleTimeRef.current = now;
 ```
+
 **Result**: Prevents rapid RAF calls, ensures 60fps consistency
 
 #### GlitchText.tsx
+
 ```typescript
 // More conservative throttle (90ms instead of 70ms)
 const THROTTLE_MS = 90;
 // Added passive: true to event listener
 container.addEventListener("pointermove", onPointerMove, { passive: true });
 ```
-**Result**: Less frequent glitch effect, better scroll performance
 
+**Result**: Less frequent glitch effect, better scroll performance
 
 ### 2. **CSS Performance Enhancements**
 
 #### Content Visibility
+
 ```css
 .section-lazy {
   content-visibility: auto;
   contain-intrinsic-size: auto 500px;
 }
 ```
+
 **Result**: Defers rendering of off-screen content
 
 #### CSS Containment
+
 ```css
 .project-card {
   contain: content;
@@ -65,9 +71,11 @@ container.addEventListener("pointermove", onPointerMove, { passive: true });
   contain: layout style paint;
 }
 ```
+
 **Result**: Limits layout recalculation scope
 
 #### Mobile Backdrop Filter
+
 ```css
 @media (max-width: 768px) {
   .backdrop-blur,
@@ -77,6 +85,7 @@ container.addEventListener("pointermove", onPointerMove, { passive: true });
   }
 }
 ```
+
 **Result**: Eliminates jank on mobile devices
 
 ### 3. **Scroll Event Optimization**
@@ -87,10 +96,10 @@ let isScrolling = false;
 
 const onScroll = () => {
   if (isScrolling) return; // Prevent redundant updates
-  
+
   isScrolling = true;
   document.documentElement.setAttribute("data-scrolling", "1");
-  
+
   window.clearTimeout(t);
   t = window.setTimeout(() => {
     isScrolling = false;
@@ -98,6 +107,7 @@ const onScroll = () => {
   }, 120); // Faster recovery
 };
 ```
+
 **Result**: Animations pause during scroll for smooth scrolling
 
 ---
@@ -105,6 +115,7 @@ const onScroll = () => {
 ## 📈 Performance Metrics
 
 ### Before Optimization
+
 ```
 - Scroll FPS: ~45-50fps
 - Animation frame drops: 15-20%
@@ -113,6 +124,7 @@ const onScroll = () => {
 ```
 
 ### After Optimization
+
 ```
 - Scroll FPS: ~58-60fps ⬆️
 - Animation frame drops: < 5% ⬇️
@@ -125,26 +137,31 @@ const onScroll = () => {
 ## 🎯 Key Improvements
 
 ### 1. **No More Animation Jank**
+
 ✅ Explicit frame rate throttling ensures consistent 60fps animations  
 ✅ Reduced event handler fire rate  
 ✅ Better RAF frame coordination
 
 ### 2. **Smoother Scroll Experience**
+
 ✅ Animations pause during scroll (data-scrolling attribute)  
 ✅ Faster recovery time (120ms instead of 140ms)  
 ✅ Prevention of redundant scroll flag updates
 
 ### 3. **Memory Leak Fixes**
+
 ✅ Proper animation cleanup  
 ✅ IntersectionObserver instance management  
 ✅ Better garbage collection
 
 ### 4. **Mobile Optimization**
+
 ✅ Disabled expensive backdrop-filter effects  
 ✅ Better paint performance  
 ✅ Reduced layout thrashing
 
 ### 5. **CSS Rendering**
+
 ✅ Content-visibility for off-screen sections  
 ✅ CSS containment to limit reflow scope  
 ✅ UHD screen optimizations (1920px+)
@@ -166,6 +183,7 @@ const onScroll = () => {
 ## 📝 Commits
 
 ### Latest Commits (feat/update branch)
+
 ```
 5fab08e - perf: optimize animations, scroll handling, and css for smoother experience
 ```

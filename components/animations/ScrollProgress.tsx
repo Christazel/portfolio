@@ -68,10 +68,23 @@ export default memo(function ScrollProgress({ lite = false }: { lite?: boolean }
 
       {/* Scroll indicator */}
       {!lite && (
-        <div ref={indicatorRef} className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-40 pointer-events-none opacity-100 transition-opacity duration-200">
+        <div
+          ref={indicatorRef}
+          className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-40 pointer-events-none opacity-100 transition-opacity duration-200"
+        >
           <div className="animate-bounce">
-            <svg className="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            <svg
+              className="w-6 h-6 text-cyan-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 14l-7 7m0 0l-7-7m7 7V3"
+              />
             </svg>
           </div>
         </div>

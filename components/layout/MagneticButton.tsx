@@ -30,7 +30,7 @@ export default function MagneticButton({ children, href, className = "" }: Props
       cancelAnimationFrame(rafRef.current);
       rafRef.current = null;
     }
-    
+
     rafRef.current = requestAnimationFrame(() => {
       const el = ref.current;
       if (!el || !isHoveringRef.current) return;
@@ -39,7 +39,7 @@ export default function MagneticButton({ children, href, className = "" }: Props
       const r = el.getBoundingClientRect();
       const x = (clientX - (r.left + r.width / 2)) * 0.28;
       const y = (clientY - (r.top + r.height / 2)) * 0.28;
-      
+
       setPos((prevPos) => {
         // Only update if position actually changed
         if (prevPos.x === x && prevPos.y === y) return prevPos;
@@ -58,7 +58,7 @@ export default function MagneticButton({ children, href, className = "" }: Props
   const onLeave = useCallback(() => {
     isHoveringRef.current = false;
     setPos({ x: 0, y: 0 });
-    
+
     // Cancel any pending RAF
     if (rafRef.current !== null) {
       cancelAnimationFrame(rafRef.current);
@@ -96,10 +96,10 @@ export default function MagneticButton({ children, href, className = "" }: Props
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
       animate={{ x: pos.x, y: pos.y }}
-      transition={{ 
-        type: "spring", 
-        stiffness: 150, 
-        damping: 15, 
+      transition={{
+        type: "spring",
+        stiffness: 150,
+        damping: 15,
         mass: 0.12,
         restDelta: 0.001,
         restSpeed: 10,

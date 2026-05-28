@@ -36,9 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={geistSans.className}>
         <OpeningLoader />
         <CursorFollower />
-        <div className="site-shell relative z-10 min-h-screen">
-          {children}
-        </div>
+        <div className="site-shell relative z-10 min-h-screen">{children}</div>
       </body>
     </html>
   );

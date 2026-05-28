@@ -28,7 +28,7 @@ export default function ProjectCard({ project, index }: { project: Project; inde
     if (rafRef.current !== null) {
       cancelAnimationFrame(rafRef.current);
     }
-    
+
     rafRef.current = requestAnimationFrame(() => {
       const el = e.currentTarget;
       if (!el) return;
@@ -108,9 +108,7 @@ export default function ProjectCard({ project, index }: { project: Project; inde
           />
 
           <div className="relative z-10">
-            <h3 className="text-xl font-semibold text-zinc-100 mb-2">
-              {project.title}
-            </h3>
+            <h3 className="text-xl font-semibold text-zinc-100 mb-2">{project.title}</h3>
 
             <p className="text-zinc-400 text-sm mb-4 leading-relaxed">{project.desc}</p>
 

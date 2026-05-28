@@ -9,7 +9,13 @@ type SectionSurfaceProps = {
   reveal?: boolean;
 };
 
-export default function SectionSurface({ children, id, className = "", delay = 0, reveal = true }: SectionSurfaceProps) {
+export default function SectionSurface({
+  children,
+  id,
+  className = "",
+  delay = 0,
+  reveal = true,
+}: SectionSurfaceProps) {
   const surface = <div className="section-card-surface">{children}</div>;
 
   return (

@@ -13,16 +13,16 @@ A modern, high-performance portfolio website built with Next.js, React, and Type
 
 ## 🛠️ Tech Stack
 
-| Category | Technology |
-|----------|------------|
-| **Framework** | Next.js 16.1.1 |
-| **UI Library** | React 19.2.3 |
-| **Language** | TypeScript 5 |
-| **Styling** | Tailwind CSS 4 |
-| **Animations** | CSS transitions, React animation helpers |
-| **Backend** | Supabase |
-| **Icons** | React Icons |
-| **Code Quality** | ESLint, Prettier |
+| Category         | Technology                               |
+| ---------------- | ---------------------------------------- |
+| **Framework**    | Next.js 16.1.1                           |
+| **UI Library**   | React 19.2.3                             |
+| **Language**     | TypeScript 5                             |
+| **Styling**      | Tailwind CSS 4                           |
+| **Animations**   | CSS transitions, React animation helpers |
+| **Backend**      | Supabase                                 |
+| **Icons**        | React Icons                              |
+| **Code Quality** | ESLint, Prettier                         |
 
 ## 🚀 Quick Start
 
@@ -101,12 +101,12 @@ ANALYZE=true npm run build -- --webpack
 
 ### Metrics
 
-| Metric | Result |
-|--------|--------|
-| Event Fire Rate | -40% reduction |
-| Mobile Jank | -70% reduction |
+| Metric           | Result         |
+| ---------------- | -------------- |
+| Event Fire Rate  | -40% reduction |
+| Mobile Jank      | -70% reduction |
 | Paint Operations | -50% reduction |
-| GPU Memory | -25% reduction |
+| GPU Memory       | -25% reduction |
 
 See [docs/OPTIMIZATION_SUMMARY.md](./docs/OPTIMIZATION_SUMMARY.md) for details.
 
@@ -127,6 +127,7 @@ SUPABASE_ANON_KEY=your_key
 - Prettier config: `.prettierrc`
 
 Run linting:
+
 ```bash
 npm run lint
 npm run format
@@ -151,12 +152,7 @@ import GlitchText from '@/components/animations/GlitchText';
 ### Performance Utilities
 
 ```typescript
-import {
-  debounce,
-  throttle,
-  rafThrottle,
-  prefersReducedMotion,
-} from '@/utils/performanceOptimize';
+import { debounce, throttle, rafThrottle, prefersReducedMotion } from "@/utils/performanceOptimize";
 
 // Throttled event handler
 const handleMouseMove = rafThrottle((e) => {

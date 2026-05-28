@@ -31,7 +31,11 @@ const footerColumns = [
 const socialLinks = [
   { label: "X", href: "https://x.com", icon: FaXTwitter },
   { label: "GitHub", href: "https://github.com/Christazel", icon: FaGithub },
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/yohan-christazel-jeffry", icon: FaLinkedinIn },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/yohan-christazel-jeffry",
+    icon: FaLinkedinIn,
+  },
   { label: "Instagram", href: "https://instagram.com", icon: FaInstagram },
 ];
 

@@ -16,6 +16,7 @@ app/
 ```
 
 **Rules:**
+
 - Each route gets its own folder
 - `page.tsx` is the actual page content
 - `layout.tsx` wraps child routes
@@ -35,7 +36,7 @@ components/
 │   ├── RippleButton.tsx
 │   ├── ScrollProgress.tsx
 │   ├── ScrollReveal.tsx
-│   
+│
 │
 ├── layout/                   # Layout components
 │   ├── BackgroundEffects.tsx
@@ -50,6 +51,7 @@ components/
 ```
 
 **Naming:**
+
 - Use PascalCase: `MyComponent.tsx`
 - Be descriptive: `ScrollReveal` not `Reveal`
 - Component exports as default
@@ -91,6 +93,7 @@ public/
 ### Animation Components
 
 **Do:**
+
 ```typescript
 // ✅ Wrapped with memo
 import { memo } from 'react';
@@ -114,6 +117,7 @@ export default memo(function ScrollReveal({
 ```
 
 **Don't:**
+
 ```typescript
 // ❌ Missing memo
 export default function ScrollReveal({ children }) {
@@ -129,6 +133,7 @@ function ScrollReveal(props) {
 ### UI Components
 
 **Do:**
+
 ```typescript
 // ✅ Functional, reusable, exported
 export default function ProjectCard({ project, index }) {
@@ -147,6 +152,7 @@ interface ProjectCardProps {
 ```
 
 **Don't:**
+
 ```typescript
 // ❌ Inline styles
 <div style={{ color: 'red', fontSize: '16px' }}>
@@ -164,6 +170,7 @@ interface ProjectCardProps {
 ### Using Tailwind CSS
 
 **Do:**
+
 ```typescript
 // ✅ Tailwind classes
 className="flex items-center justify-between rounded-lg bg-zinc-900"
@@ -181,6 +188,7 @@ className="neon-card"
 ```
 
 **Don't:**
+
 ```typescript
 // ❌ Inline styles
 style={{ display: 'flex', justifyContent: 'space-between' }}
@@ -196,17 +204,24 @@ import styles from './Button.module.css'
 ### Global CSS (globals.css)
 
 Keep global styles for:
+
 - CSS animations keyframes
 - Reusable classes (`.neon-card`, `.btn-neon`, etc.)
 - Custom properties/variables
 - Base element styles
 
 **Do:**
+
 ```css
 /* ✅ Reusable animation class */
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 .float {
@@ -215,6 +230,7 @@ Keep global styles for:
 ```
 
 **Don't:**
+
 ```css
 /* ❌ Single-use styles */
 .my-special-button {
@@ -235,53 +251,55 @@ Keep global styles for:
 ### Use Absolute Imports
 
 **Do:**
+
 ```typescript
 // ✅ Absolute imports (configured in tsconfig.json)
-import Button from '@/components/ui/Button';
-import { debounce } from '@/utils/performanceOptimize';
-import { supabase } from '@/lib/supabase';
+import Button from "@/components/ui/Button";
+import { debounce } from "@/utils/performanceOptimize";
+import { supabase } from "@/lib/supabase";
 ```
 
 **Don't:**
+
 ```typescript
 // ❌ Relative imports
-import Button from '../../../components/ui/Button';
-import { debounce } from '../../utils/performanceOptimize';
+import Button from "../../../components/ui/Button";
+import { debounce } from "../../utils/performanceOptimize";
 
 // ❌ Mixed imports
-import Button from '@/components/ui/Button';
-import { debounce } from '../../utils';
+import Button from "@/components/ui/Button";
+import { debounce } from "../../utils";
 ```
 
 ### Import Order
 
 ```typescript
 // 1. React & external libraries
-import { useState, memo } from 'react';
-import { motion } from 'framer-motion';
+import { useState, memo } from "react";
+import { motion } from "framer-motion";
 
 // 2. Internal components
-import Section from '@/components/ui/Section';
+import Section from "@/components/ui/Section";
 
 // 3. Utilities & helpers
-import { rafThrottle } from '@/utils/performanceOptimize';
+import { rafThrottle } from "@/utils/performanceOptimize";
 
 // 4. Types (if separate file)
-import type { Project } from '@/types';
+import type { Project } from "@/types";
 ```
 
 ---
 
 ## File Naming Conventions
 
-| Type | Convention | Example |
-|------|-----------|---------|
-| React Components | PascalCase | `ScrollReveal.tsx` |
-| Utilities | camelCase | `performanceOptimize.ts` |
-| Types | PascalCase | `Project.ts` (if separate) |
-| Constants | SCREAMING_SNAKE_CASE | `API_BASE_URL` |
-| CSS Classes | kebab-case | `.neon-card`, `.btn-neon` |
-| Folders | lowercase | `/components`, `/utils` |
+| Type             | Convention           | Example                    |
+| ---------------- | -------------------- | -------------------------- |
+| React Components | PascalCase           | `ScrollReveal.tsx`         |
+| Utilities        | camelCase            | `performanceOptimize.ts`   |
+| Types            | PascalCase           | `Project.ts` (if separate) |
+| Constants        | SCREAMING_SNAKE_CASE | `API_BASE_URL`             |
+| CSS Classes      | kebab-case           | `.neon-card`, `.btn-neon`  |
+| Folders          | lowercase            | `/components`, `/utils`    |
 
 ---
 
@@ -290,6 +308,7 @@ import type { Project } from '@/types';
 ### Memory & Re-renders
 
 **Do:**
+
 ```typescript
 // ✅ Memoize expensive components
 export default memo(function HeavyComponent() {
@@ -308,6 +327,7 @@ const handleMouseMove = rafThrottle((e) => {
 ```
 
 **Don't:**
+
 ```typescript
 // ❌ Create functions in render
 <button onClick={() => handleClick()}>Click</button>
@@ -356,6 +376,7 @@ npm run type-check
 ### Pre-commit Best Practices
 
 Before committing:
+
 ```bash
 npm run lint:fix
 npm run format
@@ -457,10 +478,10 @@ Performance tab → Record → Interact → Stop
 // Check cleanup in useEffect
 useEffect(() => {
   const handler = () => doSomething();
-  window.addEventListener('scroll', handler);
-  
+  window.addEventListener("scroll", handler);
+
   return () => {
-    window.removeEventListener('scroll', handler); // ✅ Cleanup
+    window.removeEventListener("scroll", handler); // ✅ Cleanup
   };
 }, []);
 ```
@@ -469,15 +490,15 @@ useEffect(() => {
 
 ## Common Mistakes to Avoid
 
-| Mistake | Impact | Solution |
-|---------|--------|----------|
-| Unthrottled mousemove | 100+ events/sec | Use `rafThrottle()` |
-| Missing memo() | Unnecessary re-renders | Wrap with `memo()` |
-| Relative imports | Hard to refactor | Use `@/` paths |
-| Inline functions | Performance issues | Use `useCallback()` |
-| Missing cleanup | Memory leaks | Cleanup in useEffect |
-| No TypeScript types | Runtime errors | Add prop interfaces |
-| Global CSS abuse | Hard to maintain | Use Tailwind + local CSS |
+| Mistake               | Impact                 | Solution                 |
+| --------------------- | ---------------------- | ------------------------ |
+| Unthrottled mousemove | 100+ events/sec        | Use `rafThrottle()`      |
+| Missing memo()        | Unnecessary re-renders | Wrap with `memo()`       |
+| Relative imports      | Hard to refactor       | Use `@/` paths           |
+| Inline functions      | Performance issues     | Use `useCallback()`      |
+| Missing cleanup       | Memory leaks           | Cleanup in useEffect     |
+| No TypeScript types   | Runtime errors         | Add prop interfaces      |
+| Global CSS abuse      | Hard to maintain       | Use Tailwind + local CSS |
 
 ---
 

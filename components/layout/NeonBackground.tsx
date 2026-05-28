@@ -3,12 +3,12 @@
 import { useEffect, useMemo, useState, memo } from "react";
 
 type Particle = {
-  left: string;      // "%", sudah dibulatkan
-  top: string;       // "%", sudah dibulatkan
-  size: number;      // px
-  d: string;         // seconds, sudah dibulatkan
-  delay: string;     // seconds, sudah dibulatkan
-  opacity: string;   // sudah dibulatkan
+  left: string; // "%", sudah dibulatkan
+  top: string; // "%", sudah dibulatkan
+  size: number; // px
+  d: string; // seconds, sudah dibulatkan
+  delay: string; // seconds, sudah dibulatkan
+  opacity: string; // sudah dibulatkan
 };
 
 function prand(seed: number) {
@@ -26,7 +26,9 @@ export default memo(function NeonBackground() {
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     const getLowPower = () => {
-      const connection = (navigator as unknown as { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+      const connection = (
+        navigator as unknown as { connection?: { saveData?: boolean; effectiveType?: string } }
+      ).connection;
       const saveData = Boolean(connection?.saveData);
       const effectiveType = String(connection?.effectiveType || "");
       const deviceMemory = (navigator as unknown as { deviceMemory?: number }).deviceMemory || 8;
@@ -47,7 +49,8 @@ export default memo(function NeonBackground() {
   }, []);
 
   const particles = useMemo<Particle[]>(() => {
-    return Array.from({ length: 12 }).map((_: unknown, i: number) => { // Reduced from 18 to 12
+    return Array.from({ length: 12 }).map((_: unknown, i: number) => {
+      // Reduced from 18 to 12
       const a = prand(i + 1);
       const b = prand(i + 33);
       const c = prand(i + 77);

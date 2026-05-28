@@ -11,9 +11,11 @@ Branch `performance-optimization` telah berhasil **dicommit** dan **dimerge ke m
 ### 1. **Event Handler Throttling (40%+ reduction)**
 
 #### MagneticButton (`components/layout/MagneticButton.tsx`)
+
 - ✅ Tambah RAF throttling ke mousemove event (16ms interval = ~60fps)
 - ✅ Hanya update state jika movement signifikan
 - ✅ Cleanup RAF ref saat component unmount
+
 ```typescript
 const onMove = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
   const now = Date.now();
@@ -23,6 +25,7 @@ const onMove = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
 ```
 
 #### ProjectCard (`components/ui/ProjectCard.tsx`)
+
 - ✅ Throttle cursor tracking untuk glow effect (16ms)
 - ✅ RAF-based position updates
 - ✅ Mengurangi DOM mutation frequency
@@ -30,6 +33,7 @@ const onMove = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
 ### 2. **Canvas Animation Optimization**
 
 #### FloatingParticles (`components/animations/FloatingParticles.tsx`)
+
 - ✅ Improve canvas throttling: 42ms interval (~24fps) untuk smoother trade-off
 - ✅ Add `offsetParent` check untuk visibility detection
 - ✅ Reduce particle count: 25 → 15 particles (40% reduction)
@@ -40,6 +44,7 @@ const onMove = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
 ### 3. **CSS Performance Improvements**
 
 #### GPU Acceleration
+
 ```css
 /* Add translate3d untuk force GPU acceleration */
 .neon-card,
@@ -55,6 +60,7 @@ const onMove = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
 ```
 
 #### Mobile Optimization (max-width: 768px)
+
 - ✅ Disable backdrop-filter (causes jank on mobile)
 - ✅ Reduce shadow complexity
 - ✅ Disable particle animations
@@ -62,6 +68,7 @@ const onMove = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
 - ✅ Reduce glow effects
 
 #### Animation Pause During Scroll
+
 ```css
 /* Pause animations saat user sedang scroll untuk smoothness */
 html[data-scrolling="1"] .skills-track {
@@ -77,6 +84,7 @@ html[data-scrolling="1"] .nb-float {
 ### 4. **New Performance Utilities**
 
 Created `utils/performanceOptimize.ts`:
+
 - `debounce()` - Standard debounce implementation
 - `throttle()` - Frame-based throttle
 - `rafThrottle()` - RAF-based throttle (most efficient)
@@ -87,11 +95,13 @@ Created `utils/performanceOptimize.ts`:
 ### 5. **Component-Level Optimizations**
 
 #### Existing Memoization (Already in place)
+
 - ✅ All animation components use `React.memo()`
 - ✅ Prevents unnecessary re-renders from parent updates
 - ✅ Components: `GlitchText`, `Reveal`, `RippleButton`, etc.
 
 #### ScrollReveal (`components/animations/ScrollReveal.tsx`)
+
 - ✅ Optimized with pooled IntersectionObserver
 - ✅ Proper cleanup of observers on unmount
 - ✅ Threshold already set to 0.3 (good value)
@@ -101,16 +111,18 @@ Created `utils/performanceOptimize.ts`:
 ## 📈 Performance Impact
 
 ### Expected Improvements:
-| Metric | Before | After | Gain |
-|--------|--------|-------|------|
-| Event Fire Rate | 60+ fps | 16-42ms throttle | -40% events |
-| Particle Count | 25-18 | 15-12 | -33% rendering |
-| Canvas FPS | 30fps | 24fps (optimized) | Smoother |
-| Mobile Jank | High | Low | -70% janky frames |
-| Paint Operations | Frequent | Optimized | -50% paints |
-| GPU Memory | Higher | Lower | -25% VRAM |
+
+| Metric           | Before   | After             | Gain              |
+| ---------------- | -------- | ----------------- | ----------------- |
+| Event Fire Rate  | 60+ fps  | 16-42ms throttle  | -40% events       |
+| Particle Count   | 25-18    | 15-12             | -33% rendering    |
+| Canvas FPS       | 30fps    | 24fps (optimized) | Smoother          |
+| Mobile Jank      | High     | Low               | -70% janky frames |
+| Paint Operations | Frequent | Optimized         | -50% paints       |
+| GPU Memory       | Higher   | Lower             | -25% VRAM         |
 
 ### Real-World Benefits:
+
 ✅ **Smoother scroll experience** - Especially on mid-range devices
 ✅ **No lag on interactions** - Hover effects respond instantly
 ✅ **Better mobile performance** - Reduced jank and battery drain
@@ -122,6 +134,7 @@ Created `utils/performanceOptimize.ts`:
 ## 🔧 Technical Details
 
 ### RAF Throttling Mechanism
+
 ```
 User moves mouse
   ↓
@@ -137,6 +150,7 @@ Update state (only once per 16ms max)
 ```
 
 ### Canvas Optimization Strategy
+
 ```
 Animation Loop (60fps requestAnimationFrame)
   ↓
@@ -153,20 +167,22 @@ Check: Now - LastTime > 42ms? (24fps target)
 ## 🔄 Git History
 
 ### Branch Created:
+
 ```
 git checkout -b performance-optimization
 ```
 
 ### Commit Details:
+
 ```
 commit 7d171dd
 Author: Portfolio Optimizer
 Date:   [Current Date]
 
     perf: optimize portfolio for smoother scrolling and reduced lag
-    
+
     - Add RAF throttling to MagneticButton mousemove events (16ms throttle)
-    - Add debounce to ProjectCard cursor tracking (16ms throttle) 
+    - Add debounce to ProjectCard cursor tracking (16ms throttle)
     - Improve FloatingParticles canvas throttling (42ms for ~24fps)
     - Add GPU acceleration with translate3d, backface-visibility
     - Add will-change properties to animated elements
@@ -176,6 +192,7 @@ Date:   [Current Date]
 ```
 
 ### Merge Status:
+
 ```
 ✅ Merged into main via Fast-Forward
 ✅ 7 files changed, 218 insertions(+), 38 deletions(-)
@@ -187,56 +204,60 @@ Date:   [Current Date]
 
 ## 📝 Files Modified
 
-| File | Changes | Status |
-|------|---------|--------|
-| `components/layout/MagneticButton.tsx` | RAF throttling + cleanup | ✅ |
-| `components/ui/ProjectCard.tsx` | RAF throttle cursor tracking | ✅ |
-| `components/animations/FloatingParticles.tsx` | Canvas optimization, visibility check | ✅ |
-| `components/animations/ScrollReveal.tsx` | Minor comment update | ✅ |
-| `app/globals.css` | GPU acceleration, mobile optimization | ✅ |
-| `utils/performanceOptimize.ts` | New utilities file | ✅ |
+| File                                          | Changes                               | Status |
+| --------------------------------------------- | ------------------------------------- | ------ |
+| `components/layout/MagneticButton.tsx`        | RAF throttling + cleanup              | ✅     |
+| `components/ui/ProjectCard.tsx`               | RAF throttle cursor tracking          | ✅     |
+| `components/animations/FloatingParticles.tsx` | Canvas optimization, visibility check | ✅     |
+| `components/animations/ScrollReveal.tsx`      | Minor comment update                  | ✅     |
+| `app/globals.css`                             | GPU acceleration, mobile optimization | ✅     |
+| `utils/performanceOptimize.ts`                | New utilities file                    | ✅     |
 
 ---
 
 ## 🚀 How to Use the New Utilities
 
 ### Debounce Example:
+
 ```typescript
-import { debounce } from '@/utils/performanceOptimize';
+import { debounce } from "@/utils/performanceOptimize";
 
 const handleSearch = debounce((query: string) => {
   // Expensive operation
 }, 300);
 
-input.addEventListener('input', (e) => handleSearch(e.target.value));
+input.addEventListener("input", (e) => handleSearch(e.target.value));
 ```
 
 ### Throttle Example:
+
 ```typescript
-import { throttle } from '@/utils/performanceOptimize';
+import { throttle } from "@/utils/performanceOptimize";
 
 const handleScroll = throttle(() => {
   // Update scroll position
 }, 100);
 
-window.addEventListener('scroll', handleScroll);
+window.addEventListener("scroll", handleScroll);
 ```
 
 ### RAF Throttle Example:
+
 ```typescript
-import { rafThrottle } from '@/utils/performanceOptimize';
+import { rafThrottle } from "@/utils/performanceOptimize";
 
 const handleMouseMove = rafThrottle((e: MouseEvent) => {
   // Smooth mouse tracking
   updatePosition(e.clientX, e.clientY);
 });
 
-element.addEventListener('mousemove', handleMouseMove);
+element.addEventListener("mousemove", handleMouseMove);
 ```
 
 ### Check Reduced Motion:
+
 ```typescript
-import { prefersReducedMotion } from '@/utils/performanceOptimize';
+import { prefersReducedMotion } from "@/utils/performanceOptimize";
 
 if (!prefersReducedMotion()) {
   // Run animations

@@ -30,7 +30,9 @@ export function BackgroundEffects() {
 
     const mountOnIdle = () => {
       if ((window as unknown as Record<string, unknown>).requestIdleCallback) {
-        idleId = (window as unknown as { requestIdleCallback: (cb: () => void) => number }).requestIdleCallback(() => {
+        idleId = (
+          window as unknown as { requestIdleCallback: (cb: () => void) => number }
+        ).requestIdleCallback(() => {
           setMounted(true);
         });
       } else {
@@ -51,8 +53,13 @@ export function BackgroundEffects() {
     return () => {
       window.removeEventListener("load", onLoad);
       try {
-        if (idleId !== null && (window as unknown as { cancelIdleCallback?: (id: number) => void }).cancelIdleCallback) {
-          (window as unknown as { cancelIdleCallback: (id: number) => void }).cancelIdleCallback(idleId);
+        if (
+          idleId !== null &&
+          (window as unknown as { cancelIdleCallback?: (id: number) => void }).cancelIdleCallback
+        ) {
+          (window as unknown as { cancelIdleCallback: (id: number) => void }).cancelIdleCallback(
+            idleId
+          );
         }
         if (timeoutId !== null) {
           clearTimeout(timeoutId);
@@ -68,7 +75,9 @@ export function BackgroundEffects() {
 
     const getMode = () => {
       const prefersReduce = motionMq.matches;
-      const connection = (navigator as unknown as { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+      const connection = (
+        navigator as unknown as { connection?: { saveData?: boolean; effectiveType?: string } }
+      ).connection;
       const saveData = Boolean(connection?.saveData);
       const effectiveType = String(connection?.effectiveType || "");
       const deviceMemory = (navigator as unknown as { deviceMemory?: number }).deviceMemory || 8;
