@@ -94,10 +94,7 @@ export function prefersReducedMotion(): boolean {
 /**
  * Batch DOM reads to avoid layout thrashing
  */
-export function batchDOMRead(
-  callback: () => void,
-  priority = "normal"
-): void {
+export function batchDOMRead(callback: () => void, priority = "normal"): void {
   if (priority === "high") {
     callback();
   } else {
@@ -116,9 +113,9 @@ export interface AnimationConfig {
 
 export function getAnimationConfig(userConfig?: Partial<AnimationConfig>): AnimationConfig {
   const reduce = prefersReducedMotion();
-  
+
   return {
-    fps: reduce ? 24 : userConfig?.fps ?? 30,
+    fps: reduce ? 24 : (userConfig?.fps ?? 30),
     enableGPU: !reduce && (userConfig?.enableGPU ?? true),
     reduceMotion: reduce,
     ...userConfig,

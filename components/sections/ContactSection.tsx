@@ -14,7 +14,10 @@ export default function ContactSection() {
             <div className="grid gap-4">
               <div>
                 <p className="text-xs text-zinc-500">Email</p>
-                <a className="text-sm text-zinc-300 transition hover:text-white" href="mailto:yohan.christazel9@gmail.com">
+                <a
+                  className="text-sm text-zinc-300 transition hover:text-white"
+                  href="mailto:yohan.christazel9@gmail.com"
+                >
                   yohan.christazel9@gmail.com
                 </a>
               </div>

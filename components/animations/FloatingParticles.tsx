@@ -57,7 +57,9 @@ const FloatingParticles = memo(() => {
     resizeCanvas();
     window.addEventListener("resize", debouncedResize);
 
-    const connection = (navigator as unknown as { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+    const connection = (
+      navigator as unknown as { connection?: { saveData?: boolean; effectiveType?: string } }
+    ).connection;
     const saveData = Boolean(connection?.saveData);
     const effectiveType = String(connection?.effectiveType || "");
     const deviceMemory = (navigator as unknown as { deviceMemory?: number }).deviceMemory || 8;
@@ -181,7 +183,7 @@ const FloatingParticles = memo(() => {
             for (let dy = -1; dy <= 1; dy++) {
               const cell = `${cellX + dx},${cellY + dy}`;
               const cellParticles = grid.get(cell);
-              
+
               if (cellParticles) {
                 for (const j of cellParticles) {
                   if (j <= i) continue;
@@ -228,7 +230,7 @@ const FloatingParticles = memo(() => {
       window.removeEventListener("resize", debouncedResize);
       document.removeEventListener("visibilitychange", onVisibilityChange);
       isRunningRef.current = false;
-      
+
       if (resizeTimeoutRef.current) {
         clearTimeout(resizeTimeoutRef.current);
       }

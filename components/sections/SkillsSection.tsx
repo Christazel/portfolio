@@ -21,7 +21,9 @@ export default function SkillsSection() {
     <SectionSurface id="skills" className="skills-section-card">
       <div className="overflow-hidden py-10 sm:py-14 md:py-20">
         <div className="container-page text-center">
-          <p className="text-base font-medium text-zinc-500 sm:text-lg md:text-xl">Tools and technologies I work with</p>
+          <p className="text-base font-medium text-zinc-500 sm:text-lg md:text-xl">
+            Tools and technologies I work with
+          </p>
         </div>
 
         <div className="skill-slider" aria-label="Skills slider">

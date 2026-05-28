@@ -9,7 +9,10 @@ export default function ProjectContactStackSection() {
   const featuredProject = projects[0];
 
   return (
-    <section id="projects" className="project-carousel-section relative py-10 text-zinc-100 md:py-24">
+    <section
+      id="projects"
+      className="project-carousel-section relative py-10 text-zinc-100 md:py-24"
+    >
       <div className="container-page relative z-10">
         <div className="project-stack-header mx-auto mb-10 max-w-5xl text-center">
           <p className="section-kicker">Selected Work</p>
@@ -22,7 +25,11 @@ export default function ProjectContactStackSection() {
         <div className="project-carousel-frame">
           <ProjectCarouselControls />
 
-          <div id="project-carousel-track" className="project-carousel-track" aria-label="Projects and contact slider">
+          <div
+            id="project-carousel-track"
+            className="project-carousel-track"
+            aria-label="Projects and contact slider"
+          >
             <article className="project-carousel-card project-carousel-card-featured">
               {featuredProject ? (
                 <div className="project-featured-layout">
@@ -44,12 +51,16 @@ export default function ProjectContactStackSection() {
                   <div className="project-featured-side">
                     <div>
                       <p className="project-carousel-label">Role</p>
-                      <p className="mt-2 text-lg font-semibold text-zinc-100">{featuredProject.role}</p>
+                      <p className="mt-2 text-lg font-semibold text-zinc-100">
+                        {featuredProject.role}
+                      </p>
                     </div>
 
                     <div>
                       <p className="project-carousel-label">Highlight</p>
-                      <p className="mt-2 text-sm leading-relaxed text-zinc-400">{featuredProject.highlight}</p>
+                      <p className="mt-2 text-sm leading-relaxed text-zinc-400">
+                        {featuredProject.highlight}
+                      </p>
                     </div>
 
                     <div>
@@ -98,7 +109,10 @@ export default function ProjectContactStackSection() {
                 <div className="grid gap-6">
                   <div className="contact-open-item">
                     <p className="contact-open-label">Email</p>
-                    <a className="contact-open-link break-all sm:break-normal" href="mailto:yohan.christazel9@gmail.com">
+                    <a
+                      className="contact-open-link break-all sm:break-normal"
+                      href="mailto:yohan.christazel9@gmail.com"
+                    >
                       yohan.christazel9@gmail.com
                     </a>
                   </div>
@@ -127,7 +141,6 @@ export default function ProjectContactStackSection() {
               <CommentBox compact showRecentNotes={false} />
             </article>
           </div>
-
         </div>
       </div>
     </section>

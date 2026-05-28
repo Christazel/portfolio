@@ -39,7 +39,7 @@ export default memo(function ParallaxSection({
 
     const updateParallax = () => {
       ticking = false;
-      
+
       if (!inView) return;
 
       const isScrolling = document.documentElement.dataset.scrolling === "1";

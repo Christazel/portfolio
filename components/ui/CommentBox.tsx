@@ -99,7 +99,9 @@ function SkeletonComment({ variant = "dark" }: { variant?: "dark" | "light" }) {
   return (
     <div
       className={`rounded-3xl border p-4 ${
-        variant === "light" ? "border-zinc-950/10 bg-zinc-950/[0.035]" : "border-white/10 bg-white/[0.03]"
+        variant === "light"
+          ? "border-zinc-950/10 bg-zinc-950/[0.035]"
+          : "border-white/10 bg-white/[0.03]"
       }`}
     >
       <div className="flex items-center gap-3">
@@ -127,12 +129,16 @@ function RecentNoteCard({ comment }: { comment: CommentItem }) {
 
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2 text-[10px] text-zinc-600">
-            <p className="truncate font-semibold uppercase tracking-[0.1em] text-zinc-500">{comment.name}</p>
+            <p className="truncate font-semibold uppercase tracking-[0.1em] text-zinc-500">
+              {comment.name}
+            </p>
             <span className="h-1 w-1 shrink-0 rounded-full bg-zinc-700" />
             <span className="shrink-0">{timeAgo(comment.created_at)}</span>
           </div>
 
-          <p className="mt-0.5 line-clamp-2 text-sm font-medium leading-snug text-zinc-300">{comment.message}</p>
+          <p className="mt-0.5 line-clamp-2 text-sm font-medium leading-snug text-zinc-300">
+            {comment.message}
+          </p>
         </div>
       </div>
     </article>
@@ -142,7 +148,7 @@ function RecentNoteCard({ comment }: { comment: CommentItem }) {
 function RecentNotesMarquee({ items }: { items: CommentItem[] }) {
   const rowCount = Math.min(3, Math.max(1, items.length));
   const rows = Array.from({ length: rowCount }, (_, rowIndex) =>
-    items.filter((_, index) => index % rowCount === rowIndex),
+    items.filter((_, index) => index % rowCount === rowIndex)
   );
 
   return (
@@ -154,7 +160,11 @@ function RecentNotesMarquee({ items }: { items: CommentItem[] }) {
         >
           <div className="notes-marquee-track">
             {[0, 1, 2].map((loop) => (
-              <div key={loop} className="notes-marquee-sequence" aria-hidden={loop > 0 ? true : undefined}>
+              <div
+                key={loop}
+                className="notes-marquee-sequence"
+                aria-hidden={loop > 0 ? true : undefined}
+              >
                 {row.map((comment) => (
                   <RecentNoteCard key={`${rowIndex}-${loop}-${comment.id}`} comment={comment} />
                 ))}
@@ -204,19 +214,22 @@ export default function CommentBox({
     }, 2800);
   }, []);
 
-  const loadComments = useCallback(async ({ force = false }: { force?: boolean } = {}) => {
-    setLoadingList(true);
+  const loadComments = useCallback(
+    async ({ force = false }: { force?: boolean } = {}) => {
+      setLoadingList(true);
 
-    try {
-      const data = await fetchComments(force);
-      setItems(data);
-    } catch (e: unknown) {
-      const error = e instanceof Error ? e.message : "Gagal memuat komentar.";
-      showToast("error", error);
-    } finally {
-      setLoadingList(false);
-    }
-  }, [showToast]);
+      try {
+        const data = await fetchComments(force);
+        setItems(data);
+      } catch (e: unknown) {
+        const error = e instanceof Error ? e.message : "Gagal memuat komentar.";
+        showToast("error", error);
+      } finally {
+        setLoadingList(false);
+      }
+    },
+    [showToast]
+  );
 
   useEffect(() => {
     const cancelScheduledLoad = scheduleAfterInteractive(() => {
@@ -291,12 +304,16 @@ export default function CommentBox({
 
   if (compact) {
     return (
-      <section className={`contact-notes-stage relative flex min-h-full flex-col ${!showComposer ? "contact-notes-only" : ""}`}>
+      <section
+        className={`contact-notes-stage relative flex min-h-full flex-col ${!showComposer ? "contact-notes-only" : ""}`}
+      >
         {toast && (
           <div
             className={[
               "fixed inset-x-4 top-4 z-50 rounded-2xl border px-4 py-3 text-sm shadow-2xl backdrop-blur-xl sm:inset-x-auto sm:right-4",
-              toast.type === "success" ? "border-emerald-400/30 bg-emerald-500/15 text-emerald-100" : "",
+              toast.type === "success"
+                ? "border-emerald-400/30 bg-emerald-500/15 text-emerald-100"
+                : "",
               toast.type === "error" ? "border-red-400/30 bg-red-500/15 text-red-100" : "",
               toast.type === "info" ? "border-white/15 bg-zinc-900/80 text-zinc-100" : "",
             ].join(" ")}
@@ -306,102 +323,117 @@ export default function CommentBox({
         )}
 
         {showComposer && (
-        <div className="contact-compose mx-auto w-full max-w-5xl">
-          <div className="flex flex-col gap-3 text-center">
-            <div>
-              <p className="section-kicker">Quick Message</p>
-              <h3 className="mt-3 text-3xl font-semibold leading-tight text-zinc-50 sm:text-4xl md:text-5xl">Send a simple note</h3>
-              <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-zinc-400 sm:text-base">
-                Use this form for project inquiries, feedback, or a quick hello. I read every message.
-              </p>
+          <div className="contact-compose mx-auto w-full max-w-5xl">
+            <div className="flex flex-col gap-3 text-center">
+              <div>
+                <p className="section-kicker">Quick Message</p>
+                <h3 className="mt-3 text-3xl font-semibold leading-tight text-zinc-50 sm:text-4xl md:text-5xl">
+                  Send a simple note
+                </h3>
+                <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-zinc-400 sm:text-base">
+                  Use this form for project inquiries, feedback, or a quick hello. I read every
+                  message.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => loadComments({ force: true })}
+                disabled={loadingList}
+                className="mx-auto w-full rounded-full border border-white/10 px-4 py-2 text-xs text-zinc-400 transition hover:border-white/20 hover:text-zinc-100 disabled:cursor-not-allowed disabled:opacity-60 sm:w-fit"
+              >
+                {loadingList ? "Loading" : `${items.length} notes`}
+              </button>
             </div>
 
-            <button
-              type="button"
-              onClick={() => loadComments({ force: true })}
-              disabled={loadingList}
-              className="mx-auto w-full rounded-full border border-white/10 px-4 py-2 text-xs text-zinc-400 transition hover:border-white/20 hover:text-zinc-100 disabled:cursor-not-allowed disabled:opacity-60 sm:w-fit"
-            >
-              {loadingList ? "Loading" : `${items.length} notes`}
-            </button>
-          </div>
+            <div className="mt-7 grid gap-4 md:grid-cols-[0.62fr_1.38fr]">
+              <div>
+                <label className="mb-2 block text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">
+                  Name
+                </label>
+                <input
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Nama kamu"
+                  className="w-full rounded-2xl border border-white/10 bg-zinc-950 px-4 py-3 text-sm text-zinc-100 outline-none transition placeholder:text-zinc-600 focus:border-cyan-300/50 focus:ring-4 focus:ring-cyan-400/10"
+                  autoComplete="name"
+                />
+              </div>
 
-          <div className="mt-7 grid gap-4 md:grid-cols-[0.62fr_1.38fr]">
-            <div>
-              <label className="mb-2 block text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">Name</label>
-              <input
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Nama kamu"
-                className="w-full rounded-2xl border border-white/10 bg-zinc-950 px-4 py-3 text-sm text-zinc-100 outline-none transition placeholder:text-zinc-600 focus:border-cyan-300/50 focus:ring-4 focus:ring-cyan-400/10"
-                autoComplete="name"
-              />
-            </div>
+              <div>
+                <label className="mb-2 block text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">
+                  Message
+                </label>
+                <textarea
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value.slice(0, MAX_LEN))}
+                  placeholder="Tulis komentar atau kebutuhan project..."
+                  rows={4}
+                  className="w-full resize-none rounded-2xl border border-white/10 bg-zinc-950 px-4 py-3 text-sm leading-relaxed text-zinc-100 outline-none transition placeholder:text-zinc-600 focus:border-purple-300/50 focus:ring-4 focus:ring-purple-400/10"
+                />
 
-            <div>
-              <label className="mb-2 block text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">Message</label>
-              <textarea
-                value={message}
-                onChange={(e) => setMessage(e.target.value.slice(0, MAX_LEN))}
-                placeholder="Tulis komentar atau kebutuhan project..."
-                rows={4}
-                className="w-full resize-none rounded-2xl border border-white/10 bg-zinc-950 px-4 py-3 text-sm leading-relaxed text-zinc-100 outline-none transition placeholder:text-zinc-600 focus:border-purple-300/50 focus:ring-4 focus:ring-purple-400/10"
-              />
-
-              <div className="mt-2 flex items-center justify-between text-xs text-zinc-500">
-                <span className={remaining < 40 ? "text-amber-300" : ""}>{remaining} chars left</span>
-                <span>Max {MAX_LEN}</span>
+                <div className="mt-2 flex items-center justify-between text-xs text-zinc-500">
+                  <span className={remaining < 40 ? "text-amber-300" : ""}>
+                    {remaining} chars left
+                  </span>
+                  <span>Max {MAX_LEN}</span>
+                </div>
               </div>
             </div>
+
+            <input
+              value={website}
+              onChange={(e) => setWebsite(e.target.value)}
+              tabIndex={-1}
+              autoComplete="off"
+              className="hidden"
+              aria-hidden="true"
+            />
+
+            <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-center">
+              <button
+                type="button"
+                onClick={submit}
+                disabled={sending}
+                className="rounded-2xl bg-zinc-100 px-6 py-3 text-sm font-semibold text-zinc-950 transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-70"
+              >
+                {sending ? "Sending..." : "Send Message"}
+              </button>
+
+              <button
+                type="button"
+                onClick={resetForm}
+                className="rounded-2xl border border-white/10 px-5 py-3 text-sm text-zinc-400 transition hover:border-white/20 hover:text-white"
+              >
+                Reset
+              </button>
+            </div>
           </div>
-
-          <input
-            value={website}
-            onChange={(e) => setWebsite(e.target.value)}
-            tabIndex={-1}
-            autoComplete="off"
-            className="hidden"
-            aria-hidden="true"
-          />
-
-          <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-center">
-            <button
-              type="button"
-              onClick={submit}
-              disabled={sending}
-              className="rounded-2xl bg-zinc-100 px-6 py-3 text-sm font-semibold text-zinc-950 transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-70"
-            >
-              {sending ? "Sending..." : "Send Message"}
-            </button>
-
-            <button
-              type="button"
-              onClick={resetForm}
-              className="rounded-2xl border border-white/10 px-5 py-3 text-sm text-zinc-400 transition hover:border-white/20 hover:text-white"
-            >
-              Reset
-            </button>
-          </div>
-        </div>
         )}
 
         {showRecentNotes && (
-        <div className={`contact-notes-full flex-1 ${showComposer ? "mt-8 border-t border-white/10 pt-6" : ""}`}>
-          <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-1">
-              <p className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">Recent notes</p>
-              <p className="text-xs text-zinc-600">{items.length}/{items.length || 0}</p>
+          <div
+            className={`contact-notes-full flex-1 ${showComposer ? "mt-8 border-t border-white/10 pt-6" : ""}`}
+          >
+            <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-1">
+              <p className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">
+                Recent notes
+              </p>
+              <p className="text-xs text-zinc-600">
+                {items.length}/{items.length || 0}
+              </p>
             </div>
 
             {loadingList ? (
-            <p className="mx-auto mt-4 max-w-7xl px-1 text-sm text-zinc-500">Loading notes...</p>
+              <p className="mx-auto mt-4 max-w-7xl px-1 text-sm text-zinc-500">Loading notes...</p>
             ) : items.length === 0 ? (
-            <p className="mx-auto mt-4 max-w-7xl px-1 text-sm leading-relaxed text-zinc-500">
+              <p className="mx-auto mt-4 max-w-7xl px-1 text-sm leading-relaxed text-zinc-500">
                 No notes yet. This area will show recent visitor messages.
               </p>
             ) : (
               <RecentNotesMarquee items={items} />
             )}
-        </div>
+          </div>
         )}
       </section>
     );
@@ -416,12 +448,8 @@ export default function CommentBox({
             toast.type === "success"
               ? "border-emerald-400/30 bg-emerald-500/15 text-emerald-100"
               : "",
-            toast.type === "error"
-              ? "border-red-400/30 bg-red-500/15 text-red-100"
-              : "",
-            toast.type === "info"
-              ? "border-white/15 bg-zinc-900/80 text-zinc-100"
-              : "",
+            toast.type === "error" ? "border-red-400/30 bg-red-500/15 text-red-100" : "",
+            toast.type === "info" ? "border-white/15 bg-zinc-900/80 text-zinc-100" : "",
           ].join(" ")}
         >
           {toast.text}
@@ -452,11 +480,15 @@ export default function CommentBox({
               Guestbook
             </div>
 
-            <h3 className={`text-2xl font-semibold tracking-tight md:text-3xl ${isLight ? "text-zinc-950" : "text-white"}`}>
+            <h3
+              className={`text-2xl font-semibold tracking-tight md:text-3xl ${isLight ? "text-zinc-950" : "text-white"}`}
+            >
               Leave your mark here
             </h3>
 
-            <p className={`mt-2 max-w-xl text-sm leading-relaxed ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
+            <p
+              className={`mt-2 max-w-xl text-sm leading-relaxed ${isLight ? "text-zinc-600" : "text-zinc-400"}`}
+            >
               Tulis feedback, pertanyaan, atau sekadar say hi untuk portfolio ini.
             </p>
           </div>
@@ -464,10 +496,15 @@ export default function CommentBox({
           <div className="flex items-center gap-2">
             <div
               className={`rounded-2xl border px-4 py-2 text-sm ${
-                isLight ? "border-zinc-950/10 bg-zinc-950/[0.035] text-zinc-600" : "border-white/10 bg-white/[0.04] text-zinc-300"
+                isLight
+                  ? "border-zinc-950/10 bg-zinc-950/[0.035] text-zinc-600"
+                  : "border-white/10 bg-white/[0.04] text-zinc-300"
               }`}
             >
-              <span className={`font-semibold ${isLight ? "text-zinc-950" : "text-white"}`}>{items.length}</span> comments
+              <span className={`font-semibold ${isLight ? "text-zinc-950" : "text-white"}`}>
+                {items.length}
+              </span>{" "}
+              comments
             </div>
 
             <button
@@ -497,7 +534,9 @@ export default function CommentBox({
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Nama kamu"
                 className={`w-full rounded-2xl border px-4 py-3 text-sm outline-none transition placeholder:text-zinc-500 focus:border-cyan-300/50 focus:ring-4 focus:ring-cyan-400/10 ${
-                  isLight ? "border-zinc-950/10 bg-zinc-950/[0.035] text-zinc-950" : "border-white/10 bg-zinc-950/60 text-zinc-100"
+                  isLight
+                    ? "border-zinc-950/10 bg-zinc-950/[0.035] text-zinc-950"
+                    : "border-white/10 bg-zinc-950/60 text-zinc-100"
                 }`}
                 autoComplete="name"
               />
@@ -514,7 +553,9 @@ export default function CommentBox({
                 placeholder="Tulis komentar terbaikmu..."
                 rows={5}
                 className={`w-full resize-none rounded-2xl border px-4 py-3 text-sm leading-relaxed outline-none transition placeholder:text-zinc-500 focus:border-purple-300/50 focus:ring-4 focus:ring-purple-400/10 ${
-                  isLight ? "border-zinc-950/10 bg-zinc-950/[0.035] text-zinc-950" : "border-white/10 bg-zinc-950/60 text-zinc-100"
+                  isLight
+                    ? "border-zinc-950/10 bg-zinc-950/[0.035] text-zinc-950"
+                    : "border-white/10 bg-zinc-950/60 text-zinc-100"
                 }`}
               />
 
@@ -583,14 +624,18 @@ export default function CommentBox({
           ) : items.length === 0 ? (
             <div
               className={`rounded-3xl border border-dashed px-5 py-10 text-center ${
-                isLight ? "border-zinc-950/15 bg-zinc-950/[0.035]" : "border-white/15 bg-white/[0.03]"
+                isLight
+                  ? "border-zinc-950/15 bg-zinc-950/[0.035]"
+                  : "border-white/15 bg-white/[0.03]"
               }`}
             >
               <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-cyan-300/20 bg-cyan-300/10 text-xl">
                 ✦
               </div>
 
-              <h4 className={`mt-4 text-base font-semibold ${isLight ? "text-zinc-950" : "text-white"}`}>
+              <h4
+                className={`mt-4 text-base font-semibold ${isLight ? "text-zinc-950" : "text-white"}`}
+              >
                 Belum ada komentar
               </h4>
 
@@ -616,20 +661,26 @@ export default function CommentBox({
 
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center justify-between gap-2">
-                        <p className={`truncate text-sm font-semibold ${isLight ? "text-zinc-950" : "text-zinc-100"}`}>
+                        <p
+                          className={`truncate text-sm font-semibold ${isLight ? "text-zinc-950" : "text-zinc-100"}`}
+                        >
                           {c.name}
                         </p>
 
                         <span
                           className={`rounded-full border px-2.5 py-1 text-[11px] text-zinc-500 ${
-                            isLight ? "border-zinc-950/10 bg-white/60" : "border-white/10 bg-zinc-950/40"
+                            isLight
+                              ? "border-zinc-950/10 bg-white/60"
+                              : "border-white/10 bg-zinc-950/40"
                           }`}
                         >
                           {timeAgo(c.created_at)}
                         </span>
                       </div>
 
-                      <p className={`mt-3 whitespace-pre-wrap text-sm leading-relaxed ${isLight ? "text-zinc-700" : "text-zinc-400"}`}>
+                      <p
+                        className={`mt-3 whitespace-pre-wrap text-sm leading-relaxed ${isLight ? "text-zinc-700" : "text-zinc-400"}`}
+                      >
                         {c.message}
                       </p>
                     </div>

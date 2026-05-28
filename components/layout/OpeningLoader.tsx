@@ -56,9 +56,7 @@ function OpeningLoaderComponent() {
 
   return (
     <div
-      className={`opening-loader ${
-        fadingOut ? "opacity-0" : "opacity-100"
-      }`}
+      className={`opening-loader ${fadingOut ? "opacity-0" : "opacity-100"}`}
       role="status"
       aria-live="polite"
       aria-label="Loading"

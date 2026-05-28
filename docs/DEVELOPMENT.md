@@ -5,6 +5,7 @@
 Modern, performant portfolio website built with Next.js, React, and TypeScript. Features smooth animations, optimized performance, and responsive design.
 
 **Tech Stack:**
+
 - Next.js 16.2.6 (App Router)
 - React 19.2.3
 - TypeScript 5.x
@@ -18,7 +19,8 @@ Modern, performant portfolio website built with Next.js, React, and TypeScript. 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+ 
+
+- Node.js 18+
 - npm or yarn
 
 ### Setup
@@ -44,6 +46,7 @@ npm run dev
 ### Environment Variables
 
 Create `.env.local` with:
+
 ```env
 # Supabase Configuration
 SUPABASE_URL=your_supabase_url
@@ -75,7 +78,7 @@ portfolio/
 │   │   ├── RippleButton.tsx
 │   │   ├── ScrollProgress.tsx
 │   │   ├── ScrollReveal.tsx
-│   │   
+│   │
 │   │
 │   ├── layout/                 # Layout components
 │   │   ├── BackgroundEffects.tsx
@@ -154,14 +157,14 @@ npm run format:check    # Check if code is formatted
 
 ```typescript
 // ✅ DO: Use memo for frequently re-rendered components
-import { memo } from 'react';
+import { memo } from "react";
 
 export default memo(function MyComponent() {
   // component code
 });
 
 // ✅ DO: Use performance utilities
-import { rafThrottle, debounce } from '@/utils/performanceOptimize';
+import { rafThrottle, debounce } from "@/utils/performanceOptimize";
 
 const handleMouseMove = rafThrottle((e) => {
   // smooth 60fps updates
@@ -179,12 +182,12 @@ Always use absolute imports with `@/` prefix:
 
 ```typescript
 // ✅ Good
-import Button from '@/components/ui/Button';
-import { debounce } from '@/utils/performanceOptimize';
+import Button from "@/components/ui/Button";
+import { debounce } from "@/utils/performanceOptimize";
 
 // ❌ Bad
-import Button from '../../../components/ui/Button';
-import { debounce } from '../../utils/performanceOptimize';
+import Button from "../../../components/ui/Button";
+import { debounce } from "../../utils/performanceOptimize";
 ```
 
 ### Animation Components Usage
@@ -253,18 +256,19 @@ className="
 
 ### Common Issues
 
-| Issue | Solution |
-|-------|----------|
-| Jank on scroll | Check for unthrottled event handlers |
-| Slow animations | Reduce particle count, use RAF throttle |
-| Layout shift | Use `contain-intrinsic-size` in CSS |
-| High CPU usage | Check for infinite loops, optimize re-renders |
+| Issue           | Solution                                      |
+| --------------- | --------------------------------------------- |
+| Jank on scroll  | Check for unthrottled event handlers          |
+| Slow animations | Reduce particle count, use RAF throttle       |
+| Layout shift    | Use `contain-intrinsic-size` in CSS           |
+| High CPU usage  | Check for infinite loops, optimize re-renders |
 
 ---
 
 ## 📦 Dependencies Management
 
 ### Core Dependencies
+
 ```json
 {
   "next": "16.2.6",
@@ -346,6 +350,7 @@ git push origin main
 ### Environment Variables
 
 Never commit `.env.local`:
+
 ```bash
 # .gitignore includes:
 .env.local
@@ -355,6 +360,7 @@ Never commit `.env.local`:
 ### Supabase Keys
 
 Use public (anon) key in frontend, never expose secret key:
+
 ```env
 # ✅ OK to expose (public key)
 SUPABASE_ANON_KEY=sb_publishable_...
@@ -395,6 +401,7 @@ A: Create files in `app/api/` (e.g., `app/api/endpoint/route.ts`)
 ## 📞 Support
 
 For issues or questions:
+
 1. Check existing documentation
 2. Review git commit history
 3. Check console errors (F12)

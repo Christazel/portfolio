@@ -32,14 +32,17 @@ export default function HeroSection() {
           </h1>
 
           <p className="hero-lede">
-            I build fast web products, reliable APIs, and useful mobile experiences from idea to production.
+            I build fast web products, reliable APIs, and useful mobile experiences from idea to
+            production.
           </p>
 
           <p className="hero-tags">Web · Mobile · UI/UX · API</p>
 
           <div className="hero-actions hero-cover-actions">
             <a className="btn-neon" href="#projects">
-              <span className="hero-btn-icon" aria-hidden="true">◎</span>
+              <span className="hero-btn-icon" aria-hidden="true">
+                ◎
+              </span>
               <span>View My Work</span>
             </a>
             <a

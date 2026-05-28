@@ -19,15 +19,15 @@ npm run type-check           # TypeScript validation
 
 ## 📁 Where to Put Things
 
-| What | Where | Example |
-|------|-------|---------|
-| Animated component | `components/animations/` | `ScrollReveal.tsx` |
-| Layout piece | `components/layout/` | `MagneticButton.tsx` |
-| UI component | `components/ui/` | `ProjectCard.tsx` |
-| API endpoint | `app/api/` | `comments/route.ts` |
-| Utility function | `utils/` | `performanceOptimize.ts` |
-| Supabase config | `lib/` | `supabase.ts` |
-| Static files | `public/asset/` | images, videos |
+| What               | Where                    | Example                  |
+| ------------------ | ------------------------ | ------------------------ |
+| Animated component | `components/animations/` | `ScrollReveal.tsx`       |
+| Layout piece       | `components/layout/`     | `MagneticButton.tsx`     |
+| UI component       | `components/ui/`         | `ProjectCard.tsx`        |
+| API endpoint       | `app/api/`               | `comments/route.ts`      |
+| Utility function   | `utils/`                 | `performanceOptimize.ts` |
+| Supabase config    | `lib/`                   | `supabase.ts`            |
+| Static files       | `public/asset/`          | images, videos           |
 
 ## 🔧 Component Template
 
@@ -88,9 +88,9 @@ export default function YourComponent({
 
 ```typescript
 import {
-  debounce,           // Standard debounce
-  throttle,           // Frame throttle
-  rafThrottle,        // RAF throttle (60fps)
+  debounce, // Standard debounce
+  throttle, // Frame throttle
+  rafThrottle, // RAF throttle (60fps)
   prefersReducedMotion, // Check accessibility
   getAnimationConfig, // Smart config
 } from "@/utils/performanceOptimize";
@@ -109,6 +109,7 @@ const handleSearch = debounce((query) => {
 ## 🎨 Common Tailwind Classes
 
 ### Layout
+
 ```
 flex items-center justify-between
 grid grid-cols-2 gap-4
@@ -117,6 +118,7 @@ p-4 m-2
 ```
 
 ### Colors
+
 ```
 bg-zinc-900       # Background
 text-zinc-100     # Text
@@ -125,6 +127,7 @@ hover:bg-zinc-800 # Hover
 ```
 
 ### Animations
+
 ```
 transition-colors
 duration-200
@@ -133,6 +136,7 @@ hover:scale-105
 ```
 
 ### Responsive
+
 ```
 md:grid-cols-2    # Medium screens
 lg:w-1/2          # Large screens
@@ -195,24 +199,24 @@ git push origin feature-branch
 
 ## 🔗 Useful Links
 
-| Resource | URL |
-|----------|-----|
-| **Next.js Docs** | https://nextjs.org/docs |
-| **React Docs** | https://react.dev |
-| **Tailwind** | https://tailwindcss.com |
-| **TypeScript** | https://www.typescriptlang.org |
-| **Framer Motion** | https://www.framer.com/motion |
-| **Supabase** | https://supabase.com |
+| Resource          | URL                            |
+| ----------------- | ------------------------------ |
+| **Next.js Docs**  | https://nextjs.org/docs        |
+| **React Docs**    | https://react.dev              |
+| **Tailwind**      | https://tailwindcss.com        |
+| **TypeScript**    | https://www.typescriptlang.org |
+| **Framer Motion** | https://www.framer.com/motion  |
+| **Supabase**      | https://supabase.com           |
 
 ## 🚨 Common Errors
 
-| Error | Fix |
-|-------|-----|
+| Error            | Fix                         |
+| ---------------- | --------------------------- |
 | Module not found | Check import path with `@/` |
-| Port 3000 in use | `lsof -i :3000` then kill |
-| Build fails | Run `npm install` again |
-| Type errors | Run `npm run type-check` |
-| Blank screen | Check console (F12) |
+| Port 3000 in use | `lsof -i :3000` then kill   |
+| Build fails      | Run `npm install` again     |
+| Type errors      | Run `npm run type-check`    |
+| Blank screen     | Check console (F12)         |
 
 ## 📚 Documentation Files
 
