@@ -19,9 +19,9 @@ function SkillChip({ label, Icon }: SkillChipProps) {
 export default function SkillsSection() {
   return (
     <SectionSurface id="skills" className="skills-section-card">
-      <div className="overflow-hidden py-10 sm:py-14 md:py-20">
+      <div className="mt-10 w-full overflow-hidden">
         <div className="container-page text-center">
-          <p className="text-base font-medium text-zinc-500 sm:text-lg md:text-xl">
+          <p className="mb-6 text-center text-sm text-zinc-500">
             Tools and technologies I work with
           </p>
         </div>

@@ -610,6 +610,215 @@ h1, h2, h3, h4 {
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
+.about-yoga-section {
+  padding-top: clamp(1rem, 3vw, 2.5rem);
+}
+
+.about-yoga-section::before,
+.about-yoga-section::after {
+  display: none;
+}
+
+.about-yoga-section .section-card-surface {
+  min-height: auto;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.about-yoga-inner {
+  position: relative;
+  padding: clamp(3.5rem, 7vw, 6.25rem) clamp(1.35rem, 5vw, 6.75rem)
+    clamp(3.25rem, 6vw, 5.5rem);
+}
+
+.about-yoga-section .section-card-surface::before {
+  display: none;
+}
+
+.about-yoga-header {
+  max-width: 48rem;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.about-yoga-header h2 {
+  margin-top: 0.75rem;
+  color: #f8f8f8;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(3.1rem, 6.4vw, 6rem);
+  font-weight: 400;
+  line-height: 0.96;
+  letter-spacing: 0;
+}
+
+.about-yoga-header p:last-child {
+  margin-top: 1.05rem;
+  color: rgba(244, 244, 245, 0.58);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1rem, 1.4vw, 1.28rem);
+  line-height: 1.35;
+}
+
+.about-yoga-content {
+  margin-top: clamp(3rem, 6vw, 5rem);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(16rem, 0.34fr);
+  gap: clamp(2rem, 5vw, 5.5rem);
+  align-items: start;
+}
+
+.about-yoga-copy {
+  max-width: 58rem;
+  color: rgba(244, 244, 245, 0.9);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2rem, 3.45vw, 4.15rem);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: 0;
+  text-wrap: pretty;
+}
+
+.about-yoga-points {
+  padding-top: clamp(0.2rem, 1vw, 0.8rem);
+}
+
+.about-yoga-points > p {
+  color: rgba(244, 244, 245, 0.7);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.35rem, 2vw, 2.2rem);
+  line-height: 1.15;
+}
+
+.about-yoga-points ul {
+  margin-top: 1.35rem;
+  display: grid;
+  gap: 1.2rem;
+  list-style: disc;
+  padding-left: 1.2rem;
+}
+
+.about-yoga-points li {
+  color: rgba(244, 244, 245, 0.86);
+}
+
+.about-yoga-points span {
+  display: block;
+  color: #f8f8f8;
+  font-size: clamp(1.05rem, 1.35vw, 1.45rem);
+  font-weight: 650;
+  line-height: 1.2;
+}
+
+.about-yoga-points small {
+  display: block;
+  margin-top: 0.35rem;
+  color: rgba(161, 161, 170, 0.72);
+  font-size: clamp(0.86rem, 1vw, 0.96rem);
+  line-height: 1.5;
+}
+
+.hero-section-card .section-card-surface {
+  min-height: calc(100svh - 8.5rem);
+  background: #ffffff;
+  display: flex;
+  overflow: hidden;
+  padding: 0;
+}
+
+.hero-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  height: 100%;
+  gap: 0;
+}
+
+.hero-container-text-only {
+  grid-template-columns: 1fr;
+}
+
+.hero-container-text-only .hero-right {
+  min-height: calc(100svh - 8.5rem);
+}
+
+.hero-container-text-only .hero-content-inner {
+  max-width: 46rem;
+}
+
+.hero-left {
+  position: relative;
+  background: #0a0a0a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-right {
+  background: linear-gradient(135deg, #f9fafb 0%, #f4f4f5 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(2rem, 5vw, 4rem);
+  overflow: hidden;
+}
+
+.hero-content-inner {
+  width: 100%;
+  max-width: 32rem;
+}
+
+.hero-section-card .section-kicker {
+  color: rgba(9, 9, 11, 0.7);
+  font-size: clamp(0.78rem, 0.9vw, 0.95rem);
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  border-radius: 999px;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid rgba(9, 9, 11, 0.1);
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(6px);
+}
+
+.hero-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: #22c55e;
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+  animation: availability-pulse 1.75s ease-in-out infinite;
+}
+
+.hero-title {
+  color: #0a0a0a;
+  font-size: clamp(2.35rem, 5.2vw, 4.2rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: 0;
+  text-wrap: balance;
+}
+
+.hero-title-accent {
+  display: block;
+  background: linear-gradient(135deg, #0a0a0a 0%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  color: rgba(24, 24, 27, 0.72);
+  font-size: clamp(0.95rem, 1.1vw, 1.1rem);
+  line-height: 1.8;
+  text-wrap: pretty;
+}
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
@@ -635,33 +844,12 @@ h1, h2, h3, h4 {
 }
 
 .skills-section-card .section-card-surface > div {
-  position: relative;
   overflow: hidden;
-  border-radius: clamp(1.25rem, 3vw, 2rem);
-  background:
-    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.08), transparent 22rem),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 70%);
-  padding-block: clamp(2rem, 4vw, 3.6rem);
 }
 
 .skills-section-card .section-card-surface > div::before,
 .skills-section-card .section-card-surface > div::after {
-  content: "";
-  position: absolute;
-  inset-block: 0;
-  z-index: 2;
-  width: clamp(4rem, 14vw, 12rem);
-  pointer-events: none;
-}
-
-.skills-section-card .section-card-surface > div::before {
-  left: 0;
-  background: linear-gradient(90deg, rgba(11, 11, 11, 0.98), transparent);
-}
-
-.skills-section-card .section-card-surface > div::after {
-  right: 0;
-  background: linear-gradient(270deg, rgba(11, 11, 11, 0.98), transparent);
+  display: none;
 }
 
 .section-card-surface::before {
@@ -1271,6 +1459,60 @@ h1, h2, h3, h4 {
     border-radius: 1.2rem;
   }
 
+  .about-yoga-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4.75rem 1.25rem 2.75rem;
+  }
+
+  .about-yoga-header {
+    width: 100%;
+    max-width: 100%;
+    display: grid;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .about-yoga-header h2 {
+    width: 100%;
+    font-size: clamp(3rem, 15vw, 4.4rem);
+  }
+
+  .about-yoga-content {
+    width: 100%;
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+    margin-top: 2.6rem;
+  }
+
+  .about-yoga-copy {
+    font-size: clamp(1.65rem, 8.4vw, 2.65rem);
+    line-height: 1.12;
+  }
+
+  .hero-section-card .section-card-surface {
+    display: block;
+    min-height: auto;
+  }
+
+  .hero-container {
+    min-height: auto;
+  }
+
+  .hero-container-text-only .hero-right {
+    min-height: clamp(34rem, 76svh, 44rem);
+  }
+
+  .hero-left {
+    min-height: clamp(18rem, 44svh, 28rem);
+  }
+
+  .hero-right {
+    align-items: flex-start;
+    overflow-y: visible;
+    padding: clamp(1.25rem, 5vw, 2rem);
+  }
   .hero-actions > a {
     flex: 1 1 8rem;
   }
