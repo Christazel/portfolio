@@ -1,5 +1,5 @@
 import HeroSection from "@/components/sections/HeroSection";
-import PortfolioNavbar from "@/components/sections/PortfolioNavbar";
+import Navbar from "@/components/sections/Navbar";
 import dynamic from "next/dynamic";
 
 const AboutSection = dynamic(() => import("@/components/sections/AboutSection"));
@@ -13,7 +13,7 @@ const Footer = dynamic(() => import("@/components/sections/Footer"));
 export default function Page() {
   return (
     <div className="min-h-screen flex flex-col">
-      <PortfolioNavbar />
+      <Navbar />
 
       <main className="portfolio-scroll-stage flex-1">
         <HeroSection />
