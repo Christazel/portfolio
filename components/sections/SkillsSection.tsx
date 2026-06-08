@@ -21,6 +21,7 @@ export default function SkillsSection() {
     <SectionSurface id="skills" className="skills-section-card">
       <div className="mt-10 w-full overflow-hidden">
         <div className="container-page text-center">
+          <h2 className="sr-only">Skill Stack</h2>
           <p className="mb-6 text-center text-sm text-zinc-500">
             Tools and technologies I work with
           </p>

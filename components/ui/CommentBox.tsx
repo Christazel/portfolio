@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 
 type CommentItem = {
   id: string;
@@ -200,6 +200,11 @@ export default function CommentBox({
 
   const [toast, setToast] = useState<{ type: ToastType; text: string } | null>(null);
   const toastTimer = useRef<number | null>(null);
+  const formId = useId();
+  const nameId = `${formId}-name`;
+  const messageId = `${formId}-message`;
+  const messageHelpId = `${formId}-message-help`;
+  const websiteId = `${formId}-website`;
 
   const remaining = useMemo(() => MAX_LEN - message.length, [message.length]);
   const visibleItems = useMemo(() => items.slice(0, maxVisible), [items, maxVisible]);
@@ -309,6 +314,8 @@ export default function CommentBox({
       >
         {toast && (
           <div
+            role={toast.type === "error" ? "alert" : "status"}
+            aria-live={toast.type === "error" ? "assertive" : "polite"}
             className={[
               "fixed inset-x-4 top-4 z-50 rounded-2xl border px-4 py-3 text-sm shadow-2xl backdrop-blur-xl sm:inset-x-auto sm:right-4",
               toast.type === "success"
@@ -348,31 +355,47 @@ export default function CommentBox({
 
             <div className="mt-7 grid gap-4 md:grid-cols-[0.62fr_1.38fr]">
               <div>
-                <label className="mb-2 block text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">
+                <label
+                  htmlFor={nameId}
+                  className="mb-2 block text-xs font-medium uppercase tracking-[0.2em] text-zinc-500"
+                >
                   Name
                 </label>
                 <input
+                  id={nameId}
+                  name="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Nama kamu"
                   className="w-full rounded-2xl border border-white/10 bg-zinc-950 px-4 py-3 text-sm text-zinc-100 outline-none transition placeholder:text-zinc-600 focus:border-cyan-300/50 focus:ring-4 focus:ring-cyan-400/10"
                   autoComplete="name"
+                  maxLength={40}
                 />
               </div>
 
               <div>
-                <label className="mb-2 block text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">
+                <label
+                  htmlFor={messageId}
+                  className="mb-2 block text-xs font-medium uppercase tracking-[0.2em] text-zinc-500"
+                >
                   Message
                 </label>
                 <textarea
+                  id={messageId}
+                  name="message"
                   value={message}
                   onChange={(e) => setMessage(e.target.value.slice(0, MAX_LEN))}
                   placeholder="Tulis komentar atau kebutuhan project..."
                   rows={4}
                   className="w-full resize-none rounded-2xl border border-white/10 bg-zinc-950 px-4 py-3 text-sm leading-relaxed text-zinc-100 outline-none transition placeholder:text-zinc-600 focus:border-purple-300/50 focus:ring-4 focus:ring-purple-400/10"
+                  maxLength={MAX_LEN}
+                  aria-describedby={messageHelpId}
                 />
 
-                <div className="mt-2 flex items-center justify-between text-xs text-zinc-500">
+                <div
+                  id={messageHelpId}
+                  className="mt-2 flex items-center justify-between text-xs text-zinc-500"
+                >
                   <span className={remaining < 40 ? "text-amber-300" : ""}>
                     {remaining} chars left
                   </span>
@@ -382,6 +405,8 @@ export default function CommentBox({
             </div>
 
             <input
+              id={websiteId}
+              name="website"
               value={website}
               onChange={(e) => setWebsite(e.target.value)}
               tabIndex={-1}
@@ -443,6 +468,8 @@ export default function CommentBox({
     <section className={shellClass}>
       {toast && (
         <div
+          role={toast.type === "error" ? "alert" : "status"}
+          aria-live={toast.type === "error" ? "assertive" : "polite"}
           className={[
             "fixed inset-x-4 top-4 z-50 rounded-2xl border px-4 py-3 text-sm shadow-2xl backdrop-blur-xl sm:inset-x-auto sm:right-4",
             toast.type === "success"
@@ -525,11 +552,16 @@ export default function CommentBox({
         <div className={formShellClass}>
           <div className="grid gap-4">
             <div>
-              <label className="mb-2 block text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">
+              <label
+                htmlFor={nameId}
+                className="mb-2 block text-xs font-medium uppercase tracking-[0.2em] text-zinc-500"
+              >
                 Name
               </label>
 
               <input
+                id={nameId}
+                name="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Nama kamu"
@@ -539,15 +571,21 @@ export default function CommentBox({
                     : "border-white/10 bg-zinc-950/60 text-zinc-100"
                 }`}
                 autoComplete="name"
+                maxLength={40}
               />
             </div>
 
             <div>
-              <label className="mb-2 block text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">
+              <label
+                htmlFor={messageId}
+                className="mb-2 block text-xs font-medium uppercase tracking-[0.2em] text-zinc-500"
+              >
                 Message
               </label>
 
               <textarea
+                id={messageId}
+                name="message"
                 value={message}
                 onChange={(e) => setMessage(e.target.value.slice(0, MAX_LEN))}
                 placeholder="Tulis komentar terbaikmu..."
@@ -556,10 +594,15 @@ export default function CommentBox({
                   isLight
                     ? "border-zinc-950/10 bg-zinc-950/[0.035] text-zinc-950"
                     : "border-white/10 bg-zinc-950/60 text-zinc-100"
-                }`}
+                  }`}
+                maxLength={MAX_LEN}
+                aria-describedby={messageHelpId}
               />
 
-              <div className="mt-2 flex items-center justify-between text-xs text-zinc-500">
+              <div
+                id={messageHelpId}
+                className="mt-2 flex items-center justify-between text-xs text-zinc-500"
+              >
                 <span className={remaining < 40 ? "text-amber-300" : ""}>
                   {remaining} chars left
                 </span>
@@ -569,6 +612,8 @@ export default function CommentBox({
           </div>
 
           <input
+            id={websiteId}
+            name="website"
             value={website}
             onChange={(e) => setWebsite(e.target.value)}
             tabIndex={-1}

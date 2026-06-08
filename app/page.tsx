@@ -10,9 +10,27 @@ const ProjectContactStackSection = dynamic(
 const RecentNotesSection = dynamic(() => import("@/components/sections/RecentNotesSection"));
 const Footer = dynamic(() => import("@/components/sections/Footer"));
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Yohan Christazel Jeffry",
+  url: "https://christazel.vercel.app",
+  image: "https://christazel.vercel.app/asset/profile_800.webp",
+  jobTitle: "Fullstack Developer",
+  sameAs: [
+    "https://github.com/Christazel",
+    "https://www.linkedin.com/in/yohan-christazel-jeffry",
+  ],
+  knowsAbout: ["Next.js", "Fullstack Development", "API Development", "UI/UX", "Mobile"],
+};
+
 export default function Page() {
   return (
     <div className="min-h-screen flex flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Navbar />
 
       <main className="portfolio-scroll-stage flex-1">
