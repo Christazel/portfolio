@@ -1,7 +1,13 @@
 import { NextResponse } from "next/server";
 import { supabase } from "../../../lib/supabase";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
+  if (!supabase) {
+    return NextResponse.json({ data: [], message: "Comments are temporarily unavailable." });
+  }
+
   const { data, error } = await supabase
     .from("comments")
     .select("id,name,message,created_at")
@@ -15,6 +21,13 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
+  if (!supabase) {
+    return NextResponse.json(
+      { message: "Comments service is temporarily unavailable." },
+      { status: 503 }
+    );
+  }
+
   const body = await req.json().catch(() => null);
 
   const name = String(body?.name ?? "").trim();
