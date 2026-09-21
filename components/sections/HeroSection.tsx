@@ -1,64 +1,100 @@
-import Image from "next/image";
+"use client";
+
+import { useEffect, useRef } from "react";
+import { FaGithub, FaLinkedinIn } from "react-icons/fa";
+import { HiMail } from "react-icons/hi";
+import { BsWhatsapp } from "react-icons/bs";
+
+const socialLinks = [
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/yohan-christazel-jeffry",
+    icon: FaLinkedinIn,
+  },
+  {
+    label: "GitHub",
+    href: "https://github.com/Christazel",
+    icon: FaGithub,
+  },
+  {
+    label: "WhatsApp",
+    href: "https://wa.me/6282150754301",
+    icon: BsWhatsapp,
+  },
+  {
+    label: "Email",
+    href: "mailto:yohan.christazel9@gmail.com",
+    icon: HiMail,
+  },
+];
 
 export default function HeroSection() {
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const elements = [headingRef.current, subtitleRef.current, ctaRef.current];
+    const timers = elements.map((el, i) => {
+      if (!el) return undefined;
+      el.style.opacity = "0";
+      el.style.transform = "translateY(20px)";
+      return setTimeout(() => {
+        if (el) {
+          el.style.transition = "opacity 0.7s ease, transform 0.7s ease";
+          el.style.opacity = "1";
+          el.style.transform = "translateY(0)";
+        }
+      }, 100 + i * 150);
+    });
+    return () => timers.forEach((t) => t && clearTimeout(t));
+  }, []);
+
   return (
-    <section className="hero-cover" aria-label="Portfolio introduction">
-      <div className="hero-cover-overlay" />
+    <section
+      className="hero-new-section"
+      aria-label="Portfolio introduction"
 
-      <div className="hero-cover-inner">
-        <div className="hero-portrait-shell">
-          <span className="hero-portrait-orbit hero-portrait-orbit-primary" aria-hidden="true" />
-          <span className="hero-portrait-orbit hero-portrait-orbit-secondary" aria-hidden="true" />
-          <Image
-            src="/asset/profile_800.webp"
-            alt="Yohan Christazel Jeffry"
-            width={480}
-            height={480}
-            priority
-            fetchPriority="high"
-            sizes="(max-width: 520px) 42vw, (max-width: 980px) 36vw, 24vw"
-            className="hero-portrait"
-          />
-          <div className="hero-portrait-badge" aria-hidden="true">
-            YC
-          </div>
-        </div>
+    >
+      {/* Background grid + radial mask */}
+      <div className="hero-new-bg" aria-hidden="true">
+        <div className="hero-new-grid" />
+        <div className="hero-new-radial-mask" />
+      </div>
 
-        <div className="hero-copy">
-          <p className="hero-kicker">Fullstack Developer</p>
+      <div className="hero-new-inner">
+        <h1 ref={headingRef} className="hero-new-heading">
+          Yohan Christazel.
+        </h1>
 
-          <h1 className="hero-display">
-            Hi, I&apos;m <em>Yohan Christazel Jeffry</em>.
-          </h1>
+        <p ref={subtitleRef} className="hero-new-subtitle">
+          A{" "}
+          <span className="hero-new-subtitle-accent">
+            Fullstack Developer
+          </span>{" "}
+          specialized in building high-performance web applications and modern
+          user experiences.
+        </p>
 
-          <p className="hero-lede">
-            I build fast web products, reliable APIs, and useful mobile experiences from idea to
-            production.
-          </p>
+        <div ref={ctaRef} className="hero-new-cta-group">
+          <a href="/work" className="hero-new-cta-primary" id="hero-view-work-btn">
+            View My Work
+          </a>
 
-          <p className="hero-tags">Web · Mobile · UI/UX · API</p>
-
-          <div className="hero-actions hero-cover-actions">
-            <a className="btn-neon" href="#projects">
-              <span className="hero-btn-icon" aria-hidden="true">
-                ◎
-              </span>
-              <span>View My Work</span>
-            </a>
-            <a
-              className="btn-neon-ghost"
-              href="/asset/yohan-christazel-jeffry-cv.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <span>Open CV</span>
-              <span aria-hidden="true">-&gt;</span>
-            </a>
-          </div>
-
-          <div className="hero-availability">
-            <span className="hero-dot" aria-hidden="true" />
-            <span>Available for opportunities</span>
+          <div className="hero-new-socials">
+            {socialLinks.map(({ label, href, icon: Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target={href.startsWith("http") ? "_blank" : undefined}
+                rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+                aria-label={label}
+                className="hero-new-social-btn"
+                id={`hero-social-${label.toLowerCase()}`}
+              >
+                <Icon aria-hidden="true" />
+              </a>
+            ))}
           </div>
         </div>
       </div>

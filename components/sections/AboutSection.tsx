@@ -1,32 +1,44 @@
-import { aboutText, highlights } from "@/app/data/homeData";
-import SectionSurface from "@/components/sections/SectionSurface";
+import Image from "next/image";
+import { aboutText } from "@/app/data/homeData";
 
 export default function AboutSection() {
   return (
-    <SectionSurface id="about" className="about-yoga-section">
-      <div className="about-yoga-inner">
-        <header className="about-yoga-header">
-          <p className="section-kicker">About</p>
-          <h2>About Me</h2>
-          <p>I don&apos;t just write code. I build products.</p>
-        </header>
+    <section className="about-new-section">
+      <div className="about-new-inner">
+        {/* Header */}
+        <div className="about-new-header">
+          <h2 className="about-new-heading">About Me</h2>
+          <p className="about-new-subheading">
+            Fullstack Developer & Informatics Student
+          </p>
+        </div>
 
-        <div className="about-yoga-content">
-          <p className="about-yoga-copy">{aboutText.en}</p>
+        {/* 2-col: photo + description */}
+        <div className="about-new-grid">
+          {/* Avatar */}
+          <div className="about-new-avatar-shell group">
+            <div className="about-new-avatar-wrapper">
+              <Image
+                src="/asset/profile_800.webp"
+                alt="Yohan Christazel Jeffry"
+                width={480}
+                height={480}
+                className="about-new-avatar"
+                sizes="(max-width: 768px) 80vw, 40vw"
+              />
+            </div>
+          </div>
 
-          <div className="about-yoga-points">
-            <p>What I care about:</p>
-            <ul>
-              {highlights.map((item) => (
-                <li key={item.title}>
-                  <span>{item.title}</span>
-                  <small>{item.desc}</small>
-                </li>
-              ))}
-            </ul>
+          {/* Description */}
+          <div className="about-new-desc">
+            <h3 className="about-new-title">
+              Full Stack Web Developer &<br />
+              Informatics Student.
+            </h3>
+            <p className="about-new-body">{aboutText.en}</p>
           </div>
         </div>
       </div>
-    </SectionSurface>
+    </section>
   );
 }

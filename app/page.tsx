@@ -1,14 +1,5 @@
 import HeroSection from "@/components/sections/HeroSection";
-import Navbar from "@/components/sections/Navbar";
-import dynamic from "next/dynamic";
-
-const AboutSection = dynamic(() => import("@/components/sections/AboutSection"));
-const SkillsSection = dynamic(() => import("@/components/sections/SkillsSection"));
-const ProjectContactStackSection = dynamic(
-  () => import("@/components/sections/ProjectContactStackSection")
-);
-const RecentNotesSection = dynamic(() => import("@/components/sections/RecentNotesSection"));
-const Footer = dynamic(() => import("@/components/sections/Footer"));
+import Footer from "@/components/sections/Footer";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -24,28 +15,16 @@ const jsonLd = {
   knowsAbout: ["Next.js", "Fullstack Development", "API Development", "UI/UX", "Mobile"],
 };
 
-export default function Page() {
+export default function HomePage() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="flex flex-col min-h-screen bg-black text-neutral-100">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Navbar />
-
-      <main className="portfolio-scroll-stage flex-1">
+      <main className="flex-1">
         <HeroSection />
-
-        <div className="content-cover">
-          <div className="container-page">
-            <AboutSection />
-            <SkillsSection />
-            <ProjectContactStackSection />
-            <RecentNotesSection />
-          </div>
-        </div>
       </main>
-
       <Footer />
     </div>
   );

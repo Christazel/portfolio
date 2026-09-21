@@ -1,44 +1,44 @@
-import type { IconType } from "react-icons";
-import { skills } from "@/app/data/skillsData";
-import SectionSurface from "@/components/sections/SectionSurface";
-
-type SkillChipProps = {
-  label: string;
-  Icon: IconType;
-};
-
-function SkillChip({ label, Icon }: SkillChipProps) {
-  return (
-    <span className="skill-logo">
-      <Icon className="h-7 w-7 shrink-0 sm:h-8 sm:w-8" aria-hidden={true} focusable="false" />
-      <span>{label}</span>
-    </span>
-  );
-}
+// Bento-style tech stack section matching udindwy.vercel.app/about
+const techGroups = [
+  {
+    title: "Programming Languages",
+    items: ["JavaScript", "TypeScript", "PHP", "Python", "HTML / CSS"],
+  },
+  {
+    title: "Frameworks & Libraries",
+    items: ["Next.js", "React", "Tailwind CSS", "Express", "Node.js", "Flutter"],
+  },
+  {
+    title: "Tools & Databases",
+    items: ["Git", "GitHub", "MySQL", "MongoDB", "Postman", "Vercel", "Figma"],
+  },
+  {
+    title: "AI-Assisted Tools",
+    items: ["ChatGPT", "Gemini", "Claude", "Cursor", "Antigravity IDE"],
+  },
+];
 
 export default function SkillsSection() {
   return (
-    <SectionSurface id="skills" className="skills-section-card">
-      <div className="mt-10 w-full overflow-hidden">
-        <div className="container-page text-center">
-          <h2 className="sr-only">Skill Stack</h2>
-          <p className="mb-6 text-center text-sm text-zinc-500">
-            Tools and technologies I work with
-          </p>
-        </div>
+    <section className="skills-new-section">
+      <div className="skills-new-inner">
+        <h3 className="skills-new-heading">Tech Stack &amp; Tools</h3>
 
-        <div className="skill-slider" aria-label="Skills slider">
-          <div className="skill-track">
-            {[0, 1].map((sequence) => (
-              <div key={sequence} className="skill-sequence" aria-hidden={sequence === 1}>
-                {skills.map(({ label, Icon }) => (
-                  <SkillChip key={`${label}-${sequence}`} label={label} Icon={Icon} />
+        <div className="skills-new-grid">
+          {techGroups.map((group) => (
+            <div key={group.title} className="skills-new-card">
+              <h4 className="skills-new-card-title">{group.title}</h4>
+              <div className="skills-new-chips">
+                {group.items.map((item) => (
+                  <span key={item} className="skills-new-chip" tabIndex={0}>
+                    {item}
+                  </span>
                 ))}
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
-    </SectionSurface>
+    </section>
   );
 }

@@ -3,8 +3,10 @@ import type { Metadata, Viewport } from "next";
 import dynamic from "next/dynamic";
 import { Geist } from "next/font/google";
 import OpeningLoader from "@/components/layout/OpeningLoader";
+import Navbar from "@/components/sections/Navbar";
 
 const CursorFollower = dynamic(() => import("@/components/layout/CursorFollower"));
+
 const siteUrl = "https://christazel.vercel.app";
 const siteTitle = "Yohan Christazel Jeffry | Fullstack Developer Portfolio";
 const siteDescription =
@@ -93,6 +95,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={geistSans.className}>
         <OpeningLoader />
         <CursorFollower />
+        <Navbar />
         <div className="site-shell relative z-10 min-h-screen">{children}</div>
       </body>
     </html>
