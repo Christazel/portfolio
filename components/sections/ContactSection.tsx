@@ -34,10 +34,9 @@ export default function ContactSection() {
     <section className="contact-new-section">
       <div className="contact-new-inner">
         {/* Header */}
-        <div className="contact-new-header">
-          <p className="section-kicker">Get in touch</p>
-          <h2 className="contact-new-heading">Contact</h2>
-          <p className="contact-new-sub">
+        <div className="about-new-header text-center flex flex-col items-center justify-center mx-auto max-w-2xl mb-8">
+          <h2 className="about-new-heading text-center">Contact</h2>
+          <p className="about-new-subheading text-center max-w-xl mx-auto">
             Open for freelance projects, internships, and collaborative builds.
           </p>
         </div>

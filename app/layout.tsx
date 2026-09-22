@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next";
 import dynamic from "next/dynamic";
 import { Geist } from "next/font/google";
 import OpeningLoader from "@/components/layout/OpeningLoader";
+import PageTransition from "@/components/layout/PageTransition";
 import Navbar from "@/components/sections/Navbar";
 
 const CursorFollower = dynamic(() => import("@/components/layout/CursorFollower"));
@@ -96,7 +97,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <OpeningLoader />
         <CursorFollower />
         <Navbar />
-        <div className="site-shell relative z-10 min-h-screen">{children}</div>
+        <div className="site-shell relative z-10 min-h-screen">
+          <PageTransition>{children}</PageTransition>
+        </div>
       </body>
     </html>
   );

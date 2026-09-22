@@ -5,10 +5,9 @@ const CommentBox = dynamic(() => import("@/components/ui/CommentBox"));
 export default function RecentNotesSection() {
   return (
     <section className="recent-notes-section py-10 md:py-16">
-      <div className="mx-auto max-w-5xl text-center">
-        <p className="section-kicker">Recent Notes</p>
-        <h2 className="section-title mt-3">Visitor messages</h2>
-        <p className="mx-auto mt-5 max-w-3xl text-base leading-relaxed text-zinc-400 md:text-lg">
+      <div className="about-new-header text-center flex flex-col items-center justify-center mx-auto max-w-2xl mb-8">
+        <h2 className="about-new-heading text-center">Visitor messages</h2>
+        <p className="about-new-subheading text-center max-w-xl mx-auto">
           Short notes, feedback, and project messages from visitors.
         </p>
       </div>

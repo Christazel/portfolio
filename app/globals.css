@@ -1786,10 +1786,10 @@ body::-webkit-scrollbar,
    ============================================================ */
 
 .project-grid-section {
-  padding-block: clamp(3rem, 6vw, 6rem);
   scroll-margin-top: 6rem;
-  width: min(calc(100% - clamp(1.1rem, 4.5vw, 2rem)), 116rem);
-  margin-inline: auto;
+  width: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 .project-grid-header {
@@ -2654,34 +2654,41 @@ body::-webkit-scrollbar,
 }
 
 .project-grid-header {
-  text-align: left;
-  margin-bottom: 2.5rem;
+  text-align: center;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  max-width: 44rem;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .project-grid-header .section-kicker {
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: #71717a;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
+  display: none;
 }
 
 .project-grid-header .section-title {
-  font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+  font-size: clamp(2.5rem, 4.5vw, 3.75rem);
   font-weight: 800;
   letter-spacing: -0.035em;
-  line-height: 1.12;
-  background: linear-gradient(180deg, #ffffff 40%, rgba(255, 255, 255, 0.4) 100%);
+  line-height: 1.1;
+  background: linear-gradient(180deg, #ffffff 50%, rgba(255, 255, 255, 0.45) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  margin-bottom: 0.75rem;
 }
 
 .project-grid-subtitle {
-  font-size: 1.05rem;
-  color: #71717a;
-  margin-top: 0.75rem;
+  font-size: clamp(0.95rem, 1.4vw, 1.05rem);
+  color: #a1a1aa;
+  margin-top: 0;
   font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.6;
+  text-align: center;
+  max-width: 36rem;
+  margin-inline: auto;
 }
 
 .project-grid {
@@ -2870,33 +2877,41 @@ body::-webkit-scrollbar,
 }
 
 .contact-new-header {
-  text-align: left;
+  text-align: center;
+  max-width: 44rem;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
 }
 
 .contact-new-header .section-kicker {
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: #71717a;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
+  display: none;
 }
 
 .contact-new-heading {
-  font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+  font-size: clamp(2.5rem, 4.5vw, 3.75rem);
   font-weight: 800;
   letter-spacing: -0.035em;
-  line-height: 1.12;
-  background: linear-gradient(180deg, #ffffff 40%, rgba(255, 255, 255, 0.4) 100%);
+  line-height: 1.1;
+  background: linear-gradient(180deg, #ffffff 50%, rgba(255, 255, 255, 0.45) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  margin-bottom: 0.75rem;
 }
 
 .contact-new-sub {
-  font-size: 1.05rem;
-  color: #71717a;
-  margin-top: 0.5rem;
+  font-size: clamp(0.95rem, 1.4vw, 1.05rem);
+  color: #a1a1aa;
+  margin-top: 0;
   font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.6;
+  text-align: center;
+  max-width: 36rem;
+  margin-inline: auto;
 }
 
 .contact-new-list {

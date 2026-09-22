@@ -7,10 +7,9 @@ export default function ProjectGrid() {
   return (
     <section className="project-grid-section">
       {/* Header */}
-      <div className="project-grid-header">
-        <p className="section-kicker">Selected Work</p>
-        <h2 className="section-title mt-3">My Work</h2>
-        <p className="project-grid-subtitle">
+      <div className="about-new-header text-center flex flex-col items-center justify-center mx-auto max-w-2xl mb-8">
+        <h2 className="about-new-heading text-center">My Work</h2>
+        <p className="about-new-subheading text-center max-w-xl mx-auto">
           A collection of works and projects I have built in recent years.
         </p>
       </div>
