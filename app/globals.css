@@ -8,20 +8,14 @@
 
 html,
 body {
-  min-height: 100%;
   width: 100%;
   max-width: 100%;
-  overscroll-behavior-y: none;
-  scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 html {
   overflow-x: clip;
-  overflow-y: auto;
-  position: relative;
-  scrollbar-gutter: stable;
 }
 
 body {
