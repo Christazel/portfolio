@@ -3020,9 +3020,9 @@ body::-webkit-scrollbar,
    Footer Section
    -------------------------------------------------------------------------- */
 .footer-new {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  background: #000000;
-  padding: 2.25rem 1.5rem;
+  border-top: none;
+  background: transparent;
+  padding: 1.25rem 1.5rem 2rem;
   margin-top: auto;
   position: relative;
   z-index: 10;
@@ -3035,9 +3035,10 @@ body::-webkit-scrollbar,
 }
 
 .footer-new-text {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: #71717a;
   letter-spacing: -0.01em;
+  font-weight: 400;
 }
 
 /* --------------------------------------------------------------------------
