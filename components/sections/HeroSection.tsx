@@ -64,7 +64,7 @@ export default function HeroSection() {
 
       <div className="hero-new-inner">
         <h1 ref={headingRef} className="hero-new-heading">
-          Yohan Christazel.
+          Yohan Christazel Jeffry.
         </h1>
 
         <p ref={subtitleRef} className="hero-new-subtitle">

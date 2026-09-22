@@ -2250,7 +2250,7 @@ body::-webkit-scrollbar,
 .hero-new-inner {
   position: relative;
   z-index: 1;
-  max-width: 52rem;
+  max-width: 60rem;
   margin-inline: auto;
   text-align: center;
   display: flex;
@@ -2259,7 +2259,7 @@ body::-webkit-scrollbar,
 }
 
 .hero-new-heading {
-  font-size: clamp(2.75rem, 5.2vw, 4.5rem);
+  font-size: clamp(2.5rem, 4.8vw, 4.25rem);
   font-weight: 800;
   letter-spacing: -0.04em;
   line-height: 1.08;
