@@ -72,16 +72,16 @@ export default function HeroSection() {
           <span className="hero-new-subtitle-accent">
             Fullstack Developer
           </span>{" "}
-          specialized in building high-performance web applications and modern
-          user experiences.
+          specialized in building high-performance web applications with modern
+          aesthetics.
         </p>
 
-        <div ref={ctaRef} className="hero-new-cta-group">
+        <div ref={ctaRef} className="hero-new-cta-group flex flex-col items-center gap-5 mt-2">
           <a href="/work" className="hero-new-cta-primary" id="hero-view-work-btn">
             View My Work
           </a>
 
-          <div className="hero-new-socials">
+          <div className="hero-new-socials flex items-center justify-center gap-3">
             {socialLinks.map(({ label, href, icon: Icon }) => (
               <a
                 key={label}

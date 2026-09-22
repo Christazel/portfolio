@@ -2216,7 +2216,7 @@ body::-webkit-scrollbar,
 
 
 /* --------------------------------------------------------------------------
-   Hero Section
+   Hero Section (Reference-matched typography & layout)
    -------------------------------------------------------------------------- */
 .hero-new-section {
   min-height: 85vh;
@@ -2256,7 +2256,7 @@ body::-webkit-scrollbar,
 .hero-new-inner {
   position: relative;
   z-index: 1;
-  max-width: 58rem;
+  max-width: 52rem;
   margin-inline: auto;
   text-align: center;
   display: flex;
@@ -2265,98 +2265,93 @@ body::-webkit-scrollbar,
 }
 
 .hero-new-heading {
-  font-size: clamp(3.2rem, 7.5vw, 6.75rem);
+  font-size: clamp(2.75rem, 5.2vw, 4.5rem);
   font-weight: 800;
-  letter-spacing: -0.045em;
-  line-height: 1.04;
-  background: linear-gradient(180deg, #ffffff 40%, rgba(255, 255, 255, 0.4) 100%);
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+  background: linear-gradient(180deg, #ffffff 40%, rgba(255, 255, 255, 0.45) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .hero-new-subtitle {
-  font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
   line-height: 1.65;
   color: #a1a1aa;
-  max-width: 42rem;
-  margin-bottom: 2.5rem;
+  max-width: 36rem;
+  margin-bottom: 2rem;
   font-weight: 400;
   letter-spacing: -0.01em;
 }
 
 .hero-new-subtitle-accent {
   color: #ffffff;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .hero-new-cta-group {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-}
-
-@media (min-width: 640px) {
-  .hero-new-cta-group {
-    flex-direction: row;
-    gap: 1.75rem;
-  }
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 1.5rem !important;
 }
 
 .hero-new-cta-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.85rem 2.5rem;
+  padding: 0.65rem 1.85rem;
   border-radius: 9999px;
   background: #ffffff;
   color: #000000;
-  font-size: 0.95rem;
+  font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: -0.01em;
   text-decoration: none;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-  box-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.12);
 }
 
 .hero-new-cta-primary:hover {
-  transform: scale(1.04);
+  transform: scale(1.03);
   background: #f4f4f5;
-  box-shadow: 0 0 45px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 35px rgba(255, 255, 255, 0.25);
 }
 
 .hero-new-socials {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  justify-content: center;
+  gap: 0.65rem;
 }
 
 .hero-new-social-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.85rem;
-  height: 2.85rem;
+  width: 2.35rem;
+  height: 2.35rem;
   border-radius: 9999px;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.04);
-  color: #d4d4d8;
-  font-size: 1.1rem;
+  background: rgba(255, 255, 255, 0.03);
+  color: #a1a1aa;
+  font-size: 0.95rem;
   text-decoration: none;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .hero-new-social-btn:hover {
-  border-color: rgba(255, 255, 255, 0.32);
-  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
   color: #ffffff;
   transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 /* --------------------------------------------------------------------------
-   About Section
+   About Section (Reference-matched typography & centered header)
    -------------------------------------------------------------------------- */
 .about-new-section {
   scroll-margin-top: 6rem;
@@ -2366,29 +2361,38 @@ body::-webkit-scrollbar,
 .about-new-inner {
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: 3.5rem;
 }
 
 .about-new-header {
-  text-align: left;
+  text-align: center !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  max-width: 44rem;
+  margin-inline: auto;
 }
 
 .about-new-heading {
-  font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+  font-size: clamp(2.5rem, 4.5vw, 3.75rem);
   font-weight: 800;
   letter-spacing: -0.035em;
-  line-height: 1.12;
-  background: linear-gradient(180deg, #ffffff 40%, rgba(255, 255, 255, 0.4) 100%);
+  line-height: 1.1;
+  text-align: center !important;
+  background: linear-gradient(180deg, #ffffff 50%, rgba(255, 255, 255, 0.45) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .about-new-subheading {
-  font-size: 1.05rem;
-  color: #71717a;
+  font-size: clamp(0.95rem, 1.4vw, 1.05rem);
+  color: #a1a1aa;
   font-weight: 400;
   letter-spacing: -0.01em;
+  line-height: 1.6;
+  text-align: center !important;
 }
 
 .about-new-grid {
@@ -2400,15 +2404,15 @@ body::-webkit-scrollbar,
 
 @media (min-width: 768px) {
   .about-new-grid {
-    grid-template-columns: 320px 1fr;
+    grid-template-columns: 340px 1fr;
     gap: 3.5rem;
   }
 }
 
 @media (min-width: 1024px) {
   .about-new-grid {
-    grid-template-columns: 360px 1fr;
-    gap: 4rem;
+    grid-template-columns: 380px 1fr;
+    gap: 4.5rem;
   }
 }
 
@@ -2416,7 +2420,7 @@ body::-webkit-scrollbar,
   position: relative;
   border-radius: 1.75rem;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 0.5rem;
+  padding: 0.45rem;
   background: rgba(255, 255, 255, 0.02);
   transition: border-color 0.3s ease;
 }
@@ -2428,7 +2432,7 @@ body::-webkit-scrollbar,
 .about-new-avatar-wrapper {
   border-radius: 1.35rem;
   overflow: hidden;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 5;
   width: 100%;
   position: relative;
   background: #141417;
@@ -2454,19 +2458,28 @@ body::-webkit-scrollbar,
 }
 
 .about-new-title {
-  font-size: clamp(1.5rem, 2.5vw, 2.15rem);
-  font-weight: 700;
-  line-height: 1.28;
-  letter-spacing: -0.025em;
-  color: #f4f4f5;
+  font-size: clamp(1.85rem, 3.2vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1.18;
+  letter-spacing: -0.03em;
+  color: #ffffff;
 }
 
+.about-new-body-paragraphs {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  margin-top: 0.25rem;
+}
+
+.about-new-body-paragraphs p,
 .about-new-body {
-  font-size: 1.05rem;
-  line-height: 1.8;
+  font-size: clamp(0.925rem, 1.2vw, 0.985rem);
+  line-height: 1.72;
   color: #a1a1aa;
   font-weight: 400;
 }
+
 
 /* --------------------------------------------------------------------------
    Skills / Tech Stack Bento Section
