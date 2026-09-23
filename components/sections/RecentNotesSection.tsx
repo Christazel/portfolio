@@ -13,7 +13,7 @@ export default function RecentNotesSection() {
       </div>
 
       <div className="recent-notes-surface mt-8">
-        <CommentBox compact showComposer={false} />
+        <CommentBox compact showComposer={true} showHeader={false} />
       </div>
     </section>
   );

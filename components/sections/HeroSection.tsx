@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Link from "next/link";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 import { HiMail } from "react-icons/hi";
 import { BsWhatsapp } from "react-icons/bs";
@@ -77,9 +78,9 @@ export default function HeroSection() {
         </p>
 
         <div ref={ctaRef} className="hero-new-cta-group flex flex-col items-center gap-5 mt-2">
-          <a href="/work" className="hero-new-cta-primary" id="hero-view-work-btn">
+          <Link href="/work" className="hero-new-cta-primary" id="hero-view-work-btn">
             View My Work
-          </a>
+          </Link>
 
           <div className="hero-new-socials flex items-center justify-center gap-3">
             {socialLinks.map(({ label, href, icon: Icon }) => (

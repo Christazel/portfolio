@@ -38,7 +38,7 @@ export default function AboutSection() {
             </h3>
             <div className="about-new-body-paragraphs">
               <p>
-                Halo! I'm Yohan, an Informatics student at Universitas Teknologi Yogyakarta and Fullstack Developer, where I work on designing and building modern web applications, interactive user interfaces, and scalable backend workflows.
+                Halo! I&apos;m Yohan, an Informatics student at Universitas Teknologi Yogyakarta and Fullstack Developer, where I work on designing and building modern web applications, interactive user interfaces, and scalable backend workflows.
               </p>
               <p>
                 With a strong background in full stack web development and having graduated from Coding Camp 2025 powered by DBS Foundation, I build robust, high-performance applications from frontend to backend while collaborating actively in team and organizational environments.

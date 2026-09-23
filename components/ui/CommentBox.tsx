@@ -183,12 +183,14 @@ export default function CommentBox({
   compact = false,
   showComposer = true,
   showRecentNotes = true,
+  showHeader = true,
 }: {
   maxVisible?: number;
   variant?: "dark" | "light";
   compact?: boolean;
   showComposer?: boolean;
   showRecentNotes?: boolean;
+  showHeader?: boolean;
 }) {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
@@ -331,27 +333,29 @@ export default function CommentBox({
 
         {showComposer && (
           <div className="contact-compose mx-auto w-full max-w-5xl">
-            <div className="flex flex-col gap-3 text-center">
-              <div>
-                <p className="section-kicker">Quick Message</p>
-                <h3 className="mt-3 text-3xl font-semibold leading-tight text-zinc-50 sm:text-4xl md:text-5xl">
-                  Send a simple note
-                </h3>
-                <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-zinc-400 sm:text-base">
-                  Use this form for project inquiries, feedback, or a quick hello. I read every
-                  message.
-                </p>
-              </div>
+            {showHeader && (
+              <div className="flex flex-col gap-3 text-center mb-6">
+                <div>
+                  <p className="section-kicker">Quick Message</p>
+                  <h3 className="mt-3 text-3xl font-semibold leading-tight text-zinc-50 sm:text-4xl md:text-5xl">
+                    Send a simple note
+                  </h3>
+                  <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-zinc-400 sm:text-base">
+                    Use this form for project inquiries, feedback, or a quick hello. I read every
+                    message.
+                  </p>
+                </div>
 
-              <button
-                type="button"
-                onClick={() => loadComments({ force: true })}
-                disabled={loadingList}
-                className="mx-auto w-full rounded-full border border-white/10 px-4 py-2 text-xs text-zinc-400 transition hover:border-white/20 hover:text-zinc-100 disabled:cursor-not-allowed disabled:opacity-60 sm:w-fit"
-              >
-                {loadingList ? "Loading" : `${items.length} notes`}
-              </button>
-            </div>
+                <button
+                  type="button"
+                  onClick={() => loadComments({ force: true })}
+                  disabled={loadingList}
+                  className="mx-auto w-full rounded-full border border-white/10 px-4 py-2 text-xs text-zinc-400 transition hover:border-white/20 hover:text-zinc-100 disabled:cursor-not-allowed disabled:opacity-60 sm:w-fit"
+                >
+                  {loadingList ? "Loading" : `${items.length} notes`}
+                </button>
+              </div>
+            )}
 
             <div className="mt-7 grid gap-4 md:grid-cols-[0.62fr_1.38fr]">
               <div>
