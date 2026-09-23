@@ -2496,6 +2496,8 @@ body::-webkit-scrollbar,
   line-height: 1.72;
   color: #a1a1aa;
   font-weight: 400;
+  text-align: justify;
+  text-justify: inter-word;
 }
 
 
