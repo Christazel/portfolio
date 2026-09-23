@@ -2270,7 +2270,7 @@ body::-webkit-scrollbar,
   gap: clamp(4rem, 6vw, 6rem);
   position: relative;
   z-index: 10;
-  padding-bottom: 6rem;
+  padding-bottom: clamp(3rem, 5vw, 4.5rem);
 }
 
 

@@ -2,9 +2,9 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="footer-new">
-      <div className="footer-new-inner">
-        <p className="footer-new-text">
+    <footer className="w-full py-5 md:py-6 border-t border-neutral-200 dark:border-neutral-800 bg-transparent transition-colors duration-300 mt-auto relative z-10">
+      <div className="max-w-6xl mx-auto px-6 text-center">
+        <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400">
           © {year} Yohan Christazel Jeffry. All Rights Reserved.
         </p>
       </div>
