@@ -3,7 +3,7 @@ import Footer from "@/components/sections/Footer";
 
 export default function NotFound() {
   return (
-    <div className="flex flex-col min-h-screen bg-black text-neutral-100">
+    <div className="flex flex-col min-h-screen transition-colors duration-300 bg-white dark:bg-black text-neutral-900 dark:text-neutral-100">
       <main className="flex-1 flex items-center justify-center py-28 px-4">
         <div className="text-center max-w-md mx-auto flex flex-col items-center">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/[0.04] border border-white/10 mb-6 text-2xl font-bold text-neutral-300">

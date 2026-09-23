@@ -90,16 +90,27 @@ export const viewport: Viewport = {
   themeColor: "#09090b",
 };
 
+import { ThemeProvider } from "@/context/ThemeContext";
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem("theme");if(t==="light"){document.documentElement.classList.add("light");document.documentElement.classList.remove("dark");document.documentElement.setAttribute("data-theme","light");document.documentElement.style.colorScheme="light"}else{document.documentElement.classList.add("dark");document.documentElement.classList.remove("light");document.documentElement.setAttribute("data-theme","dark");document.documentElement.style.colorScheme="dark"}}catch(e){}})()`,
+          }}
+        />
+      </head>
       <body className={geistSans.className}>
-        <OpeningLoader />
-        <CursorFollower />
-        <Navbar />
-        <div className="site-shell relative z-10 min-h-screen">
-          <PageTransition>{children}</PageTransition>
-        </div>
+        <ThemeProvider>
+          <OpeningLoader />
+          <CursorFollower />
+          <Navbar />
+          <div className="site-shell relative z-10 min-h-screen">
+            <PageTransition>{children}</PageTransition>
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );

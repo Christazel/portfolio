@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
+import { useTheme } from "@/context/ThemeContext";
 
 type CommentItem = {
   id: string;
@@ -119,24 +120,42 @@ function SkeletonComment({ variant = "dark" }: { variant?: "dark" | "light" }) {
   );
 }
 
-function RecentNoteCard({ comment }: { comment: CommentItem }) {
+function RecentNoteCard({ comment, isLight }: { comment: CommentItem; isLight?: boolean }) {
   return (
     <article className="recent-note-card group">
       <div className="flex items-center gap-2.5">
-        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/8 text-[10px] font-semibold text-zinc-200">
+        <div
+          className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[10px] font-semibold ${
+            isLight ? "bg-zinc-200 text-zinc-800" : "bg-white/8 text-zinc-200"
+          }`}
+        >
           {getInitials(comment.name) || "?"}
         </div>
 
         <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-2 text-[10px] text-zinc-600">
-            <p className="truncate font-semibold uppercase tracking-[0.1em] text-zinc-500">
+          <div className="flex items-center gap-2 text-[10px]">
+            <p
+              className={`truncate font-semibold uppercase tracking-[0.1em] ${
+                isLight ? "text-zinc-700" : "text-zinc-500"
+              }`}
+            >
               {comment.name}
             </p>
-            <span className="h-1 w-1 shrink-0 rounded-full bg-zinc-700" />
-            <span className="shrink-0">{timeAgo(comment.created_at)}</span>
+            <span
+              className={`h-1 w-1 shrink-0 rounded-full ${
+                isLight ? "bg-zinc-400" : "bg-zinc-700"
+              }`}
+            />
+            <span className={`shrink-0 ${isLight ? "text-zinc-500" : "text-zinc-600"}`}>
+              {timeAgo(comment.created_at)}
+            </span>
           </div>
 
-          <p className="mt-0.5 line-clamp-2 text-sm font-medium leading-snug text-zinc-300">
+          <p
+            className={`mt-0.5 line-clamp-2 text-sm font-medium leading-snug ${
+              isLight ? "text-zinc-800" : "text-zinc-300"
+            }`}
+          >
             {comment.message}
           </p>
         </div>
@@ -145,7 +164,7 @@ function RecentNoteCard({ comment }: { comment: CommentItem }) {
   );
 }
 
-function RecentNotesMarquee({ items }: { items: CommentItem[] }) {
+function RecentNotesMarquee({ items, isLight }: { items: CommentItem[]; isLight?: boolean }) {
   const rowCount = Math.min(3, Math.max(1, items.length));
   const rows = Array.from({ length: rowCount }, (_, rowIndex) =>
     items.filter((_, index) => index % rowCount === rowIndex)
@@ -166,7 +185,11 @@ function RecentNotesMarquee({ items }: { items: CommentItem[] }) {
                 aria-hidden={loop > 0 ? true : undefined}
               >
                 {row.map((comment) => (
-                  <RecentNoteCard key={`${rowIndex}-${loop}-${comment.id}`} comment={comment} />
+                  <RecentNoteCard
+                    key={`${rowIndex}-${loop}-${comment.id}`}
+                    comment={comment}
+                    isLight={isLight}
+                  />
                 ))}
               </div>
             ))}
@@ -294,7 +317,8 @@ export default function CommentBox({
     showToast("info", "Form direset.");
   };
 
-  const isLight = variant === "light";
+  const { theme } = useTheme();
+  const isLight = variant === "light" || theme === "light";
   const shellClass = compact
     ? "relative"
     : `relative overflow-hidden rounded-[2rem] border p-[1px] shadow-xl ${
@@ -337,10 +361,18 @@ export default function CommentBox({
               <div className="flex flex-col gap-3 text-center mb-6">
                 <div>
                   <p className="section-kicker">Quick Message</p>
-                  <h3 className="mt-3 text-3xl font-semibold leading-tight text-zinc-50 sm:text-4xl md:text-5xl">
+                  <h3
+                    className={`mt-3 text-3xl font-semibold leading-tight sm:text-4xl md:text-5xl ${
+                      isLight ? "text-zinc-900" : "text-zinc-50"
+                    }`}
+                  >
                     Send a simple note
                   </h3>
-                  <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-zinc-400 sm:text-base">
+                  <p
+                    className={`mx-auto mt-3 max-w-2xl text-sm leading-relaxed sm:text-base ${
+                      isLight ? "text-zinc-600" : "text-zinc-400"
+                    }`}
+                  >
                     Use this form for project inquiries, feedback, or a quick hello. I read every
                     message.
                   </p>
@@ -350,7 +382,11 @@ export default function CommentBox({
                   type="button"
                   onClick={() => loadComments({ force: true })}
                   disabled={loadingList}
-                  className="mx-auto w-full rounded-full border border-white/10 px-4 py-2 text-xs text-zinc-400 transition hover:border-white/20 hover:text-zinc-100 disabled:cursor-not-allowed disabled:opacity-60 sm:w-fit"
+                  className={`mx-auto w-full rounded-full border px-4 py-2 text-xs transition disabled:cursor-not-allowed disabled:opacity-60 sm:w-fit ${
+                    isLight
+                      ? "border-zinc-950/10 text-zinc-600 hover:border-zinc-950/20 hover:text-zinc-900"
+                      : "border-white/10 text-zinc-400 hover:border-white/20 hover:text-zinc-100"
+                  }`}
                 >
                   {loadingList ? "Loading" : `${items.length} notes`}
                 </button>
@@ -371,7 +407,11 @@ export default function CommentBox({
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Nama kamu"
-                  className="w-full rounded-2xl border border-white/10 bg-zinc-950 px-4 py-3 text-sm text-zinc-100 outline-none transition placeholder:text-zinc-600 focus:border-cyan-300/50 focus:ring-4 focus:ring-cyan-400/10"
+                  className={`w-full rounded-2xl border px-4 py-3 text-sm outline-none transition ${
+                    isLight
+                      ? "border-zinc-950/10 bg-white text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-900/40 focus:ring-4 focus:ring-zinc-900/5 shadow-sm"
+                      : "border-white/10 bg-zinc-950 text-zinc-100 placeholder:text-zinc-600 focus:border-cyan-300/50 focus:ring-4 focus:ring-cyan-400/10"
+                  }`}
                   autoComplete="name"
                   maxLength={40}
                 />
@@ -391,7 +431,11 @@ export default function CommentBox({
                   onChange={(e) => setMessage(e.target.value.slice(0, MAX_LEN))}
                   placeholder="Tulis komentar atau kebutuhan project..."
                   rows={4}
-                  className="w-full resize-none rounded-2xl border border-white/10 bg-zinc-950 px-4 py-3 text-sm leading-relaxed text-zinc-100 outline-none transition placeholder:text-zinc-600 focus:border-purple-300/50 focus:ring-4 focus:ring-purple-400/10"
+                  className={`w-full resize-none rounded-2xl border px-4 py-3 text-sm leading-relaxed outline-none transition ${
+                    isLight
+                      ? "border-zinc-950/10 bg-white text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-900/40 focus:ring-4 focus:ring-zinc-900/5 shadow-sm"
+                      : "border-white/10 bg-zinc-950 text-zinc-100 placeholder:text-zinc-600 focus:border-purple-300/50 focus:ring-4 focus:ring-purple-400/10"
+                  }`}
                   maxLength={MAX_LEN}
                   aria-describedby={messageHelpId}
                 />
@@ -400,7 +444,7 @@ export default function CommentBox({
                   id={messageHelpId}
                   className="mt-2 flex items-center justify-between text-xs text-zinc-500"
                 >
-                  <span className={remaining < 40 ? "text-amber-300" : ""}>
+                  <span className={remaining < 40 ? "text-amber-500" : ""}>
                     {remaining} chars left
                   </span>
                   <span>Max {MAX_LEN}</span>
@@ -424,7 +468,11 @@ export default function CommentBox({
                 type="button"
                 onClick={submit}
                 disabled={sending}
-                className="rounded-2xl bg-zinc-100 px-6 py-3 text-sm font-semibold text-zinc-950 transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-70"
+                className={`rounded-2xl px-6 py-3 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-70 ${
+                  isLight
+                    ? "bg-zinc-900 text-white hover:bg-black shadow-sm"
+                    : "bg-zinc-100 text-zinc-950 hover:bg-white"
+                }`}
               >
                 {sending ? "Sending..." : "Send Message"}
               </button>
@@ -432,7 +480,11 @@ export default function CommentBox({
               <button
                 type="button"
                 onClick={resetForm}
-                className="rounded-2xl border border-white/10 px-5 py-3 text-sm text-zinc-400 transition hover:border-white/20 hover:text-white"
+                className={`rounded-2xl border px-5 py-3 text-sm transition ${
+                  isLight
+                    ? "border-zinc-950/10 text-zinc-600 hover:border-zinc-950/20 hover:text-zinc-900"
+                    : "border-white/10 text-zinc-400 hover:border-white/20 hover:text-white"
+                }`}
               >
                 Reset
               </button>
@@ -442,7 +494,9 @@ export default function CommentBox({
 
         {showRecentNotes && (
           <div
-            className={`contact-notes-full flex-1 ${showComposer ? "mt-8 border-t border-white/10 pt-6" : ""}`}
+            className={`contact-notes-full flex-1 ${
+              showComposer ? `mt-8 border-t ${isLight ? "border-zinc-950/10" : "border-white/10"} pt-6` : ""
+            }`}
           >
             <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-1">
               <p className="text-xs font-medium uppercase tracking-[0.2em] text-zinc-500">
@@ -460,7 +514,7 @@ export default function CommentBox({
                 No notes yet. This area will show recent visitor messages.
               </p>
             ) : (
-              <RecentNotesMarquee items={items} />
+              <RecentNotesMarquee items={items} isLight={isLight} />
             )}
           </div>
         )}

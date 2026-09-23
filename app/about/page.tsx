@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-black text-neutral-100">
+    <div className="flex flex-col min-h-screen transition-colors duration-300 bg-white dark:bg-black text-neutral-900 dark:text-neutral-100">
       <main className="flex-1">
         <div className="page-content pt-28 md:pt-32">
           <AboutSection />

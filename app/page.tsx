@@ -17,7 +17,7 @@ const jsonLd = {
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col min-h-screen bg-black text-neutral-100">
+    <div className="flex flex-col min-h-screen transition-colors duration-300 bg-white dark:bg-black text-neutral-900 dark:text-neutral-100">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
