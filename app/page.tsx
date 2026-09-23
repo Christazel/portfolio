@@ -22,7 +22,7 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <main className="flex-1">
+      <main className="flex-1 flex flex-col">
         <HeroSection />
       </main>
       <Footer />
