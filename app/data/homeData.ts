@@ -21,8 +21,7 @@ export const projects: ProjectItem[] = [
     type: "Web",
     year: "2025",
     highlight: "Built a tiered deposit reservation system with interactive seat selection and private event flow integrated with Midtrans payment gateway.",
-    image:
-      "https://api.microlink.io/?url=https%3A%2F%2Fwww.roomaceritarasa.com&screenshot=true&meta=false&embed=screenshot.url",
+    image: "/asset/rooma-ceritarasa.webp",
     links: [{ label: "Live Site", href: "https://www.roomaceritarasa.com/" }],
   },
   {
@@ -34,8 +33,7 @@ export const projects: ProjectItem[] = [
     type: "Web",
     year: "2025",
     highlight: "Streamlined internship workflows with role-based dashboards and progress tracking.",
-    image:
-      "https://api.microlink.io/?url=https%3A%2F%2Fweb-magang-melawi.vercel.app&screenshot=true&meta=false&embed=screenshot.url",
+    image: "/asset/sistem-magang.webp",
     links: [
       { label: "Live Demo", href: "https://web-magang-melawi.vercel.app/" },
       { label: "GitHub", href: "https://github.com/Christazel" },
