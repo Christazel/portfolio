@@ -8,7 +8,7 @@ export default function AboutSection() {
         <div className="about-new-header text-center flex flex-col items-center justify-center mx-auto max-w-2xl mb-8">
           <h2 className="about-new-heading text-center">About Me</h2>
           <p className="about-new-subheading text-center max-w-xl mx-auto">
-            Fullstack Developer and Informatics Student focused on building high-performance web applications and scalable systems.
+            Freelance Full Stack Web Developer and Informatics Graduate focused on building high-performance web applications and scalable systems.
           </p>
         </div>
 
@@ -32,16 +32,16 @@ export default function AboutSection() {
           {/* Description */}
           <div className="about-new-desc">
             <h3 className="about-new-title">
-              Full Stack Web Developer &amp;
+              Freelance Full Stack
               <br />
-              Informatics Student.
+              Web Developer.
             </h3>
             <div className="about-new-body-paragraphs">
               <p>
-                Halo! I&apos;m Yohan, an Informatics student at Universitas Teknologi Yogyakarta and Fullstack Developer, where I work on designing and building modern web applications, interactive user interfaces, and scalable backend workflows.
+                Hello! I&apos;m Yohan, an Informatics graduate from Universitas Teknologi Yogyakarta and a Full Stack Web Developer specializing in building modern web applications, interactive user interfaces, and scalable backend systems.
               </p>
               <p>
-                With a strong background in full stack web development and having graduated from Coding Camp 2025 powered by DBS Foundation, I build robust, high-performance applications from frontend to backend while collaborating actively in team and organizational environments.
+                With a strong background in full stack web development, I have experience designing and developing web-based solutions using modern technologies across frontend and backend environments. I have built applications such as management systems and digital platforms while applying best practices in software development, problem-solving, and collaboration.
               </p>
             </div>
           </div>

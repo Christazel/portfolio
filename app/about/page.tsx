@@ -7,7 +7,7 @@ import Footer from "@/components/sections/Footer";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Learn about Yohan Christazel Jeffry — an Informatics student and Fullstack Developer from Yogyakarta, Indonesia.",
+    "Learn about Yohan Christazel Jeffry — a Freelance Full Stack Web Developer and Informatics graduate from Yogyakarta, Indonesia.",
 };
 
 export default function AboutPage() {
