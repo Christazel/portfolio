@@ -44,11 +44,11 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/favicon.ico" },
-      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico?v=vercel", sizes: "any" },
+      { url: "/icon.svg?v=vercel", type: "image/svg+xml" },
     ],
-    shortcut: "/favicon.ico",
-    apple: "/favicon.ico",
+    shortcut: "/favicon.ico?v=vercel",
+    apple: "/favicon.ico?v=vercel",
   },
   openGraph: {
     title: siteTitle,
