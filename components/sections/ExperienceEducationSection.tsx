@@ -2,18 +2,23 @@
 const experiences = [
   {
     title: "Fullstack Web Developer",
-    company: "Rooma Ceritarasa · Freelance",
-    period: "2025 · Yogyakarta, Indonesia",
+    company: "RuangCode · Freelance",
+    period: "April 2025 – Present · Remote",
   },
   {
     title: "Fullstack Web Developer",
-    company: "Sistem Informasi Magang · Freelance",
-    period: "2025 · Remote",
+    company: "Rooma CeritaRasa · Freelance",
+    period: "April 2026 – August 2026 · Remote",
   },
   {
-    title: "Member & Committee",
-    company: "HMIF UTY · Campus Organization",
-    period: "2022 – Present · Yogyakarta, Indonesia",
+    title: "Web Developer",
+    company: "VERDEX · Freelance",
+    period: "September 2023 – January 2026 · Yogyakarta, Indonesia",
+  },
+  {
+    title: "IT Support",
+    company: "PT. DAP Beton · Intern",
+    period: "June 2025 – August 2025 · Remote",
   },
 ];
 
@@ -21,12 +26,12 @@ const education = [
   {
     title: "Bachelor of Informatics",
     institution: "Universitas Teknologi Yogyakarta",
-    period: "Sep 2022 – Present",
+    period: "September 2022 – April 2026",
   },
   {
     title: "Coding Camp 2025",
-    institution: "DBS Foundation · Graduate",
-    period: "2025 · Fullstack Track",
+    institution: "DBS Foundation & Dicoding",
+    period: "February 2025 - July 2025 · Specializing in Front-End and Back End Developer",
   },
 ];
 
