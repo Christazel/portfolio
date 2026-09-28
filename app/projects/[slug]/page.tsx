@@ -32,69 +32,72 @@ export default async function ProjectDetailPage({ params }: Props) {
   return (
     <div className="flex flex-col min-h-screen transition-colors duration-300 bg-white dark:bg-black text-neutral-900 dark:text-neutral-100">
       <main className="flex-1">
-        <div className="page-content pt-28 md:pt-32">
-          <div className="project-detail-page">
-            {/* Nav back */}
-            <div className="project-detail-nav">
-              <Link href="/work" className="project-detail-back">
-                <svg
-                  className="h-4 w-4"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
+        <div className="page-content pt-20 md:pt-24">
+          <div className="pd-page">
+
+            {/* ── Back nav ── */}
+            <div className="pd-nav">
+              <Link href="/work" className="pd-back">
+                <svg className="pd-back-icon" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" strokeWidth="1.75" strokeLinecap="round"
+                  strokeLinejoin="round" aria-hidden="true">
                   <path d="m15 18-6-6 6-6" />
                 </svg>
                 Back to Portfolio
               </Link>
             </div>
 
-            {/* Hero */}
-            <div className="project-detail-hero">
-              <p className="section-kicker mb-3">{project.type}</p>
-              <h1 className="project-detail-title">{project.title}</h1>
-              <p className="project-detail-meta">
-                {project.role} &nbsp;·&nbsp; {project.year}
+            {/* ── Hero ── */}
+            <div className="pd-hero">
+              <p className="pd-kicker">{project.type}</p>
+              <h1 className="pd-title">{project.title}</h1>
+              <p className="pd-meta">
+                {project.role}&nbsp;·&nbsp;{project.year}
               </p>
             </div>
 
-            {/* Laptop mockup — full-width showcase */}
-            <div className="project-detail-mockup-wrapper">
-              <div className="project-detail-mockup">
-                <LaptopMockup src={project.image} alt={`${project.title} screenshot`} />
+            {/* ── Full-width mockup with gradient fade ── */}
+            <div className="pd-mockup-wrap">
+              <div className="pd-mockup-inner">
+                <LaptopMockup
+                  src={project.image}
+                  alt={`${project.title} screenshot`}
+                />
               </div>
+              {/* fade-out gradient at bottom */}
+              <div className="pd-mockup-fade" aria-hidden="true" />
             </div>
 
-            {/* Content grid */}
-            <div className="project-detail-content">
+            {/* ── Content grid ── */}
+            <div className="pd-grid">
+
               {/* Left — About */}
-              <div className="project-detail-about">
-                <h2 className="project-detail-section-title">About Project</h2>
-                <p className="project-detail-desc">{project.desc}</p>
-                <p className="project-detail-highlight">{project.highlight}</p>
+              <div className="pd-about">
+                <h2 className="pd-about-title">About Project</h2>
+                <p className="pd-about-desc">{project.desc}</p>
+                {project.highlight && (
+                  <p className="pd-about-highlight">{project.highlight}</p>
+                )}
               </div>
 
               {/* Right — Sidebar */}
-              <aside className="project-detail-sidebar">
-                {/* Project details */}
-                <div className="project-detail-sidebar-block">
-                  <p className="project-detail-sidebar-label">PROJECT DETAILS</p>
-                  <div className="project-detail-sidebar-row">
-                    <span className="project-detail-sidebar-key">Type</span>
-                    <span className="project-detail-sidebar-val">{project.type}</span>
+              <aside className="pd-sidebar">
+
+                {/* Project details block */}
+                <div className="pd-sidebar-card">
+                  <p className="pd-sidebar-label">PROJECT DETAILS</p>
+                  <div className="pd-sidebar-row">
+                    <span className="pd-sidebar-key">Type</span>
+                    <span className="pd-sidebar-val">{project.type}</span>
                   </div>
-                  <div className="project-detail-sidebar-row">
-                    <span className="project-detail-sidebar-key">Date</span>
-                    <span className="project-detail-sidebar-val">{project.year}</span>
+                  <div className="pd-sidebar-row">
+                    <span className="pd-sidebar-key">Date</span>
+                    <span className="pd-sidebar-val">{project.year}</span>
                   </div>
                 </div>
 
                 {/* CTA links */}
-                <div className="project-detail-sidebar-links">
+                <div className="pd-cta-group">
                   {project.links.map((link) => {
                     const isExternal = link.href.startsWith("http");
                     return (
@@ -103,19 +106,12 @@ export default async function ProjectDetailPage({ params }: Props) {
                         href={link.href}
                         target={isExternal ? "_blank" : undefined}
                         rel={isExternal ? "noopener noreferrer" : undefined}
-                        className="project-detail-cta"
+                        className="pd-cta"
                       >
-                        {link.label}
-                        <svg
-                          className="h-4 w-4"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          aria-hidden="true"
-                        >
+                        <span>{link.label}</span>
+                        <svg className="pd-cta-icon" viewBox="0 0 24 24" fill="none"
+                          stroke="currentColor" strokeWidth="1.75" strokeLinecap="round"
+                          strokeLinejoin="round" aria-hidden="true">
                           <path d="M7 17 17 7M7 7h10v10" />
                         </svg>
                       </a>
@@ -124,18 +120,18 @@ export default async function ProjectDetailPage({ params }: Props) {
                 </div>
 
                 {/* Tech stack */}
-                <div className="project-detail-sidebar-block">
-                  <p className="project-detail-sidebar-label">TECH STACK</p>
-                  <div className="project-detail-tech-badges">
+                <div className="pd-sidebar-card">
+                  <p className="pd-sidebar-label">TECH STACK</p>
+                  <div className="pd-tech-wrap">
                     {project.tech.map((t) => (
-                      <span key={t} className="project-detail-badge">
-                        {t}
-                      </span>
+                      <span key={t} className="pd-tech-badge">{t}</span>
                     ))}
                   </div>
                 </div>
+
               </aside>
             </div>
+
           </div>
         </div>
       </main>
@@ -143,4 +139,3 @@ export default async function ProjectDetailPage({ params }: Props) {
     </div>
   );
 }
-
