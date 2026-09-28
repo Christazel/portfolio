@@ -71,10 +71,9 @@ export default function HeroSection() {
         <p ref={subtitleRef} className="hero-new-subtitle">
           A{" "}
           <span className="hero-new-subtitle-accent">
-            Fullstack Developer
+            Freelance Full Stack Web Developer
           </span>{" "}
-          specialized in building high-performance web applications with modern
-          aesthetics.
+          specializing in building modern web applications, interactive user interfaces, and scalable backend systems.
         </p>
 
         <div ref={ctaRef} className="hero-new-cta-group flex flex-col items-center gap-5 mt-2">

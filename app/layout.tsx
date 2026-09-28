@@ -9,9 +9,9 @@ import Navbar from "@/components/sections/Navbar";
 const CursorFollower = dynamic(() => import("@/components/layout/CursorFollower"));
 
 const siteUrl = "https://christazel.vercel.app";
-const siteTitle = "Yohan Christazel Jeffry | Fullstack Developer Portfolio";
+const siteTitle = "Yohan Christazel Jeffry | Freelance Full Stack Web Developer Portfolio";
 const siteDescription =
-  "Portfolio of Yohan Christazel Jeffry, a fullstack developer building fast web products, reliable APIs, mobile experiences, and clean UI/UX.";
+  "Portfolio of Yohan Christazel Jeffry, a Freelance Full Stack Web Developer specializing in building modern web applications, interactive user interfaces, and scalable backend systems.";
 
 const geistSans = Geist({
   subsets: ["latin"],
@@ -32,6 +32,7 @@ export const metadata: Metadata = {
   keywords: [
     "Yohan Christazel Jeffry",
     "Christazel",
+    "Freelance Full Stack Web Developer",
     "Fullstack Developer",
     "Portfolio Developer",
     "Next.js Developer",
