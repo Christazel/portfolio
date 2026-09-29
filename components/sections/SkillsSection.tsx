@@ -1,4 +1,6 @@
 // Bento-style tech stack section matching udindwy.vercel.app/about
+import ScrollReveal from "@/components/animations/ScrollReveal";
+
 const techGroups = [
   {
     title: "Programming Languages",
@@ -22,23 +24,28 @@ export default function SkillsSection() {
   return (
     <section className="skills-new-section">
       <div className="skills-new-inner">
-        <h3 className="skills-new-heading">Tech Stack &amp; Tools</h3>
+        <ScrollReveal delay={0} duration={0.7} distance={24}>
+          <h3 className="skills-new-heading">Tech Stack &amp; Tools</h3>
+        </ScrollReveal>
 
         <div className="skills-new-grid">
-          {techGroups.map((group) => (
-            <div key={group.title} className="skills-new-card">
-              <h4 className="skills-new-card-title">{group.title}</h4>
-              <div className="skills-new-chips">
-                {group.items.map((item) => (
-                  <span key={item} className="skills-new-chip" tabIndex={0}>
-                    {item}
-                  </span>
-                ))}
+          {techGroups.map((group, i) => (
+            <ScrollReveal key={group.title} delay={i * 0.1} duration={0.7} distance={30}>
+              <div className="skills-new-card">
+                <h4 className="skills-new-card-title">{group.title}</h4>
+                <div className="skills-new-chips">
+                  {group.items.map((item) => (
+                    <span key={item} className="skills-new-chip" tabIndex={0}>
+                      {item}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
+            </ScrollReveal>
           ))}
         </div>
       </div>
     </section>
   );
 }
+

@@ -1,4 +1,6 @@
 // Experience & Education timeline section — 2-col layout matching udindwy.vercel.app/about
+import ScrollReveal from "@/components/animations/ScrollReveal";
+
 const experiences = [
   {
     title: "Fullstack Web Developer",
@@ -39,18 +41,22 @@ function TimelineItem({
   title,
   sub,
   period,
+  delay = 0,
 }: {
   title: string;
   sub: string;
   period: string;
+  delay?: number;
 }) {
   return (
-    <div className="timeline-item">
-      <div className="timeline-dot" aria-hidden="true" />
-      <h4 className="timeline-title">{title}</h4>
-      <p className="timeline-sub">{sub}</p>
-      <p className="timeline-period">{period}</p>
-    </div>
+    <ScrollReveal delay={delay} duration={0.65} distance={24}>
+      <div className="timeline-item">
+        <div className="timeline-dot" aria-hidden="true" />
+        <h4 className="timeline-title">{title}</h4>
+        <p className="timeline-sub">{sub}</p>
+        <p className="timeline-period">{period}</p>
+      </div>
+    </ScrollReveal>
   );
 }
 
@@ -61,14 +67,17 @@ export default function ExperienceEducationSection() {
         <div className="exp-edu-grid">
           {/* Work Experience */}
           <div className="exp-edu-col">
-            <h3 className="exp-edu-col-heading">Work Experience</h3>
+            <ScrollReveal delay={0} duration={0.65} distance={20}>
+              <h3 className="exp-edu-col-heading">Work Experience</h3>
+            </ScrollReveal>
             <div className="timeline-rail">
-              {experiences.map((exp) => (
+              {experiences.map((exp, i) => (
                 <TimelineItem
                   key={exp.title + exp.company}
                   title={exp.title}
                   sub={exp.company}
                   period={exp.period}
+                  delay={0.1 + i * 0.1}
                 />
               ))}
             </div>
@@ -76,14 +85,17 @@ export default function ExperienceEducationSection() {
 
           {/* Education */}
           <div className="exp-edu-col">
-            <h3 className="exp-edu-col-heading">Education</h3>
+            <ScrollReveal delay={0.05} duration={0.65} distance={20}>
+              <h3 className="exp-edu-col-heading">Education</h3>
+            </ScrollReveal>
             <div className="timeline-rail">
-              {education.map((edu) => (
+              {education.map((edu, i) => (
                 <TimelineItem
                   key={edu.title + edu.institution}
                   title={edu.title}
                   sub={edu.institution}
                   period={edu.period}
+                  delay={0.15 + i * 0.1}
                 />
               ))}
             </div>
