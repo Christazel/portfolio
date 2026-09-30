@@ -56,6 +56,7 @@ interface ScrollRevealProps {
   once?: boolean;
   scale?: number;
   threshold?: number;
+  className?: string;
 }
 
 const ScrollReveal = memo<ScrollRevealProps>(
@@ -69,6 +70,7 @@ const ScrollReveal = memo<ScrollRevealProps>(
     once = true,
     scale = 1,
     threshold = 0.3,
+    className,
   }) => {
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -131,6 +133,7 @@ const ScrollReveal = memo<ScrollRevealProps>(
     return (
       <div
         ref={containerRef}
+        className={className}
         style={{
           opacity: 0,
           transform: hiddenTransform,

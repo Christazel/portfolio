@@ -2797,12 +2797,18 @@ html:not(.dark) .hero-new-radial-mask {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.25rem;
+  align-items: stretch;
 }
 
 @media (min-width: 640px) {
   .skills-new-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+}
+
+/* Ensure ScrollReveal wrapper stretches to full grid cell height */
+.skills-reveal-stretch {
+  height: 100%;
 }
 
 .skills-new-card {
@@ -2814,6 +2820,8 @@ html:not(.dark) .hero-new-radial-mask {
   display: flex;
   flex-direction: column;
   gap: 1.15rem;
+  height: 100%;
+  box-sizing: border-box;
   transition: border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
 }
 
