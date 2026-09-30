@@ -2806,10 +2806,6 @@ html:not(.dark) .hero-new-radial-mask {
   }
 }
 
-/* Ensure ScrollReveal wrapper stretches to full grid cell height */
-.skills-reveal-stretch {
-  height: 100%;
-}
 
 .skills-new-card {
   border-radius: 1.5rem;
@@ -2820,7 +2816,6 @@ html:not(.dark) .hero-new-radial-mask {
   display: flex;
   flex-direction: column;
   gap: 1.15rem;
-  height: 100%;
   box-sizing: border-box;
   transition: border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
 }

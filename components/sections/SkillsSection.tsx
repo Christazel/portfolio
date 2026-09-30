@@ -30,8 +30,8 @@ export default function SkillsSection() {
 
         <div className="skills-new-grid">
           {techGroups.map((group, i) => (
-            <ScrollReveal key={group.title} delay={i * 0.1} duration={0.7} distance={30} className="skills-reveal-stretch">
-              <div className="skills-new-card">
+            <div key={group.title} className="skills-new-card">
+              <ScrollReveal delay={i * 0.1} duration={0.7} distance={30}>
                 <h4 className="skills-new-card-title">{group.title}</h4>
                 <div className="skills-new-chips">
                   {group.items.map((item) => (
@@ -40,13 +40,13 @@ export default function SkillsSection() {
                     </span>
                   ))}
                 </div>
-              </div>
-            </ScrollReveal>
+              </ScrollReveal>
+            </div>
           ))}
-
         </div>
       </div>
     </section>
   );
 }
+
 
