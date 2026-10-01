@@ -17,8 +17,9 @@ const navItems: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
   { label: "My Work", href: "/work" },
-  { label: "Contact", href: "/contact" },
+  { label: "Certificates", href: "/certificates" },
 ];
+
 
 export default function Navbar() {
   const pathname = usePathname();
