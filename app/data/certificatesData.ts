@@ -11,10 +11,15 @@ export interface CertificateItem {
   title: string;
   issuer: string;
   issueDate: string;
+  validUntil: string;
+  duration: string;
+  score?: string;
   category: CertificateCategory;
+  standard?: string;
   skills: string[];
+  competencies: string[];
   description: string;
-  credentialId?: string;
+  credentialId: string;
   credentialUrl: string;
   image: string;
 }
@@ -30,107 +35,155 @@ export const certificateCategories: CertificateCategory[] = [
 
 export const certificates: CertificateItem[] = [
   {
-    id: "dbs-coding-camp-2025",
-    title: "Coding Camp 2025: Front-End & Back-End Developer",
-    issuer: "DBS Foundation & Dicoding",
-    issueDate: "July 2025",
+    id: "dicoding-pemrograman-software",
+    title: "Memulai Dasar Pemrograman untuk Menjadi Pengembang Software",
+    issuer: "Dicoding Academy",
+    issueDate: "11 Februari 2025",
+    validUntil: "11 Februari 2028",
+    duration: "9 Jam",
+    score: "Nilai: 100/100",
+    standard: "KBJI: 2512.03 • Indotask: 2512",
     category: "Fullstack",
-    skills: ["React.js", "Next.js", "Node.js", "REST API", "Git", "Full Stack Development"],
+    skills: [
+      "Software Engineering",
+      "HTML5",
+      "CSS3",
+      "JavaScript ES6",
+      "Flowcharts",
+      "Pseudocode",
+      "KBJI 2512.03",
+    ],
+    competencies: [
+      "Memahami kebutuhan aplikasi dari sisi pengguna dan spesifikasi teknis",
+      "Membuat requirement aplikasi dan diagram alur",
+      "Memodifikasi aplikasi perangkat lunak menggunakan HTML, CSS, dan JavaScript dasar",
+      "Memahami dokumentasi pemrograman dan pengembangan software",
+      "Memahami konsep dasar JavaScript ES6 (variabel, tipe data, pseudocode)",
+    ],
     description:
-      "Intensive 910-hour web development cohort covering modern frontend and backend architectures, scalable RESTful APIs, Git workflows, and capstone project delivery with GPA 91.3.",
-    credentialId: "DBS-CC25-FEBE-9130",
-    credentialUrl: "https://www.dicoding.com/",
-    image: "/asset/certificates/dbs-coding-camp.svg",
+      "Standar okupasi Pengembang Software KBJI 2512.03 & Indotask 2512. Memahami requirement teknis, diagram alur sistem, dan modifikasi antarmuka dengan HTML5, CSS3, serta JavaScript ES6 dasar (Nilai Akhir: 100).",
+    credentialId: "2VX3KJG9JXYQ",
+    credentialUrl: "https://www.dicoding.com/certificates/2VX3KJG9JXYQ",
+    image: "/asset/certificates/dicoding-pemrograman-software.png",
   },
   {
-    id: "dicoding-react-web-app",
-    title: "Belajar Membuat Aplikasi Web dengan React",
-    issuer: "Dicoding Indonesia",
-    issueDate: "June 2025",
+    id: "dicoding-logika-pemrograman",
+    title: "Pengenalan ke Logika Pemrograman (Programming Logic 101)",
+    issuer: "Dicoding Academy",
+    issueDate: "11 Februari 2025",
+    validUntil: "11 Februari 2028",
+    duration: "6 Jam",
     category: "Frontend",
-    skills: ["React.js", "Component Architecture", "React Hooks", "SPA Routing", "State Management"],
+    skills: [
+      "Computational Thinking",
+      "Algoritma",
+      "Logic Gates",
+      "Boolean Logic",
+      "Problem Solving",
+    ],
+    competencies: [
+      "Memahami konsep dasar logika pemrograman untuk pemecahan masalah software",
+      "Computational Thinking: Dekomposisi masalah, Pengenalan pola, Abstraksi, Algoritma, Evaluasi solusi",
+      "Implementasi Gerbang Logika lengkap: AND, OR, NOT, NAND, NOR, XOR, XNOR",
+    ],
     description:
-      "Mastered modern React principles including declarative component hierarchy, custom hooks, unidirectional data flow, context API, and client-side application routing.",
-    credentialId: "DICODING-RCT-5582",
-    credentialUrl: "https://www.dicoding.com/certificates/KEXLYEVQRZG2",
-    image: "/asset/certificates/dicoding-react.svg",
+      "Fondasi logika pemrograman dan pemecahan masalah software development melalui computational thinking (dekomposisi, pola, abstraksi) serta analisis gerbang logika boolean lengkap.",
+    credentialId: "QLZ93QJ6EZ5D",
+    credentialUrl: "https://www.dicoding.com/certificates/QLZ93QJ6EZ5D",
+    image: "/asset/certificates/dicoding-logika-pemrograman.png",
   },
   {
-    id: "dicoding-backend-pemula",
-    title: "Belajar Membuat Aplikasi Back-End untuk Pemula",
-    issuer: "Dicoding Indonesia",
-    issueDate: "May 2025",
-    category: "Backend",
-    skills: ["Node.js", "RESTful API", "Hapi Framework", "Postman", "HTTP Protocol"],
-    description:
-      "Engineered robust RESTful backend microservices with Node.js and Hapi, handling routing, payload validation, CORS policies, and automated API endpoint testing via Postman.",
-    credentialId: "DICODING-BE-7719",
-    credentialUrl: "https://www.dicoding.com/",
-    image: "/asset/certificates/dicoding-backend.svg",
-  },
-  {
-    id: "dicoding-javascript-fundamentals",
-    title: "Belajar Dasar Pemrograman JavaScript",
-    issuer: "Dicoding Indonesia",
-    issueDate: "April 2025",
-    category: "Frontend",
-    skills: ["JavaScript (ES6+)", "Async/Await", "Promises", "OOP", "Functional Programming"],
-    description:
-      "Deep dive into ECMAScript 6+ standard, concurrency models, event loops, Promises, asynchronous JavaScript patterns, module bundling, and functional programming concepts.",
-    credentialId: "DICODING-JS-3391",
-    credentialUrl: "https://www.dicoding.com/certificates/53XEQL9MYXRN",
-    image: "/asset/certificates/dicoding-javascript.svg",
-  },
-  {
-    id: "dicoding-git-github",
+    id: "dicoding-dasar-git",
     title: "Belajar Dasar Git dengan GitHub",
-    issuer: "Dicoding Indonesia",
-    issueDate: "March 2025",
+    issuer: "Dicoding Academy",
+    issueDate: "13 Februari 2025",
+    validUntil: "13 Februari 2028",
+    duration: "15 Jam",
     category: "Tools",
-    skills: ["Git", "GitHub", "Version Control", "Branching Strategy", "Merge Conflict Resolution"],
+    skills: [
+      "Git",
+      "GitHub",
+      "Version Control",
+      "Branching & Merging",
+      "Conflict Resolution",
+      "Pull Requests",
+      "Code Review",
+    ],
+    competencies: [
+      "Mengelola kode & repository dengan Git (commit, checkout, branching)",
+      "Melakukan branch merging dan resolusi konflik source code",
+      "Kolaborasi tim profesional via GitHub: Forking, Squashing changes, Code review, Pull Request",
+      "Membangun portofolio developer dan dokumentasi README profesional",
+    ],
     description:
-      "Acquired comprehensive version control competencies including commit conventions, feature branching, remote synchronizations, pull request reviews, and team workflows.",
-    credentialId: "DICODING-GIT-1824",
-    credentialUrl: "https://www.dicoding.com/certificates/JMZVD98EJZN9",
-    image: "/asset/certificates/dicoding-git.svg",
+      "Pengelolaan source code modern, manajemen repository, branching workflow, conflict resolution, dan praktik kolaborasi tim developer profesional via GitHub (Pull Requests & Code Review).",
+    credentialId: "JLX19WJOJP72",
+    credentialUrl: "https://www.dicoding.com/certificates/JLX19WJOJP72",
+    image: "/asset/certificates/dicoding-dasar-git.png",
   },
   {
-    id: "dicoding-basic-web",
+    id: "dicoding-dasar-web",
     title: "Belajar Dasar Pemrograman Web",
-    issuer: "Dicoding Indonesia",
-    issueDate: "February 2025",
+    issuer: "Dicoding Academy",
+    issueDate: "24 Februari 2025",
+    validUntil: "24 Februari 2028",
+    duration: "41 Jam",
     category: "Frontend",
-    skills: ["HTML5", "CSS3", "Responsive Layouts", "Flexbox", "Web Accessibility"],
+    skills: [
+      "Semantic HTML5",
+      "CSS3",
+      "Flexbox",
+      "Responsive Layouts",
+      "Box Model",
+      "Media Queries",
+      "Web Architecture",
+    ],
+    competencies: [
+      "Memahami fundamental website, arsitektur client-server, dan tools pengembangan web",
+      "Struktur semantik HTML5 (elemen semantik, generic elements, tables, inline & block)",
+      "Teknik CSS3 modern (box model, positioning, shadows, layouting, media queries)",
+      "Layout responsif multi-device menggunakan CSS Flexbox",
+      "Proyek akhir: Membangun website responsif dengan semantic HTML dan teknik layouting murni",
+    ],
     description:
-      "Fundamental web development covering semantic HTML5 architecture, CSS3 styling techniques, responsive mobile-first layouts, Flexbox grids, and cross-browser accessibility.",
-    credentialId: "DICODING-WEB-9921",
-    credentialUrl: "https://www.dicoding.com/certificates/L4PQQG6MOPO1",
-    image: "/asset/certificates/dicoding-web.svg",
-  },
-  {
-    id: "uty-bachelor-informatics",
-    title: "Bachelor of Computer Science (Informatics)",
-    issuer: "Universitas Teknologi Yogyakarta",
-    issueDate: "April 2026",
-    category: "Academic",
-    skills: ["Informatics", "Software Engineering", "Full Stack Web & Mobile", "GPA 3.69 Cum Laude"],
-    description:
-      "Graduated with Cum Laude honors in 3.5 years (GPA 3.69/4.00) from Universitas Teknologi Yogyakarta, specializing in software engineering, modern web architectures, and mobile applications.",
-    credentialId: "UTY-INF-2026-369",
-    credentialUrl: "https://uty.ac.id/",
-    image: "/asset/certificates/uty-degree.svg",
-  },
-  {
-    id: "sinta-journal-publication",
-    title: "First Author – SINTA 4 Accredited Journal (INTECOM)",
-    issuer: "INTECOM Journal of Information Technology & Computer Science",
-    issueDate: "January 2026",
-    category: "Academic",
-    skills: ["Research Publication", "Next.js", "Flutter", "Node.js", "MongoDB", "SINTA 4"],
-    description:
-      "First Author of published research: 'Pengembangan Sistem Manajemen Kegiatan Mahasiswa Magang Berbasis Web Mobile di Dinas Pendidikan Melawi' in nationally accredited SINTA 4 journal.",
-    credentialId: "INTECOM-VOL6-NO1-17317",
-    credentialUrl: "https://journal.ipm2kpe.or.id/index.php/INTECOM/article/view/17317",
-    image: "/asset/certificates/sinta-journal.svg",
+      "Fundamental arsitektur web & client-server, penyusunan Semantic HTML5, styling CSS3 mendalam (box model, positioning, media queries), dan pembangunan website responsif dengan CSS Flexbox.",
+    credentialId: "1RXYEQQV3ZVM",
+    credentialUrl: "https://www.dicoding.com/certificates/1RXYEQQV3ZVM",
+    image: "/asset/certificates/dicoding-dasar-web.png",
   },
 ];
+
+export const userCertificationProfile = {
+  name: "Yohan Christazel Jeffry",
+  institution: "Dicoding Academy",
+  status:
+    "Telah menyelesaikan dan lulus beberapa kelas kompetensi pemrograman dan pengembangan perangkat lunak.",
+  field: "Software Development & Web Development",
+  level: "Junior / Fundamental Developer",
+  technicalSkills: [
+    "HTML5",
+    "CSS3",
+    "JavaScript ES6 dasar",
+    "Fundamental Programming Logic",
+    "Algorithm Thinking",
+    "Computational Thinking",
+    "Git",
+    "GitHub",
+    "Repository Management",
+    "Version Control",
+    "Semantic HTML",
+    "Responsive Web Layout",
+    "Dokumentasi Software",
+  ],
+  capabilities: [
+    "Membaca dan memahami kebutuhan aplikasi",
+    "Membuat flow/diagram aplikasi",
+    "Membuat struktur website",
+    "Melakukan styling website",
+    "Mengelola source code menggunakan Git",
+    "Berkolaborasi dalam workflow developer",
+    "Membuat dokumentasi teknis sederhana",
+  ],
+  learningPersona:
+    "Memiliki fondasi awal sebagai pengembang software dengan pemahaman pemrograman dasar, web development, version control, dan praktik kerja developer modern.",
+};
