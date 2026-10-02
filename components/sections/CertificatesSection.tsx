@@ -23,6 +23,7 @@ import {
 const filterTabs: { label: string; value: CertificateCategory | "All" }[] = [
   { label: "All", value: "All" },
   { label: "Frontend", value: "Frontend" },
+  { label: "Backend", value: "Backend" },
   { label: "Fullstack", value: "Fullstack" },
   { label: "Tools", value: "Tools" },
 ];
