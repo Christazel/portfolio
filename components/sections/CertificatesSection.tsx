@@ -1,40 +1,11 @@
 "use client";
 
-import { useState, useMemo } from "react";
 import Image from "next/image";
 import { ExternalLink, Award, Clock, Calendar } from "lucide-react";
 import ScrollReveal from "@/components/animations/ScrollReveal";
-import {
-  certificates,
-  type CertificateCategory,
-} from "@/app/data/certificatesData";
-
-const filterTabs: { label: string; value: CertificateCategory | "All" }[] = [
-  { label: "All", value: "All" },
-  { label: "Frontend", value: "Frontend" },
-  { label: "Backend", value: "Backend" },
-  { label: "Fullstack", value: "Fullstack" },
-  { label: "Tools", value: "Tools" },
-];
+import { certificates } from "@/app/data/certificatesData";
 
 export default function CertificatesSection() {
-  const [selectedCategory, setSelectedCategory] = useState<string>("All");
-
-  // Filtered certificates
-  const filteredCertificates = useMemo(() => {
-    if (selectedCategory === "All") return certificates;
-    return certificates.filter((cert) => cert.category === selectedCategory);
-  }, [selectedCategory]);
-
-  // Category counts
-  const categoryCounts = useMemo(() => {
-    const counts: Record<string, number> = { All: certificates.length };
-    certificates.forEach((cert) => {
-      counts[cert.category] = (counts[cert.category] || 0) + 1;
-    });
-    return counts;
-  }, []);
-
   return (
     <section className="w-full">
       {/* ── Heading (matching About & My Work header styling) ── */}
@@ -47,40 +18,9 @@ export default function CertificatesSection() {
         </div>
       </ScrollReveal>
 
-      {/* ── Category Filter Tabs ── */}
-      <div className="flex items-center justify-center gap-2 mb-8 md:mb-10 overflow-x-auto pb-2 px-2 scrollbar-none">
-        {filterTabs.map((tab) => {
-          const count = categoryCounts[tab.value] || 0;
-          const isActive = selectedCategory === tab.value;
-          return (
-            <button
-              key={tab.value}
-              type="button"
-              onClick={() => setSelectedCategory(tab.value)}
-              className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wide transition-all duration-200 cursor-pointer shrink-0 flex items-center gap-2 ${
-                isActive
-                  ? "bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 shadow-md scale-105"
-                  : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200/80 dark:bg-neutral-800/80 dark:text-neutral-300 dark:hover:bg-neutral-800 border border-neutral-200/60 dark:border-neutral-700/60"
-              }`}
-            >
-              <span>{tab.label}</span>
-              <span
-                className={`text-[10px] px-1.5 py-0.2 rounded-full ${
-                  isActive
-                    ? "bg-white/20 text-white dark:bg-neutral-900/20 dark:text-neutral-900"
-                    : "bg-neutral-200/80 dark:bg-neutral-700 text-neutral-500 dark:text-neutral-400"
-                }`}
-              >
-                {count}
-              </span>
-            </button>
-          );
-        })}
-      </div>
-
       {/* ── Certificates Grid ── */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7">
-        {filteredCertificates.map((cert, index) => (
+        {certificates.map((cert, index) => (
           <article
             key={cert.id}
             className="group relative rounded-2xl border border-neutral-200/90 dark:border-neutral-800/90 bg-white dark:bg-neutral-900/70 backdrop-blur-sm p-4 sm:p-5 overflow-hidden shadow-sm hover:shadow-xl dark:hover:border-neutral-700 transition-all duration-300 h-full flex flex-col hover:-translate-y-1"
