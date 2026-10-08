@@ -108,7 +108,7 @@ ANALYZE=true npm run build -- --webpack
 | Paint Operations | -50% reduction |
 | GPU Memory       | -25% reduction |
 
-See [docs/OPTIMIZATION_SUMMARY.md](./docs/OPTIMIZATION_SUMMARY.md) for details.
+Optimized for fast Core Web Vitals and smooth 60fps rendering.
 
 ## 🔧 Configuration
 
@@ -211,9 +211,9 @@ npm run start
 
 ## 📖 Documentation
 
-- [docs/DEVELOPMENT.md](./docs/DEVELOPMENT.md) - Development guide & detailed structure
-- [docs/OPTIMIZATION_SUMMARY.md](./docs/OPTIMIZATION_SUMMARY.md) - Performance optimization details
-- [docs/PERFORMANCE_OPTIMIZATION_COMPLETE.md](./docs/PERFORMANCE_OPTIMIZATION_COMPLETE.md) - Advanced optimization guide
+- [docs/DEVELOPMENT.md](./docs/DEVELOPMENT.md) - Development guide & setup
+- [docs/STRUCTURE.md](./docs/STRUCTURE.md) - Project structure & organization guide
+- [docs/QUICK_REFERENCE.md](./docs/QUICK_REFERENCE.md) - Common commands & cheatsheet
 
 ## 📄 License
 
