@@ -9,7 +9,7 @@ export default function CertificatesSection() {
   return (
     <section className="w-full">
       {/* ── Heading (matching About & My Work header styling) ── */}
-      <ScrollReveal delay={0} duration={0.7} distance={30}>
+      <ScrollReveal delay={0} duration={0.48} distance={20}>
         <div className="about-new-header text-center flex flex-col items-center justify-center mx-auto max-w-2xl mb-8 md:mb-10">
           <h1 className="about-new-heading text-center">Certificates</h1>
           <p className="about-new-subheading text-center max-w-xl mx-auto">

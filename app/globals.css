@@ -1271,6 +1271,12 @@ h1, h2, h3, h4 {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  [data-scroll-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
   .hero-portrait-shell::after,
   .hero-portrait-orbit,
   .hero-dot {

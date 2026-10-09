@@ -63,13 +63,13 @@ const ScrollReveal = memo<ScrollRevealProps>(
   ({
     children,
     delay = 0,
-    duration = 0.8,
-    distance = 50,
+    duration = 0.48,
+    distance = 20,
     ease = "power3.out",
     direction = "up",
     once = true,
     scale = 1,
-    threshold = 0.3,
+    threshold = 0.2,
     className,
   }) => {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -103,7 +103,10 @@ const ScrollReveal = memo<ScrollRevealProps>(
       };
 
       if (prefersReducedMotion) {
-        applyVisible();
+        element.style.opacity = "1";
+        element.style.transform = "none";
+        element.style.transition = "none";
+        element.style.willChange = "auto";
         return;
       }
 
@@ -125,7 +128,7 @@ const ScrollReveal = memo<ScrollRevealProps>(
 
     const transitionTiming =
       ease === "power3.out"
-        ? "cubic-bezier(0.22, 1, 0.36, 1)"
+        ? "cubic-bezier(0.16, 1, 0.3, 1)"
         : ease === "power2.out"
           ? "cubic-bezier(0.25, 0.46, 0.45, 0.94)"
           : "ease-out";
@@ -133,6 +136,7 @@ const ScrollReveal = memo<ScrollRevealProps>(
     return (
       <div
         ref={containerRef}
+        data-scroll-reveal=""
         className={className}
         style={{
           opacity: 0,
