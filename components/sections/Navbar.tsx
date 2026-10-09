@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import ThemeToggle from "@/components/ui/ThemeToggle";
 
@@ -25,24 +25,39 @@ export default function Navbar() {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const lastScrolledRef = useRef(false);
 
   useEffect(() => {
-    const handleScroll = () => {
+    let ticking = false;
+
+    const checkScroll = () => {
       const scrollY =
         window.scrollY ||
         window.pageYOffset ||
         document.documentElement.scrollTop ||
         document.body.scrollTop ||
         0;
-      setIsScrolled(scrollY > 25);
+      const shouldBeScrolled = scrollY > 25;
+
+      if (shouldBeScrolled !== lastScrolledRef.current) {
+        lastScrolledRef.current = shouldBeScrolled;
+        setIsScrolled(shouldBeScrolled);
+      }
+      ticking = false;
     };
 
-    handleScroll();
+    checkScroll();
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(checkScroll);
+        ticking = true;
+      }
+    };
+
     window.addEventListener("scroll", handleScroll, { passive: true });
-    document.addEventListener("scroll", handleScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      document.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
