@@ -2,30 +2,32 @@
 
 import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 
 export default function PageTransition({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const [isAnimating, setIsAnimating] = useState(true);
 
   return (
     <motion.div
       key={pathname}
       initial={{
         opacity: 0,
-        y: 24,
-        scale: 0.98,
-        filter: "blur(8px)",
+        y: 10,
       }}
       animate={{
         opacity: 1,
         y: 0,
-        scale: 1,
-        filter: "blur(0px)",
       }}
       transition={{
-        duration: 0.6,
+        duration: 0.32,
         ease: [0.16, 1, 0.3, 1],
       }}
-      style={{ willChange: "opacity, transform, filter" }}
+      onAnimationStart={() => setIsAnimating(true)}
+      onAnimationComplete={() => setIsAnimating(false)}
+      style={{
+        willChange: isAnimating ? "opacity, transform" : "auto",
+      }}
     >
       {children}
     </motion.div>

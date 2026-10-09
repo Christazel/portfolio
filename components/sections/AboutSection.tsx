@@ -6,7 +6,7 @@ export default function AboutSection() {
     <section className="about-new-section">
       <div className="about-new-inner">
         {/* Header */}
-        <ScrollReveal delay={0} duration={0.7} distance={30}>
+        <ScrollReveal delay={0} duration={0.48} distance={20}>
           <div className="about-new-header text-center flex flex-col items-center justify-center mx-auto max-w-2xl mb-8">
             <h2 className="about-new-heading text-center">About Me</h2>
             <p className="about-new-subheading text-center max-w-xl mx-auto">
@@ -18,7 +18,7 @@ export default function AboutSection() {
         {/* 2-col: photo + description */}
         <div className="about-new-grid">
           {/* Avatar — slides in from left */}
-          <ScrollReveal delay={0.15} duration={0.8} distance={40} direction="right">
+          <ScrollReveal delay={0.08} duration={0.48} distance={24} direction="right">
             <div className="about-new-avatar-shell group">
               <div className="about-new-avatar-wrapper">
                 <Image
@@ -35,7 +35,7 @@ export default function AboutSection() {
           </ScrollReveal>
 
           {/* Description — slides in from right */}
-          <ScrollReveal delay={0.3} duration={0.8} distance={40} direction="left">
+          <ScrollReveal delay={0.16} duration={0.48} distance={24} direction="left">
             <div className="about-new-desc">
               <h3 className="about-new-title">
                 Freelance Full Stack
