@@ -24,14 +24,14 @@ export default function SkillsSection() {
   return (
     <section className="skills-new-section">
       <div className="skills-new-inner">
-        <ScrollReveal delay={0} duration={0.48} distance={20}>
+        <ScrollReveal delay={0} duration={0.8} distance={24}>
           <h3 className="skills-new-heading">Tech Stack &amp; Tools</h3>
         </ScrollReveal>
 
         <div className="skills-new-grid">
           {techGroups.map((group, i) => (
             <div key={group.title} className="skills-new-card">
-              <ScrollReveal delay={i * 0.06} duration={0.48} distance={20}>
+              <ScrollReveal delay={i * 0.08} duration={0.8} distance={28}>
                 <h4 className="skills-new-card-title">{group.title}</h4>
                 <div className="skills-new-chips">
                   {group.items.map((item) => (
