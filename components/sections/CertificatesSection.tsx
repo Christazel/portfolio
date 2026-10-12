@@ -23,7 +23,7 @@ export default function CertificatesSection() {
         {certificates.map((cert, index) => (
           <article
             key={cert.id}
-            className="group relative rounded-2xl border border-neutral-200/90 dark:border-neutral-800/90 bg-white dark:bg-neutral-900/70 backdrop-blur-sm p-4 sm:p-5 overflow-hidden shadow-sm hover:shadow-xl dark:hover:border-neutral-700 transition-all duration-300 h-full flex flex-col hover:-translate-y-1"
+            className="group relative rounded-2xl border border-neutral-200/90 dark:border-neutral-800/90 bg-white dark:bg-neutral-900/70 backdrop-blur-sm p-4 sm:p-5 overflow-hidden shadow-sm hover:shadow-xl dark:hover:border-neutral-700 transition-[transform,border-color,box-shadow] duration-300 transform-gpu backface-hidden h-full flex flex-col hover:-translate-y-1"
           >
             {/* Certificate Preview Image (opens official verification page) */}
             <a
