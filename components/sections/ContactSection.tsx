@@ -1,6 +1,7 @@
 import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 import { BsWhatsapp } from "react-icons/bs";
 import { HiMail } from "react-icons/hi";
+import ScrollReveal from "@/components/animations/ScrollReveal";
 
 const contactItems = [
   {
@@ -34,45 +35,56 @@ export default function ContactSection() {
     <section className="contact-new-section">
       <div className="contact-new-inner">
         {/* Header */}
-        <div className="about-new-header text-center flex flex-col items-center justify-center mx-auto max-w-2xl mb-8">
-          <h2 className="about-new-heading text-center">Contact</h2>
-          <p className="about-new-subheading text-center max-w-xl mx-auto">
-            Open for freelance projects, internships, and collaborative builds.
-          </p>
-        </div>
+        <ScrollReveal delay={0} duration={0.8} distance={24}>
+          <div className="about-new-header text-center flex flex-col items-center justify-center mx-auto max-w-2xl mb-8">
+            <h1 className="about-new-heading text-center">Contact</h1>
+            <p className="about-new-subheading text-center max-w-xl mx-auto">
+              Open for freelance projects, internships, and collaborative builds.
+            </p>
+          </div>
+        </ScrollReveal>
 
         {/* Contact links list */}
         <div className="contact-new-list">
-          {contactItems.map(({ label, value, href, icon: Icon }) => (
-            <a
+          {contactItems.map(({ label, value, href, icon: Icon }, i) => (
+            <ScrollReveal
               key={label}
-              href={href}
-              target={href.startsWith("http") ? "_blank" : undefined}
-              rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
-              className="contact-new-item group"
-              id={`contact-${label.toLowerCase()}`}
+              delay={0.08 + i * 0.08}
+              duration={0.8}
+              distance={24}
+              className="h-full w-full"
             >
-              <span className="contact-new-item-icon">
-                <Icon aria-hidden="true" />
-              </span>
-              <span className="contact-new-item-body">
-                <span className="contact-new-item-label">{label}</span>
-                <span className="contact-new-item-value">{value}</span>
-              </span>
-              <span className="contact-new-item-arrow" aria-hidden="true">
-                →
-              </span>
-            </a>
+              <a
+                href={href}
+                target={href.startsWith("http") ? "_blank" : undefined}
+                rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+                className="contact-new-item group h-full w-full"
+                id={`contact-${label.toLowerCase()}`}
+              >
+                <span className="contact-new-item-icon">
+                  <Icon aria-hidden="true" />
+                </span>
+                <span className="contact-new-item-body">
+                  <span className="contact-new-item-label">{label}</span>
+                  <span className="contact-new-item-value">{value}</span>
+                </span>
+                <span className="contact-new-item-arrow" aria-hidden="true">
+                  →
+                </span>
+              </a>
+            </ScrollReveal>
           ))}
         </div>
 
         {/* Availability tags */}
-        <div className="contact-new-availability">
-          <span className="contact-avail-dot" aria-hidden="true" />
-          <span className="contact-avail-text">
-            Available for Remote &amp; On-site opportunities
-          </span>
-        </div>
+        <ScrollReveal delay={0.4} duration={0.8} distance={20}>
+          <div className="contact-new-availability">
+            <span className="contact-avail-dot" aria-hidden="true" />
+            <span className="contact-avail-text">
+              Available for Remote &amp; On-site opportunities
+            </span>
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );

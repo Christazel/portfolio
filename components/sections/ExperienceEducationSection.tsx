@@ -49,7 +49,7 @@ function TimelineItem({
   delay?: number;
 }) {
   return (
-    <ScrollReveal delay={delay} duration={0.48} distance={20}>
+    <ScrollReveal delay={delay} duration={0.75} distance={24}>
       <div className="timeline-item">
         <div className="timeline-dot" aria-hidden="true" />
         <h4 className="timeline-title">{title}</h4>
@@ -67,7 +67,7 @@ export default function ExperienceEducationSection() {
         <div className="exp-edu-grid">
           {/* Work Experience */}
           <div className="exp-edu-col">
-            <ScrollReveal delay={0} duration={0.48} distance={20}>
+            <ScrollReveal delay={0} duration={0.75} distance={24}>
               <h3 className="exp-edu-col-heading">Work Experience</h3>
             </ScrollReveal>
             <div className="timeline-rail">
@@ -85,7 +85,7 @@ export default function ExperienceEducationSection() {
 
           {/* Education */}
           <div className="exp-edu-col">
-            <ScrollReveal delay={0.04} duration={0.48} distance={20}>
+            <ScrollReveal delay={0.04} duration={0.75} distance={24}>
               <h3 className="exp-edu-col-heading">Education</h3>
             </ScrollReveal>
             <div className="timeline-rail">

@@ -63,8 +63,8 @@ const ScrollReveal = memo<ScrollRevealProps>(
   ({
     children,
     delay = 0,
-    duration = 0.48,
-    distance = 20,
+    duration = 0.8,
+    distance = 28,
     ease = "power3.out",
     direction = "up",
     once = true,
@@ -128,7 +128,7 @@ const ScrollReveal = memo<ScrollRevealProps>(
 
     const transitionTiming =
       ease === "power3.out"
-        ? "cubic-bezier(0.16, 1, 0.3, 1)"
+        ? "cubic-bezier(0.22, 1, 0.36, 1)"
         : ease === "power2.out"
           ? "cubic-bezier(0.25, 0.46, 0.45, 0.94)"
           : "ease-out";
