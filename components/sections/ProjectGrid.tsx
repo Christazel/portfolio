@@ -8,7 +8,7 @@ export default function ProjectGrid() {
     <section className="project-grid-section">
       {/* Header */}
       <div className="about-new-header text-center flex flex-col items-center justify-center mx-auto max-w-2xl mb-8">
-        <h2 className="about-new-heading text-center">My Work</h2>
+        <h1 className="about-new-heading text-center">My Work</h1>
         <p className="about-new-subheading text-center max-w-xl mx-auto">
           A collection of works and projects I have built in recent years.
         </p>

@@ -8,7 +8,7 @@ export default function AboutSection() {
         {/* Header */}
         <ScrollReveal delay={0} duration={0.8} distance={24}>
           <div className="about-new-header text-center flex flex-col items-center justify-center mx-auto max-w-2xl mb-8">
-            <h2 className="about-new-heading text-center">About Me</h2>
+            <h1 className="about-new-heading text-center">About Me</h1>
             <p className="about-new-subheading text-center max-w-xl mx-auto">
               Freelance Full Stack Web Developer and Informatics Graduate focused on building high-performance web applications and scalable systems.
             </p>
