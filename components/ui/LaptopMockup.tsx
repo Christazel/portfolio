@@ -4,7 +4,11 @@ interface LaptopMockupProps {
   priority?: boolean;
 }
 
-export default function LaptopMockup({ src, alt }: LaptopMockupProps) {
+export default function LaptopMockup({
+  src,
+  alt,
+  priority = false,
+}: LaptopMockupProps) {
   return (
     <div className="laptop-mockup-wrapper">
       {/* Laptop body */}
@@ -29,7 +33,8 @@ export default function LaptopMockup({ src, alt }: LaptopMockupProps) {
             src={src}
             alt={alt}
             className="laptop-mockup-img"
-            loading="lazy"
+            loading={priority ? "eager" : "lazy"}
+            fetchPriority={priority ? "high" : "auto"}
           />
         </div>
       </div>

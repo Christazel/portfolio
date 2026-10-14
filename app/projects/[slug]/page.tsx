@@ -62,6 +62,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                 <LaptopMockup
                   src={project.image}
                   alt={`${project.title} screenshot`}
+                  priority={true}
                 />
               </div>
               {/* fade-out gradient at bottom */}
