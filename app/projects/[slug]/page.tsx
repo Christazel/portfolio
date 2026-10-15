@@ -17,9 +17,40 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const project = projects.find((p) => p.slug === slug);
   if (!project) return {};
+
+  const siteUrl = "https://christazel.vercel.app";
+  const pageUrl = `${siteUrl}/projects/${slug}`;
+  const projectImageUrl = `${siteUrl}${project.image}`;
+  const ogTitle = `${project.title} — Yohan Christazel Jeffry`;
+
   return {
     title: `${project.title} — Yohan Christazel`,
     description: project.desc,
+    openGraph: {
+      title: ogTitle,
+      description: project.desc,
+      url: pageUrl,
+      siteName: "Yohan Christazel Jeffry Portfolio",
+      type: "website",
+      locale: "en_US",
+      images: [
+        {
+          url: projectImageUrl,
+          width: 1200,
+          height: 750,
+          alt: `${project.title} preview screenshot`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: ogTitle,
+      description: project.desc,
+      images: [projectImageUrl],
+    },
+    alternates: {
+      canonical: pageUrl,
+    },
   };
 }
 
