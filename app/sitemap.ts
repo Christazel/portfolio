@@ -4,34 +4,36 @@ import { projects } from "@/app/data/homeData";
 const siteUrl = "https://christazel.vercel.app";
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const currentDate = new Date("2026-10-16");
+
   const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: siteUrl,
-      lastModified: new Date("2026-09-22"),
+      lastModified: currentDate,
       changeFrequency: "monthly",
       priority: 1,
     },
     {
       url: `${siteUrl}/about`,
-      lastModified: new Date("2026-09-22"),
+      lastModified: currentDate,
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
       url: `${siteUrl}/work`,
-      lastModified: new Date("2026-09-22"),
+      lastModified: currentDate,
       changeFrequency: "monthly",
       priority: 0.9,
     },
     {
       url: `${siteUrl}/certificates`,
-      lastModified: new Date("2026-10-01"),
+      lastModified: currentDate,
       changeFrequency: "monthly",
       priority: 0.85,
     },
     {
       url: `${siteUrl}/contact`,
-      lastModified: new Date("2026-09-22"),
+      lastModified: currentDate,
       changeFrequency: "monthly",
       priority: 0.7,
     },
@@ -39,7 +41,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const projectRoutes: MetadataRoute.Sitemap = projects.map((p) => ({
     url: `${siteUrl}/projects/${p.slug}`,
-    lastModified: new Date("2026-09-22"),
+    lastModified: currentDate,
     changeFrequency: "monthly",
     priority: 0.8,
   }));
