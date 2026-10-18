@@ -39,6 +39,12 @@ function sanitizeInput(text: string): string {
     .trim();
 }
 
+const ALLOWED_ORIGINS = [
+  "https://christazel.vercel.app",
+  "http://localhost:3000",
+  "http://127.0.0.1:3000",
+];
+
 export async function GET() {
   if (!supabase) {
     return NextResponse.json({ data: [], message: "Comments are temporarily unavailable." });
@@ -54,7 +60,17 @@ export async function GET() {
     if (error) {
       return NextResponse.json({ data: [], message: "Comments are temporarily unavailable." });
     }
-    return NextResponse.json({ data: data ?? [] });
+
+    return NextResponse.json(
+      { data: data ?? [] },
+      {
+        headers: {
+          "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
+      }
+    );
   } catch (err) {
     console.error("Error fetching comments:", err);
     return NextResponse.json(
@@ -69,6 +85,32 @@ export async function POST(req: Request) {
     return NextResponse.json(
       { message: "Comments service is temporarily unavailable." },
       { status: 503 }
+    );
+  }
+
+  // Cross-origin request validation (CSRF / Cross-Site POST protection)
+  const secFetchSite = req.headers.get("sec-fetch-site");
+  if (secFetchSite === "cross-site") {
+    return NextResponse.json(
+      { message: "Cross-site requests are not allowed." },
+      { status: 403 }
+    );
+  }
+
+  const origin = req.headers.get("origin");
+  if (origin && !ALLOWED_ORIGINS.some((allowed) => origin.startsWith(allowed))) {
+    return NextResponse.json(
+      { message: "Invalid request origin." },
+      { status: 403 }
+    );
+  }
+
+  // Anti-DoS payload size guard: maximum 15 KB
+  const contentLength = req.headers.get("content-length");
+  if (contentLength && parseInt(contentLength, 10) > 15_000) {
+    return NextResponse.json(
+      { message: "Ukuran permintaan terlalu besar." },
+      { status: 413 }
     );
   }
 
