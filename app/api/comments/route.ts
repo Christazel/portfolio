@@ -3,31 +3,37 @@ import { supabase } from "../../../lib/supabase";
 
 export const dynamic = "force-dynamic";
 
-// In-memory rate limiting: max 5 requests per 60 seconds per IP
-const RATE_LIMIT_WINDOW_MS = 60_000;
-const MAX_REQUESTS_PER_WINDOW = 5;
+// In-memory rate limiting map
 const rateLimitMap = new Map<string, { count: number; expiresAt: number }>();
 
-function isRateLimited(ip: string): boolean {
+function isRateLimited(key: string, maxRequests: number, windowMs = 60_000): boolean {
   const now = Date.now();
-  const record = rateLimitMap.get(ip);
+  const record = rateLimitMap.get(key);
 
   if (!record || now > record.expiresAt) {
-    rateLimitMap.set(ip, { count: 1, expiresAt: now + RATE_LIMIT_WINDOW_MS });
+    rateLimitMap.set(key, { count: 1, expiresAt: now + windowMs });
     if (rateLimitMap.size > 1000) {
-      for (const [key, val] of rateLimitMap.entries()) {
-        if (now > val.expiresAt) rateLimitMap.delete(key);
+      for (const [k, val] of rateLimitMap.entries()) {
+        if (now > val.expiresAt) rateLimitMap.delete(k);
       }
     }
     return false;
   }
 
-  if (record.count >= MAX_REQUESTS_PER_WINDOW) {
+  if (record.count >= maxRequests) {
     return true;
   }
 
   record.count += 1;
   return false;
+}
+
+function getClientIp(req: Request): string {
+  return (
+    req.headers.get("x-real-ip")?.trim() ||
+    req.headers.get("x-forwarded-for")?.split(",")[0].trim() ||
+    "127.0.0.1"
+  );
 }
 
 function sanitizeInput(text: string): string {
@@ -36,6 +42,8 @@ function sanitizeInput(text: string): string {
     .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "")
     // Strip raw HTML tags to prevent storing script or HTML injection
     .replace(/<[^>]*>?/gm, "")
+    // Collapse excessive consecutive newlines to prevent UI visual DoS
+    .replace(/\n{3,}/g, "\n\n")
     .trim();
 }
 
@@ -45,9 +53,18 @@ const ALLOWED_ORIGINS = [
   "http://127.0.0.1:3000",
 ];
 
-export async function GET() {
+export async function GET(req: Request) {
   if (!supabase) {
     return NextResponse.json({ data: [], message: "Comments are temporarily unavailable." });
+  }
+
+  // Rate limiting on GET: max 60 requests per minute per IP
+  const clientIp = getClientIp(req);
+  if (isRateLimited(`GET:${clientIp}`, 60, 60_000)) {
+    return NextResponse.json(
+      { message: "Terlalu banyak permintaan. Silakan coba lagi beberapa saat." },
+      { status: 429 }
+    );
   }
 
   try {
@@ -105,6 +122,15 @@ export async function POST(req: Request) {
     );
   }
 
+  // Strict Content-Type enforcement
+  const contentType = req.headers.get("content-type") || "";
+  if (!contentType.toLowerCase().includes("application/json")) {
+    return NextResponse.json(
+      { message: "Content-Type must be application/json." },
+      { status: 415 }
+    );
+  }
+
   // Anti-DoS payload size guard: maximum 15 KB
   const contentLength = req.headers.get("content-length");
   if (contentLength && parseInt(contentLength, 10) > 15_000) {
@@ -122,10 +148,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: "Komentar berhasil dikirim." }, { status: 200 });
     }
 
-    const forwarded = req.headers.get("x-forwarded-for");
-    const clientIp = forwarded ? forwarded.split(",")[0].trim() : "127.0.0.1";
+    const clientIp = getClientIp(req);
 
-    if (isRateLimited(clientIp)) {
+    // Rate limiting on POST: max 5 requests per 60 seconds per IP
+    if (isRateLimited(`POST:${clientIp}`, 5, 60_000)) {
       return NextResponse.json(
         { message: "Terlalu banyak permintaan. Silakan coba lagi beberapa saat." },
         { status: 429 }

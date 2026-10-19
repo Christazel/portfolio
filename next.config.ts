@@ -6,9 +6,14 @@ const withBundleAnalyzer = createBundleAnalyzer({
 });
 
 const nextConfig: NextConfig = {
+  // Security: Disable Next.js technology fingerprint header
+  poweredByHeader: false,
   // Performance optimizations
   compiler: {
-    removeConsole: process.env.NODE_ENV === "production",
+    removeConsole:
+      process.env.NODE_ENV === "production"
+        ? { exclude: ["error", "warn"] }
+        : false,
   },
   experimental: {
     optimizeCss: true,
@@ -49,6 +54,10 @@ const nextConfig: NextConfig = {
           },
           {
             key: "Cross-Origin-Opener-Policy",
+            value: "same-origin",
+          },
+          {
+            key: "Cross-Origin-Resource-Policy",
             value: "same-origin",
           },
           {
