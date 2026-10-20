@@ -4,11 +4,7 @@ interface LaptopMockupProps {
   priority?: boolean;
 }
 
-export default function LaptopMockup({
-  src,
-  alt,
-  priority = false,
-}: LaptopMockupProps) {
+export default function LaptopMockup({ src, alt, priority = false }: LaptopMockupProps) {
   return (
     <div className="laptop-mockup-wrapper">
       {/* Laptop body */}

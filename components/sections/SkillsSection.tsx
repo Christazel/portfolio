@@ -1,4 +1,4 @@
-// Bento-style tech stack section matching udindwy.vercel.app/about
+// Bento-style tech stack & tools section
 import ScrollReveal from "@/components/animations/ScrollReveal";
 
 const techGroups = [
@@ -48,5 +48,3 @@ export default function SkillsSection() {
     </section>
   );
 }
-
-

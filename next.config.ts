@@ -10,10 +10,7 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   // Performance optimizations
   compiler: {
-    removeConsole:
-      process.env.NODE_ENV === "production"
-        ? { exclude: ["error", "warn"] }
-        : false,
+    removeConsole: process.env.NODE_ENV === "production" ? { exclude: ["error", "warn"] } : false,
   },
   experimental: {
     optimizeCss: true,

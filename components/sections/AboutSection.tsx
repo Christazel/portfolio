@@ -10,7 +10,8 @@ export default function AboutSection() {
           <div className="about-new-header text-center flex flex-col items-center justify-center mx-auto max-w-2xl mb-8">
             <h1 className="about-new-heading text-center">About Me</h1>
             <p className="about-new-subheading text-center max-w-xl mx-auto">
-              Freelance Full Stack Web Developer and Informatics Graduate focused on building high-performance web applications and scalable systems.
+              Freelance Full Stack Web Developer and Informatics Graduate focused on building
+              high-performance web applications and scalable systems.
             </p>
           </div>
         </ScrollReveal>
@@ -44,10 +45,16 @@ export default function AboutSection() {
               </h3>
               <div className="about-new-body-paragraphs">
                 <p>
-                  Hello! I&apos;m Yohan, an Informatics graduate from Universitas Teknologi Yogyakarta and a Full Stack Web Developer specializing in building modern web applications, interactive user interfaces, and scalable backend systems.
+                  Hello! I&apos;m Yohan, an Informatics graduate from Universitas Teknologi
+                  Yogyakarta and a Full Stack Web Developer specializing in building modern web
+                  applications, interactive user interfaces, and scalable backend systems.
                 </p>
                 <p>
-                  With a strong background in full stack web development, I have experience designing and developing web-based solutions using modern technologies across frontend and backend environments. I have built applications such as management systems and digital platforms while applying best practices in software development, problem-solving, and collaboration.
+                  With a strong background in full stack web development, I have experience
+                  designing and developing web-based solutions using modern technologies across
+                  frontend and backend environments. I have built applications such as management
+                  systems and digital platforms while applying best practices in software
+                  development, problem-solving, and collaboration.
                 </p>
               </div>
             </div>
@@ -57,4 +64,3 @@ export default function AboutSection() {
     </section>
   );
 }
-

@@ -20,7 +20,8 @@ export const projects: ProjectItem[] = [
     role: "Fullstack • Web + Payment Integration",
     type: "Web",
     year: "2025",
-    highlight: "Built a tiered deposit reservation system with interactive seat selection and private event flow integrated with Midtrans payment gateway.",
+    highlight:
+      "Built a tiered deposit reservation system with interactive seat selection and private event flow integrated with Midtrans payment gateway.",
     image: "/asset/rooma-ceritarasa.webp",
     links: [{ label: "Live Site", href: "https://www.roomaceritarasa.com/" }],
   },
@@ -40,29 +41,3 @@ export const projects: ProjectItem[] = [
     ],
   },
 ];
-
-export const heroStats = [
-  { value: "3+ Years", label: "Hands-on Learning" },
-  { value: "End-to-end", label: "Web, API, Mobile" },
-  { value: "DBS 2025", label: "Coding Camp Graduate" },
-];
-
-export const highlights = [
-  {
-    title: "Product-minded delivery",
-    desc: "I focus on clean UX, fast pages, and measurable performance in every build.",
-  },
-  {
-    title: "Fullstack workflow",
-    desc: "From UI to API and database, I enjoy shipping complete, real-world features.",
-  },
-  {
-    title: "Team collaboration",
-    desc: "Experienced in committees and campus orgs with clear communication and ownership.",
-  },
-];
-
-export const aboutText = {
-  id: "Halo! Saya Yohan, lulusan Informatika dari Universitas Teknologi Yogyakarta dan seorang Freelance Full Stack Web Developer yang berspesialisasi dalam membangun aplikasi web modern, antarmuka pengguna interaktif, dan sistem backend yang terukur. Dengan latar belakang yang kuat dalam pengembangan web full stack, saya memiliki pengalaman merancang dan mengembangkan solusi berbasis web menggunakan teknologi modern di lingkungan frontend dan backend. Saya telah membangun aplikasi seperti sistem manajemen dan platform digital dengan menerapkan praktik terbaik dalam pengembangan perangkat lunak, pemecahan masalah, dan kolaborasi.",
-  en: "Hello! I'm Yohan, an Informatics graduate from Universitas Teknologi Yogyakarta and a Full Stack Web Developer specializing in building modern web applications, interactive user interfaces, and scalable backend systems. With a strong background in full stack web development, I have experience designing and developing web-based solutions using modern technologies across frontend and backend environments. I have built applications such as management systems and digital platforms while applying best practices in software development, problem-solving, and collaboration.",
-} as const;

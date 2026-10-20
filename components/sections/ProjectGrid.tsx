@@ -54,9 +54,7 @@ export default function ProjectGrid() {
                 <h3 className="project-grid-card-title">{project.title}</h3>
 
                 {/* Tech stack tags */}
-                <p className="project-grid-card-tech">
-                  {project.tech.join(" • ")}
-                </p>
+                <p className="project-grid-card-tech">{project.tech.join(" • ")}</p>
               </div>
             </Link>
           </ScrollReveal>

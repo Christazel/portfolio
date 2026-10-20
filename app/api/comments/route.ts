@@ -37,14 +37,16 @@ function getClientIp(req: Request): string {
 }
 
 function sanitizeInput(text: string): string {
-  return text
-    // Remove non-printable / control ASCII characters
-    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "")
-    // Strip raw HTML tags to prevent storing script or HTML injection
-    .replace(/<[^>]*>?/gm, "")
-    // Collapse excessive consecutive newlines to prevent UI visual DoS
-    .replace(/\n{3,}/g, "\n\n")
-    .trim();
+  return (
+    text
+      // Remove non-printable / control ASCII characters
+      .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "")
+      // Strip raw HTML tags to prevent storing script or HTML injection
+      .replace(/<[^>]*>?/gm, "")
+      // Collapse excessive consecutive newlines to prevent UI visual DoS
+      .replace(/\n{3,}/g, "\n\n")
+      .trim()
+  );
 }
 
 const ALLOWED_ORIGINS = [
@@ -108,18 +110,12 @@ export async function POST(req: Request) {
   // Cross-origin request validation (CSRF / Cross-Site POST protection)
   const secFetchSite = req.headers.get("sec-fetch-site");
   if (secFetchSite === "cross-site") {
-    return NextResponse.json(
-      { message: "Cross-site requests are not allowed." },
-      { status: 403 }
-    );
+    return NextResponse.json({ message: "Cross-site requests are not allowed." }, { status: 403 });
   }
 
   const origin = req.headers.get("origin");
   if (origin && !ALLOWED_ORIGINS.some((allowed) => origin.startsWith(allowed))) {
-    return NextResponse.json(
-      { message: "Invalid request origin." },
-      { status: 403 }
-    );
+    return NextResponse.json({ message: "Invalid request origin." }, { status: 403 });
   }
 
   // Strict Content-Type enforcement
@@ -134,10 +130,7 @@ export async function POST(req: Request) {
   // Anti-DoS payload size guard: maximum 15 KB
   const contentLength = req.headers.get("content-length");
   if (contentLength && parseInt(contentLength, 10) > 15_000) {
-    return NextResponse.json(
-      { message: "Ukuran permintaan terlalu besar." },
-      { status: 413 }
-    );
+    return NextResponse.json({ message: "Ukuran permintaan terlalu besar." }, { status: 413 });
   }
 
   try {

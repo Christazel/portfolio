@@ -15,7 +15,8 @@ export default function NotFound() {
           </h1>
 
           <p className="text-neutral-600 dark:text-neutral-400 text-sm sm:text-base leading-relaxed mb-8">
-            The page you are looking for doesn&apos;t exist, has been moved, or the link may be outdated.
+            The page you are looking for doesn&apos;t exist, has been moved, or the link may be
+            outdated.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-3">

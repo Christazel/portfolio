@@ -1,4 +1,4 @@
-// Experience & Education timeline section — 2-col layout matching udindwy.vercel.app/about
+// Experience & Education timeline section
 import ScrollReveal from "@/components/animations/ScrollReveal";
 
 const experiences = [

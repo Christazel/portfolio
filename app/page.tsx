@@ -8,10 +8,7 @@ const jsonLd = {
   url: "https://christazel.vercel.app",
   image: "https://christazel.vercel.app/asset/profile_800.webp",
   jobTitle: "Freelance Full Stack Web Developer",
-  sameAs: [
-    "https://github.com/Christazel",
-    "https://www.linkedin.com/in/yohan-christazel-jeffry",
-  ],
+  sameAs: ["https://github.com/Christazel", "https://www.linkedin.com/in/yohan-christazel-jeffry"],
   knowsAbout: ["Next.js", "Fullstack Development", "API Development", "UI/UX", "Mobile"],
 };
 
