@@ -142,9 +142,7 @@ function RecentNoteCard({ comment, isLight }: { comment: CommentItem; isLight?: 
               {comment.name}
             </p>
             <span
-              className={`h-1 w-1 shrink-0 rounded-full ${
-                isLight ? "bg-zinc-400" : "bg-zinc-700"
-              }`}
+              className={`h-1 w-1 shrink-0 rounded-full ${isLight ? "bg-zinc-400" : "bg-zinc-700"}`}
             />
             <span className={`shrink-0 ${isLight ? "text-zinc-500" : "text-zinc-600"}`}>
               {timeAgo(comment.created_at)}
@@ -495,7 +493,9 @@ export default function CommentBox({
         {showRecentNotes && (
           <div
             className={`contact-notes-full flex-1 ${
-              showComposer ? `mt-8 border-t ${isLight ? "border-zinc-950/10" : "border-white/10"} pt-6` : ""
+              showComposer
+                ? `mt-8 border-t ${isLight ? "border-zinc-950/10" : "border-white/10"} pt-6`
+                : ""
             }`}
           >
             <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-1">
@@ -652,7 +652,7 @@ export default function CommentBox({
                   isLight
                     ? "border-zinc-950/10 bg-zinc-950/[0.035] text-zinc-950"
                     : "border-white/10 bg-zinc-950/60 text-zinc-100"
-                  }`}
+                }`}
                 maxLength={MAX_LEN}
                 aria-describedby={messageHelpId}
               />

@@ -65,13 +65,19 @@ export default async function ProjectDetailPage({ params }: Props) {
       <main className="flex-1">
         <div className="page-content pt-20 md:pt-24">
           <div className="pd-page">
-
             {/* ── Back nav ── */}
             <div className="pd-nav">
               <Link href="/work" className="pd-back">
-                <svg className="pd-back-icon" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" strokeWidth="1.75" strokeLinecap="round"
-                  strokeLinejoin="round" aria-hidden="true">
+                <svg
+                  className="pd-back-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.75"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
                   <path d="m15 18-6-6 6-6" />
                 </svg>
                 Back to Portfolio
@@ -102,19 +108,15 @@ export default async function ProjectDetailPage({ params }: Props) {
 
             {/* ── Content grid ── */}
             <div className="pd-grid">
-
               {/* Left — About */}
               <div className="pd-about">
                 <h2 className="pd-about-title">About Project</h2>
                 <p className="pd-about-desc">{project.desc}</p>
-                {project.highlight && (
-                  <p className="pd-about-highlight">{project.highlight}</p>
-                )}
+                {project.highlight && <p className="pd-about-highlight">{project.highlight}</p>}
               </div>
 
               {/* Right — Sidebar */}
               <aside className="pd-sidebar">
-
                 {/* Project details block */}
                 <div className="pd-sidebar-card">
                   <p className="pd-sidebar-label">PROJECT DETAILS</p>
@@ -141,9 +143,16 @@ export default async function ProjectDetailPage({ params }: Props) {
                         className="pd-cta"
                       >
                         <span>{link.label}</span>
-                        <svg className="pd-cta-icon" viewBox="0 0 24 24" fill="none"
-                          stroke="currentColor" strokeWidth="1.75" strokeLinecap="round"
-                          strokeLinejoin="round" aria-hidden="true">
+                        <svg
+                          className="pd-cta-icon"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.75"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          aria-hidden="true"
+                        >
                           <path d="M7 17 17 7M7 7h10v10" />
                         </svg>
                       </a>
@@ -156,14 +165,14 @@ export default async function ProjectDetailPage({ params }: Props) {
                   <p className="pd-sidebar-label">TECH STACK</p>
                   <div className="pd-tech-wrap">
                     {project.tech.map((t) => (
-                      <span key={t} className="pd-tech-badge">{t}</span>
+                      <span key={t} className="pd-tech-badge">
+                        {t}
+                      </span>
                     ))}
                   </div>
                 </div>
-
               </aside>
             </div>
-
           </div>
         </div>
       </main>

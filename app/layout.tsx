@@ -5,6 +5,7 @@ import { Geist } from "next/font/google";
 import OpeningLoader from "@/components/layout/OpeningLoader";
 import PageTransition from "@/components/layout/PageTransition";
 import Navbar from "@/components/sections/Navbar";
+import { ThemeProvider } from "@/context/ThemeContext";
 
 const CursorFollower = dynamic(() => import("@/components/layout/CursorFollower"));
 
@@ -94,8 +95,6 @@ export const viewport: Viewport = {
   colorScheme: "dark",
   themeColor: "#09090b",
 };
-
-import { ThemeProvider } from "@/context/ThemeContext";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

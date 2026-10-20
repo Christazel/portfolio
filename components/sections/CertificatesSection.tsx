@@ -13,7 +13,8 @@ export default function CertificatesSection() {
         <div className="about-new-header text-center flex flex-col items-center justify-center mx-auto max-w-2xl mb-8 md:mb-10">
           <h1 className="about-new-heading text-center">Certificates</h1>
           <p className="about-new-subheading text-center max-w-xl mx-auto">
-            A verified collection of professional competency certifications and technical credentials issued by Dicoding Academy, AWS, and Google Developers Partners.
+            A verified collection of professional competency certifications and technical
+            credentials issued by Dicoding Academy, AWS, and Google Developers Partners.
           </p>
         </div>
       </ScrollReveal>

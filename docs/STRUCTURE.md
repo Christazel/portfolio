@@ -28,6 +28,7 @@ app/
 ```
 
 **Key Routing Rules:**
+
 - Each route has its own dedicated directory (`about/`, `work/`, `certificates/`, `contact/`, `projects/[slug]/`).
 - `page.tsx` defines the main UI for each route.
 - `layout.tsx` wraps all child routes with persistent shell components (`ThemeProvider`, `Navbar`, `OpeningLoader`, `CursorFollower`).
@@ -113,9 +114,11 @@ The website uses Tailwind CSS v4 paired with custom tokens in `app/globals.css`.
 - **Light Mode**: Crisp `#ffffff` backgrounds with `text-neutral-900` and `border-neutral-200`.
 
 **Best Practice:**
+
 ```tsx
 // ✅ Always provide both light and dark pairs
-className="bg-white dark:bg-black text-neutral-900 dark:text-neutral-100 border border-neutral-200 dark:border-neutral-800"
+className =
+  "bg-white dark:bg-black text-neutral-900 dark:text-neutral-100 border border-neutral-200 dark:border-neutral-800";
 ```
 
 ### Mobile-First Responsive Breakpoints
@@ -129,7 +132,9 @@ className="bg-white dark:bg-black text-neutral-900 dark:text-neutral-100 border 
 ## 🛡️ Coding Best Practices
 
 ### Import Path Conventions
+
 Use `@/` alias for all internal imports:
+
 ```typescript
 // ✅ Good
 import Navbar from "@/components/sections/Navbar";
@@ -138,20 +143,19 @@ import { supabase } from "@/lib/supabase";
 ```
 
 ### External Links Security
+
 Always add `target="_blank"` and `rel="noopener noreferrer"` to external links:
+
 ```tsx
-<a
-  href={externalUrl}
-  target="_blank"
-  rel="noopener noreferrer"
-  className="..."
->
+<a href={externalUrl} target="_blank" rel="noopener noreferrer" className="...">
   View Credential
 </a>
 ```
 
 ### TypeScript Validation & Linting
+
 Always ensure zero errors before committing:
+
 ```bash
 npm run type-check   # Validate TypeScript types
 npm run lint         # Validate ESLint rules
