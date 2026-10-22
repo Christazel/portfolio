@@ -4,7 +4,7 @@ import { projects } from "@/app/data/homeData";
 const siteUrl = "https://christazel.vercel.app";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const currentDate = new Date("2026-10-16");
+  const currentDate = new Date();
 
   const staticRoutes: MetadataRoute.Sitemap = [
     {
