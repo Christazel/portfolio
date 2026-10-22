@@ -223,6 +223,7 @@ export default function CommentBox({
 
   const [toast, setToast] = useState<{ type: ToastType; text: string } | null>(null);
   const toastTimer = useRef<number | null>(null);
+  const isMountedRef = useRef<boolean>(true);
   const formId = useId();
   const nameId = `${formId}-name`;
   const messageId = `${formId}-message`;
@@ -248,16 +249,29 @@ export default function CommentBox({
 
       try {
         const data = await fetchComments(force);
-        setItems(data);
+        if (isMountedRef.current) {
+          setItems(data);
+        }
       } catch (e: unknown) {
-        const error = e instanceof Error ? e.message : "Gagal memuat komentar.";
-        showToast("error", error);
+        if (isMountedRef.current) {
+          const error = e instanceof Error ? e.message : "Gagal memuat komentar.";
+          showToast("error", error);
+        }
       } finally {
-        setLoadingList(false);
+        if (isMountedRef.current) {
+          setLoadingList(false);
+        }
       }
     },
     [showToast]
   );
+
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     const cancelScheduledLoad = scheduleAfterInteractive(() => {
@@ -343,10 +357,20 @@ export default function CommentBox({
             className={[
               "fixed inset-x-4 top-4 z-50 rounded-2xl border px-4 py-3 text-sm shadow-2xl backdrop-blur-xl sm:inset-x-auto sm:right-4",
               toast.type === "success"
-                ? "border-emerald-400/30 bg-emerald-500/15 text-emerald-100"
+                ? isLight
+                  ? "border-emerald-500/30 bg-emerald-50 text-emerald-800"
+                  : "border-emerald-400/30 bg-emerald-500/15 text-emerald-100"
                 : "",
-              toast.type === "error" ? "border-red-400/30 bg-red-500/15 text-red-100" : "",
-              toast.type === "info" ? "border-white/15 bg-zinc-900/80 text-zinc-100" : "",
+              toast.type === "error"
+                ? isLight
+                  ? "border-red-400/30 bg-red-50 text-red-800"
+                  : "border-red-400/30 bg-red-500/15 text-red-100"
+                : "",
+              toast.type === "info"
+                ? isLight
+                  ? "border-zinc-300 bg-white text-zinc-800"
+                  : "border-white/15 bg-zinc-900/80 text-zinc-100"
+                : "",
             ].join(" ")}
           >
             {toast.text}
@@ -503,7 +527,7 @@ export default function CommentBox({
                 Recent notes
               </p>
               <p className="text-xs text-zinc-600">
-                {items.length}/{items.length || 0}
+                {Math.min(items.length, maxVisible)}/{items.length}
               </p>
             </div>
 
@@ -531,10 +555,20 @@ export default function CommentBox({
           className={[
             "fixed inset-x-4 top-4 z-50 rounded-2xl border px-4 py-3 text-sm shadow-2xl backdrop-blur-xl sm:inset-x-auto sm:right-4",
             toast.type === "success"
-              ? "border-emerald-400/30 bg-emerald-500/15 text-emerald-100"
+              ? isLight
+                ? "border-emerald-500/30 bg-emerald-50 text-emerald-800"
+                : "border-emerald-400/30 bg-emerald-500/15 text-emerald-100"
               : "",
-            toast.type === "error" ? "border-red-400/30 bg-red-500/15 text-red-100" : "",
-            toast.type === "info" ? "border-white/15 bg-zinc-900/80 text-zinc-100" : "",
+            toast.type === "error"
+              ? isLight
+                ? "border-red-400/30 bg-red-50 text-red-800"
+                : "border-red-400/30 bg-red-500/15 text-red-100"
+              : "",
+            toast.type === "info"
+              ? isLight
+                ? "border-zinc-300 bg-white text-zinc-800"
+                : "border-white/15 bg-zinc-900/80 text-zinc-100"
+              : "",
           ].join(" ")}
         >
           {toast.text}
