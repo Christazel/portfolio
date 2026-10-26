@@ -1,5 +1,16 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Footer from "@/components/sections/Footer";
+
+export const metadata: Metadata = {
+  title: "404 - Page Not Found | Yohan Christazel Jeffry",
+  description:
+    "The page you are looking for doesn't exist, has been moved, or the link may be outdated.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function NotFound() {
   return (
