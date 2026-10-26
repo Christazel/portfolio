@@ -36,6 +36,11 @@ const nextConfig: NextConfig = {
         destination: "/work",
         permanent: true,
       },
+      {
+        source: "/asset/yohan-christazel-jeffry-cv.pdf",
+        destination: "/about",
+        permanent: true,
+      },
     ];
   },
   async headers() {
