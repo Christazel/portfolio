@@ -3,7 +3,8 @@ import { supabase } from "../../../lib/supabase";
 
 export const dynamic = "force-dynamic";
 
-// In-memory rate limiting map
+// In-memory rate limiting map with hard cap to prevent memory exhaustion DoS
+const MAX_RATE_LIMIT_ENTRIES = 1000;
 const rateLimitMap = new Map<string, { count: number; expiresAt: number }>();
 
 function isRateLimited(key: string, maxRequests: number, windowMs = 60_000): boolean {
@@ -11,12 +12,22 @@ function isRateLimited(key: string, maxRequests: number, windowMs = 60_000): boo
   const record = rateLimitMap.get(key);
 
   if (!record || now > record.expiresAt) {
-    rateLimitMap.set(key, { count: 1, expiresAt: now + windowMs });
-    if (rateLimitMap.size > 1000) {
+    // If map reaches capacity, clean up expired entries first
+    if (rateLimitMap.size >= MAX_RATE_LIMIT_ENTRIES) {
       for (const [k, val] of rateLimitMap.entries()) {
         if (now > val.expiresAt) rateLimitMap.delete(k);
       }
     }
+    // Hard cap defense: if still at capacity, evict oldest entries (FIFO)
+    while (rateLimitMap.size >= MAX_RATE_LIMIT_ENTRIES) {
+      const oldestKey = rateLimitMap.keys().next().value;
+      if (oldestKey) {
+        rateLimitMap.delete(oldestKey);
+      } else {
+        break;
+      }
+    }
+    rateLimitMap.set(key, { count: 1, expiresAt: now + windowMs });
     return false;
   }
 
@@ -41,6 +52,8 @@ function sanitizeInput(text: string): string {
     text
       // Remove non-printable / control ASCII characters
       .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "")
+      // Strip zero-width and invisible unicode characters (anti-spoofing / invisible spam)
+      .replace(/[\u200B-\u200D\uFEFF\u202A-\u202E]/g, "")
       // Strip raw HTML tags to prevent storing script or HTML injection
       .replace(/<[^>]*>?/gm, "")
       // Collapse excessive consecutive newlines to prevent UI visual DoS
@@ -134,10 +147,23 @@ export async function POST(req: Request) {
   }
 
   try {
-    const body = await req.json().catch(() => null);
+    const rawBody = await req.json().catch(() => null);
+
+    // Reject non-plain objects, arrays, or null payloads
+    if (!rawBody || typeof rawBody !== "object" || Array.isArray(rawBody)) {
+      return NextResponse.json({ message: "Payload tidak valid." }, { status: 400 });
+    }
+
+    // Prototype pollution guard: disallow hazardous object keys
+    const keys = Object.keys(rawBody);
+    if (keys.some((k) => k === "__proto__" || k === "constructor" || k === "prototype")) {
+      return NextResponse.json({ message: "Payload tidak valid." }, { status: 400 });
+    }
+
+    const body = rawBody as Record<string, unknown>;
 
     // Honeypot check: if bot filled hidden website field, reject silently
-    if (body?.website) {
+    if (body.website) {
       return NextResponse.json({ message: "Komentar berhasil dikirim." }, { status: 200 });
     }
 
