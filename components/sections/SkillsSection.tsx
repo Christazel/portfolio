@@ -35,7 +35,7 @@ export default function SkillsSection() {
                 <h4 className="skills-new-card-title">{group.title}</h4>
                 <div className="skills-new-chips">
                   {group.items.map((item) => (
-                    <span key={item} className="skills-new-chip" tabIndex={0}>
+                    <span key={item} className="skills-new-chip">
                       {item}
                     </span>
                   ))}

@@ -11,7 +11,7 @@ export default function CertificatesSection() {
       {/* ── Heading (matching About & My Work header styling) ── */}
       <ScrollReveal delay={0} duration={0.8} distance={24}>
         <div className="about-new-header text-center flex flex-col items-center justify-center mx-auto max-w-2xl mb-8 md:mb-10">
-          <h2 className="about-new-heading text-center">Certificates</h2>
+          <h1 className="about-new-heading text-center">Certificates</h1>
           <p className="about-new-subheading text-center max-w-xl mx-auto">
             A verified collection of professional competency certifications and technical
             credentials issued by Dicoding Academy, AWS, and Google Developers Partners.
@@ -82,7 +82,7 @@ export default function CertificatesSection() {
               )}
 
               {/* Title */}
-              <h2 className="font-bold text-neutral-900 dark:text-neutral-100 mb-2 leading-snug line-clamp-2 text-base group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+              <h3 className="font-bold text-neutral-900 dark:text-neutral-100 mb-2 leading-snug line-clamp-2 text-base group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                 <a
                   href={cert.credentialUrl}
                   target="_blank"
@@ -91,7 +91,7 @@ export default function CertificatesSection() {
                 >
                   {cert.title}
                 </a>
-              </h2>
+              </h3>
 
               {/* Description */}
               <p className="text-xs text-neutral-600 dark:text-neutral-400 mb-3 line-clamp-3 leading-relaxed">

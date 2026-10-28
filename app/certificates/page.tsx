@@ -11,7 +11,24 @@ export const metadata: Metadata = {
     description:
       "A collection of competency certifications, technical credentials, and academic achievements earned by Yohan Christazel Jeffry.",
     url: "https://christazel.vercel.app/certificates",
+    siteName: "Yohan Christazel Jeffry Portfolio",
     type: "website",
+    locale: "en_US",
+    images: [
+      {
+        url: "https://christazel.vercel.app/asset/profile_800.webp",
+        width: 800,
+        height: 800,
+        alt: "Yohan Christazel Jeffry portrait",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Certificates | Yohan Christazel Jeffry",
+    description:
+      "A collection of competency certifications, technical credentials, and academic achievements earned by Yohan Christazel Jeffry.",
+    images: ["https://christazel.vercel.app/asset/profile_800.webp"],
   },
   alternates: {
     canonical: "https://christazel.vercel.app/certificates",
