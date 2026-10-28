@@ -306,19 +306,25 @@ export default function CommentBox({
 
       if (!res.ok) throw new Error(json?.message || "Gagal mengirim komentar.");
 
-      setItems((prev) => {
-        const nextItems = [json.data, ...prev];
-        commentsCache = { data: nextItems, timestamp: Date.now() };
-        return compact ? nextItems : nextItems.slice(0, maxVisible);
-      });
-      setMessage("");
-      setWebsite("");
-      showToast("success", "Komentar berhasil dikirim!");
+      if (isMountedRef.current) {
+        setItems((prev) => {
+          const nextItems = [json.data, ...prev];
+          commentsCache = { data: nextItems, timestamp: Date.now() };
+          return compact ? nextItems : nextItems.slice(0, maxVisible);
+        });
+        setMessage("");
+        setWebsite("");
+        showToast("success", "Komentar berhasil dikirim!");
+      }
     } catch (e: unknown) {
-      const error = e instanceof Error ? e.message : "Gagal mengirim komentar.";
-      showToast("error", error);
+      if (isMountedRef.current) {
+        const error = e instanceof Error ? e.message : "Gagal mengirim komentar.";
+        showToast("error", error);
+      }
     } finally {
-      setSending(false);
+      if (isMountedRef.current) {
+        setSending(false);
+      }
     }
   };
 
