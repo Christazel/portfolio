@@ -69,10 +69,13 @@ async function fetchComments(force = false) {
 }
 
 function timeAgo(iso: string) {
+  if (!iso) return "just now";
   const ts = new Date(iso).getTime();
+  if (Number.isNaN(ts)) return "just now";
   const diff = Date.now() - ts;
 
   const s = Math.floor(diff / 1000);
+  if (s < 5) return "just now";
   if (s < 60) return `${s}s ago`;
 
   const m = Math.floor(s / 60);
@@ -85,13 +88,16 @@ function timeAgo(iso: string) {
   return `${d}d ago`;
 }
 
-function getInitials(name: string) {
-  return name
-    .trim()
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((part) => part[0]?.toUpperCase())
-    .join("");
+function getInitials(name?: string) {
+  if (!name || typeof name !== "string") return "?";
+  return (
+    name
+      .trim()
+      .split(/\s+/)
+      .slice(0, 2)
+      .map((part) => part[0]?.toUpperCase())
+      .join("") || "?"
+  );
 }
 
 function SkeletonComment({ variant = "dark" }: { variant?: "dark" | "light" }) {
@@ -307,11 +313,13 @@ export default function CommentBox({
       if (!res.ok) throw new Error(json?.message || "Gagal mengirim komentar.");
 
       if (isMountedRef.current) {
-        setItems((prev) => {
-          const nextItems = [json.data, ...prev];
-          commentsCache = { data: nextItems, timestamp: Date.now() };
-          return compact ? nextItems : nextItems.slice(0, maxVisible);
-        });
+        if (json.data) {
+          setItems((prev) => {
+            const nextItems = [json.data, ...prev];
+            commentsCache = { data: nextItems, timestamp: Date.now() };
+            return compact ? nextItems : nextItems.slice(0, maxVisible);
+          });
+        }
         setMessage("");
         setWebsite("");
         showToast("success", "Komentar berhasil dikirim!");

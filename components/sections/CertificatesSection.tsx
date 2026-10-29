@@ -82,7 +82,7 @@ export default function CertificatesSection() {
               )}
 
               {/* Title */}
-              <h3 className="font-bold text-neutral-900 dark:text-neutral-100 mb-2 leading-snug line-clamp-2 text-base group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+              <h2 className="font-bold text-neutral-900 dark:text-neutral-100 mb-2 leading-snug line-clamp-2 text-base group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                 <a
                   href={cert.credentialUrl}
                   target="_blank"
@@ -91,7 +91,7 @@ export default function CertificatesSection() {
                 >
                   {cert.title}
                 </a>
-              </h3>
+              </h2>
 
               {/* Description */}
               <p className="text-xs text-neutral-600 dark:text-neutral-400 mb-3 line-clamp-3 leading-relaxed">
