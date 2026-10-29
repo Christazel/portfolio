@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "clean": "node -e \"['.next', 'out', 'tsconfig.tsbuildinfo', '.eslintcache'].forEach(f => require('fs').rmSync(f, { recursive: true, force: true }))\"",
+    "clean": "node -e \"['.next', 'out', 'tsconfig.tsbuildinfo', '.eslintcache'].forEach(f => require('fs').rmSync(f, { recursive: true, force: true }))\" && next typegen",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\" --ignore-path .gitignore",
