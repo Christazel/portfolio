@@ -51,7 +51,7 @@ export default function ProjectGrid() {
                   <rect x="9" y="9" width="7" height="7" rx="1" />
                 </svg>
 
-                <h3 className="project-grid-card-title">{project.title}</h3>
+                <h2 className="project-grid-card-title">{project.title}</h2>
 
                 {/* Tech stack tags */}
                 <p className="project-grid-card-tech">{project.tech.join(" • ")}</p>

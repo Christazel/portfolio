@@ -52,7 +52,7 @@ function TimelineItem({
     <ScrollReveal delay={delay} duration={0.75} distance={24}>
       <div className="timeline-item">
         <div className="timeline-dot" aria-hidden="true" />
-        <h4 className="timeline-title">{title}</h4>
+        <h3 className="timeline-title">{title}</h3>
         <p className="timeline-sub">{sub}</p>
         <p className="timeline-period">{period}</p>
       </div>
@@ -68,7 +68,7 @@ export default function ExperienceEducationSection() {
           {/* Work Experience */}
           <div className="exp-edu-col">
             <ScrollReveal delay={0} duration={0.75} distance={24}>
-              <h3 className="exp-edu-col-heading">Work Experience</h3>
+              <h2 className="exp-edu-col-heading">Work Experience</h2>
             </ScrollReveal>
             <div className="timeline-rail">
               {experiences.map((exp, i) => (
@@ -86,7 +86,7 @@ export default function ExperienceEducationSection() {
           {/* Education */}
           <div className="exp-edu-col">
             <ScrollReveal delay={0.04} duration={0.75} distance={24}>
-              <h3 className="exp-edu-col-heading">Education</h3>
+              <h2 className="exp-edu-col-heading">Education</h2>
             </ScrollReveal>
             <div className="timeline-rail">
               {education.map((edu, i) => (

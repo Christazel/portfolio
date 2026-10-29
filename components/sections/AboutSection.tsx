@@ -38,11 +38,11 @@ export default function AboutSection() {
           {/* Description — slides in from right */}
           <ScrollReveal delay={0.24} duration={0.8} distance={30} direction="left">
             <div className="about-new-desc">
-              <h3 className="about-new-title">
+              <h2 className="about-new-title">
                 Freelance Full Stack
                 <br />
                 Web Developer.
-              </h3>
+              </h2>
               <div className="about-new-body-paragraphs">
                 <p>
                   Hello! I&apos;m Yohan, an Informatics graduate from Universitas Teknologi

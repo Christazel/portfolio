@@ -62,6 +62,33 @@ export default function Navbar() {
 
   const handleClose = () => setIsMobileMenuOpen(false);
 
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (prevPathname !== pathname) {
+    setPrevPathname(pathname);
+    setIsMobileMenuOpen(false);
+  }
+
+  // Close mobile drawer on Escape key or resize to desktop
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsMobileMenuOpen(false);
+    };
+
+    const handleResize = () => {
+      if (window.innerWidth >= 768) setIsMobileMenuOpen(false);
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [isMobileMenuOpen]);
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 pointer-events-none">
       <div className="w-full flex justify-center px-3 sm:px-6 md:px-8">
