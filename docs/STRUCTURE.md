@@ -18,8 +18,7 @@ app/
 │       └── route.ts              # GET & POST /api/comments (Supabase guestbook)
 ├── data/                         # Static content data & types
 │   ├── certificatesData.ts       # Verified certificates dataset & interfaces
-│   ├── homeData.ts               # Featured projects list & profile stats
-│   └── skillsData.ts             # Skills, competencies, and tools dataset
+│   └── homeData.ts               # Featured projects list & profile stats
 ├── globals.css                   # Global design tokens, Tailwind v4, dark/light styles
 ├── layout.tsx                    # Root layout (Theme script, Geist font, Navbar, SEO metadata)
 ├── not-found.tsx                 # Custom 404 page (Dark & Light mode adaptive)
