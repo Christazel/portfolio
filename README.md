@@ -13,16 +13,16 @@ A modern, high-performance portfolio website built with Next.js, React, and Type
 
 ## 🛠️ Tech Stack
 
-| Category         | Technology                               |
-| ---------------- | ---------------------------------------- |
-| **Framework**    | Next.js 16.1.1                           |
-| **UI Library**   | React 19.2.3                             |
-| **Language**     | TypeScript 5                             |
-| **Styling**      | Tailwind CSS 4                           |
-| **Animations**   | CSS transitions, React animation helpers |
-| **Backend**      | Supabase                                 |
-| **Icons**        | React Icons                              |
-| **Code Quality** | ESLint, Prettier                         |
+| Category         | Technology                     |
+| ---------------- | ------------------------------ |
+| **Framework**    | Next.js 16.4.3                 |
+| **UI Library**   | React 19.2.3                   |
+| **Language**     | TypeScript 5                   |
+| **Styling**      | Tailwind CSS 4                 |
+| **Animations**   | Framer Motion, CSS transitions |
+| **Backend**      | Supabase                       |
+| **Icons**        | Lucide React, React Icons      |
+| **Code Quality** | ESLint, Prettier               |
 
 ## 🚀 Quick Start
 
@@ -47,18 +47,17 @@ See [docs/DEVELOPMENT.md](./docs/DEVELOPMENT.md) for detailed structure and guid
 
 ```
 portfolio/
-├── app/                    # Next.js App Router
-│   ├── api/               # API routes
-│   ├── globals.css        # Global styles
-│   ├── layout.tsx         # Root layout
-│   └── page.tsx           # Home page
+├── app/                    # Next.js App Router (pages & api)
 ├── components/            # Reusable components
-│   ├── animations/        # Animation components
-│   ├── layout/            # Layout components
-│   └── ui/                # UI components
-├── lib/                   # Utilities & configs
-├── utils/                 # Helper functions
-└── public/                # Static assets
+│   ├── animations/        # ScrollReveal animation helper
+│   ├── layout/            # Layout components (Cursor, Loader, Transition)
+│   ├── sections/          # Page sections (Navbar, Hero, About, Work, etc.)
+│   └── ui/                # UI primitives (CommentBox, LaptopMockup, ThemeToggle)
+├── context/               # Global state (ThemeContext)
+├── docs/                  # Project documentation & guides
+├── lib/                   # Integrations (Supabase client)
+├── public/                # Static assets (images, icons)
+└── scripts/               # Project helper scripts
 ```
 
 ## 📚 Scripts
@@ -69,10 +68,12 @@ npm run dev              # Start dev server
 npm run build            # Build for production
 npm run start            # Start production server
 
-# Code Quality
+# Code Quality & Maintenance
 npm run lint             # Run ESLint
 npm run format           # Format code with Prettier
 npm run format:check     # Check formatting
+npm run type-check       # Validate TypeScript
+npm run clean            # Clean build cache & regenerate types
 ```
 
 ### Bundle Analyzer
@@ -133,36 +134,30 @@ npm run lint
 npm run format
 ```
 
-## 🎨 Components
+## 🎨 Key Components
 
 ### Animation Components
 
 ```typescript
-import ScrollReveal from '@/components/animations/ScrollReveal';
-import GlitchText from '@/components/animations/GlitchText';
+import ScrollReveal from "@/components/animations/ScrollReveal";
 
 // Usage
-<ScrollReveal delay={0.2}>
+<ScrollReveal delay={0.2} duration={0.8} distance={24}>
   <h2>Section Title</h2>
 </ScrollReveal>
-
-<GlitchText>Glitch Effect</GlitchText>
 ```
 
-### Performance Utilities
+### UI Components
 
 ```typescript
-import { debounce, throttle, rafThrottle, prefersReducedMotion } from "@/utils/performanceOptimize";
+import LaptopMockup from "@/components/ui/LaptopMockup";
+import ThemeToggle from "@/components/ui/ThemeToggle";
 
-// Throttled event handler
-const handleMouseMove = rafThrottle((e) => {
-  updatePosition(e.clientX, e.clientY);
-});
+// Responsive Laptop Mockup
+<LaptopMockup src="/asset/rooma-ceritarasa.webp" alt="Project preview" />
 
-// Debounced search
-const handleSearch = debounce((query) => {
-  performSearch(query);
-}, 300);
+// Theme switch button
+<ThemeToggle />
 ```
 
 ## 🐛 Troubleshooting

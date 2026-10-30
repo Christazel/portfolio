@@ -19,15 +19,15 @@ npm run type-check           # TypeScript validation
 
 ## 📁 Where to Put Things
 
-| What               | Where                    | Example                  |
-| ------------------ | ------------------------ | ------------------------ |
-| Animated component | `components/animations/` | `ScrollReveal.tsx`       |
-| Layout piece       | `components/layout/`     | `MagneticButton.tsx`     |
-| UI component       | `components/ui/`         | `ProjectCard.tsx`        |
-| API endpoint       | `app/api/`               | `comments/route.ts`      |
-| Utility function   | `utils/`                 | `performanceOptimize.ts` |
-| Supabase config    | `lib/`                   | `supabase.ts`            |
-| Static files       | `public/asset/`          | images, videos           |
+| What               | Where                    | Example              |
+| ------------------ | ------------------------ | -------------------- |
+| Animated component | `components/animations/` | `ScrollReveal.tsx`   |
+| Page section       | `components/sections/`   | `HeroSection.tsx`    |
+| Layout piece       | `components/layout/`     | `CursorFollower.tsx` |
+| UI component       | `components/ui/`         | `LaptopMockup.tsx`   |
+| API endpoint       | `app/api/`               | `comments/route.ts`  |
+| Supabase config    | `lib/`                   | `supabase.ts`        |
+| Static files       | `public/asset/`          | images, certificates |
 
 ## 🔧 Component Template
 
@@ -84,26 +84,15 @@ export default function YourComponent({
 }
 ```
 
-## 💡 Performance Utilities
+## 💡 Performance & Animation Guidelines
 
 ```typescript
-import {
-  debounce, // Standard debounce
-  throttle, // Frame throttle
-  rafThrottle, // RAF throttle (60fps)
-  prefersReducedMotion, // Check accessibility
-  getAnimationConfig, // Smart config
-} from "@/utils/performanceOptimize";
+// Hardware-accelerated viewport animation
+import ScrollReveal from "@/components/animations/ScrollReveal";
 
-// Throttled event
-const handleMouseMove = rafThrottle((e) => {
-  console.log(e.clientX, e.clientY);
-});
-
-// Debounced search
-const handleSearch = debounce((query) => {
-  performSearch(query);
-}, 300);
+<ScrollReveal delay={0.2} duration={0.8} distance={24}>
+  <h2>Section Title</h2>
+</ScrollReveal>
 ```
 
 ## 🎨 Common Tailwind Classes
@@ -143,26 +132,16 @@ lg:w-1/2          # Large screens
 hidden md:block    # Hide on mobile
 ```
 
-## 🎞️ Animation Components
+## 🎞️ Component Examples
 
 ```typescript
-// Scroll reveal
-<ScrollReveal delay={0.2}>
+// Scroll reveal with custom distance & duration
+<ScrollReveal delay={0.2} duration={0.8} distance={24}>
   <h2>Title</h2>
 </ScrollReveal>
 
-// Glitch text
-<GlitchText>Amazing Text</GlitchText>
-
-// Magnetic button
-<MagneticButton href="/projects">
-  View Projects
-</MagneticButton>
-
-// Ripple button
-<RippleButton className="btn-neon">
-  Click Me
-</RippleButton>
+// Responsive Laptop Frame
+<LaptopMockup src="/asset/rooma-ceritarasa.webp" alt="Preview screenshot" />
 ```
 
 ## 🐛 Debug Checklist
@@ -223,7 +202,6 @@ git push origin feature-branch
 - **README.md** - Project overview
 - **DEVELOPMENT.md** - Setup & development guide
 - **STRUCTURE.md** - Folder organization
-- **OPTIMIZATION_SUMMARY.md** - Performance details
 - **.env.example** - Environment template
 
 ## 🎯 Git Workflow

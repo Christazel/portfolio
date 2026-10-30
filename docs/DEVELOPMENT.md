@@ -62,57 +62,51 @@ See `.env.example` for all available variables.
 ```
 portfolio/
 ├── app/
-│   ├── api/                    # API routes
+│   ├── (routes)/
+│   │   ├── page.tsx                  # Home page (/)
+│   │   ├── about/page.tsx            # About page (/about)
+│   │   ├── work/page.tsx             # Projects grid page (/work)
+│   │   ├── certificates/page.tsx     # Certificates & credentials page (/certificates)
+│   │   ├── contact/page.tsx          # Contact & guestbook page (/contact)
+│   │   └── projects/[slug]/page.tsx  # Dynamic project detail page (/projects/:slug)
+│   ├── api/
 │   │   └── comments/
-│   │       └── route.ts        # Comments endpoint
-│   ├── globals.css             # Global styles & animations
-│   ├── layout.tsx              # Root layout
-│   └── page.tsx                # Home page
+│   │       └── route.ts              # GET & POST /api/comments
+│   ├── data/
+│   │   ├── certificatesData.ts       # Verified certificates dataset & interfaces
+│   │   └── homeData.ts               # Featured projects list & profile stats
+│   ├── globals.css                   # Global styles & Tailwind v4
+│   ├── layout.tsx                    # Root layout
+│   ├── not-found.tsx                 # Custom 404 page
+│   ├── robots.ts                     # Search engine crawler configuration
+│   └── sitemap.ts                    # Dynamic XML sitemap generator
 │
 ├── components/
-│   ├── animations/             # Animation components
-│   │   ├── FloatingParticles.tsx
-│   │   ├── GlitchText.tsx
-│   │   ├── ParallaxSection.tsx
-│   │   ├── Reveal.tsx
-│   │   ├── RippleButton.tsx
-│   │   ├── ScrollProgress.tsx
-│   │   ├── ScrollReveal.tsx
-│   │
-│   │
-│   ├── layout/                 # Layout components
-│   │   ├── BackgroundEffects.tsx
-│   │   ├── MagneticButton.tsx
-│   │   └── NeonBackground.tsx
-│   │
-│   └── ui/                     # UI components
-│       ├── CommentBox.tsx
-│       ├── ProjectCard.tsx
-│       ├── Section.tsx
-│       └── SkillBadge.tsx
+│   ├── sections/                     # Page sections (Navbar, Hero, About, Work, etc.)
+│   ├── ui/                           # Reusable UI (CommentBox, LaptopMockup, ThemeToggle)
+│   ├── layout/                       # Layout components (CursorFollower, OpeningLoader, PageTransition)
+│   └── animations/                   # Animation helpers (ScrollReveal)
+│
+├── context/
+│   └── ThemeContext.tsx              # Dark/Light mode state management
 │
 ├── lib/
-│   └── supabase.ts             # Supabase client configuration
-│
-├── utils/
-│   ├── performanceOptimize.ts  # Performance utilities
-│   │   ├── debounce()
-│   │   ├── throttle()
-│   │   ├── rafThrottle()
-│   │   └── ... more utilities
-│   └── performance.ts          # [DEPRECATED - Use performanceOptimize.ts]
+│   └── supabase.ts                   # Supabase client configuration
 │
 ├── public/
-│   └── asset/                  # Static assets
+│   ├── asset/                        # Static assets (images, profile, certificates)
+│   ├── favicon.ico                   # Website favicon
+│   └── icon.svg                      # Scalable SVG site icon
 │
-├── .env.local                  # Environment variables (local)
-├── .env.example                # Environment template
+├── docs/                             # Documentation guides
+├── scripts/                          # Project helper scripts
+├── .env.example                      # Environment template
 ├── .gitignore
-├── .prettierrc                 # Prettier config
-├── eslint.config.mjs           # ESLint config
-├── next.config.ts              # Next.js config
-├── postcss.config.mjs          # PostCSS config
-├── tsconfig.json               # TypeScript config
+├── .prettierrc                       # Prettier config
+├── eslint.config.mjs                 # ESLint config
+├── next.config.ts                    # Next.js config
+├── postcss.config.mjs                # PostCSS config
+├── tsconfig.json                     # TypeScript config
 ├── package.json
 └── README.md
 ```
@@ -163,17 +157,17 @@ export default memo(function MyComponent() {
   // component code
 });
 
-// ✅ DO: Use performance utilities
-import { rafThrottle, debounce } from "@/utils/performanceOptimize";
+// ✅ DO: Use performant animations with requestAnimationFrame or IntersectionObserver
+import ScrollReveal from "@/components/animations/ScrollReveal";
 
-const handleMouseMove = rafThrottle((e) => {
-  // smooth 60fps updates
-});
-
-// ❌ DON'T: Direct event handlers without throttling
-const handleMouseMove = (e) => {
-  // fires 100+ times per second!
-};
+// Component with lightweight viewport reveal
+export default function MySection() {
+  return (
+    <ScrollReveal delay={0.2} duration={0.8} distance={24}>
+      <h2>Section Title</h2>
+    </ScrollReveal>
+  );
+}
 ```
 
 ### Import Paths
@@ -182,31 +176,21 @@ Always use absolute imports with `@/` prefix:
 
 ```typescript
 // ✅ Good
-import Button from "@/components/ui/Button";
-import { debounce } from "@/utils/performanceOptimize";
+import ThemeToggle from "@/components/ui/ThemeToggle";
+import { supabase } from "@/lib/supabase";
 
 // ❌ Bad
-import Button from "../../../components/ui/Button";
-import { debounce } from "../../utils/performanceOptimize";
+import ThemeToggle from "../../../components/ui/ThemeToggle";
+import { supabase } from "../../lib/supabase";
 ```
 
 ### Animation Components Usage
 
 ```typescript
-// Scroll reveal animation
-<ScrollReveal delay={0.2}>
+// Scroll reveal animation with reduced motion support
+<ScrollReveal delay={0.2} duration={0.8} distance={24}>
   <h2>Section Title</h2>
 </ScrollReveal>
-
-// Magnetic button
-<MagneticButton href="/projects">
-  View Projects
-</MagneticButton>
-
-// Glitch text effect
-<GlitchText className="text-4xl">
-  Hi! I'm Developer
-</GlitchText>
 ```
 
 ---
@@ -391,7 +375,7 @@ A: Create a new folder in `app/` (e.g., `app/projects/page.tsx`)
 A: Import from `components/animations/` and wrap your content
 
 **Q: How do I optimize performance?**
-A: Use utilities from `utils/performanceOptimize.ts` and check OPTIMIZATION_SUMMARY.md
+A: Use lightweight CSS transitions, memoized components, Next.js image optimization, and `ScrollReveal` IntersectionObserver with prefers-reduced-motion support.
 
 **Q: Where do I put API routes?**
 A: Create files in `app/api/` (e.g., `app/api/endpoint/route.ts`)
