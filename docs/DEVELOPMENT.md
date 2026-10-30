@@ -6,7 +6,7 @@ Modern, performant portfolio website built with Next.js, React, and TypeScript. 
 
 **Tech Stack:**
 
-- Next.js 16.2.6 (App Router)
+- Next.js 16.4.3 (App Router)
 - React 19.2.3
 - TypeScript 5.x
 - Tailwind CSS 4
@@ -271,7 +271,7 @@ className="
 
 ```json
 {
-  "next": "16.2.6",
+  "next": "16.4.3",
   "react": "19.2.3",
   "typescript": "5.x",
   "framer-motion": "12.23.26",
