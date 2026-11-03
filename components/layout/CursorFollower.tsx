@@ -40,6 +40,31 @@ function CursorFollowerComponent() {
 
       ring.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%) scale(${currentScale})`;
       trail.style.transform = `translate3d(${trailX}px, ${trailY}px, 0) translate(-50%, -50%)`;
+
+      const dx = targetX - currentX;
+      const dy = targetY - currentY;
+      const dtx = targetX - trailX;
+      const dty = targetY - trailY;
+      const ds = targetScale - currentScale;
+
+      if (
+        Math.abs(dx) < 0.05 &&
+        Math.abs(dy) < 0.05 &&
+        Math.abs(dtx) < 0.05 &&
+        Math.abs(dty) < 0.05 &&
+        Math.abs(ds) < 0.005
+      ) {
+        currentX = targetX;
+        currentY = targetY;
+        trailX = targetX;
+        trailY = targetY;
+        currentScale = targetScale;
+        ring.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%) scale(${currentScale})`;
+        trail.style.transform = `translate3d(${trailX}px, ${trailY}px, 0) translate(-50%, -50%)`;
+        frameId = null;
+        return;
+      }
+
       frameId = window.requestAnimationFrame(render);
     };
 
@@ -78,20 +103,24 @@ function CursorFollowerComponent() {
       if (target instanceof Element && target.closest(INTERACTIVE_SELECTOR)) {
         ring.classList.add("cursor-follower-active");
         targetScale = 1.38;
+        startRender();
         return;
       }
 
       ring.classList.remove("cursor-follower-active");
       targetScale = 1;
+      startRender();
     };
 
     const handlePointerDown = () => {
       targetScale = 0.82;
+      startRender();
     };
 
     const handlePointerUp = (event: PointerEvent) => {
       const target = event.target;
       targetScale = target instanceof Element && target.closest(INTERACTIVE_SELECTOR) ? 1.38 : 1;
+      startRender();
     };
 
     window.addEventListener("pointermove", handlePointerMove, { passive: true });

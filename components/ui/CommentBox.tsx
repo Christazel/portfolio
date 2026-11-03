@@ -183,11 +183,7 @@ function RecentNotesMarquee({ items, isLight }: { items: CommentItem[]; isLight?
         >
           <div className="notes-marquee-track">
             {[0, 1, 2].map((loop) => (
-              <div
-                key={loop}
-                className="notes-marquee-sequence"
-                aria-hidden={loop > 0 ? true : undefined}
-              >
+              <div key={loop} className="notes-marquee-sequence" aria-hidden={loop > 0}>
                 {row.map((comment) => (
                   <RecentNoteCard
                     key={`${rowIndex}-${loop}-${comment.id}`}
