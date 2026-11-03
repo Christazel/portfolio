@@ -38,7 +38,7 @@ const getObserverEntry = (threshold: number) => {
         }
       }
     },
-    { threshold }
+    { threshold, rootMargin: "0px 0px -5% 0px" }
   );
 
   const created = { observer, elements };
