@@ -40,22 +40,31 @@ function isRateLimited(key: string, maxRequests: number, windowMs = 60_000): boo
 }
 
 function getClientIp(req: Request): string {
-  return (
+  const rawIp =
     req.headers.get("x-real-ip")?.trim() ||
     req.headers.get("x-forwarded-for")?.split(",")[0].trim() ||
-    "127.0.0.1"
-  );
+    "127.0.0.1";
+
+  // Validate IP address format (IPv4 or IPv6) and bound length to prevent header injection
+  return /^[0-9a-fA-F:.]+$/.test(rawIp) && rawIp.length <= 45 ? rawIp : "127.0.0.1";
 }
 
 function sanitizeInput(text: string): string {
+  let sanitized = text
+    // Remove non-printable / control ASCII characters
+    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "")
+    // Strip zero-width and invisible unicode characters (anti-spoofing / invisible spam)
+    .replace(/[\u200B-\u200D\uFEFF\u202A-\u202E]/g, "");
+
+  // Recursively strip HTML-like tags until clean (prevents nested tag bypass)
+  let prev = "";
+  while (prev !== sanitized) {
+    prev = sanitized;
+    sanitized = sanitized.replace(/<[^>]*>?/gm, "");
+  }
+
   return (
-    text
-      // Remove non-printable / control ASCII characters
-      .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, "")
-      // Strip zero-width and invisible unicode characters (anti-spoofing / invisible spam)
-      .replace(/[\u200B-\u200D\uFEFF\u202A-\u202E]/g, "")
-      // Strip raw HTML tags to prevent storing script or HTML injection
-      .replace(/<[^>]*>?/gm, "")
+    sanitized
       // Collapse excessive consecutive newlines to prevent UI visual DoS
       .replace(/\n{3,}/g, "\n\n")
       .trim()
@@ -157,6 +166,12 @@ export async function POST(req: Request) {
     // Prototype pollution guard: disallow hazardous object keys
     const keys = Object.keys(rawBody);
     if (keys.some((k) => k === "__proto__" || k === "constructor" || k === "prototype")) {
+      return NextResponse.json({ message: "Payload tidak valid." }, { status: 400 });
+    }
+
+    // Strict payload whitelist guard: disallow unknown properties
+    const allowedKeys = new Set(["name", "message", "website"]);
+    if (keys.some((k) => !allowedKeys.has(k))) {
       return NextResponse.json({ message: "Payload tidak valid." }, { status: 400 });
     }
 

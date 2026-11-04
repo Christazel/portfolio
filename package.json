@@ -37,7 +37,8 @@
   },
   "overrides": {
     "postcss": "^8.5.32",
-    "browserslist": "^4.29.5"
+    "browserslist": "^4.29.5",
+    "minimatch": "^11.0.4"
   },
   "browserslist": {
     "production": [
