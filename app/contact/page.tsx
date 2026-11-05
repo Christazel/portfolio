@@ -3,6 +3,36 @@ import ContactSection from "@/components/sections/ContactSection";
 import RecentNotesSection from "@/components/sections/RecentNotesSection";
 import Footer from "@/components/sections/Footer";
 
+const siteUrl = "https://christazel.vercel.app";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  name: "Contact — Yohan Christazel Jeffry",
+  url: `${siteUrl}/contact`,
+  description:
+    "Get in touch with Yohan Christazel Jeffry — available for freelance projects, internships, and collaborations.",
+  mainEntity: {
+    "@type": "Person",
+    name: "Yohan Christazel Jeffry",
+    url: siteUrl,
+    email: "mailto:yohan.christazel9@gmail.com",
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        contactType: "customer support",
+        email: "yohan.christazel9@gmail.com",
+        availableLanguage: ["Indonesian", "English"],
+      },
+    ],
+    sameAs: [
+      "https://github.com/Christazel",
+      "https://www.linkedin.com/in/yohan-christazel-jeffry",
+      "https://wa.me/6282150754301",
+    ],
+  },
+};
+
 export const metadata: Metadata = {
   title: "Contact",
   description:
@@ -39,6 +69,12 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <div className="flex flex-col min-h-screen transition-colors duration-300 bg-white dark:bg-black text-neutral-900 dark:text-neutral-100">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
       <main className="flex-1">
         <div className="page-content pt-28 md:pt-32">
           <ContactSection />

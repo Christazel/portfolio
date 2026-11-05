@@ -60,8 +60,35 @@ export default async function ProjectDetailPage({ params }: Props) {
 
   if (!project) notFound();
 
+  const siteUrl = "https://christazel.vercel.app";
+  const pageUrl = `${siteUrl}/projects/${project.slug}`;
+  const projectImageUrl = `${siteUrl}${project.image}`;
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: project.title,
+    description: project.desc,
+    url: pageUrl,
+    image: projectImageUrl,
+    creator: {
+      "@type": "Person",
+      name: "Yohan Christazel Jeffry",
+      url: siteUrl,
+    },
+    dateCreated: project.year,
+    keywords: project.tech.join(", "),
+    about: project.highlight,
+  };
+
   return (
     <div className="flex flex-col min-h-screen transition-colors duration-300 bg-white dark:bg-black text-neutral-900 dark:text-neutral-100">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
       <main className="flex-1">
         <div className="page-content pt-20 md:pt-24">
           <div className="pd-page">
