@@ -3,15 +3,15 @@ import { projects } from "@/app/data/homeData";
 
 const siteUrl = "https://christazel.vercel.app";
 
-// Use static dates reflecting actual last content update per route.
-// Update these dates whenever the corresponding page content changes significantly.
+// Static dates reflecting actual last content update per route (ISO 8601 YYYY-MM-DD).
+// This prevents search engines from treating unchanged pages as dynamically modified on every crawl.
 const LAST_UPDATED = {
-  home: "2026-11-05",
-  about: "2026-11-05",
-  work: "2026-11-05",
-  certificates: "2026-11-05",
-  contact: "2026-11-05",
-  projects: "2026-11-05",
+  home: "2026-11-12",
+  about: "2026-11-12",
+  work: "2026-11-12",
+  certificates: "2026-11-12",
+  contact: "2026-11-12",
+  projects: "2026-11-12",
 } as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {
